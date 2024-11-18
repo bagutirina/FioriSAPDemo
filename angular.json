@@ -32,7 +32,6 @@
             ],
             "styles": [
               "src/styles.scss",
-              "node_modules/@fundamental-ngx/core/styles/fundamental-styles.css"
             ],
             "scripts": []
           },
@@ -108,5 +107,7 @@
       }
     }
   },
-  "defaultProject": "FioriSAPDemo"
+  "cli": {
+    "analytics": false
+  }
 }
