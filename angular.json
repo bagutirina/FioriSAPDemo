@@ -32,6 +32,9 @@
             ],
             "styles": [
               "src/styles.scss",
+              "node_modules/fundamental-styles/dist/icon.css",
+              "node_modules/fundamental-styles/dist/fundamental-styles.css",
+              "node_modules/fundamental-styles/dist/table.css"
             ],
             "scripts": []
           },
