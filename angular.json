@@ -28,15 +28,29 @@
             "inlineStyleLanguage": "scss",
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              {
+                "glob": "**/css_variables.css",
+                "input": "./node_modules/@sap-theming/theming-base-content/content/Base/baseLib/",
+                "output": "./assets/theming-base/"
+            },
+            {
+                "glob": "**/*",
+                "input": "./node_modules/fundamental-styles/dist/theming/",
+                "output": "./assets/fundamental-styles-theming/"
+            }
             ],
             "styles": [
               "src/styles.scss",
               "node_modules/fundamental-styles/dist/icon.css",
-              "node_modules/fundamental-styles/dist/fundamental-styles.css",
-              "node_modules/fundamental-styles/dist/table.css"
+              "node_modules/fundamental-styles/dist/fundamental-styles.css"
             ],
-            "scripts": []
+            "scripts": [],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "src"
+              ]
+            }
           },
           "configurations": {
             "production": {

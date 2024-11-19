@@ -1,15 +1,8 @@
 @import 'styles/bootstrap';
 
-:root {
-  /* Variabile pentru tema implicită */
-  --sapBackgroundColor: #fff;
-  --sapTextColor: #32363a;
-  --sapButton_Background: #0a6ed1;
-  --sapButton_BorderColor: #0a6ed1;
-  --sapButton_TextColor: #fff;
-  --sapButton_Hover_Background: #0854a0;
-  --sapButton_Emphasized_Background: #d04343;
-}
+
+@import "../node_modules/@sap-theming/theming-base-content/content/Base/baseLib/sap_fiori_3/css_variables.css";
+@import "../node_modules/fundamental-styles/dist/theming/sap_fiori_3.css";
 
 @font-face {
   font-family: '72';
