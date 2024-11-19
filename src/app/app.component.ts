@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import {
   DialogContentType,
   DialogService,
+  FlexibleColumnLayout,
   RangeSelector,
 } from '@fundamental-ngx/core';
 import Chart from 'chart.js/auto';
@@ -233,5 +234,10 @@ export class AppComponent {
       ariaLabelledBy: 'fd-dialog-header-7',
       ariaDescribedBy: 'fd-dialog-body-7',
     });
+  }
+
+  localLayout: FlexibleColumnLayout = 'OneColumnStartFullScreen';
+  changeLayout(newValue: FlexibleColumnLayout): void {
+    this.localLayout = newValue;
   }
 }

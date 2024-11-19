@@ -1,163 +1,186 @@
-<div class="main-container p-5 d-flex flex-column">
-  <h4 fd-title class="pb-2 align-self-center">Purchase overview</h4>
-
-  <div class="chart-container mb-4 align-self-center">
-    <canvas id="chart"></canvas>
-  </div>
-
-  <div class="legend-container">
-    <span class="legend-item">
-      <span class="color-box" style="background-color: #5899da"></span> Amount
-      Purchesed
-    </span>
-    <span class="legend-item">
-      <span class="color-box" style="background-color: red"></span>
-      Overall Percentage Purchesed
-    </span>
-  </div>
-
-  <fd-toolbar title="Purchase requests ({{ tableRows.length }})" class="mt-4">
-    <fd-toolbar-spacer></fd-toolbar-spacer>
-    <ng-container fdCompact>
-      <fd-input-group
-        glyph="decline"
-        glyphAriaLabel="Clear"
-        title="Search"
-        placeholder="Search"
-        [button]="true"
-        [disabled]="false"
-        [(ngModel)]="filterVal"
-        (addOnButtonClicked)="filterVal = ''"
-      >
-      </fd-input-group>
-    </ng-container>
-  </fd-toolbar>
-
-  <table fd-table fdCozy [responsive]="true">
-    <thead fd-table-header [noBorderY]="true">
-      <tr fd-table-row>
-        <th fd-table-cell>
-          <fd-checkbox
-            aria-label="Select all"
-            title="Select all"
-            [tristate]="true"
-            [ngModel]="checkboxValue"
-            (ngModelChange)="selectAll($event)"
-          ></fd-checkbox>
-        </th>
-        <th fd-table-cell (click)="onSortChanged('name')" class="sortable">
-          <div fd-table-inner>
-            Name
-            <fd-icon
-              *ngIf="sortByKey == 'name'"
-              fd-table-icon
-              [glyph]="ascending ? 'sort-ascending' : 'sort-descending'"
-            ></fd-icon>
-          </div>
-        </th>
-        <th fd-table-cell (click)="onSortChanged('status')" class="sortable">
-          <div fd-table-inner>
-            Status
-            <fd-icon
-              *ngIf="sortByKey == 'status'"
-              fd-table-icon
-              [glyph]="ascending ? 'sort-ascending' : 'sort-descending'"
-            ></fd-icon>
-          </div>
-        </th>
-        <th
-          fd-table-cell
-          class="col-date"
-          (click)="onSortChanged('date')"
-          class="sortable"
+<div class="main-container pt-3 mx-5 d-flex flex-column">
+  <fd-dynamic-page [autoResponsive]="true" ariaLabel="Example Dynamic Page">
+    <fd-dynamic-page-header title="Purchase overview"> </fd-dynamic-page-header>
+    <fd-dynamic-page-subheader
+      [collapsible]="true"
+      [pinnable]="false"
+      [collapsed]="false"
+    >
+      <div class="d-flex w-100 flex-column mb-4">
+        <div class="chart-container mb-4 align-self-center">
+          <canvas id="chart"></canvas>
+        </div>
+        <div class="legend-container">
+          <span class="legend-item">
+            <span class="color-box" style="background-color: #5899da"></span>
+            Amount Purchesed
+          </span>
+          <span class="legend-item">
+            <span class="color-box" style="background-color: red"></span>
+            Overall Percentage Purchesed
+          </span>
+        </div>
+      </div>
+    </fd-dynamic-page-subheader>
+    <fd-dynamic-page-content cdkScrollable class="px-0">
+      <div
+        class="fd-dynamic-page-section-example"
+        style="display: flex; align-items: center; justify-content: center"
+      ></div>
+      <div class="fd-dynamic-page-section-example">
+        <fd-toolbar
+          title="Purchase requests ({{ tableRows.length }})"
+          class="mt-4"
         >
-          <div fd-table-inner>
-            Date
-            <fd-icon
-              *ngIf="sortByKey == 'date'"
-              fd-table-icon
-              [glyph]="ascending ? 'sort-ascending' : 'sort-descending'"
-            ></fd-icon>
-          </div>
-        </th>
-        <th fd-table-cell class="col-description">Description</th>
-        <th fd-table-cell></th>
-      </tr>
-    </thead>
-    <tbody fd-table-body [noBorderY]="true">
-      <tr
-        *ngFor="
-          let row of tableRows
-            | filter : filterVal : 'name'
-            | sortBy : ascending : sortByKey;
-          let i = index
-        "
-        fd-table-row
-        [attr.aria-selected]="row.checked"
-        [hoverable]="true"
-        [activable]="true"
-        [main]="true"
-        [active]="row.active"
-      >
-        <td fd-table-cell>
-          <fd-checkbox
-            [attr.aria-label]="'Select row ' + (i + 1)"
-            [attr.title]="'Select row ' + (i + 1)"
-            [value]="row.checked"
-            (click)="select(i, $event)"
-          ></fd-checkbox>
-        </td>
-        <td fd-table-cell>
-          <a fd-link href="#">{{ row.name }}</a>
-        </td>
-        <td fd-table-cell>
-          <span fd-table-text>{{ row.status }}</span>
-        </td>
-        <td fd-table-cell class="col-date">
-          <span fd-table-text>{{ row.date }}</span>
-        </td>
-        <td fd-table-cell class="col-description">
-          <span fd-table-text>{{ row.description }}</span>
-        </td>
+          <fd-toolbar-spacer></fd-toolbar-spacer>
+          <ng-container fdCompact>
+            <fd-input-group
+              glyph="decline"
+              glyphAriaLabel="Clear"
+              title="Search"
+              placeholder="Search"
+              [button]="true"
+              [disabled]="false"
+              [(ngModel)]="filterVal"
+              (addOnButtonClicked)="filterVal = ''"
+            >
+            </fd-input-group>
+          </ng-container>
+        </fd-toolbar>
 
-        <td
-          fd-table-cell
-          [fitContent]="true"
-          [noPadding]="true"
-          (click)="setActiveItem(i); openCloseDialog(dialogTemplate, i)"
-        >
-          <i
-            title="Navigate"
-            fd-table-icon
-            [glyph]="'slim-arrow-right'"
-            [navigation]="true"
-            role="presentation"
-          ></i>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+        <table fd-table fdCozy [responsive]="true">
+          <thead fd-table-header [noBorderY]="true">
+            <tr fd-table-row>
+              <th fd-table-cell>
+                <fd-checkbox
+                  aria-label="Select all"
+                  title="Select all"
+                  [tristate]="true"
+                  [ngModel]="checkboxValue"
+                  (ngModelChange)="selectAll($event)"
+                ></fd-checkbox>
+              </th>
+              <th
+                fd-table-cell
+                (click)="onSortChanged('name')"
+                class="sortable"
+              >
+                <div fd-table-inner>
+                  Name
+                  <fd-icon
+                    *ngIf="sortByKey == 'name'"
+                    fd-table-icon
+                    [glyph]="ascending ? 'sort-ascending' : 'sort-descending'"
+                  ></fd-icon>
+                </div>
+              </th>
+              <th
+                fd-table-cell
+                (click)="onSortChanged('status')"
+                class="sortable"
+              >
+                <div fd-table-inner>
+                  Status
+                  <fd-icon
+                    *ngIf="sortByKey == 'status'"
+                    fd-table-icon
+                    [glyph]="ascending ? 'sort-ascending' : 'sort-descending'"
+                  ></fd-icon>
+                </div>
+              </th>
+              <th
+                fd-table-cell
+                class="col-date"
+                (click)="onSortChanged('date')"
+                class="sortable"
+              >
+                <div fd-table-inner>
+                  Date
+                  <fd-icon
+                    *ngIf="sortByKey == 'date'"
+                    fd-table-icon
+                    [glyph]="ascending ? 'sort-ascending' : 'sort-descending'"
+                  ></fd-icon>
+                </div>
+              </th>
+              <th fd-table-cell class="col-description">Description</th>
+              <th fd-table-cell></th>
+            </tr>
+          </thead>
+          <tbody fd-table-body [noBorderY]="true">
+            <tr
+              *ngFor="
+                let row of tableRows
+                  | filter : filterVal : 'name'
+                  | sortBy : ascending : sortByKey;
+                let i = index
+              "
+              fd-table-row
+              [attr.aria-selected]="row.checked"
+              [hoverable]="true"
+            >
+              <td fd-table-cell>
+                <fd-checkbox
+                  [attr.aria-label]="'Select row ' + (i + 1)"
+                  [attr.title]="'Select row ' + (i + 1)"
+                  [value]="row.checked"
+                  (click)="select(i, $event)"
+                ></fd-checkbox>
+              </td>
+              <td fd-table-cell>
+                <a fd-link href="#">{{ row.name }}</a>
+              </td>
+              <td fd-table-cell>
+                <span fd-table-text>{{ row.status }}</span>
+              </td>
+              <td fd-table-cell class="col-date">
+                <span fd-table-text>{{ row.date }}</span>
+              </td>
+              <td fd-table-cell class="col-description">
+                <span fd-table-text>{{ row.description }}</span>
+              </td>
 
-  <ng-template let-dialog let-dialogConfig="dialogConfig" #dialogTemplate>
-    <fd-dialog [dialogConfig]="dialogConfig" [dialogRef]="dialog">
-      <fd-dialog-header>
-        <h1 id="fd-dialog-header-7" fd-title>Purchase Request</h1>
-      </fd-dialog-header>
+              <td
+                fd-table-cell
+                [fitContent]="true"
+                [noPadding]="true"
+                (click)="setActiveItem(i); openCloseDialog(dialogTemplate, i)"
+              >
+                <i
+                  title="Navigate"
+                  fd-table-icon
+                  [glyph]="'slim-arrow-right'"
+                  [navigation]="true"
+                  role="presentation"
+                ></i>
+              </td>
+            </tr>
+          </tbody>
+        </table>
 
-      <fd-dialog-body>
-        <div id="fd-dialog-body-7" role="dialog">{{ dialog.data }}</div>
-      </fd-dialog-body>
+        <ng-template let-dialog let-dialogConfig="dialogConfig" #dialogTemplate>
+          <fd-dialog [dialogConfig]="dialogConfig" [dialogRef]="dialog">
+            <fd-dialog-header>
+              <h1 id="fd-dialog-header-7" fd-title>Purchase Request</h1>
+            </fd-dialog-header>
 
-      <fd-dialog-footer>
-        <fd-button-bar
-          fdkInitialFocus
-          fdType="emphasized"
-          label="Ok"
-          (click)="dialog.close()"
-          ariaLabel="Ok Emphasized"
-        >
-        </fd-button-bar>
-      </fd-dialog-footer>
-    </fd-dialog>
-  </ng-template>
+            <fd-dialog-body>
+              <div id="fd-dialog-body-7" role="dialog">{{ dialog.data }}</div>
+            </fd-dialog-body>
+
+            <fd-dialog-footer>
+              <fd-button-bar
+                fdkInitialFocus
+                fdType="emphasized"
+                label="Ok"
+                (click)="dialog.close()"
+                ariaLabel="Ok Emphasized"
+              >
+              </fd-button-bar>
+            </fd-dialog-footer>
+          </fd-dialog>
+        </ng-template>
+      </div>
+    </fd-dynamic-page-content>
+  </fd-dynamic-page>
 </div>

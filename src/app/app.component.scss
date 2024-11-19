@@ -53,3 +53,11 @@
   display: inline-block;
   border-radius: 2px;
 }
+
+.fd-dynamic-page__content {
+  background-color: transparent;
+}
+
+::ng-deep .fd-dynamic-page__title-subtitle-container {
+  align-items: center;
+}
