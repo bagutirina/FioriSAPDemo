@@ -23,7 +23,7 @@
 }
 
 .chart-container {
-  width: 70%;
+  width: 100%;
   height: 280px;
   position: relative;
 
@@ -58,6 +58,22 @@
   background-color: transparent;
 }
 
-::ng-deep .fd-dynamic-page__title-subtitle-container {
-  align-items: center;
+::ng-deep {
+  .fd-dynamic-page__title-subtitle-container {
+    // align-items: center;
+  }
+
+  .fd-dynamic-page__title-area {
+    padding-left: 1em !important;
+    padding-top: 10px !important;
+    .fd-dynamic-page__title {
+      font-size: var(--sapGroup_Title_FontSize) !important;
+    }
+  }
+
+  .fd-dynamic-page__collapsible-header {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    padding-top: 0 !important;
+  }
 }

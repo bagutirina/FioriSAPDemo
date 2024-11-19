@@ -2,23 +2,24 @@
   <fd-dynamic-page [autoResponsive]="true" ariaLabel="Example Dynamic Page">
     <fd-dynamic-page-header title="Purchase overview"> </fd-dynamic-page-header>
     <fd-dynamic-page-subheader
+      class="px-0"
       [collapsible]="true"
       [pinnable]="false"
       [collapsed]="false"
     >
       <div class="d-flex w-100 flex-column mb-4">
-        <div class="chart-container mb-4 align-self-center">
+        <div class="chart-container mb-4 d-flex flex-column pb-3">
           <canvas id="chart"></canvas>
-        </div>
-        <div class="legend-container">
-          <span class="legend-item">
-            <span class="color-box" style="background-color: #5899da"></span>
-            Amount Purchesed
-          </span>
-          <span class="legend-item">
-            <span class="color-box" style="background-color: red"></span>
-            Overall Percentage Purchesed
-          </span>
+          <div class="legend-container mt-4">
+            <span class="legend-item">
+              <span class="color-box" style="background-color: #5899da"></span>
+              Amount Purchesed (last 12 months)
+            </span>
+            <span class="legend-item">
+              <span class="color-box" style="background-color: red"></span>
+              Overall Percentage Purchesed (last 12 months)
+            </span>
+          </div>
         </div>
       </div>
     </fd-dynamic-page-subheader>

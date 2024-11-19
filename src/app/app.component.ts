@@ -59,8 +59,11 @@ export class AppComponent {
       { name: 'Roller cabinet', count: 200, percent: 40 },
       { name: 'Visual Studio Licence', count: 250, percent: 50 },
       { name: 'Visual Studio Pro Licence', count: 200, percent: 10 },
-      { name: 'Office Software Subscription', count: 260, percent: 20 },
+      { name: 'Mouse', count: 260, percent: 20 },
       { name: 'Networking Equipment', count: 270, percent: 30 },
+      { name: 'Server Maintenance', count: 100, percent: 20 },
+      { name: 'Office Software Subscription', count: 150, percent: 30 },
+      { name: 'Keyboard', count: 120, percent: 30 },
     ];
 
     this.chartOptions = {
@@ -77,7 +80,6 @@ export class AppComponent {
             maxRotation: 0, // Împiedică rotirea etichetelor
             minRotation: 0, // Etichetele nu se vor roti
             autoSkip: false, // Permite să sară etichetele pentru a se potrivi
-            maxTicksLimit: 12, // Limitează numărul de etichete afișate pe axa X
           },
         },
         y: {
@@ -106,12 +108,33 @@ export class AppComponent {
         },
         tooltip: {
           position: 'nearest',
-          backgroundColor: '#dbeaedc7',
-          padding: 50,
+          padding: 20,
           titleColor: 'black',
           bodyColor: 'black',
           titleMarginBottom: 10,
           displayColors: false,
+          callbacks: {
+            label: function (context: any) {
+              const datasetIndex = context.datasetIndex;
+              if (datasetIndex === 0) {
+                return `${context.dataset.label}: ${context.raw}%`;
+              } else {
+                return `${context.dataset.label}: ${context.raw}`;
+              }
+            },
+          },
+          backgroundColor: function (context: {
+            tooltipItems: { datasetIndex: any }[];
+          }) {
+            // Verificăm care dataset este (graficul bară sau liniar)
+            const datasetIndex = context.tooltipItems[0]?.datasetIndex;
+            if (datasetIndex === 0) {
+              return '#fdeeeee8';
+            } else if (datasetIndex === 1) {
+              return '#dee9f3e8';
+            }
+            return '#ffffff'; // Fundal default
+          },
         },
         animation: {
           type: 'easeInSine',
