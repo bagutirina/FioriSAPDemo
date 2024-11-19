@@ -5,21 +5,28 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ButtonModule, FundamentalNgxCoreModule } from '@fundamental-ngx/core';
-
+import { FormsModule } from '@angular/forms'; // Importă FormsModule
+import { TruncateModule } from '@fundamental-ngx/core';
+import { FilterPipe } from './filter.pipe';
+import { SortByPipe } from './sort.pipe';
 
 
 
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    FilterPipe,
+    SortByPipe
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    FormsModule,
     FundamentalNgxCoreModule,
-    ButtonModule
+    ButtonModule,
+    TruncateModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

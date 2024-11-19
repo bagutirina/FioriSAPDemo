@@ -3,3 +3,21 @@
   height: 100vh;
   display: block;
 }
+.main-container {
+  // border-radius: 4px 4px 0 0;
+  // border: 1px solid #ccc;
+  // transition: 0.25s background-color;
+  // display: block;
+  // background-color: var(--sapBackgroundColor, #f7f7f7);
+  // color: var(--sapTextColor, #32363a);
+}
+.col-date {
+  min-width: 150px;
+}
+
+.col-description {
+  width: 40%;
+}
+.sortable {
+  cursor: pointer;
+}

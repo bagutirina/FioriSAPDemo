@@ -1,47 +1,148 @@
-<div >
-    <div class="fd-container">
-      <div class="fd-row">
-          <div class="fd-col">
-              <fd-checkbox label="Option 1" [tristate]="true" [tristateSelectable]="true">
-              </fd-checkbox>
-          </div>
-          <div class="fd-col">
-              <button fd-button label="Standard Button" class="fd-button"></button>
-              <button fd-button label="Emphasized Button" fdType="emphasized" class="fd-button fd-button--emphasized"></button>
-          </div>
-      </div>
-  </div>
+<div class="main-container p-5">
+  <!-- <h4 fd-title class="pb-1">Purchase requests ({{tableRows.length}})</h4> -->
 
+  <fd-toolbar title="Purchase requests ({{ tableRows.length }})">
+    <fd-toolbar-spacer></fd-toolbar-spacer>
+    <ng-container fdCompact>
+      <fd-input-group
+        glyph="decline"
+        glyphAriaLabel="Clear"
+        title="Search"
+        placeholder="Search"
+        [button]="true"
+        [disabled]="false"
+        [(ngModel)]="filterVal"
+        (addOnButtonClicked)="filterVal = ''"
+      >
+      </fd-input-group>
+    </ng-container>
+  </fd-toolbar>
 
-  <table fd-table aria-label="Default">
-    <thead fd-table-header>
-        <tr fd-table-row>
-            <th fd-table-cell>Column Header</th>
-            <th fd-table-cell>Column Header</th>
-            <th fd-table-cell>Column Header</th>
-            <th fd-table-cell>Column Header</th>
-            <th fd-table-cell>Column Header</th>
-        </tr>
+  <table fd-table fdCozy [responsive]="true">
+    <thead fd-table-header [noBorderY]="true">
+      <tr fd-table-row>
+        <th fd-table-cell>
+          <fd-checkbox
+            aria-label="Select all"
+            title="Select all"
+            [tristate]="true"
+            [ngModel]="checkboxValue"
+            (ngModelChange)="selectAll($event)"
+          ></fd-checkbox>
+        </th>
+        <th fd-table-cell (click)="onSortChanged('name')" class="sortable">
+          <div fd-table-inner>
+            Name
+            <fd-icon
+              *ngIf="sortByKey == 'name'"
+              fd-table-icon
+              [glyph]="ascending ? 'sort-ascending' : 'sort-descending'"
+            ></fd-icon>
+          </div>
+        </th>
+        <th fd-table-cell (click)="onSortChanged('status')" class="sortable">
+          <div fd-table-inner>
+            Status
+            <fd-icon
+              *ngIf="sortByKey == 'status'"
+              fd-table-icon
+              [glyph]="ascending ? 'sort-ascending' : 'sort-descending'"
+            ></fd-icon>
+          </div>
+        </th>
+        <th
+          fd-table-cell
+          class="col-date"
+          (click)="onSortChanged('date')"
+          class="sortable"
+        >
+          <div fd-table-inner>
+            Date
+            <fd-icon
+              *ngIf="sortByKey == 'date'"
+              fd-table-icon
+              [glyph]="ascending ? 'sort-ascending' : 'sort-descending'"
+            ></fd-icon>
+          </div>
+        </th>
+        <th fd-table-cell class="col-description">Description</th>
+        <th fd-table-cell></th>
+      </tr>
     </thead>
-    <tbody fd-table-body>
-        <tr *ngFor="let row of tableRows" fd-table-row>
-            <td fd-table-cell>
-                <a fd-link href="#">{{ row.column1 }}</a>
-            </td>
-            <td fd-table-cell>
-                <p fd-table-text maxWidth="250px" [noWrap]="true">
-                    {{ row.column2 }}
-                </p>
-            </td>
-            <td fd-table-cell>
-                <p fd-table-text maxWidth="250px">
-                    {{ row.column3 }}
-                </p>
-            </td>
-            <td fd-table-cell>{{ row.date }}</td>
-            <td fd-table-cell><fd-icon [glyph]="row.type"></fd-icon></td>
-        </tr>
-    </tbody>
-</table>
+    <tbody fd-table-body [noBorderY]="true">
+      <tr
+        *ngFor="
+          let row of tableRows
+            | filter : filterVal : 'name'
+            | sortBy : ascending : sortByKey;
+          let i = index
+        "
+        fd-table-row
+        [attr.aria-selected]="row.checked"
+        [hoverable]="true"
+        [activable]="true"
+        [main]="true"
+        [active]="row.active"
+      >
+        <td fd-table-cell>
+          <fd-checkbox
+            [attr.aria-label]="'Select row ' + (i + 1)"
+            [attr.title]="'Select row ' + (i + 1)"
+            [value]="row.checked"
+            (click)="select(i, $event)"
+          ></fd-checkbox>
+        </td>
+        <td fd-table-cell>
+          <a fd-link href="#">{{ row.name }}</a>
+        </td>
+        <td fd-table-cell>
+          <span fd-table-text>{{ row.status }}</span>
+        </td>
+        <td fd-table-cell class="col-date">
+          <span fd-table-text>{{ row.date }}</span>
+        </td>
+        <td fd-table-cell class="col-description">
+          <span fd-table-text>{{ row.description }}</span>
+        </td>
 
-  </div>
+        <td
+          fd-table-cell
+          [fitContent]="true"
+          [noPadding]="true"
+          (click)="setActiveItem(i); openCloseDialog(dialogTemplate, i)"
+        >
+          <i
+            title="Navigate"
+            fd-table-icon
+            [glyph]="'slim-arrow-right'"
+            [navigation]="true"
+            role="presentation"
+          ></i>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <ng-template let-dialog let-dialogConfig="dialogConfig" #dialogTemplate>
+    <fd-dialog [dialogConfig]="dialogConfig" [dialogRef]="dialog">
+      <fd-dialog-header>
+        <h1 id="fd-dialog-header-7" fd-title>Purchase Request</h1>
+      </fd-dialog-header>
+
+      <fd-dialog-body>
+        <div id="fd-dialog-body-7" role="dialog">{{ dialog.data }}</div>
+      </fd-dialog-body>
+
+      <fd-dialog-footer>
+        <fd-button-bar
+          fdkInitialFocus
+          fdType="emphasized"
+          label="Ok"
+          (click)="dialog.close()"
+          ariaLabel="Ok Emphasized"
+        >
+        </fd-button-bar>
+      </fd-dialog-footer>
+    </fd-dialog>
+  </ng-template>
+</div>
