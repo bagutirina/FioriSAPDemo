@@ -1,7 +1,22 @@
-<div class="main-container p-5">
-  <!-- <h4 fd-title class="pb-1">Purchase requests ({{tableRows.length}})</h4> -->
+<div class="main-container p-5 d-flex flex-column">
+  <h4 fd-title class="pb-2 align-self-center">Purchase overview</h4>
 
-  <fd-toolbar title="Purchase requests ({{ tableRows.length }})">
+  <div class="chart-container mb-4 align-self-center">
+    <canvas id="chart"></canvas>
+  </div>
+
+  <div class="legend-container">
+    <span class="legend-item">
+      <span class="color-box" style="background-color: #5899da"></span> Amount
+      Purchesed
+    </span>
+    <span class="legend-item">
+      <span class="color-box" style="background-color: red"></span>
+      Overall Percentage Purchesed
+    </span>
+  </div>
+
+  <fd-toolbar title="Purchase requests ({{ tableRows.length }})" class="mt-4">
     <fd-toolbar-spacer></fd-toolbar-spacer>
     <ng-container fdCompact>
       <fd-input-group

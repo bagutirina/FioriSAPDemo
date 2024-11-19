@@ -4,7 +4,7 @@ import {
   DialogService,
   RangeSelector,
 } from '@fundamental-ngx/core';
-import { Observable } from 'rxjs';
+import Chart from 'chart.js/auto';
 
 @Component({
   selector: 'app-root',
@@ -44,10 +44,128 @@ export class AppComponent {
       checked: false,
     },
   ];
+  chart: Chart | undefined;
+  chartOptions: any;
 
   constructor(public dialogService: DialogService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    const data: any[] = [
+      { name: 'Desk', count: 50, percent: 20 },
+      { name: 'Monitor', count: 70, percent: 30 },
+      { name: 'Chair', count: 120, percent: 30 },
+      { name: 'Laptop', count: 150, percent: 30 },
+      { name: 'Roller cabinet', count: 200, percent: 40 },
+      { name: 'Visual Studio Licence', count: 250, percent: 50 },
+      { name: 'Visual Studio Pro Licence', count: 200, percent: 10 },
+      { name: 'Office Software Subscription', count: 260, percent: 20 },
+      { name: 'Networking Equipment', count: 270, percent: 30 },
+    ];
+
+    this.chartOptions = {
+      responsive: true,
+      maintainAspectRatio: false,
+      scales: {
+        x: {
+          grid: {
+            display: false,
+          },
+          barPercentage: 0.4, // Ajustează lățimea barelor (0.5 este o valoare moderată, mai mică va face barele mai subțiri)
+          categoryPercentage: 0.6, // Ajustează gap-ul dintre bare (valoare mai mică pentru mai mult spațiu)
+          ticks: {
+            maxRotation: 0, // Împiedică rotirea etichetelor
+            minRotation: 0, // Etichetele nu se vor roti
+            autoSkip: false, // Permite să sară etichetele pentru a se potrivi
+            maxTicksLimit: 12, // Limitează numărul de etichete afișate pe axa X
+          },
+        },
+        y: {
+          ticks: {
+            precision: 0,
+          },
+          max: 300,
+        },
+        yy: {
+          position: 'right',
+          precision: 0,
+          grid: {
+            drawOnChartArea: false,
+          },
+          ticks: {
+            callback: function (value: number) {
+              return value + '%';
+            },
+          },
+          max: 60,
+        },
+      },
+      plugins: {
+        legend: {
+          display: false,
+        },
+        tooltip: {
+          position: 'nearest',
+          backgroundColor: '#dbeaedc7',
+          padding: 50,
+          titleColor: 'black',
+          bodyColor: 'black',
+          titleMarginBottom: 10,
+          displayColors: false,
+        },
+        animation: {
+          type: 'easeInSine',
+        },
+      },
+    };
+    this.chart = new Chart(
+      document.getElementById('chart') as HTMLCanvasElement,
+      {
+        type: 'bar',
+        data: {
+          labels: data.map((row) => row.name),
+          datasets: [
+            {
+              label: 'Overall Percentage Purchesed',
+              data: data.map((row) => row.percent),
+              borderColor: 'red',
+              yAxisID: 'yy',
+              type: 'line',
+            },
+            {
+              label: 'Amount Purchesed',
+              data: data.map((row) => row.count),
+              backgroundColor: '#5899da',
+              maxBarThickness: 50, // Lățimea maximă a barelor
+              yAxisID: 'y',
+            },
+          ],
+        },
+        options: this.chartOptions,
+        plugins: [
+          {
+            id: 'responsiveLabels',
+            afterBuildTicks(chart) {
+              const ctx = chart.ctx;
+              const xAxis = chart.scales['x'];
+
+              const chartWidth = chart.width;
+              const numLabels = xAxis.ticks.length;
+              const spacePerLabel = chartWidth / numLabels;
+
+              xAxis.ticks.forEach((tick, index) => {
+                const label = data[index].name;
+                const labelWidth = ctx.measureText(label).width;
+                if (labelWidth > spacePerLabel) {
+                  xAxis.ticks[index].label =
+                    label.substring(0, Math.floor(spacePerLabel / 8)) + '...';
+                }
+              });
+            },
+          },
+        ],
+      }
+    );
+  }
 
   // SELECTION
   select(index: number, event: MouseEvent): void {
