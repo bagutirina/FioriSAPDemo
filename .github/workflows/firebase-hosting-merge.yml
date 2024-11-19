@@ -5,16 +5,15 @@ name: Deploy to Firebase Hosting on merge
 "on":
   push:
     branches:
-      - master
+      - dev
 jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@master
-      - run: npm install
-      - run: npm run build:prod
-      - uses: w9jds/firebase-action@master
+      - uses: actions/checkout@v4
+      - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
-          args: deploy --only hosting
-        env:
-          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN  }}
+          repoToken: "${{ secrets.GITHUB_TOKEN }}"
+          firebaseServiceAccount: "${{ secrets.FIREBASE_TOKEN }}"
+          channelId: live
+          projectId: mood-journal-99bae
