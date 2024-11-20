@@ -29,7 +29,7 @@
         </div>
       </div>
     </fd-dynamic-page-subheader>
-    <fd-dynamic-page-content class="px-0 py-0 h-100 w-100">
+    <fd-dynamic-page-content class="py-0 h-100 w-100">
       <div class="table-container w-100 h-100 pb-4 pt-5">
         <fd-toolbar
           title="Purchase requests ({{ tableRows.length }})"
@@ -68,7 +68,7 @@
                 <th
                   fd-table-cell
                   (click)="onSortChanged('name')"
-                  class="sortable"
+                  class="sortable col-name"
                 >
                   <div fd-table-inner>
                     Name
@@ -152,7 +152,7 @@
                   </div>
                 </td>
 
-                <td fd-table-cell>
+                <td fd-table-cell class="col-name">
                   <span fd-table-text>{{ row.name }}</span>
                 </td>
                 <td fd-table-cell class="col-date">

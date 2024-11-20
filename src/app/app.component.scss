@@ -17,11 +17,11 @@
   // color: var(--sapTextColor, #32363a);
 }
 .col-date {
-  min-width: 150px;
+  min-width: 100px;
 }
 
-.col-description {
-  width: 40%;
+.col-name {
+  min-width: 150px;
 }
 .sortable {
   cursor: pointer;
@@ -59,13 +59,13 @@
   border-radius: 2px;
 }
 
-.fd-dynamic-page__content {
-  background-color: transparent;
-}
+// .fd-dynamic-page__content {
+//   background-color: transparent;
+// }
 
 ::ng-deep {
   .fd-dynamic-page__title-subtitle-container {
-    // align-items: center;
+    padding-left: 1.5rem !important;
   }
 
   .fd-dynamic-page__title-area {
@@ -117,8 +117,11 @@
       display: contents;
     }
   }
-  .fd-toolbar--title h4 {
-    flex-shrink: 1 !important;
+  .fd-toolbar--title {
+    padding-left: 0px !important;
+    h4 {
+      flex-shrink: 1 !important;
+    }
   }
 }
 
