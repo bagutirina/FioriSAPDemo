@@ -17,55 +17,262 @@ export class AppComponent {
   private readonly _rangeSelector = new RangeSelector();
   checkboxValue: boolean | null = false;
   filterVal = '';
-  ascending = true;
-  sortByKey = 'name';
+  ascending = false;
+  sortByKey = '';
   tableRows: any[] = [
     {
-      name: 'Purchase request 1',
-      status: 'Available',
-      date: '09-07-18',
-      description: `A banana is an elongated, edible fruit – botanically a berry – produced by several kinds of large herbaceous
-                flowering plants in the genus Musa.`,
+      name: 'Desk',
+      date: '2025-02-01',
+      amount: '2',
+      vendor: 'IKEA',
+      warranty: '',
+      size: '',
+      price: '599',
+      material: 'OE10_D1',
+      properties: '',
+      description: `Hello dear purchasing department,
+
+We need three new workstations with the following equipment by 01.02.2025:
+- Desks, one of which is height-adjustable
+- Trendoffice chairs and lockable roller cabinets
+- Three laptops, one with GPU, each with a 3-year warranty
+- Two monitors (from 17 inches, up to 100 euros) per person
+- 2 Visual Studio Pro licenses (item no. 23412-M-2343) starting from 01.02. or 01.03.
+- 1 large shelf (3x2 meters), please including assembly service
+
+Many thanks in advance!`,
       checked: false,
     },
     {
-      name: 'Purchase request 2',
-      status: 'Temporary unavailable',
-      date: '09-07-18',
-      description: `An apple is an edible fruit produced by an apple tree (Malus domestica).
-          Apple trees are cultivated worldwide and are the most widely grown species in the genus Malus.`,
+      name: 'Desk',
+      date: '2025-02-01',
+      amount: '2',
+      vendor: 'IKEA',
+      warranty: '',
+      size: '',
+      price: '799',
+      material: 'OE10_D2',
+      properties: 'height-adjustable',
+      description: `Hello dear purchasing department,
+
+We need three new workstations with the following equipment by 01.02.2025:
+- Desks, one of which is height-adjustable
+- Trendoffice chairs and lockable roller cabinets
+- Three laptops, one with GPU, each with a 3-year warranty
+- Two monitors (from 17 inches, up to 100 euros) per person
+- 2 Visual Studio Pro licenses (item no. 23412-M-2343) starting from 01.02. or 01.03.
+- 1 large shelf (3x2 meters), please including assembly service
+
+Many thanks in advance!`,
       checked: false,
     },
     {
-      name: 'Purchase request 3',
-      status: 'Out of stock',
-      date: '09-07-18',
-      description: `The pineapple (Ananas comosus) is a tropical plant with an edible fruit and the most
-                economically significant plant in the family Bromeliaceae.`,
+      name: 'Chair',
+      date: '2025-02-01',
+      amount: '3',
+      vendor: 'Trendoffice',
+      warranty: '',
+      size: '',
+      price: '399',
+      material: 'OE10_C3',
+      properties: '',
+      description: `Hello dear purchasing department,
+
+We need three new workstations with the following equipment by 01.02.2025:
+- Desks, one of which is height-adjustable
+- Trendoffice chairs and lockable roller cabinets
+- Three laptops, one with GPU, each with a 3-year warranty
+- Two monitors (from 17 inches, up to 100 euros) per person
+- 2 Visual Studio Pro licenses (item no. 23412-M-2343) starting from 01.02. or 01.03.
+- 1 large shelf (3x2 meters), please including assembly service
+
+Many thanks in advance!`,
+      checked: false,
+    },
+    {
+      name: 'Roller Cabinet',
+      date: '2025-02-01',
+      amount: '3',
+      vendor: 'Trendoffice',
+      warranty: '',
+      size: '',
+      price: '899',
+      material: 'OE10_CB4',
+      properties: 'lockable',
+      description: `Hello dear purchasing department,
+
+We need three new workstations with the following equipment by 01.02.2025:
+- Desks, one of which is height-adjustable
+- Trendoffice chairs and lockable roller cabinets
+- Three laptops, one with GPU, each with a 3-year warranty
+- Two monitors (from 17 inches, up to 100 euros) per person
+- 2 Visual Studio Pro licenses (item no. 23412-M-2343) starting from 01.02. or 01.03.
+- 1 large shelf (3x2 meters), please including assembly service
+
+Many thanks in advance!`,
+      checked: false,
+    },
+    {
+      name: 'Laptop',
+      date: '2025-02-01',
+      amount: '2',
+      vendor: 'Dell',
+      warranty: '3 years',
+      size: '',
+      price: '1450',
+      material: 'HW10_L1',
+      properties: '',
+      description: `Hello dear purchasing department,
+
+We need three new workstations with the following equipment by 01.02.2025:
+- Desks, one of which is height-adjustable
+- Trendoffice chairs and lockable roller cabinets
+- Three laptops, one with GPU, each with a 3-year warranty
+- Two monitors (from 17 inches, up to 100 euros) per person
+- 2 Visual Studio Pro licenses (item no. 23412-M-2343) starting from 01.02. or 01.03.
+- 1 large shelf (3x2 meters), please including assembly service
+
+Many thanks in advance!`,
+      checked: false,
+    },
+    {
+      name: 'Laptop',
+      date: '2025-02-01',
+      amount: '1',
+      vendor: 'Dell',
+      warranty: '3 years',
+      size: '',
+      price: '1850',
+      material: 'HW10_L1',
+      properties: 'with GPU',
+      description: `Hello dear purchasing department,
+
+We need three new workstations with the following equipment by 01.02.2025:
+- Desks, one of which is height-adjustable
+- Trendoffice chairs and lockable roller cabinets
+- Three laptops, one with GPU, each with a 3-year warranty
+- Two monitors (from 17 inches, up to 100 euros) per person
+- 2 Visual Studio Pro licenses (item no. 23412-M-2343) starting from 01.02. or 01.03.
+- 1 large shelf (3x2 meters), please including assembly service
+
+Many thanks in advance!`,
+      checked: false,
+    },
+    {
+      name: 'Monitor',
+      date: '2025-02-01',
+      amount: '6',
+      vendor: 'Dell',
+      warranty: '3 years',
+      size: 'more than 17 inch',
+      price: 'up to 100 Euro',
+      material: '',
+      properties: '',
+      description: `Hello dear purchasing department,
+
+We need three new workstations with the following equipment by 01.02.2025:
+- Desks, one of which is height-adjustable
+- Trendoffice chairs and lockable roller cabinets
+- Three laptops, one with GPU, each with a 3-year warranty
+- Two monitors (from 17 inches, up to 100 euros) per person
+- 2 Visual Studio Pro licenses (item no. 23412-M-2343) starting from 01.02. or 01.03.
+- 1 large shelf (3x2 meters), please including assembly service
+
+Many thanks in advance!`,
+      checked: false,
+    },
+    {
+      name: 'Visual Studio License',
+      date: '2025-02-01',
+      amount: '1',
+      vendor: 'Microsoft',
+      warranty: '',
+      size: '',
+      price: '199',
+      material: '23412-M-2343',
+      properties: '',
+      description: `Hello dear purchasing department,
+
+We need three new workstations with the following equipment by 01.02.2025:
+- Desks, one of which is height-adjustable
+- Trendoffice chairs and lockable roller cabinets
+- Three laptops, one with GPU, each with a 3-year warranty
+- Two monitors (from 17 inches, up to 100 euros) per person
+- 2 Visual Studio Pro licenses (item no. 23412-M-2343) starting from 01.02. or 01.03.
+- 1 large shelf (3x2 meters), please including assembly service
+
+Many thanks in advance!`,
+      checked: false,
+    },
+    {
+      name: 'Visual Studio Pro License',
+      date: '2025-03-01',
+      amount: '1',
+      vendor: 'Microsoft',
+      warranty: '',
+      size: '',
+      price: '299',
+      material: '23412-M-2343',
+      properties: '',
+      description: `Hello dear purchasing department,
+
+We need three new workstations with the following equipment by 01.02.2025:
+- Desks, one of which is height-adjustable
+- Trendoffice chairs and lockable roller cabinets
+- Three laptops, one with GPU, each with a 3-year warranty
+- Two monitors (from 17 inches, up to 100 euros) per person
+- 2 Visual Studio Pro licenses (item no. 23412-M-2343) starting from 01.02. or 01.03.
+- 1 large shelf (3x2 meters), please including assembly service
+
+Many thanks in advance!`,
+      checked: false,
+    },
+    {
+      name: 'Shelf - large',
+      date: '2025-02-01',
+      amount: '1',
+      vendor: '',
+      warranty: '',
+      size: '3x2 Meter',
+      price: '',
+      material: '',
+      properties: 'Including assembly service',
+      description: `Hello dear purchasing department,
+
+We need three new workstations with the following equipment by 01.02.2025:
+- Desks, one of which is height-adjustable
+- Trendoffice chairs and lockable roller cabinets
+- Three laptops, one with GPU, each with a 3-year warranty
+- Two monitors (from 17 inches, up to 100 euros) per person
+- 2 Visual Studio Pro licenses (item no. 23412-M-2343) starting from 01.02. or 01.03.
+- 1 large shelf (3x2 meters), please including assembly service
+
+Many thanks in advance!`,
       checked: false,
     },
   ];
+  chartData: any[] = [
+    { name: 'Desk', count: 50, percent: 20 },
+    { name: 'Desk', count: 70, percent: 30 },
+    { name: 'Chair', count: 120, percent: 30 },
+    { name: 'Roller cabinet', count: 150, percent: 30 },
+    { name: 'Laptop', count: 200, percent: 40 },
+    { name: 'Laptop', count: 250, percent: 50 },
+    { name: 'Visual Studio Licence', count: 200, percent: 10 },
+    { name: 'Visual Studio Pro Licence', count: 260, percent: 20 },
+    { name: 'Networking Equipment', count: 270, percent: 30 },
+    { name: 'Assembly Service', count: 100, percent: 20 },
+    { name: 'Office Software Subscription', count: 150, percent: 30 },
+    { name: 'Keyboard', count: 120, percent: 30 },
+  ];
+
   chart: Chart | undefined;
   chartOptions: any;
 
   constructor(public dialogService: DialogService) {}
 
   ngOnInit(): void {
-    const data: any[] = [
-      { name: 'Desk', count: 50, percent: 20 },
-      { name: 'Monitor', count: 70, percent: 30 },
-      { name: 'Chair', count: 120, percent: 30 },
-      { name: 'Laptop', count: 150, percent: 30 },
-      { name: 'Roller cabinet', count: 200, percent: 40 },
-      { name: 'Visual Studio Licence', count: 250, percent: 50 },
-      { name: 'Visual Studio Pro Licence', count: 200, percent: 10 },
-      { name: 'Mouse', count: 260, percent: 20 },
-      { name: 'Networking Equipment', count: 270, percent: 30 },
-      { name: 'Server Maintenance', count: 100, percent: 20 },
-      { name: 'Office Software Subscription', count: 150, percent: 30 },
-      { name: 'Keyboard', count: 120, percent: 30 },
-    ];
-
+    const data = this.chartData;
     this.chartOptions = {
       responsive: true,
       maintainAspectRatio: false,
@@ -191,17 +398,10 @@ export class AppComponent {
     );
   }
 
-  // SELECTION
-  select(index: number, event: MouseEvent): void {
-    // using rangeSelector utility to be able to select multiple rows while "shift" is pressed
-    const checkedToggled = !this.tableRows[index].checked;
-    this._rangeSelector.onRangeElementToggled(index, event);
-    this._rangeSelector.applyValueToEachInRange(
-      (idx) => (this.tableRows[idx].checked = checkedToggled)
-    );
-    this._setValue();
+  // Select all
+  select(): void {
+    this._setSelectAllValue();
   }
-
   selectAll(checked: boolean): void {
     this.checkboxValue = checked;
     if (checked) {
@@ -210,15 +410,12 @@ export class AppComponent {
       this._deselectAll();
     }
   }
-
   private _selectAll(): void {
     this.tableRows.forEach((row) => (row.checked = true));
   }
-
   private _deselectAll(): void {
     this.tableRows.forEach((row) => (row.checked = false));
   }
-
   private _getSelectAllValue(): boolean | null {
     const checked = this.tableRows.filter((row) => row.checked);
     if (checked.length === this.tableRows.length) {
@@ -229,16 +426,8 @@ export class AppComponent {
     // returning null to set selection state to "indeterminate"
     return null;
   }
-
-  private _setValue(): void {
+  private _setSelectAllValue(): void {
     this.checkboxValue = this._getSelectAllValue();
-  }
-
-  setActiveItem(index: number): void {
-    this.tableRows.map((item, rowIndex) => {
-      item.active = rowIndex === index;
-      return item;
-    });
   }
 
   onSortChanged(sortByKey: string) {
@@ -251,9 +440,9 @@ export class AppComponent {
 
   openCloseDialog(template: DialogContentType, index: number): void {
     const dialogRef = this.dialogService.open(template, {
-      width: '300px',
       responsivePadding: true,
-      data: this.tableRows[index].description,
+      maxWidth: '800px',
+      data: this.tableRows[index],
       ariaLabelledBy: 'fd-dialog-header-7',
       ariaDescribedBy: 'fd-dialog-body-7',
     });
