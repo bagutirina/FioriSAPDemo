@@ -1,5 +1,11 @@
-<div class="main-container pt-3 mx-5 px-5 d-flex flex-column">
-  <fd-dynamic-page [autoResponsive]="true" ariaLabel="Example Dynamic Page">
+<div
+  class="main-container pt-3 d-flex flex-column w-100 h-100 align-items-center"
+>
+  <fd-dynamic-page
+    [autoResponsive]="true"
+    ariaLabel="Example Dynamic Page"
+    class="main-content"
+  >
     <fd-dynamic-page-header title="Purchase overview"> </fd-dynamic-page-header>
     <fd-dynamic-page-subheader
       class="px-0"
@@ -8,7 +14,7 @@
       [collapsed]="false"
     >
       <div class="d-flex w-100 flex-column mb-4">
-        <div class="chart-container mb-4 d-flex flex-column pb-3">
+        <div class="chart-container mb-4 d-flex flex-column pb-5">
           <canvas id="chart"></canvas>
           <div class="legend-container mt-4">
             <span class="legend-item">
@@ -23,11 +29,11 @@
         </div>
       </div>
     </fd-dynamic-page-subheader>
-    <fd-dynamic-page-content class="px-0">
-      <div class="d-flex flex-column w-100 h-100">
+    <fd-dynamic-page-content class="px-0 py-0">
+      <div class="table-container w-100 h-100 pb-2 pt-5">
         <fd-toolbar
           title="Purchase requests ({{ tableRows.length }})"
-          class="mt-4"
+          class="flex-grow-0 flex-shrink-0"
         >
           <fd-toolbar-spacer></fd-toolbar-spacer>
           <ng-container fdCompact>
@@ -45,139 +51,143 @@
           </ng-container>
         </fd-toolbar>
 
-        <table fd-table fdCompact [responsive]="true">
-          <thead fd-table-header [noBorderY]="true">
-            <tr fd-table-row>
-              <th fd-table-cell>
-                <fd-checkbox
-                  aria-label="Select all"
-                  title="Select all"
-                  [tristate]="true"
-                  [ngModel]="checkboxValue"
-                  (ngModelChange)="selectAll($event)"
-                ></fd-checkbox>
-              </th>
-              <th
-                fd-table-cell
-                (click)="onSortChanged('name')"
-                class="sortable"
+        <div class="scrollable-table flex-grow-1 sap-flex-shrink-1">
+          <table fd-table fdCompact [responsive]="true">
+            <thead fd-table-header [noBorderY]="true">
+              <tr fd-table-row>
+                <th fd-table-cell>
+                  <fd-checkbox
+                    aria-label="Select all"
+                    title="Select all"
+                    [tristate]="true"
+                    [ngModel]="checkboxValue"
+                    (ngModelChange)="selectAll($event)"
+                  ></fd-checkbox>
+                </th>
+                <th
+                  fd-table-cell
+                  (click)="onSortChanged('name')"
+                  class="sortable"
+                >
+                  <div fd-table-inner>
+                    Name
+                    <fd-icon
+                      *ngIf="sortByKey == 'name'"
+                      fd-table-icon
+                      [glyph]="ascending ? 'sort-ascending' : 'sort-descending'"
+                    ></fd-icon>
+                  </div>
+                </th>
+                <th
+                  fd-table-cell
+                  class="col-date"
+                  (click)="onSortChanged('date')"
+                  class="sortable"
+                >
+                  <div fd-table-inner>
+                    Date
+                    <fd-icon
+                      *ngIf="sortByKey == 'date'"
+                      fd-table-icon
+                      [glyph]="ascending ? 'sort-ascending' : 'sort-descending'"
+                    ></fd-icon>
+                  </div>
+                </th>
+                <th fd-table-cell>
+                  <div fd-table-inner>Amount</div>
+                </th>
+                <th
+                  fd-table-cell
+                  (click)="onSortChanged('vendor')"
+                  class="sortable"
+                >
+                  <div fd-table-inner>
+                    Vendor
+                    <fd-icon
+                      *ngIf="sortByKey == 'vendor'"
+                      fd-table-icon
+                      [glyph]="ascending ? 'sort-ascending' : 'sort-descending'"
+                    ></fd-icon>
+                  </div>
+                </th>
+                <th fd-table-cell>Warranty</th>
+                <th fd-table-cell>Size</th>
+                <th fd-table-cell>Price</th>
+                <th fd-table-cell>Material</th>
+                <th fd-table-cell>Properties</th>
+                <th fd-table-cell></th>
+              </tr>
+            </thead>
+            <tbody fd-table-body [noBorderY]="true">
+              <tr
+                *ngFor="
+                  let row of tableRows
+                    | filter : filterVal : 'name'
+                    | sortBy : ascending : sortByKey;
+                  let i = index
+                "
+                fd-table-row
+                [attr.aria-selected]="row.checked"
+                [hoverable]="true"
               >
-                <div fd-table-inner>
-                  Name
-                  <fd-icon
-                    *ngIf="sortByKey == 'name'"
+                <td fd-table-cell>
+                  <fd-checkbox
+                    [attr.aria-label]="'Select row ' + (i + 1)"
+                    [attr.title]="'Select row ' + (i + 1)"
+                    [value]="row.checked"
+                    (click)="
+                      row.checked
+                        ? (row.checked = false)
+                        : (row.checked = true);
+                      select()
+                    "
+                  ></fd-checkbox>
+                </td>
+                <td fd-table-cell>
+                  <span fd-table-text>{{ row.name }}</span>
+                </td>
+                <td fd-table-cell class="col-date">
+                  <span fd-table-text>{{ row.date }}</span>
+                </td>
+                <td fd-table-cell>
+                  <span fd-table-text>{{ row.amount }}</span>
+                </td>
+                <td fd-table-cell>
+                  <span fd-table-text>{{ row.vendor }}</span>
+                </td>
+                <td fd-table-cell>
+                  <span fd-table-text>{{ row.warranty }}</span>
+                </td>
+                <td fd-table-cell>
+                  <span fd-table-text>{{ row.size }}</span>
+                </td>
+                <td fd-table-cell>
+                  <span fd-table-text>{{ row.price }}</span>
+                </td>
+                <td fd-table-cell>
+                  <span fd-table-text>{{ row.material }}</span>
+                </td>
+                <td fd-table-cell>
+                  <span fd-table-text>{{ row.properties }}</span>
+                </td>
+                <td
+                  fd-table-cell
+                  [fitContent]="true"
+                  [noPadding]="true"
+                  (click)="openCloseDialog(dialogTemplate, i)"
+                >
+                  <i
+                    title="Navigate"
                     fd-table-icon
-                    [glyph]="ascending ? 'sort-ascending' : 'sort-descending'"
-                  ></fd-icon>
-                </div>
-              </th>
-              <th
-                fd-table-cell
-                class="col-date"
-                (click)="onSortChanged('date')"
-                class="sortable"
-              >
-                <div fd-table-inner>
-                  Date
-                  <fd-icon
-                    *ngIf="sortByKey == 'date'"
-                    fd-table-icon
-                    [glyph]="ascending ? 'sort-ascending' : 'sort-descending'"
-                  ></fd-icon>
-                </div>
-              </th>
-              <th fd-table-cell>
-                <div fd-table-inner>Amount</div>
-              </th>
-              <th
-                fd-table-cell
-                (click)="onSortChanged('vendor')"
-                class="sortable"
-              >
-                <div fd-table-inner>
-                  Vendor
-                  <fd-icon
-                    *ngIf="sortByKey == 'vendor'"
-                    fd-table-icon
-                    [glyph]="ascending ? 'sort-ascending' : 'sort-descending'"
-                  ></fd-icon>
-                </div>
-              </th>
-              <th fd-table-cell>Warranty</th>
-              <th fd-table-cell>Size</th>
-              <th fd-table-cell>Price</th>
-              <th fd-table-cell>Material</th>
-              <th fd-table-cell>Properties</th>
-              <th fd-table-cell></th>
-            </tr>
-          </thead>
-          <tbody fd-table-body [noBorderY]="true">
-            <tr
-              *ngFor="
-                let row of tableRows
-                  | filter : filterVal : 'name'
-                  | sortBy : ascending : sortByKey;
-                let i = index
-              "
-              fd-table-row
-              [attr.aria-selected]="row.checked"
-              [hoverable]="true"
-            >
-              <td fd-table-cell>
-                <fd-checkbox
-                  [attr.aria-label]="'Select row ' + (i + 1)"
-                  [attr.title]="'Select row ' + (i + 1)"
-                  [value]="row.checked"
-                  (click)="
-                    row.checked ? (row.checked = false) : (row.checked = true);
-                    select()
-                  "
-                ></fd-checkbox>
-              </td>
-              <td fd-table-cell>
-                <span fd-table-text>{{ row.name }}</span>
-              </td>
-              <td fd-table-cell class="col-date">
-                <span fd-table-text>{{ row.date }}</span>
-              </td>
-              <td fd-table-cell>
-                <span fd-table-text>{{ row.amount }}</span>
-              </td>
-              <td fd-table-cell>
-                <span fd-table-text>{{ row.vendor }}</span>
-              </td>
-              <td fd-table-cell>
-                <span fd-table-text>{{ row.warranty }}</span>
-              </td>
-              <td fd-table-cell>
-                <span fd-table-text>{{ row.size }}</span>
-              </td>
-              <td fd-table-cell>
-                <span fd-table-text>{{ row.price }}</span>
-              </td>
-              <td fd-table-cell>
-                <span fd-table-text>{{ row.material }}</span>
-              </td>
-              <td fd-table-cell>
-                <span fd-table-text>{{ row.properties }}</span>
-              </td>
-              <td
-                fd-table-cell
-                [fitContent]="true"
-                [noPadding]="true"
-                (click)="openCloseDialog(dialogTemplate, i)"
-              >
-                <i
-                  title="Navigate"
-                  fd-table-icon
-                  [glyph]="'slim-arrow-right'"
-                  [navigation]="true"
-                  role="presentation"
-                ></i>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+                    [glyph]="'slim-arrow-right'"
+                    [navigation]="true"
+                    role="presentation"
+                  ></i>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
 
         <ng-template let-dialog let-dialogConfig="dialogConfig" #dialogTemplate>
           <fd-dialog [dialogConfig]="dialogConfig" [dialogRef]="dialog">

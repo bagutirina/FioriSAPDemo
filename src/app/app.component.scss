@@ -1,9 +1,13 @@
 :host {
-  width: 100vw;
-  height: 100vh;
-  display: block;
+  // width: 100vw;
+  // height: 100vh;
+  // display: block;
 }
 .main-container {
+  .main-content {
+    width: 80%;
+  }
+
   // border-radius: 4px 4px 0 0;
   // border: 1px solid #ccc;
   // transition: 0.25s background-color;
@@ -81,4 +85,21 @@
 .description-text {
   white-space: pre-wrap;
   word-wrap: break-word;
+}
+
+.table-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.scrollable-table {
+  overflow-y: auto;
+  max-height: calc(
+    100vh - 300px
+  ); /* Ajustează înălțimea maximă, în funcție de layout */
+}
+
+::ng-deep .fd-scrollbar {
+  overflow: unset !important;
 }
