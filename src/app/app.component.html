@@ -130,19 +130,27 @@
                 [attr.aria-selected]="row.checked"
                 [hoverable]="true"
               >
-                <td fd-table-cell>
-                  <fd-checkbox
-                    [attr.aria-label]="'Select row ' + (i + 1)"
-                    [attr.title]="'Select row ' + (i + 1)"
-                    [value]="row.checked"
-                    (click)="
-                      row.checked
-                        ? (row.checked = false)
-                        : (row.checked = true);
-                      select()
-                    "
-                  ></fd-checkbox>
+                <td
+                  fd-table-cell
+                  *ngIf="!row.inGroup"
+                  [attr.rowspan]="row.rowspan || 1"
+                  class="px-0"
+                >
+                  <div class="d-flex h-100 align-items-center">
+                    <fd-checkbox
+                      [attr.aria-label]="'Select row ' + (i + 1)"
+                      [attr.title]="'Select row ' + (i + 1)"
+                      [value]="row.checked"
+                      (click)="
+                        row.checked
+                          ? (row.checked = false)
+                          : (row.checked = true);
+                        select()
+                      "
+                    ></fd-checkbox>
+                  </div>
                 </td>
+
                 <td fd-table-cell>
                   <span fd-table-text>{{ row.name }}</span>
                 </td>
@@ -167,10 +175,12 @@
                 <td fd-table-cell>
                   <span fd-table-text>{{ row.material }}</span>
                 </td>
-                <td fd-table-cell>
+                <td fd-table-cell style="border-left-style: none">
                   <span fd-table-text>{{ row.properties }}</span>
                 </td>
                 <td
+                  *ngIf="!row.inGroup"
+                  [attr.rowspan]="row.rowspan || 1"
                   fd-table-cell
                   [fitContent]="true"
                   [noPadding]="true"

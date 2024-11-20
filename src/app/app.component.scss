@@ -118,3 +118,7 @@
     }
   }
 }
+
+.fd-table__row:last-child .fd-table__cell {
+  border-bottom-color: var(--sapList_BorderColor) !important;
+}

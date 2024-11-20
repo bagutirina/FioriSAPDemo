@@ -249,6 +249,19 @@ We need three new workstations with the following equipment by 01.02.2025:
 
 Many thanks in advance!`,
       checked: false,
+      rowspan: 2,
+    },
+    {
+      name: 'Assembly Service',
+      date: '2025-02-01',
+      amount: '1',
+      vendor: '',
+      warranty: '',
+      size: '',
+      price: '',
+      material: '',
+      properties: '',
+      inGroup: true,
     },
   ];
   chartData: any[] = [
