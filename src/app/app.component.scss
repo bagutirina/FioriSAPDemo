@@ -65,7 +65,7 @@
 
 ::ng-deep {
   .fd-dynamic-page__title-subtitle-container {
-    padding-left: 1.5rem !important;
+    padding-left: 16px !important;
   }
 
   .fd-dynamic-page__title-area {
@@ -117,12 +117,6 @@
       display: contents;
     }
   }
-  .fd-toolbar--title {
-    padding-left: 0px !important;
-    h4 {
-      flex-shrink: 1 !important;
-    }
-  }
 }
 
 .fd-table__row:last-child .fd-table__cell {
@@ -131,6 +125,14 @@
 .search-input {
   max-width: 40%;
 }
-.isSpannedRow {
+.spannedRow {
   padding-left: 0.5rem !important;
+}
+.px12 {
+  padding: 0.5rem 2rem !important;
+}
+
+.filter-label {
+  position: absolute;
+  top: -20px;
 }

@@ -4,7 +4,7 @@
   <fd-dynamic-page
     [autoResponsive]="true"
     ariaLabel="Example Dynamic Page"
-    class="main-content pt-4 h-100"
+    class="main-content h-100"
   >
     <fd-dynamic-page-header title="Purchase overview"> </fd-dynamic-page-header>
     <fd-dynamic-page-subheader
@@ -14,7 +14,7 @@
       [collapsed]="false"
     >
       <div class="d-flex w-100 flex-column mb-4">
-        <div class="chart-container mb-4 d-flex flex-column pb-5">
+        <div class="chart-container d-flex flex-column pb-5">
           <canvas id="chart"></canvas>
           <div class="legend-container mt-4">
             <span class="legend-item">
@@ -29,28 +29,84 @@
         </div>
       </div>
     </fd-dynamic-page-subheader>
-    <fd-dynamic-page-content class="py-0 h-100 w-100">
-      <div class="table-container w-100 h-100 pb-4 pt-5">
-        <fd-toolbar
-          title="Purchase requests ({{ tableRows.length }})"
-          class="flex-grow-0 flex-shrink-1"
-        >
-          <fd-toolbar-spacer></fd-toolbar-spacer>
-          <ng-container fdCompact>
-            <fd-input-group
-              glyph="decline"
-              glyphAriaLabel="Clear"
-              title="Search"
-              placeholder="Search"
-              [button]="true"
-              [disabled]="false"
-              [(ngModel)]="filterVal"
-              (addOnButtonClicked)="filterVal = ''"
-              class="search-input"
+    <fd-dynamic-page-content class="h-100 w-100 px12">
+      <div class="table-container w-100 h-100 pb-4 pt-3">
+        <h4 fd-title class="flex-shrink-0">
+          Purchase requests ({{ tableRows.length }})
+        </h4>
+        <div class="d-flex w-100 gap-3 pb-3 pt-4">
+          <!-- search -->
+          <fd-input-group
+            fdCompact
+            glyph="search"
+            glyphAriaLabel="Search"
+            title="Search"
+            placeholder="Search"
+            [button]="true"
+            [disabled]="false"
+            [(ngModel)]="filterVal"
+            (addOnButtonClicked)="filterVal = ''"
+            class="search-input"
+          >
+          </fd-input-group>
+
+          <!-- date range -->
+          <div style="position: relative">
+            <span fd-label class="filter-label">Due Date Range</span>
+            <fd-date-picker
+              fdCompact
+              type="range"
+              [showTodayButton]="true"
+              [(ngModel)]="selectedRange"
             >
-            </fd-input-group>
-          </ng-container>
-        </fd-toolbar>
+            </fd-date-picker>
+          </div>
+
+          <!-- vendor -->
+          <div style="position: relative">
+            <span fd-label class="filter-label">Vendor</span>
+            <fd-multi-input
+              fdCompact
+              inputId="dropdownExampleInput1"
+              [dropdownValues]="vendors"
+              [(ngModel)]="selectedVendor"
+              style="width: 200px"
+            ></fd-multi-input>
+          </div>
+          <!-- Warranty -->
+          <div style="position: relative">
+            <span fd-label class="filter-label">Warranty</span>
+            <fd-multi-input
+              fdCompact
+              inputId="dropdownExampleInput1"
+              [dropdownValues]="warranties"
+              [(ngModel)]="selectedWarranties"
+              style="width: 200px"
+            ></fd-multi-input>
+          </div>
+          <!-- prise range -->
+          <div style="position: relative">
+            <span fd-label class="filter-label">Price Range</span>
+            <fd-multi-input
+              fdCompact
+              inputId="dropdownExampleInput1"
+              [dropdownValues]="prices"
+              [(ngModel)]="selectedPrices"
+              style="width: 200px"
+            ></fd-multi-input>
+          </div>
+          <!-- material -->
+          <div style="position: relative">
+            <span fd-label class="filter-label">Material</span>
+            <fd-multi-input
+              fdCompact
+              inputId="dropdownExampleInput1"
+              [dropdownValues]="materials"
+              [(ngModel)]="selectedMaterials"
+              style="width: 200px"
+            ></fd-multi-input>
+          </div>
+        </div>
 
         <div class="scrollable-table flex-grow-1 sap-flex-shrink-1">
           <table fd-table fdCompact [responsive]="true">
@@ -71,7 +127,7 @@
                   class="sortable col-name"
                 >
                   <div fd-table-inner>
-                    Name
+                    Product Name
                     <fd-icon
                       *ngIf="sortByKey == 'name'"
                       fd-table-icon
@@ -86,7 +142,7 @@
                   class="sortable"
                 >
                   <div fd-table-inner>
-                    Date
+                    Due Date
                     <fd-icon
                       *ngIf="sortByKey == 'date'"
                       fd-table-icon
@@ -151,11 +207,10 @@
                     ></fd-checkbox>
                   </div>
                 </td>
-
                 <td
                   fd-table-cell
                   class="col-name"
-                  [class.isSpannedRow]="row.isSpannedRow"
+                  [class.spannedRow]="row.isSpannedRow"
                 >
                   <span fd-table-text>{{ row.name }}</span>
                 </td>
@@ -175,7 +230,7 @@
                   <span fd-table-text>{{ row.size }}</span>
                 </td>
                 <td fd-table-cell>
-                  <span fd-table-text>{{ row.price }}</span>
+                  <span fd-table-text *ngIf="row.price">{{ row.price }}€</span>
                 </td>
                 <td fd-table-cell>
                   <span fd-table-text>{{ row.material }}</span>

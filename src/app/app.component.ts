@@ -2,15 +2,36 @@ import { Component } from '@angular/core';
 import {
   DialogContentType,
   DialogService,
+  FdDate,
   FlexibleColumnLayout,
   RangeSelector,
 } from '@fundamental-ngx/core';
 import Chart from 'chart.js/auto';
+import { ChangeDetectionStrategy } from '@angular/core';
+import {
+  DATE_TIME_FORMATS,
+  DatetimeAdapter,
+  FD_DATETIME_FORMATS,
+  FdDatetimeAdapter,
+} from '@fundamental-ngx/core/datetime';
+import { DateRange } from '@fundamental-ngx/core/calendar';
+import { Nullable } from '@fundamental-ngx/cdk/utils';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [
+    {
+      provide: DatetimeAdapter,
+      useClass: FdDatetimeAdapter,
+    },
+    {
+      provide: DATE_TIME_FORMATS,
+      useValue: FD_DATETIME_FORMATS,
+    },
+  ],
 })
 export class AppComponent {
   title = 'Fiori SAP Demo';
@@ -22,10 +43,10 @@ export class AppComponent {
   tableRows: any[] = [
     {
       name: 'Desk',
-      date: '2025-02-01',
+      date: '01.02.2025',
       amount: '2',
       vendor: 'IKEA',
-      warranty: '',
+      warranty: '2 years',
       size: '',
       price: '599',
       material: 'OE10_D1',
@@ -45,10 +66,10 @@ Many thanks in advance!`,
     },
     {
       name: 'Desk',
-      date: '2025-02-01',
+      date: '01.02.2025',
       amount: '2',
       vendor: 'IKEA',
-      warranty: '',
+      warranty: '2 years',
       size: '',
       price: '799',
       material: 'OE10_D2',
@@ -68,7 +89,7 @@ Many thanks in advance!`,
     },
     {
       name: 'Chair',
-      date: '2025-02-01',
+      date: '01.02.2025',
       amount: '3',
       vendor: 'Trendoffice',
       warranty: '',
@@ -91,7 +112,7 @@ Many thanks in advance!`,
     },
     {
       name: 'Roller Cabinet',
-      date: '2025-02-01',
+      date: '01.02.2025',
       amount: '3',
       vendor: 'Trendoffice',
       warranty: '',
@@ -114,7 +135,7 @@ Many thanks in advance!`,
     },
     {
       name: 'Laptop',
-      date: '2025-02-01',
+      date: '01.02.2025',
       amount: '2',
       vendor: 'Dell',
       warranty: '3 years',
@@ -137,7 +158,7 @@ Many thanks in advance!`,
     },
     {
       name: 'Laptop',
-      date: '2025-02-01',
+      date: '01.02.2025',
       amount: '1',
       vendor: 'Dell',
       warranty: '3 years',
@@ -160,12 +181,12 @@ Many thanks in advance!`,
     },
     {
       name: 'Monitor',
-      date: '2025-02-01',
+      date: '01.02.2025',
       amount: '6',
       vendor: 'Dell',
-      warranty: '3 years',
+      warranty: '4 years',
       size: 'more than 17 inch',
-      price: 'up to 100 Euro',
+      price: '100',
       material: '',
       properties: '',
       description: `Hello dear purchasing department,
@@ -183,7 +204,7 @@ Many thanks in advance!`,
     },
     {
       name: 'Visual Studio License',
-      date: '2025-02-01',
+      date: '01.02.2025',
       amount: '1',
       vendor: 'Microsoft',
       warranty: '',
@@ -206,7 +227,7 @@ Many thanks in advance!`,
     },
     {
       name: 'Visual Studio Pro License',
-      date: '2025-03-01',
+      date: '01.03.2025',
       amount: '1',
       vendor: 'Microsoft',
       warranty: '',
@@ -229,7 +250,7 @@ Many thanks in advance!`,
     },
     {
       name: 'Shelf - large',
-      date: '2025-02-01',
+      date: '01.02.2025',
       amount: '1',
       vendor: '',
       warranty: '',
@@ -253,7 +274,7 @@ Many thanks in advance!`,
     },
     {
       name: 'Assembly Service',
-      date: '2025-02-01',
+      date: '01.02.2025',
       amount: '1',
       vendor: '',
       warranty: '',
@@ -264,6 +285,7 @@ Many thanks in advance!`,
       isSpannedRow: true,
     },
   ];
+
   chartData: any[] = [
     { name: 'Desk', count: 50, percent: 20 },
     { name: 'Desk', count: 70, percent: 30 },
@@ -278,9 +300,34 @@ Many thanks in advance!`,
     { name: 'Office Software Subscription', count: 150, percent: 30 },
     { name: 'Keyboard', count: 120, percent: 30 },
   ];
-
   chart: Chart | undefined;
   chartOptions: any;
+
+  // filters
+  vendors = Array.from(
+    new Set(this.tableRows.map((row) => row.vendor).filter((v) => v))
+  );
+  selectedVendor = [];
+
+  warranties = ['1 year', '2 years', '3 years', '4 years'];
+  selectedWarranties = [];
+
+  materials = Array.from(
+    new Set(this.tableRows.map((row) => row.material).filter((v) => v))
+  );
+  selectedMaterials = [];
+
+  prices = [
+    'Under 50 EUR',
+    '50 - 100 EUR',
+    '100 - 500 EUR',
+    '500 - 750 EUR',
+    '750 - 1000 EUR',
+    'Over 1000 EUR',
+  ];
+  selectedPrices = [];
+  date: Nullable<FdDate> = FdDate.getNow();
+  selectedRange: Nullable<DateRange<FdDate>>;
 
   constructor(public dialogService: DialogService) {}
 
