@@ -133,7 +133,7 @@
               >
                 <td
                   fd-table-cell
-                  *ngIf="!row.inGroup"
+                  *ngIf="!row.isSpannedRow"
                   [attr.rowspan]="row.rowspan || 1"
                   class="px-0"
                 >
@@ -152,7 +152,11 @@
                   </div>
                 </td>
 
-                <td fd-table-cell class="col-name">
+                <td
+                  fd-table-cell
+                  class="col-name"
+                  [class.isSpannedRow]="row.isSpannedRow"
+                >
                   <span fd-table-text>{{ row.name }}</span>
                 </td>
                 <td fd-table-cell class="col-date">
@@ -180,7 +184,7 @@
                   <span fd-table-text>{{ row.properties }}</span>
                 </td>
                 <td
-                  *ngIf="!row.inGroup"
+                  *ngIf="!row.isSpannedRow"
                   [attr.rowspan]="row.rowspan || 1"
                   fd-table-cell
                   [fitContent]="true"

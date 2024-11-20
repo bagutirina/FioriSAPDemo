@@ -261,7 +261,7 @@ Many thanks in advance!`,
       price: '',
       material: '',
       properties: '',
-      inGroup: true,
+      isSpannedRow: true,
     },
   ];
   chartData: any[] = [
