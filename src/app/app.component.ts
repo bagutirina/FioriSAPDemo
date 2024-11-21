@@ -49,6 +49,7 @@ import {
 export class AppComponent {
   title = 'Fiori SAP Demo';
   checkboxValue: boolean | null = false;
+  hoveredRowIndex: any;
   filterVal = '';
   ascending = false;
   sortByKey = '';
@@ -89,78 +90,6 @@ export class AppComponent {
       label: 'Notifications',
       notificationCount: 2,
       notificationLabel: 'Unread Notifications',
-    },
-  ];
-  searchTerm = '';
-  inputText = '';
-  searchTerms = ['Apple', 'Banana', 'Kiwi', 'Strawberry'];
-  categories: ValueLabelItem[] = [
-    {
-      value: 'red',
-      label: 'Red',
-    },
-    {
-      value: 'orange',
-      label: 'Orange',
-    },
-    {
-      value: 'yellow',
-      label: 'Yellow',
-    },
-    {
-      value: 'green',
-      label: 'Green',
-    },
-    {
-      value: 'blue',
-      label: 'Blue',
-    },
-    {
-      value: 'indigo',
-      label: 'Indigo',
-    },
-    {
-      value: 'violet',
-      label: 'Violet',
-    },
-  ];
-
-  suggestions: SuggestionItem[] = [
-    {
-      value: 'Apple',
-    },
-    {
-      value: 'Banana',
-    },
-    {
-      value: 'Blueberry',
-    },
-    {
-      value: 'Cherry',
-    },
-    {
-      value: 'Grape',
-    },
-    {
-      value: 'Lemon',
-    },
-    {
-      value: 'Lime',
-    },
-    {
-      value: 'Orange',
-    },
-    {
-      value: 'Peach',
-    },
-    {
-      value: 'Pineapple',
-    },
-    {
-      value: 'Plum',
-    },
-    {
-      value: 'Raspberry',
     },
   ];
 
@@ -302,7 +231,10 @@ export class AppComponent {
   }
 
   // Select all
-  select(): void {
+  select(i: any): void {
+    if (this.tableRows[i].rowSpan) {
+      this.tableRows[i + 1].checked = !this.tableRows[i + 1].checked;
+    }
     this._setSelectAllValue();
   }
   selectAll(checked: boolean): void {
@@ -365,5 +297,13 @@ export class AppComponent {
   onSearchClick(): void {
     console.log('Search icon clicked');
     // Poți deschide un popup sau naviga către o altă funcționalitate
+  }
+
+  setGroupHovering(i: any, clear = false) {
+    if (this.tableRows[i].rowSpan) {
+      this.tableRows[i + 1].hovered = !clear;
+    } else if (this.tableRows[i].isRowSpanChild) {
+      this.tableRows[i - 1].hovered = !clear;
+    }
   }
 }

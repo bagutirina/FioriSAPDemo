@@ -117,7 +117,7 @@ export const tableRows: any[] = [
   },
   {
     name: 'Visual Studio Pro License',
-    date: '01.03.2025',
+    date: '01.02.2025',
     amount: '1',
     vendor: 'Microsoft',
     warranty: '',
@@ -140,7 +140,7 @@ export const tableRows: any[] = [
     properties: 'Including assembly service',
     description: descriptionExample,
     checked: false,
-    rowspan: 2,
+    rowSpan: 2,
   },
   {
     name: 'Assembly Service',
@@ -152,7 +152,7 @@ export const tableRows: any[] = [
     price: '',
     material: '',
     properties: '',
-    isSpannedRow: true,
+    isRowSpanChild: true,
   },
 ];
 
