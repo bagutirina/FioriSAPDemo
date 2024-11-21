@@ -72,6 +72,7 @@ export class AppComponent {
   selectedPrices = [];
   date: Nullable<FdDate> = FdDate.getNow();
   selectedRange: Nullable<DateRange<FdDate>>;
+  selectedRow: any;
 
   user: ShellbarUser = {
     fullName: 'William Willson',
@@ -283,9 +284,9 @@ export class AppComponent {
     });
   }
 
-  localLayout: FlexibleColumnLayout = 'OneColumnStartFullScreen';
+  layout: FlexibleColumnLayout = 'OneColumnStartFullScreen';
   changeLayout(newValue: FlexibleColumnLayout): void {
-    this.localLayout = newValue;
+    this.layout = newValue;
   }
 
   // shellbar

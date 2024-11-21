@@ -88,6 +88,10 @@ export const tableRows: any[] = [
     properties: 'with GPU',
     description: descriptionExample,
     checked: false,
+    suppliers: [
+      { name: 'ComputaCenter', description: 'https://www.computacenter.com' },
+      { name: 'Bechtle', description: '' },
+    ],
   },
   {
     name: 'Monitor',
@@ -169,6 +173,7 @@ export const chartData: any[] = [
   { name: 'Assembly Service', count: 100, percent: 20 },
   { name: 'Office Software Subscription', count: 150, percent: 30 },
   { name: 'Keyboard', count: 120, percent: 30 },
+  { name: 'Monitor', count: 100, percent: 20 },
 ];
 
 export const warranties = [

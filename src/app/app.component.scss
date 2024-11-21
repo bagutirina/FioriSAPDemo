@@ -4,18 +4,6 @@
   display: block;
 }
 
-.main-container {
-  .main-content {
-    // width: 92%;
-  }
-
-  // border-radius: 4px 4px 0 0;
-  // border: 1px solid #ccc;
-  // transition: 0.25s background-color;
-  // display: block;
-  //background-color: var(--sapBackgroundColor, #f7f7f7);
-  // color: var(--sapTextColor, #32363a);
-}
 .col-date {
   min-width: 100px;
 }
@@ -115,15 +103,12 @@
 }
 .search-input {
   flex: 1 1 auto;
-  max-width: 350px;
+  max-width: 300px;
 }
 .rowSpanChild {
   .col-name {
     padding-left: 0.5rem !important;
   }
-}
-.px12 {
-  padding: 0.5rem 2rem !important;
 }
 
 .filter-label {
@@ -141,7 +126,6 @@ fd-toolbar ::ng-deep .fd-toolbar.fd-toolbar--solid {
   padding-top: 35px;
   padding-bottom: 30px;
   padding-left: 0px;
-  gap: 0.5rem !important;
 }
 small {
   font-size: 12px;
@@ -170,4 +154,44 @@ fd-dynamic-page {
 
 .fd-table__row.hovered:not(.checked) {
   background-color: var(--sapList_Hover_Background);
+}
+
+::ng-deep .fd-flexible-column-layout__column {
+  transition: none !important;
+  //transition: transform 0.1s ease-in-out, width 0.1s ease-in-out !important;
+}
+
+fd-dynamic-page {
+  max-width: 85%;
+  margin: 0 auto;
+  display: block;
+  padding-left: 24px !important;
+  padding-right: 24px !important;
+}
+fd-dynamic-page-header {
+  padding-left: 17px !important;
+}
+
+::ng-deep {
+  .fd-dynamic-page__header + .fd-scrollbar {
+    flex-grow: 1 !important;
+  }
+}
+
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  justify-content: flex-start;
+  align-items: flex-start;
+  padding: 1rem;
+}
+
+fd-card {
+  width: 300px;
+  height: 160px;
+}
+
+.px12 {
+  padding: 1rem 2rem !important;
 }
