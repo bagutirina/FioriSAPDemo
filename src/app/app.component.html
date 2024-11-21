@@ -1,3 +1,36 @@
+<fd-shellbar>
+  <fd-shellbar-logo>
+    <a
+      href="#"
+      class="fd-shellbar__logo fd-shellbar__logo--image-replaced"
+      aria-label="SAP"
+    ></a>
+  </fd-shellbar-logo>
+
+  <fd-shellbar-title> Manage Purchase Requisitions </fd-shellbar-title>
+
+  <fd-shellbar-actions
+    [user]="user"
+    [userMenu]="userMenu"
+    [closePopoverOnSelect]="true"
+  >
+    <fd-shellbar-action
+      glyph="search"
+      ariaLabel="Search"
+      (callback)="onSearchClick()"
+    ></fd-shellbar-action>
+
+    <fd-shellbar-action
+      *ngFor="let action of actions"
+      [glyph]="action.glyph"
+      [callback]="action.callback"
+      [label]="action.label"
+      [notificationCount]="action.notificationCount"
+      [notificationLabel]="action.notificationLabel"
+    ></fd-shellbar-action>
+  </fd-shellbar-actions>
+</fd-shellbar>
+
 <div
   class="main-container pt-3 d-flex flex-column w-100 h-100 align-items-center"
 >
@@ -131,52 +164,10 @@
                     (ngModelChange)="selectAll($event)"
                   ></fd-checkbox>
                 </th>
-                <th
-                  fd-table-cell
-                  (click)="onSortChanged('name')"
-                  class="sortable col-name"
-                >
-                  <div fd-table-inner>
-                    Product Name
-                    <fd-icon
-                      *ngIf="sortByKey == 'name'"
-                      fd-table-icon
-                      [glyph]="ascending ? 'sort-ascending' : 'sort-descending'"
-                    ></fd-icon>
-                  </div>
-                </th>
-                <th
-                  fd-table-cell
-                  class="col-date"
-                  (click)="onSortChanged('date')"
-                  class="sortable"
-                >
-                  <div fd-table-inner>
-                    Due Date
-                    <fd-icon
-                      *ngIf="sortByKey == 'date'"
-                      fd-table-icon
-                      [glyph]="ascending ? 'sort-ascending' : 'sort-descending'"
-                    ></fd-icon>
-                  </div>
-                </th>
-                <th fd-table-cell>
-                  <div fd-table-inner>Amount</div>
-                </th>
-                <th
-                  fd-table-cell
-                  (click)="onSortChanged('vendor')"
-                  class="sortable"
-                >
-                  <div fd-table-inner>
-                    Vendor
-                    <fd-icon
-                      *ngIf="sortByKey == 'vendor'"
-                      fd-table-icon
-                      [glyph]="ascending ? 'sort-ascending' : 'sort-descending'"
-                    ></fd-icon>
-                  </div>
-                </th>
+                <th fd-table-cell class="col-name">Product Name</th>
+                <th fd-table-cell class="col-date">Due Date</th>
+                <th fd-table-cell>Amount</th>
+                <th fd-table-cell>Vendor</th>
                 <th fd-table-cell>Warranty</th>
                 <th fd-table-cell>Size</th>
                 <th fd-table-cell class="text-end pe-4">Price</th>

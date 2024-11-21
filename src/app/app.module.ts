@@ -9,16 +9,10 @@ import { FormsModule } from '@angular/forms'; // Importă FormsModule
 import { TruncateModule } from '@fundamental-ngx/core';
 import { FilterPipe } from './filter.pipe';
 import { SortByPipe } from './sort.pipe';
-
-
-
+import { PlatformSearchFieldModule } from '@fundamental-ngx/platform';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    FilterPipe,
-    SortByPipe
-  ],
+  declarations: [AppComponent, FilterPipe, SortByPipe],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -27,8 +21,9 @@ import { SortByPipe } from './sort.pipe';
     FundamentalNgxCoreModule,
     ButtonModule,
     TruncateModule,
+    PlatformSearchFieldModule,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

@@ -4,7 +4,8 @@ import {
   DialogService,
   FdDate,
   FlexibleColumnLayout,
-  RangeSelector,
+  ShellbarUser,
+  ShellbarUserMenu,
 } from '@fundamental-ngx/core';
 import Chart from 'chart.js/auto';
 import { ChangeDetectionStrategy } from '@angular/core';
@@ -23,6 +24,11 @@ import {
   tableRows,
   warranties,
 } from './app.data';
+import {
+  SearchInput,
+  SuggestionItem,
+  ValueLabelItem,
+} from '@fundamental-ngx/platform';
 
 @Component({
   selector: 'app-root',
@@ -65,6 +71,98 @@ export class AppComponent {
   selectedPrices = [];
   date: Nullable<FdDate> = FdDate.getNow();
   selectedRange: Nullable<DateRange<FdDate>>;
+
+  user: ShellbarUser = {
+    fullName: 'William Willson',
+    colorAccent: 6,
+    image: 'assets/images/user.jpg',
+  };
+
+  userMenu: ShellbarUserMenu[] = [
+    { text: 'Settings', callback: this.settingsCallback },
+    { text: 'Sign Out', callback: this.signOutCallback },
+  ];
+  actions = [
+    {
+      glyph: 'bell',
+      callback: this.actionNotificationCallback,
+      label: 'Notifications',
+      notificationCount: 2,
+      notificationLabel: 'Unread Notifications',
+    },
+  ];
+  searchTerm = '';
+  inputText = '';
+  searchTerms = ['Apple', 'Banana', 'Kiwi', 'Strawberry'];
+  categories: ValueLabelItem[] = [
+    {
+      value: 'red',
+      label: 'Red',
+    },
+    {
+      value: 'orange',
+      label: 'Orange',
+    },
+    {
+      value: 'yellow',
+      label: 'Yellow',
+    },
+    {
+      value: 'green',
+      label: 'Green',
+    },
+    {
+      value: 'blue',
+      label: 'Blue',
+    },
+    {
+      value: 'indigo',
+      label: 'Indigo',
+    },
+    {
+      value: 'violet',
+      label: 'Violet',
+    },
+  ];
+
+  suggestions: SuggestionItem[] = [
+    {
+      value: 'Apple',
+    },
+    {
+      value: 'Banana',
+    },
+    {
+      value: 'Blueberry',
+    },
+    {
+      value: 'Cherry',
+    },
+    {
+      value: 'Grape',
+    },
+    {
+      value: 'Lemon',
+    },
+    {
+      value: 'Lime',
+    },
+    {
+      value: 'Orange',
+    },
+    {
+      value: 'Peach',
+    },
+    {
+      value: 'Pineapple',
+    },
+    {
+      value: 'Plum',
+    },
+    {
+      value: 'Raspberry',
+    },
+  ];
 
   constructor(public dialogService: DialogService) {}
 
@@ -195,6 +293,14 @@ export class AppComponent {
     );
   }
 
+  settingsCallback(): void {
+    alert('Settings Clicked');
+  }
+
+  signOutCallback(): void {
+    alert('Sign Out Clicked');
+  }
+
   // Select all
   select(): void {
     this._setSelectAllValue();
@@ -248,5 +354,26 @@ export class AppComponent {
   localLayout: FlexibleColumnLayout = 'OneColumnStartFullScreen';
   changeLayout(newValue: FlexibleColumnLayout): void {
     this.localLayout = newValue;
+  }
+
+  // shellbar
+  actionNotificationCallback($event: any): void {
+    console.log($event);
+    alert('Notification Action Clicked');
+  }
+  actionPoolCallback($event: any): void {
+    console.log($event);
+    alert('Pool Action Clicked');
+  }
+  onSearchSubmit($event: any): void {
+    this.searchTerm = $event.text;
+  }
+  onInputChange($event: any): void {
+    this.inputText = $event.text;
+  }
+
+  onSearchClick(): void {
+    console.log('Search icon clicked');
+    // Poți deschide un popup sau naviga către o altă funcționalitate
   }
 }

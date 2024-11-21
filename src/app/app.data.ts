@@ -140,7 +140,7 @@ export const tableRows: any[] = [
     properties: 'Including assembly service',
     description: descriptionExample,
     checked: false,
-    //rowspan: 2,
+    rowspan: 2,
   },
   {
     name: 'Assembly Service',
@@ -152,7 +152,7 @@ export const tableRows: any[] = [
     price: '',
     material: '',
     properties: '',
-    //isSpannedRow: true,
+    isSpannedRow: true,
   },
 ];
 
