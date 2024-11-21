@@ -180,7 +180,7 @@
                 </th>
                 <th fd-table-cell>Warranty</th>
                 <th fd-table-cell>Size</th>
-                <th fd-table-cell>Price</th>
+                <th fd-table-cell class="text-end pe-4">Price</th>
                 <th fd-table-cell>Material</th>
                 <th fd-table-cell>Properties</th>
                 <th fd-table-cell></th>
@@ -240,8 +240,8 @@
                 <td fd-table-cell>
                   <span fd-table-text>{{ row.size }}</span>
                 </td>
-                <td fd-table-cell>
-                  <span fd-table-text *ngIf="row.price">{{ row.price }}€</span>
+                <td fd-table-cell class="text-end pe-4">
+                  <span fd-table-text *ngIf="row.price">{{ row.price }} €</span>
                 </td>
                 <td fd-table-cell>
                   <span fd-table-text>{{ row.material }}</span>
