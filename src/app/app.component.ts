@@ -16,6 +16,13 @@ import {
 } from '@fundamental-ngx/core/datetime';
 import { DateRange } from '@fundamental-ngx/core/calendar';
 import { Nullable } from '@fundamental-ngx/cdk/utils';
+import {
+  chartData,
+  descriptionExample,
+  prices,
+  tableRows,
+  warranties,
+} from './app.data';
 
 @Component({
   selector: 'app-root',
@@ -35,296 +42,26 @@ import { Nullable } from '@fundamental-ngx/cdk/utils';
 })
 export class AppComponent {
   title = 'Fiori SAP Demo';
-  private readonly _rangeSelector = new RangeSelector();
   checkboxValue: boolean | null = false;
   filterVal = '';
   ascending = false;
   sortByKey = '';
-  tableRows: any[] = [
-    {
-      name: 'Desk',
-      date: '01.02.2025',
-      amount: '2',
-      vendor: 'IKEA',
-      warranty: '2 years',
-      size: '',
-      price: '599',
-      material: 'OE10_D1',
-      properties: '',
-      description: `Hello dear purchasing department,
-
-We need three new workstations with the following equipment by 01.02.2025:
-- Desks, one of which is height-adjustable
-- Trendoffice chairs and lockable roller cabinets
-- Three laptops, one with GPU, each with a 3-year warranty
-- Two monitors (from 17 inches, up to 100 euros) per person
-- 2 Visual Studio Pro licenses (item no. 23412-M-2343) starting from 01.02. or 01.03.
-- 1 large shelf (3x2 meters), please including assembly service
-
-Many thanks in advance!`,
-      checked: false,
-    },
-    {
-      name: 'Desk',
-      date: '01.02.2025',
-      amount: '2',
-      vendor: 'IKEA',
-      warranty: '2 years',
-      size: '',
-      price: '799',
-      material: 'OE10_D2',
-      properties: 'height-adjustable',
-      description: `Hello dear purchasing department,
-
-We need three new workstations with the following equipment by 01.02.2025:
-- Desks, one of which is height-adjustable
-- Trendoffice chairs and lockable roller cabinets
-- Three laptops, one with GPU, each with a 3-year warranty
-- Two monitors (from 17 inches, up to 100 euros) per person
-- 2 Visual Studio Pro licenses (item no. 23412-M-2343) starting from 01.02. or 01.03.
-- 1 large shelf (3x2 meters), please including assembly service
-
-Many thanks in advance!`,
-      checked: false,
-    },
-    {
-      name: 'Chair',
-      date: '01.02.2025',
-      amount: '3',
-      vendor: 'Trendoffice',
-      warranty: '',
-      size: '',
-      price: '399',
-      material: 'OE10_C3',
-      properties: '',
-      description: `Hello dear purchasing department,
-
-We need three new workstations with the following equipment by 01.02.2025:
-- Desks, one of which is height-adjustable
-- Trendoffice chairs and lockable roller cabinets
-- Three laptops, one with GPU, each with a 3-year warranty
-- Two monitors (from 17 inches, up to 100 euros) per person
-- 2 Visual Studio Pro licenses (item no. 23412-M-2343) starting from 01.02. or 01.03.
-- 1 large shelf (3x2 meters), please including assembly service
-
-Many thanks in advance!`,
-      checked: false,
-    },
-    {
-      name: 'Roller Cabinet',
-      date: '01.02.2025',
-      amount: '3',
-      vendor: 'Trendoffice',
-      warranty: '',
-      size: '',
-      price: '899',
-      material: 'OE10_CB4',
-      properties: 'lockable',
-      description: `Hello dear purchasing department,
-
-We need three new workstations with the following equipment by 01.02.2025:
-- Desks, one of which is height-adjustable
-- Trendoffice chairs and lockable roller cabinets
-- Three laptops, one with GPU, each with a 3-year warranty
-- Two monitors (from 17 inches, up to 100 euros) per person
-- 2 Visual Studio Pro licenses (item no. 23412-M-2343) starting from 01.02. or 01.03.
-- 1 large shelf (3x2 meters), please including assembly service
-
-Many thanks in advance!`,
-      checked: false,
-    },
-    {
-      name: 'Laptop',
-      date: '01.02.2025',
-      amount: '2',
-      vendor: 'Dell',
-      warranty: '3 years',
-      size: '',
-      price: '1450',
-      material: 'HW10_L1',
-      properties: '',
-      description: `Hello dear purchasing department,
-
-We need three new workstations with the following equipment by 01.02.2025:
-- Desks, one of which is height-adjustable
-- Trendoffice chairs and lockable roller cabinets
-- Three laptops, one with GPU, each with a 3-year warranty
-- Two monitors (from 17 inches, up to 100 euros) per person
-- 2 Visual Studio Pro licenses (item no. 23412-M-2343) starting from 01.02. or 01.03.
-- 1 large shelf (3x2 meters), please including assembly service
-
-Many thanks in advance!`,
-      checked: false,
-    },
-    {
-      name: 'Laptop',
-      date: '01.02.2025',
-      amount: '1',
-      vendor: 'Dell',
-      warranty: '3 years',
-      size: '',
-      price: '1850',
-      material: 'HW10_L1',
-      properties: 'with GPU',
-      description: `Hello dear purchasing department,
-
-We need three new workstations with the following equipment by 01.02.2025:
-- Desks, one of which is height-adjustable
-- Trendoffice chairs and lockable roller cabinets
-- Three laptops, one with GPU, each with a 3-year warranty
-- Two monitors (from 17 inches, up to 100 euros) per person
-- 2 Visual Studio Pro licenses (item no. 23412-M-2343) starting from 01.02. or 01.03.
-- 1 large shelf (3x2 meters), please including assembly service
-
-Many thanks in advance!`,
-      checked: false,
-    },
-    {
-      name: 'Monitor',
-      date: '01.02.2025',
-      amount: '6',
-      vendor: 'Dell',
-      warranty: '4 years',
-      size: 'more than 17 inch',
-      price: '100',
-      material: '',
-      properties: '',
-      description: `Hello dear purchasing department,
-
-We need three new workstations with the following equipment by 01.02.2025:
-- Desks, one of which is height-adjustable
-- Trendoffice chairs and lockable roller cabinets
-- Three laptops, one with GPU, each with a 3-year warranty
-- Two monitors (from 17 inches, up to 100 euros) per person
-- 2 Visual Studio Pro licenses (item no. 23412-M-2343) starting from 01.02. or 01.03.
-- 1 large shelf (3x2 meters), please including assembly service
-
-Many thanks in advance!`,
-      checked: false,
-    },
-    {
-      name: 'Visual Studio License',
-      date: '01.02.2025',
-      amount: '1',
-      vendor: 'Microsoft',
-      warranty: '',
-      size: '',
-      price: '199',
-      material: '23412-M-2343',
-      properties: '',
-      description: `Hello dear purchasing department,
-
-We need three new workstations with the following equipment by 01.02.2025:
-- Desks, one of which is height-adjustable
-- Trendoffice chairs and lockable roller cabinets
-- Three laptops, one with GPU, each with a 3-year warranty
-- Two monitors (from 17 inches, up to 100 euros) per person
-- 2 Visual Studio Pro licenses (item no. 23412-M-2343) starting from 01.02. or 01.03.
-- 1 large shelf (3x2 meters), please including assembly service
-
-Many thanks in advance!`,
-      checked: false,
-    },
-    {
-      name: 'Visual Studio Pro License',
-      date: '01.03.2025',
-      amount: '1',
-      vendor: 'Microsoft',
-      warranty: '',
-      size: '',
-      price: '299',
-      material: '23412-M-2343',
-      properties: '',
-      description: `Hello dear purchasing department,
-
-We need three new workstations with the following equipment by 01.02.2025:
-- Desks, one of which is height-adjustable
-- Trendoffice chairs and lockable roller cabinets
-- Three laptops, one with GPU, each with a 3-year warranty
-- Two monitors (from 17 inches, up to 100 euros) per person
-- 2 Visual Studio Pro licenses (item no. 23412-M-2343) starting from 01.02. or 01.03.
-- 1 large shelf (3x2 meters), please including assembly service
-
-Many thanks in advance!`,
-      checked: false,
-    },
-    {
-      name: 'Shelf - large',
-      date: '01.02.2025',
-      amount: '1',
-      vendor: '',
-      warranty: '',
-      size: '3x2 Meter',
-      price: '',
-      material: '',
-      properties: 'Including assembly service',
-      description: `Hello dear purchasing department,
-
-We need three new workstations with the following equipment by 01.02.2025:
-- Desks, one of which is height-adjustable
-- Trendoffice chairs and lockable roller cabinets
-- Three laptops, one with GPU, each with a 3-year warranty
-- Two monitors (from 17 inches, up to 100 euros) per person
-- 2 Visual Studio Pro licenses (item no. 23412-M-2343) starting from 01.02. or 01.03.
-- 1 large shelf (3x2 meters), please including assembly service
-
-Many thanks in advance!`,
-      checked: false,
-      rowspan: 2,
-    },
-    {
-      name: 'Assembly Service',
-      date: '01.02.2025',
-      amount: '1',
-      vendor: '',
-      warranty: '',
-      size: '',
-      price: '',
-      material: '',
-      properties: '',
-      isSpannedRow: true,
-    },
-  ];
-
-  chartData: any[] = [
-    { name: 'Desk', count: 50, percent: 20 },
-    { name: 'Desk', count: 70, percent: 30 },
-    { name: 'Chair', count: 120, percent: 30 },
-    { name: 'Roller cabinet', count: 150, percent: 30 },
-    { name: 'Laptop', count: 200, percent: 40 },
-    { name: 'Laptop', count: 250, percent: 50 },
-    { name: 'Visual Studio Licence', count: 200, percent: 10 },
-    { name: 'Visual Studio Pro Licence', count: 260, percent: 20 },
-    { name: 'Networking Equipment', count: 270, percent: 30 },
-    { name: 'Assembly Service', count: 100, percent: 20 },
-    { name: 'Office Software Subscription', count: 150, percent: 30 },
-    { name: 'Keyboard', count: 120, percent: 30 },
-  ];
+  tableRows = tableRows;
   chart: Chart | undefined;
   chartOptions: any;
 
   // filters
   vendors = Array.from(
-    new Set(this.tableRows.map((row) => row.vendor).filter((v) => v))
+    new Set(tableRows.map((row) => row.vendor).filter((v) => v))
   );
   selectedVendor = [];
-
-  warranties = ['1 year', '2 years', '3 years', '4 years'];
+  warranties = warranties;
   selectedWarranties = [];
-
   materials = Array.from(
-    new Set(this.tableRows.map((row) => row.material).filter((v) => v))
+    new Set(tableRows.map((row) => row.material).filter((v) => v))
   );
   selectedMaterials = [];
-
-  prices = [
-    'Under 50 EUR',
-    '50 - 100 EUR',
-    '100 - 500 EUR',
-    '500 - 750 EUR',
-    '750 - 1000 EUR',
-    'Over 1000 EUR',
-  ];
+  prices = prices;
   selectedPrices = [];
   date: Nullable<FdDate> = FdDate.getNow();
   selectedRange: Nullable<DateRange<FdDate>>;
@@ -332,7 +69,7 @@ Many thanks in advance!`,
   constructor(public dialogService: DialogService) {}
 
   ngOnInit(): void {
-    const data = this.chartData;
+    const data = chartData;
     this.chartOptions = {
       responsive: true,
       maintainAspectRatio: false,
@@ -425,7 +162,7 @@ Many thanks in advance!`,
             {
               label: 'Amount Purchesed',
               data: data.map((row) => row.count),
-              backgroundColor: '#5899da',
+              backgroundColor: '#5899da', // '0a6ed1','#5899da',
               maxBarThickness: 50, // Lățimea maximă a barelor
               yAxisID: 'y',
             },
@@ -471,14 +208,14 @@ Many thanks in advance!`,
     }
   }
   private _selectAll(): void {
-    this.tableRows.forEach((row) => (row.checked = true));
+    tableRows.forEach((row) => (row.checked = true));
   }
   private _deselectAll(): void {
-    this.tableRows.forEach((row) => (row.checked = false));
+    tableRows.forEach((row) => (row.checked = false));
   }
   private _getSelectAllValue(): boolean | null {
-    const checked = this.tableRows.filter((row) => row.checked);
-    if (checked.length === this.tableRows.length) {
+    const checked = tableRows.filter((row) => row.checked);
+    if (checked.length === tableRows.length) {
       return true;
     } else if (!checked.length) {
       return false;
@@ -502,7 +239,7 @@ Many thanks in advance!`,
     const dialogRef = this.dialogService.open(template, {
       responsivePadding: true,
       maxWidth: '800px',
-      data: this.tableRows[index],
+      data: tableRows[index],
       ariaLabelledBy: 'fd-dialog-header-7',
       ariaDescribedBy: 'fd-dialog-body-7',
     });

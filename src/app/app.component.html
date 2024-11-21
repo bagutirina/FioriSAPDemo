@@ -31,12 +31,13 @@
     </fd-dynamic-page-subheader>
     <fd-dynamic-page-content class="h-100 w-100 px12">
       <div class="table-container w-100 h-100 pb-4 pt-3">
-        <h4 fd-title class="flex-shrink-0">
-          Purchase requests ({{ tableRows.length }})
-        </h4>
-        <div class="d-flex w-100 gap-3 pb-3 pt-4">
+        <h4 fd-title class="flex-shrink-0">Purchase requests</h4>
+
+        <!-- filters -->
+        <fd-toolbar [shouldOverflow]="true">
           <!-- search -->
           <fd-input-group
+            fd-toolbar-item
             fdCompact
             glyph="search"
             glyphAriaLabel="Search"
@@ -49,9 +50,11 @@
             class="search-input"
           >
           </fd-input-group>
+          <fd-toolbar-spacer></fd-toolbar-spacer>
+          <fd-toolbar-separator></fd-toolbar-separator>
 
           <!-- date range -->
-          <div style="position: relative">
+          <div style="position: relative" fd-toolbar-item>
             <span fd-label class="filter-label">Due Date Range</span>
             <fd-date-picker
               fdCompact
@@ -61,9 +64,8 @@
             >
             </fd-date-picker>
           </div>
-
           <!-- vendor -->
-          <div style="position: relative">
+          <div style="position: relative" fd-toolbar-item>
             <span fd-label class="filter-label">Vendor</span>
             <fd-multi-input
               fdCompact
@@ -74,7 +76,7 @@
             ></fd-multi-input>
           </div>
           <!-- Warranty -->
-          <div style="position: relative">
+          <div style="position: relative" fd-toolbar-item>
             <span fd-label class="filter-label">Warranty</span>
             <fd-multi-input
               fdCompact
@@ -85,7 +87,7 @@
             ></fd-multi-input>
           </div>
           <!-- prise range -->
-          <div style="position: relative">
+          <div style="position: relative" fd-toolbar-item>
             <span fd-label class="filter-label">Price Range</span>
             <fd-multi-input
               fdCompact
@@ -96,7 +98,7 @@
             ></fd-multi-input>
           </div>
           <!-- material -->
-          <div style="position: relative">
+          <div style="position: relative" fd-toolbar-item>
             <span fd-label class="filter-label">Material</span>
             <fd-multi-input
               fdCompact
@@ -106,7 +108,16 @@
               style="width: 200px"
             ></fd-multi-input>
           </div>
-        </div>
+
+          <button
+            fdCompact
+            fd-toolbar-item
+            fd-button
+            label="Apply"
+            fdType="emphasized"
+            glyph="filter"
+          ></button>
+        </fd-toolbar>
 
         <div class="scrollable-table flex-grow-1 sap-flex-shrink-1">
           <table fd-table fdCompact [responsive]="true">
