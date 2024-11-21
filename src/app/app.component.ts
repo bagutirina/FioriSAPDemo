@@ -359,17 +359,7 @@ export class AppComponent {
   // shellbar
   actionNotificationCallback($event: any): void {
     console.log($event);
-    alert('Notification Action Clicked');
-  }
-  actionPoolCallback($event: any): void {
-    console.log($event);
-    alert('Pool Action Clicked');
-  }
-  onSearchSubmit($event: any): void {
-    this.searchTerm = $event.text;
-  }
-  onInputChange($event: any): void {
-    this.inputText = $event.text;
+    alert("Don't click this!   :)");
   }
 
   onSearchClick(): void {
