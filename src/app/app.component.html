@@ -56,7 +56,9 @@
       </div>
     </div>
   </fd-dynamic-page-subheader>
-  <fd-dynamic-page-content class="h-100 w-100 px12">
+  <fd-dynamic-page-content
+    class="h-100 w-100 {{ !suppliersOnCategories ? 'px12' : 'px120' }}"
+  >
     <fd-flexible-column-layout [(layout)]="layout" class="h-100 w-100 d-flex">
       <ng-template #startColumn>
         <div
@@ -300,7 +302,7 @@
       </ng-template>
       <ng-template #midColumn>
         <div
-          class="d-flex w-100 h-100 flex-column"
+          class="d-flex w-100 h-100 flex-column pe-2"
           *ngIf="suppliersOnCategories"
         >
           <!-- header: title + close button -->

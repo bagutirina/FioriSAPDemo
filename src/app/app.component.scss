@@ -205,13 +205,21 @@ fd-card {
   }
 }
 
-.px12 {
-  padding: 1rem 2rem !important;
-}
-
 ::ng-deep {
   .fd-scrollbar {
     scrollbar-color: var(--sapScrollBarThumb) var(--sapBackgroundColor) !important;
     scrollbar-width: thin;
   }
+}
+
+.close-button {
+  margin-right: -2px;
+}
+
+.px12 {
+  padding: 1rem 2rem !important;
+}
+
+.px120 {
+  padding: 1rem 0rem 1rem 2rem !important;
 }
