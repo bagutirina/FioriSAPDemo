@@ -211,3 +211,9 @@ fd-card {
   font-weight: 500 !important;
   color: var(--sapActiveColor);
 }
+
+::ng-deep {
+  .fd-scrollbar {
+    scrollbar-color: var(--fdScrollbar_Thumb_Color) var(--sapBackgroundColor) !important;
+  }
+}
