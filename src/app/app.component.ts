@@ -17,7 +17,13 @@ import {
 } from '@fundamental-ngx/core/datetime';
 import { DateRange } from '@fundamental-ngx/core/calendar';
 import { Nullable } from '@fundamental-ngx/cdk/utils';
-import { chartData, prices, products, warranties } from './app.data';
+import {
+  categories,
+  chartData,
+  prices,
+  products,
+  warranties,
+} from './app.data';
 
 @Component({
   selector: 'app-root',
@@ -39,22 +45,22 @@ export class AppComponent {
   title = 'Fiori SAP Demo';
   checkboxValue: boolean | null = false;
   hoveredRowIndex: any;
-  filterVal = '';
+  searchText = '';
   ascending = false;
   sortByKey = '';
-  tableRows = products;
+  products = products;
   chart: Chart | undefined;
   chartOptions: any;
 
   // filters
   vendors = Array.from(
-    new Set(this.tableRows.map((row) => row.vendor).filter((v) => v))
+    new Set(products.map((row) => row.vendor).filter((v) => v))
   );
   selectedVendor = [];
   warranties = warranties;
   selectedWarranties = [];
   materials = Array.from(
-    new Set(this.tableRows.map((row) => row.material).filter((v) => v))
+    new Set(products.map((row) => row.material).filter((v) => v))
   );
   selectedMaterials = [];
   prices = prices;
@@ -66,6 +72,7 @@ export class AppComponent {
   selectedProducts: any;
 
   suppliers: any;
+  suppliersOnCategories: any;
 
   user: ShellbarUser = {
     fullName: 'William Willson',
@@ -74,13 +81,20 @@ export class AppComponent {
   };
 
   userMenu: ShellbarUserMenu[] = [
-    { text: 'Settings', callback: this.settingsCallback },
-    { text: 'Sign Out', callback: this.signOutCallback },
+    { text: 'Settings', callback: () => {} },
+    {
+      text: 'Sign Out',
+      callback: () => {
+        alert('Goodbye...');
+      },
+    },
   ];
   actions = [
     {
       glyph: 'bell',
-      callback: this.actionNotificationCallback,
+      callback: () => {
+        alert("Don't click this!   :)");
+      },
       label: 'Notifications',
       notificationCount: 1,
       notificationLabel: 'Unread Notifications',
@@ -216,18 +230,10 @@ export class AppComponent {
     );
   }
 
-  settingsCallback(): void {
-    alert('Settings Clicked');
-  }
-
-  signOutCallback(): void {
-    alert('Sign Out Clicked');
-  }
-
   // Select all
   select(i: any): void {
-    if (this.tableRows[i].rowSpan) {
-      this.tableRows[i + 1].checked = !this.tableRows[i + 1].checked;
+    if (products[i].rowSpan) {
+      products[i + 1].checked = !products[i + 1].checked;
     }
     this._setSelectAllValue();
   }
@@ -240,14 +246,14 @@ export class AppComponent {
     }
   }
   private _selectAll(): void {
-    this.tableRows.forEach((row) => (row.checked = true));
+    products.forEach((row) => (row.checked = true));
   }
   private _deselectAll(): void {
-    this.tableRows.forEach((row) => (row.checked = false));
+    products.forEach((row) => (row.checked = false));
   }
   private _getSelectAllValue(): boolean | null {
-    const checked = this.tableRows.filter((row) => row.checked);
-    if (checked.length === this.tableRows.length) {
+    const checked = products.filter((row) => row.checked);
+    if (checked.length === products.length) {
       return true;
     } else if (!checked.length) {
       return false;
@@ -271,7 +277,7 @@ export class AppComponent {
     const dialogRef = this.dialogService.open(template, {
       responsivePadding: true,
       maxWidth: '800px',
-      data: this.tableRows[index],
+      data: products[index],
       ariaLabelledBy: 'fd-dialog-header-7',
       ariaDescribedBy: 'fd-dialog-body-7',
     });
@@ -283,37 +289,21 @@ export class AppComponent {
   }
 
   // shellbar
-  actionNotificationCallback($event: any): void {
-    console.log($event);
-    alert("Don't click this!   :)");
-  }
-
-  onSearchClick(): void {
-    console.log('Search icon clicked');
-    // Poți deschide un popup sau naviga către o altă funcționalitate
-  }
-
   setGroupHovering(i: any, clear = false) {
-    if (this.tableRows[i].rowSpan) {
-      this.tableRows[i + 1].hovered = !clear;
-    } else if (this.tableRows[i].isRowSpanChild) {
-      this.tableRows[i - 1].hovered = !clear;
+    if (products[i].rowSpan) {
+      products[i + 1].hovered = !clear;
+    } else if (products[i].isRowSpanChild) {
+      products[i - 1].hovered = !clear;
     }
   }
 
   prepareSuppliers() {
     this.selectedProducts = Array.from(
-      new Set(
-        this.tableRows
-          .filter((row) => row.checked)
-          .map(
-            (row) =>
-              row.name + (row.vendor ? ' <b>' + row.vendor + '</b> ' : '')
-          )
-      )
+      new Set(products.filter((row) => row.checked).map((row) => row.name))
     );
+
     this.suppliers = Array.from(
-      this.tableRows
+      products
         .filter((row) => row.checked) // Filtrează doar rândurile bifate
         .flatMap((row) => row.suppliers || []) // Creează o listă de toți supplierii din rândurile bifate
         .reduce((acc, supplier) => {
@@ -323,5 +313,25 @@ export class AppComponent {
         }, new Map()) // Initializează cu un Map gol
         .values() // Extrage doar valorile unice
     );
+
+    this.suppliersOnCategories = categories.map((category) => {
+      // Filtrăm produsele din categoria curentă și cu `checked: true`
+      const filteredProducts = products.filter(
+        (product) => product.checked && product.category === category.id
+      );
+
+      // Construim obiectul categoriei
+      return {
+        name: category.name,
+        products: filteredProducts.map((product) => product.name), // Numele produselor
+        suppliers: Array.from(
+          new Map(
+            filteredProducts
+              .flatMap((product) => product.suppliers || []) // Adunăm toți supplierii
+              .map((supplier) => [supplier.name, supplier]) // Mapăm pentru a obține unici
+          ).values()
+        ), // Valori unice pe baza numelui furnizorului
+      };
+    });
   }
 }

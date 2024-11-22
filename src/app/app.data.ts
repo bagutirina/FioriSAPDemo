@@ -45,6 +45,7 @@ export const products: any[] = [
         image: 'assets/images/stapples.jpg',
       },
     ],
+    category: 1,
   },
   {
     name: 'Desk',
@@ -90,6 +91,7 @@ export const products: any[] = [
         image: 'assets/images/stapples.jpg',
       },
     ],
+    category: 1,
   },
   {
     name: 'Chair',
@@ -115,6 +117,7 @@ export const products: any[] = [
         image: 'assets/images/office.jpg',
       },
     ],
+    category: 1,
   },
   {
     name: 'Roller Cabinet',
@@ -140,6 +143,7 @@ export const products: any[] = [
         image: 'assets/images/schafer.png',
       },
     ],
+    category: 1,
   },
   {
     name: 'Laptop',
@@ -165,6 +169,7 @@ export const products: any[] = [
         image: 'assets/images/bechtle.jpg',
       },
     ],
+    category: 2,
   },
   {
     name: 'Laptop',
@@ -190,6 +195,7 @@ export const products: any[] = [
         image: 'assets/images/bechtle.jpg',
       },
     ],
+    category: 2,
   },
   {
     name: 'Monitor',
@@ -215,6 +221,7 @@ export const products: any[] = [
         image: 'assets/images/saturn.png',
       },
     ],
+    category: 2,
   },
   {
     name: 'Visual Studio License',
@@ -240,6 +247,7 @@ export const products: any[] = [
         image: 'assets/images/compuwave.jpg',
       },
     ],
+    category: 3,
   },
   {
     name: 'Visual Studio Pro License',
@@ -265,6 +273,7 @@ export const products: any[] = [
         image: 'assets/images/compuwave.jpg',
       },
     ],
+    category: 3,
   },
   {
     name: 'Shelf - large',
@@ -291,6 +300,7 @@ export const products: any[] = [
         image: 'assets/images/obi.png',
       },
     ],
+    category: 4,
   },
   {
     name: 'Assembly Service',
@@ -315,6 +325,7 @@ export const products: any[] = [
         image: 'assets/images/task.png',
       },
     ],
+    category: 4,
   },
 ];
 

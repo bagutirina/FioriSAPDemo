@@ -14,11 +14,7 @@
     [userMenu]="userMenu"
     [closePopoverOnSelect]="true"
   >
-    <fd-shellbar-action
-      glyph="search"
-      ariaLabel="Search"
-      (callback)="onSearchClick()"
-    ></fd-shellbar-action>
+    <fd-shellbar-action glyph="search" ariaLabel="Search"></fd-shellbar-action>
 
     <fd-shellbar-action
       *ngFor="let action of actions"
@@ -70,7 +66,6 @@
           <div class="d-flex flex-column w-100 flex-grow-0 flex-shrink-0">
             <h4 fd-title class="flex-shrink-0">Purchase Requests</h4>
             <!-- filters -->
-
             <fd-toolbar [shouldOverflow]="false">
               <!-- search -->
               <fd-input-group
@@ -82,8 +77,8 @@
                 placeholder="Search"
                 [button]="true"
                 [disabled]="false"
-                [(ngModel)]="filterVal"
-                (addOnButtonClicked)="filterVal = ''"
+                [(ngModel)]="searchText"
+                (addOnButtonClicked)="searchText = ''"
                 class="search-input"
               >
               </fd-input-group>
@@ -139,7 +134,6 @@
                   [(ngModel)]="selectedMaterials"
                 ></fd-multi-input>
               </div>
-              <!-- <button fdCompact fd-toolbar-item fd-button label="Apply"></button> -->
               <fd-toolbar-separator></fd-toolbar-separator>
               <button
                 [disabled]="checkboxValue === false"
@@ -177,15 +171,14 @@
                   <th fd-table-cell class="text-end pe-4">Price</th>
                   <th fd-table-cell>Material</th>
                   <th fd-table-cell>Description</th>
-                  <!-- <th fd-table-cell class="col-checkSuppliers"></th> -->
                   <th fd-table-cell></th>
                 </tr>
               </thead>
               <tbody fd-table-body [noBorderY]="true">
                 <tr
                   *ngFor="
-                    let row of tableRows
-                      | filter : filterVal : 'name'
+                    let row of products
+                      | filter : searchText : 'name'
                       | sortBy : ascending : sortByKey;
                     let i = index
                   "
@@ -312,7 +305,7 @@
               <div class="d-flex flex-column w-100 flex-shrink-1 flex-grow-1">
                 <h4 fd-title>Suppliers</h4>
                 <span
-                  class="custom-bold pt-2"
+                  class="pt-2"
                   fd-text
                   [innerHTML]="selectedProducts.join(', ')"
                 ></span>
