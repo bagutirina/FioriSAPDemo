@@ -148,7 +148,9 @@
                 fd-button
                 label="Check Suppliers"
                 fdType="emphasized"
-                (click)="setSuppliers(); changeLayout('OneColumnMidFullScreen')"
+                (click)="
+                  prepareSuppliers(); changeLayout('OneColumnMidFullScreen')
+                "
               ></button>
             </fd-toolbar>
           </div>
@@ -338,9 +340,27 @@
               cardType="list"
               *ngFor="let supplier of suppliers"
             >
-              <fd-card-header style="height: 140px">
+              <fd-card-header>
+                <fd-avatar
+                  *ngIf="supplier.image; else placeholder"
+                  [image]="supplier.image"
+                  [circle]="true"
+                  size="s"
+                  ariaLabel="avatar image"
+                  title="avatar image"
+                ></fd-avatar>
+                <ng-template #placeholder>
+                  <fd-avatar
+                    [circle]="true"
+                    [placeholder]="true"
+                    size="s"
+                    glyph="company-view"
+                  ></fd-avatar>
+                </ng-template>
                 <h2 fd-card-title>{{ supplier.name }}</h2>
-                <h3 fd-card-subtitle>{{ supplier.description }}</h3>
+                <a fd-link fd-card-subtitle [href]="supplier.link">{{
+                  supplier.link
+                }}</a>
               </fd-card-header>
               <fd-card-footer>
                 <button *fdCardFooterActionItem fd-button>Ask for quote</button>

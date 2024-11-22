@@ -17,7 +17,7 @@ import {
 } from '@fundamental-ngx/core/datetime';
 import { DateRange } from '@fundamental-ngx/core/calendar';
 import { Nullable } from '@fundamental-ngx/cdk/utils';
-import { chartData, prices, tableRows, warranties } from './app.data';
+import { chartData, prices, products, warranties } from './app.data';
 
 @Component({
   selector: 'app-root',
@@ -42,19 +42,19 @@ export class AppComponent {
   filterVal = '';
   ascending = false;
   sortByKey = '';
-  tableRows = tableRows;
+  tableRows = products;
   chart: Chart | undefined;
   chartOptions: any;
 
   // filters
   vendors = Array.from(
-    new Set(tableRows.map((row) => row.vendor).filter((v) => v))
+    new Set(this.tableRows.map((row) => row.vendor).filter((v) => v))
   );
   selectedVendor = [];
   warranties = warranties;
   selectedWarranties = [];
   materials = Array.from(
-    new Set(tableRows.map((row) => row.material).filter((v) => v))
+    new Set(this.tableRows.map((row) => row.material).filter((v) => v))
   );
   selectedMaterials = [];
   prices = prices;
@@ -240,14 +240,14 @@ export class AppComponent {
     }
   }
   private _selectAll(): void {
-    tableRows.forEach((row) => (row.checked = true));
+    this.tableRows.forEach((row) => (row.checked = true));
   }
   private _deselectAll(): void {
-    tableRows.forEach((row) => (row.checked = false));
+    this.tableRows.forEach((row) => (row.checked = false));
   }
   private _getSelectAllValue(): boolean | null {
-    const checked = tableRows.filter((row) => row.checked);
-    if (checked.length === tableRows.length) {
+    const checked = this.tableRows.filter((row) => row.checked);
+    if (checked.length === this.tableRows.length) {
       return true;
     } else if (!checked.length) {
       return false;
@@ -271,7 +271,7 @@ export class AppComponent {
     const dialogRef = this.dialogService.open(template, {
       responsivePadding: true,
       maxWidth: '800px',
-      data: tableRows[index],
+      data: this.tableRows[index],
       ariaLabelledBy: 'fd-dialog-header-7',
       ariaDescribedBy: 'fd-dialog-body-7',
     });
@@ -301,10 +301,10 @@ export class AppComponent {
     }
   }
 
-  setSuppliers() {
+  prepareSuppliers() {
     this.selectedProducts = Array.from(
       new Set(
-        tableRows
+        this.tableRows
           .filter((row) => row.checked)
           .map(
             (row) =>
@@ -313,7 +313,7 @@ export class AppComponent {
       )
     );
     this.suppliers = Array.from(
-      tableRows
+      this.tableRows
         .filter((row) => row.checked) // Filtrează doar rândurile bifate
         .flatMap((row) => row.suppliers || []) // Creează o listă de toți supplierii din rândurile bifate
         .reduce((acc, supplier) => {

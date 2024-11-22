@@ -10,7 +10,7 @@ We need three new workstations with the following equipment by 01.02.2025:
 
 Many thanks in advance!`;
 
-export const tableRows: any[] = [
+export const products: any[] = [
   {
     name: 'Desk',
     date: '01.02.2025',
@@ -24,8 +24,26 @@ export const tableRows: any[] = [
     description: descriptionExample,
     checked: false,
     suppliers: [
-      { name: 'IKEA Deutschland', description: 'https://www.ikea.com/de/de/' },
-      { name: 'Home24', description: 'https://www.home24.de/' },
+      {
+        name: 'IKEA Deutschland',
+        link: 'https://www.ikea.com',
+        image: 'assets/images/ikea.jpg',
+      },
+      {
+        name: 'Home24',
+        link: 'https://www.home24.de',
+        image: 'assets/images/home24.jpg',
+      },
+      {
+        name: 'Höffner',
+        link: 'https://www.hoeffner.de/',
+        image: 'assets/images/hoff.jpg',
+      },
+      {
+        name: 'Staples',
+        link: 'https://www.staples.de/',
+        image: 'assets/images/stapples.jpg',
+      },
     ],
   },
   {
@@ -41,8 +59,36 @@ export const tableRows: any[] = [
     description: descriptionExample,
     checked: false,
     suppliers: [
-      { name: 'IKEA Deutschland', description: 'https://www.ikea.com/de/de/' },
-      { name: 'OTTO', description: 'https://www.otto.de/' },
+      {
+        name: 'IKEA Deutschland',
+        link: 'https://www.ikea.com',
+        image: 'assets/images/ikea.jpg',
+      },
+      {
+        name: 'OTTO',
+        link: 'https://www.otto.de',
+        image: 'assets/images/otto.png',
+      },
+      {
+        name: 'Möbel Martin',
+        link: 'https://www.moebel-martin.de',
+        image: 'assets/images/mobel.jpg',
+      },
+      {
+        name: 'Habitat',
+        link: 'https://www.habitat.de',
+        image: 'assets/images/habitat.png',
+      },
+      {
+        name: 'Höffner',
+        link: 'https://www.hoeffner.de',
+        image: 'assets/images/hoff.jpg',
+      },
+      {
+        name: 'Staples',
+        link: 'https://www.staples.de',
+        image: 'assets/images/stapples.jpg',
+      },
     ],
   },
   {
@@ -58,10 +104,15 @@ export const tableRows: any[] = [
     description: descriptionExample,
     checked: false,
     suppliers: [
-      { name: 'Staples', description: 'https://www.staples.de/' },
+      {
+        name: 'Staples',
+        link: 'https://www.staples.de',
+        image: 'assets/images/stapples.jpg',
+      },
       {
         name: 'Office Discount',
-        description: 'https://www.office-discount.de/',
+        link: 'https://www.office-discount.de',
+        image: 'assets/images/office.jpg',
       },
     ],
   },
@@ -78,8 +129,16 @@ export const tableRows: any[] = [
     description: descriptionExample,
     checked: false,
     suppliers: [
-      { name: 'Staples', description: 'https://www.staples.de/' },
-      { name: 'Schäfer Shop', description: 'https://www.schaefer-shop.de/' },
+      {
+        name: 'Staples',
+        link: 'https://www.staples.de',
+        image: 'assets/images/stapples.jpg',
+      },
+      {
+        name: 'Schäfer Shop',
+        link: 'https://www.schaefer-shop.de',
+        image: 'assets/images/schafer.png',
+      },
     ],
   },
   {
@@ -95,8 +154,16 @@ export const tableRows: any[] = [
     description: descriptionExample,
     checked: false,
     suppliers: [
-      { name: 'Computacenter', description: 'https://www.computacenter.com/' },
-      { name: 'Bechtle', description: 'https://www.bechtle.com/' },
+      {
+        name: 'Computacenter',
+        link: 'https://www.computacenter.com',
+        image: 'assets/images/computa.jpg',
+      },
+      {
+        name: 'Bechtle',
+        link: 'https://www.bechtle.com',
+        image: 'assets/images/bechtle.jpg',
+      },
     ],
   },
   {
@@ -112,8 +179,16 @@ export const tableRows: any[] = [
     description: descriptionExample,
     checked: false,
     suppliers: [
-      { name: 'Computacenter', description: 'https://www.computacenter.com/' },
-      { name: 'Bechtle', description: 'https://www.bechtle.com/' },
+      {
+        name: 'Computacenter',
+        link: 'https://www.computacenter.com',
+        image: 'assets/images/computa.jpg',
+      },
+      {
+        name: 'Bechtle',
+        link: 'https://www.bechtle.com',
+        image: 'assets/images/bechtle.jpg',
+      },
     ],
   },
   {
@@ -129,8 +204,16 @@ export const tableRows: any[] = [
     description: descriptionExample,
     checked: false,
     suppliers: [
-      { name: 'MediaMarkt', description: 'https://www.mediamarkt.de/' },
-      { name: 'Saturn', description: 'https://www.saturn.de/' },
+      {
+        name: 'MediaMarkt',
+        link: 'https://www.mediamarkt.de',
+        image: 'assets/images/mediamarket.jpg',
+      },
+      {
+        name: 'Saturn',
+        link: 'https://www.saturn.de',
+        image: 'assets/images/saturn.png',
+      },
     ],
   },
   {
@@ -146,8 +229,16 @@ export const tableRows: any[] = [
     description: descriptionExample,
     checked: false,
     suppliers: [
-      { name: 'SoftwareONE', description: 'https://www.softwareone.com/' },
-      { name: 'Compuwave', description: 'https://www.compuwave.de/' },
+      {
+        name: 'SoftwareONE',
+        link: 'https://www.softwareone.com',
+        image: 'assets/images/softerone.png',
+      },
+      {
+        name: 'Compuwave',
+        link: 'https://www.compuwave.de',
+        image: 'assets/images/compuwave.jpg',
+      },
     ],
   },
   {
@@ -163,8 +254,16 @@ export const tableRows: any[] = [
     description: descriptionExample,
     checked: false,
     suppliers: [
-      { name: 'SoftwareONE', description: 'https://www.softwareone.com/' },
-      { name: 'Compuwave', description: 'https://www.compuwave.de/' },
+      {
+        name: 'SoftwareONE',
+        link: 'https://www.softwareone.com',
+        image: 'assets/images/softerone.png',
+      },
+      {
+        name: 'Compuwave',
+        link: 'https://www.compuwave.de',
+        image: 'assets/images/compuwave.jpg',
+      },
     ],
   },
   {
@@ -181,8 +280,16 @@ export const tableRows: any[] = [
     checked: false,
     rowSpan: 2,
     suppliers: [
-      { name: 'Hornbach', description: 'https://www.hornbach.de/' },
-      { name: 'OBI', description: 'https://www.obi.de/' },
+      {
+        name: 'Hornbach',
+        link: 'https://www.hornbach.de',
+        image: 'assets/images/horn.png',
+      },
+      {
+        name: 'OBI',
+        link: 'https://www.obi.de',
+        image: 'assets/images/obi.png',
+      },
     ],
   },
   {
@@ -197,9 +304,36 @@ export const tableRows: any[] = [
     properties: '',
     isRowSpanChild: true,
     suppliers: [
-      { name: 'MyHammer', description: 'https://www.my-hammer.de/' },
-      { name: 'TaskRabbit', description: 'https://www.taskrabbit.de/' },
+      {
+        name: 'MyHammer',
+        link: 'https://www.my-hammer.de',
+        image: 'assets/images/hammer.png',
+      },
+      {
+        name: 'TaskRabbit',
+        link: 'https://www.taskrabbit.de',
+        image: 'assets/images/task.png',
+      },
     ],
+  },
+];
+
+export const categories: any[] = [
+  {
+    id: 1,
+    name: 'Office Equipment',
+  },
+  {
+    id: 2,
+    name: 'Hardware',
+  },
+  {
+    id: 3,
+    name: 'Software',
+  },
+  {
+    id: 4,
+    name: 'Others',
   },
 ];
 

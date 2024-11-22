@@ -194,13 +194,16 @@ fd-dynamic-page-header {
 }
 
 fd-card {
-  width: 270px;
-  height: 160px;
+  width: 300px;
+  height: 150px;
   max-height: 160px;
   box-sizing: border-box; /* Asigură că padding-ul nu afectează dimensiunea */
   flex-shrink: 0;
   flex-grow: 0;
   min-height: 0;
+  ::ng-deep .fd-card__header {
+    height: 100px;
+  }
 }
 
 .px12 {
