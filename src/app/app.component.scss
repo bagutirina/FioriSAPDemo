@@ -121,13 +121,9 @@ fd-toolbar ::ng-deep .fd-toolbar.fd-toolbar--solid {
   padding-bottom: 30px;
   padding-left: 0px;
 }
-small {
-  font-size: 12px;
-  font-weight: 600;
-}
 
 .fd-table__row.rowSpan[aria-selected="true"] {
-  .fd-table__cell:not(.col-checkSuppliers):not(.col-check) {
+  .fd-table__cell:not(.col-checkSuppliers):not(.col-check):not(.col-details) {
     border-bottom-color: transparent;
   }
 
@@ -140,6 +136,9 @@ small {
 
 .fd-table__row.hovered:not(.checked) {
   background-color: var(--sapList_Hover_Background);
+}
+.fd-table__row.hovered.checked {
+  background-color: var(--sapList_Hover_SelectionBackground);
 }
 
 // layout

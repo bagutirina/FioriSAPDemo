@@ -244,6 +244,7 @@
                     <span fd-table-text>{{ row.properties }}</span>
                   </td>
                   <td
+                    class="col-details"
                     *ngIf="!row.isRowSpanChild"
                     [attr.rowSpan]="row.rowSpan || 1"
                     fd-table-cell
