@@ -186,7 +186,6 @@ fd-dynamic-page-header {
 .card-container {
   display: flex;
   flex-wrap: wrap;
-  gap: 1.5rem;
   justify-content: flex-start; /* Cardurile sunt aliniate la stânga */
   align-items: flex-start; /* Fiecare rând se aliniază corect */
   padding: 1rem 1rem 1rem 0rem;
@@ -194,7 +193,7 @@ fd-dynamic-page-header {
 }
 
 fd-card {
-  width: 300px;
+  width: 320px;
   height: 150px;
   max-height: 160px;
   box-sizing: border-box; /* Asigură că padding-ul nu afectează dimensiunea */
@@ -215,8 +214,4 @@ fd-card {
     scrollbar-color: var(--sapScrollBarThumb) var(--sapBackgroundColor) !important;
     scrollbar-width: thin;
   }
-}
-
-.close-button {
-  margin-right: -6px;
 }

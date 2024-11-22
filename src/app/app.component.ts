@@ -294,29 +294,31 @@ export class AppComponent {
   }
 
   prepareSuppliers() {
-    this.suppliersOnCategories = categories.map((category) => {
-      const filteredProducts = products.filter(
-        (product) => product.checked && product.category === category.id
-      );
+    this.suppliersOnCategories = categories
+      .map((category) => {
+        const filteredProducts = products.filter(
+          (product) => product.checked && product.category === category.id
+        );
 
-      // Obținem produse unice după nume
-      const uniqueProducts = Array.from(
-        new Map(
-          filteredProducts.map((product) => [product.name, product])
-        ).values()
-      );
-
-      return {
-        name: category.name,
-        products: uniqueProducts.map((product) => product.name),
-        suppliers: Array.from(
+        // Obținem produse unice după nume
+        const uniqueProducts = Array.from(
           new Map(
-            uniqueProducts
-              .flatMap((product) => product.suppliers || [])
-              .map((supplier) => [supplier.name, supplier])
+            filteredProducts.map((product) => [product.name, product])
           ).values()
-        ),
-      };
-    });
+        );
+
+        return {
+          name: category.name,
+          products: uniqueProducts.map((product) => product.name),
+          suppliers: Array.from(
+            new Map(
+              uniqueProducts
+                .flatMap((product) => product.suppliers || [])
+                .map((supplier) => [supplier.name, supplier])
+            ).values()
+          ),
+        };
+      })
+      .filter((category) => category.suppliers?.length);
   }
 }
