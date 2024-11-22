@@ -61,93 +61,99 @@
     </div>
   </fd-dynamic-page-subheader>
   <fd-dynamic-page-content class="h-100 w-100 px12">
-    <fd-flexible-column-layout [(layout)]="layout">
+    <fd-flexible-column-layout [(layout)]="layout" class="h-100 w-100 d-flex">
       <ng-template #startColumn>
-        <div class="table-container w-100 h-100 pb-1 pt-2">
-          <h4 fd-title class="flex-shrink-0">Purchase Requests</h4>
-          <!-- filters -->
+        <div
+          class="table-container d-flex w-100 h-100 pb-1 pt-2"
+          *ngIf="!suppliers"
+        >
+          <div class="d-flex flex-column w-100 flex-grow-0 flex-shrink-0">
+            <h4 fd-title class="flex-shrink-0">Purchase Requests</h4>
+            <!-- filters -->
 
-          <fd-toolbar [shouldOverflow]="false">
-            <!-- search -->
-            <fd-input-group
-              fd-toolbar-item
-              fdCompact
-              glyph="search"
-              glyphAriaLabel="Search"
-              title="Search"
-              placeholder="Search"
-              [button]="true"
-              [disabled]="false"
-              [(ngModel)]="filterVal"
-              (addOnButtonClicked)="filterVal = ''"
-              class="search-input"
-            >
-            </fd-input-group>
-
-            <!-- date range -->
-            <div class="filter-item" fd-toolbar-item>
-              <span fd-label class="filter-label">Due Date Range</span>
-              <fd-date-picker
+            <fd-toolbar [shouldOverflow]="false">
+              <!-- search -->
+              <fd-input-group
+                fd-toolbar-item
                 fdCompact
-                type="range"
-                [showTodayButton]="true"
-                [(ngModel)]="selectedRange"
+                glyph="search"
+                glyphAriaLabel="Search"
+                title="Search"
+                placeholder="Search"
+                [button]="true"
+                [disabled]="false"
+                [(ngModel)]="filterVal"
+                (addOnButtonClicked)="filterVal = ''"
+                class="search-input"
               >
-              </fd-date-picker>
-            </div>
-            <!-- vendor -->
-            <div class="filter-item" fd-toolbar-item>
-              <span fd-label class="filter-label">Vendor</span>
-              <fd-multi-input
+              </fd-input-group>
+
+              <!-- date range -->
+              <div class="filter-item" fd-toolbar-item>
+                <span fd-label class="filter-label">Due Date Range</span>
+                <fd-date-picker
+                  fdCompact
+                  type="range"
+                  [showTodayButton]="true"
+                  [(ngModel)]="selectedRange"
+                >
+                </fd-date-picker>
+              </div>
+              <!-- vendor -->
+              <div class="filter-item" fd-toolbar-item>
+                <span fd-label class="filter-label">Vendor</span>
+                <fd-multi-input
+                  fdCompact
+                  inputId="dropdownExampleInput1"
+                  [dropdownValues]="vendors"
+                  [(ngModel)]="selectedVendor"
+                ></fd-multi-input>
+              </div>
+              <!-- Warranty -->
+              <div class="filter-item" fd-toolbar-item>
+                <span fd-label class="filter-label">Warranty</span>
+                <fd-multi-input
+                  fdCompact
+                  inputId="dropdownExampleInput1"
+                  [dropdownValues]="warranties"
+                  [(ngModel)]="selectedWarranties"
+                ></fd-multi-input>
+              </div>
+              <!-- prise range -->
+              <div class="filter-item" fd-toolbar-item>
+                <span fd-label class="filter-label">Price Range</span>
+                <fd-multi-input
+                  fdCompact
+                  inputId="dropdownExampleInput1"
+                  [dropdownValues]="prices"
+                  [(ngModel)]="selectedPrices"
+                ></fd-multi-input>
+              </div>
+              <!-- material -->
+              <div class="filter-item" fd-toolbar-item>
+                <span fd-label class="filter-label">Material</span>
+                <fd-multi-input
+                  fdCompact
+                  inputId="dropdownExampleInput1"
+                  [dropdownValues]="materials"
+                  [(ngModel)]="selectedMaterials"
+                ></fd-multi-input>
+              </div>
+              <!-- <button fdCompact fd-toolbar-item fd-button label="Apply"></button> -->
+              <fd-toolbar-separator></fd-toolbar-separator>
+              <button
+                [disabled]="checkboxValue === false"
                 fdCompact
-                inputId="dropdownExampleInput1"
-                [dropdownValues]="vendors"
-                [(ngModel)]="selectedVendor"
-              ></fd-multi-input>
-            </div>
-            <!-- Warranty -->
-            <div class="filter-item" fd-toolbar-item>
-              <span fd-label class="filter-label">Warranty</span>
-              <fd-multi-input
-                fdCompact
-                inputId="dropdownExampleInput1"
-                [dropdownValues]="warranties"
-                [(ngModel)]="selectedWarranties"
-              ></fd-multi-input>
-            </div>
-            <!-- prise range -->
-            <div class="filter-item" fd-toolbar-item>
-              <span fd-label class="filter-label">Price Range</span>
-              <fd-multi-input
-                fdCompact
-                inputId="dropdownExampleInput1"
-                [dropdownValues]="prices"
-                [(ngModel)]="selectedPrices"
-              ></fd-multi-input>
-            </div>
-            <!-- material -->
-            <div class="filter-item" fd-toolbar-item>
-              <span fd-label class="filter-label">Material</span>
-              <fd-multi-input
-                fdCompact
-                inputId="dropdownExampleInput1"
-                [dropdownValues]="materials"
-                [(ngModel)]="selectedMaterials"
-              ></fd-multi-input>
-            </div>
-            <!-- <button fdCompact fd-toolbar-item fd-button label="Apply"></button> -->
-            <fd-toolbar-separator></fd-toolbar-separator>
-            <button
-              [disabled]="checkboxValue === false"
-              fdCompact
-              fd-toolbar-item
-              fd-button
-              label="Check Suppliers"
-              fdType="emphasized"
-              (click)="setSuppliers(); changeLayout('OneColumnMidFullScreen')"
-            ></button>
-          </fd-toolbar>
-          <div class="scrollable-table flex-grow-1 sap-flex-shrink-1">
+                fd-toolbar-item
+                fd-button
+                label="Check Suppliers"
+                fdType="emphasized"
+                (click)="setSuppliers(); changeLayout('OneColumnMidFullScreen')"
+              ></button>
+            </fd-toolbar>
+          </div>
+
+          <div class="scrollable-table flex-grow-1 flex-shrink-1">
             <table fd-table fdCompact [responsive]="true">
               <thead fd-table-header [noBorderY]="true">
                 <tr fd-table-row>
@@ -298,15 +304,21 @@
         </div>
       </ng-template>
       <ng-template #midColumn>
-        <div class="d-flex justify-content-between" *ngIf="suppliers">
-          <div class="d-flex flex-column h-100">
-            <h4 fd-title>Suppliers</h4>
-            <span
-              class="custom-bold pt-2"
-              fd-text
-              [innerHTML]="selectedProducts.join(', ')"
-            ></span>
-            <div class="card-container gap-3">
+        <div
+          class="d-flex w-100 h-100 justify-content-between"
+          *ngIf="suppliers"
+        >
+          <div class="d-flex flex-column h-100 flex-grow-1 flex-shrink-1">
+            <div class="d-flex flex-column w-100 flex-shrink-0 flex-grow-0">
+              <h4 fd-title>Suppliers</h4>
+              <span
+                class="custom-bold pt-2"
+                fd-text
+                [innerHTML]="selectedProducts.join(', ')"
+              ></span>
+            </div>
+
+            <div class="card-container gap-3 flex-grow-1 flex-shrink-1">
               <fd-card
                 fdCompact
                 cardType="list"
@@ -326,6 +338,7 @@
           </div>
 
           <button
+            class="flex-grow-0 flex-shrink-0"
             fd-button
             fdCompact
             fdType="transparent"

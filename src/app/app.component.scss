@@ -85,19 +85,6 @@
   word-wrap: break-word;
 }
 
-.table-container {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-}
-
-.scrollable-table {
-  overflow-y: auto;
-  max-height: calc(
-    100vh - 300px
-  ); /* Ajustează înălțimea maximă, în funcție de layout */
-}
-
 .fd-table__row:last-child .fd-table__cell {
   border-bottom-color: var(--sapList_BorderColor) !important;
 }
@@ -139,14 +126,6 @@ small {
   font-weight: 600;
 }
 
-// layout
-fd-dynamic-page {
-  display: block;
-  padding-left: 48px;
-  padding-right: 48px;
-  padding-top: 12px;
-}
-
 .fd-table__row.rowSpan[aria-selected="true"] {
   .fd-table__cell:not(.col-checkSuppliers):not(.col-check) {
     border-bottom-color: transparent;
@@ -163,17 +142,14 @@ fd-dynamic-page {
   background-color: var(--sapList_Hover_Background);
 }
 
-::ng-deep .fd-flexible-column-layout__column {
-  transition: none !important;
-  //transition: transform 0.1s ease-in-out, width 0.1s ease-in-out !important;
-}
-
+// layout
 fd-dynamic-page {
   max-width: 85%;
-  margin: 0 auto;
   display: block;
   padding-left: 24px !important;
   padding-right: 24px !important;
+  padding-top: 12px;
+  margin: 0 auto;
 }
 fd-dynamic-page-header {
   padding-left: 17px !important;
@@ -183,6 +159,28 @@ fd-dynamic-page-header {
   .fd-dynamic-page__header + .fd-scrollbar {
     flex-grow: 1 !important;
   }
+}
+
+::ng-deep .fd-flexible-column-layout {
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+
+::ng-deep .fd-flexible-column-layout__column {
+  transition: none !important;
+  //transition: transform 0.1s ease-in-out, width 0.1s ease-in-out !important;
+}
+
+.table-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.scrollable-table {
+  overflow-y: auto;
+  width: 100%;
 }
 
 .card-container {
@@ -202,6 +200,7 @@ fd-card {
   box-sizing: border-box; /* Asigură că padding-ul nu afectează dimensiunea */
   flex-shrink: 0;
   flex-grow: 0;
+  min-height: 0;
 }
 
 .px12 {
