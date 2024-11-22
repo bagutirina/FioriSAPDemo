@@ -101,19 +101,26 @@
 .fd-table__row:last-child .fd-table__cell {
   border-bottom-color: var(--sapList_BorderColor) !important;
 }
-.search-input {
-  flex: 1 1 auto;
-  max-width: 300px;
-}
+
 .rowSpanChild {
   .col-name {
     padding-left: 0.5rem !important;
   }
 }
 
-.filter-label {
-  position: absolute;
-  top: -20px;
+.search-input {
+  flex: 1 1 auto;
+}
+
+.filter-item {
+  position: relative;
+  flex-grow: 0;
+  flex-shrink: 1;
+  max-width: 220px;
+  .filter-label {
+    position: absolute;
+    top: -20px;
+  }
 }
 
 ::ng-deep .fd-toolbar__overflow {
@@ -184,7 +191,7 @@ fd-dynamic-page-header {
   gap: 1.5rem;
   justify-content: flex-start;
   align-items: flex-start;
-  padding: 1rem;
+  padding: 2rem 1rem 1rem 0rem;
 }
 
 fd-card {
@@ -194,4 +201,9 @@ fd-card {
 
 .px12 {
   padding: 1rem 2rem !important;
+}
+
+.custom-bold ::ng-deep b {
+  font-weight: 500 !important;
+  color: var(--sapActiveColor);
 }

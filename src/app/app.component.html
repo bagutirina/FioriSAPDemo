@@ -66,7 +66,8 @@
         <div class="table-container w-100 h-100 pb-1 pt-2">
           <h4 fd-title class="flex-shrink-0">Purchase Requests</h4>
           <!-- filters -->
-          <fd-toolbar [shouldOverflow]="true">
+
+          <fd-toolbar [shouldOverflow]="false">
             <!-- search -->
             <fd-input-group
               fd-toolbar-item
@@ -82,67 +83,69 @@
               class="search-input"
             >
             </fd-input-group>
-            <!-- <fd-toolbar-spacer></fd-toolbar-spacer>
-          <fd-toolbar-separator></fd-toolbar-separator> -->
 
             <!-- date range -->
-            <div style="position: relative" fd-toolbar-item>
+            <div class="filter-item" fd-toolbar-item>
               <span fd-label class="filter-label">Due Date Range</span>
               <fd-date-picker
                 fdCompact
                 type="range"
                 [showTodayButton]="true"
                 [(ngModel)]="selectedRange"
-                style="width: 220px"
               >
               </fd-date-picker>
             </div>
             <!-- vendor -->
-            <div style="position: relative" fd-toolbar-item>
+            <div class="filter-item" fd-toolbar-item>
               <span fd-label class="filter-label">Vendor</span>
               <fd-multi-input
                 fdCompact
                 inputId="dropdownExampleInput1"
                 [dropdownValues]="vendors"
                 [(ngModel)]="selectedVendor"
-                style="width: 220px"
               ></fd-multi-input>
             </div>
             <!-- Warranty -->
-            <div style="position: relative" fd-toolbar-item>
+            <div class="filter-item" fd-toolbar-item>
               <span fd-label class="filter-label">Warranty</span>
               <fd-multi-input
                 fdCompact
                 inputId="dropdownExampleInput1"
                 [dropdownValues]="warranties"
                 [(ngModel)]="selectedWarranties"
-                style="width: 220px"
               ></fd-multi-input>
             </div>
             <!-- prise range -->
-            <div style="position: relative" fd-toolbar-item>
+            <div class="filter-item" fd-toolbar-item>
               <span fd-label class="filter-label">Price Range</span>
               <fd-multi-input
                 fdCompact
                 inputId="dropdownExampleInput1"
                 [dropdownValues]="prices"
                 [(ngModel)]="selectedPrices"
-                style="width: 220px"
               ></fd-multi-input>
             </div>
             <!-- material -->
-            <div style="position: relative" fd-toolbar-item>
+            <div class="filter-item" fd-toolbar-item>
               <span fd-label class="filter-label">Material</span>
               <fd-multi-input
                 fdCompact
                 inputId="dropdownExampleInput1"
                 [dropdownValues]="materials"
                 [(ngModel)]="selectedMaterials"
-                style="width: 220px"
               ></fd-multi-input>
             </div>
-
-            <button fdCompact fd-toolbar-item fd-button label="Apply"></button>
+            <!-- <button fdCompact fd-toolbar-item fd-button label="Apply"></button> -->
+            <fd-toolbar-separator></fd-toolbar-separator>
+            <button
+              [disabled]="checkboxValue === false"
+              fdCompact
+              fd-toolbar-item
+              fd-button
+              label="Check Suppliers"
+              fdType="emphasized"
+              (click)="setSuppliers(); changeLayout('OneColumnMidFullScreen')"
+            ></button>
           </fd-toolbar>
           <div class="scrollable-table flex-grow-1 sap-flex-shrink-1">
             <table fd-table fdCompact [responsive]="true">
@@ -166,7 +169,7 @@
                   <th fd-table-cell class="text-end pe-4">Price</th>
                   <th fd-table-cell>Material</th>
                   <th fd-table-cell>Description</th>
-                  <th fd-table-cell class="col-checkSuppliers"></th>
+                  <!-- <th fd-table-cell class="col-checkSuppliers"></th> -->
                   <th fd-table-cell></th>
                 </tr>
               </thead>
@@ -238,25 +241,6 @@
                     <span fd-table-text>{{ row.properties }}</span>
                   </td>
                   <td
-                    fd-table-cell
-                    class="col-checkSuppliers"
-                    *ngIf="!row.isRowSpanChild"
-                    [attr.rowSpan]="row.rowSpan || 1"
-                  >
-                    <button
-                      *ngIf="row.checked"
-                      fdCompact
-                      fd-toolbar-item
-                      fd-button
-                      label="Check Suppliers"
-                      fdType="emphasized"
-                      (click)="
-                        selectedRow = row;
-                        changeLayout('OneColumnMidFullScreen')
-                      "
-                    ></button>
-                  </td>
-                  <td
                     *ngIf="!row.isRowSpanChild"
                     [attr.rowSpan]="row.rowSpan || 1"
                     fd-table-cell
@@ -314,30 +298,38 @@
         </div>
       </ng-template>
       <ng-template #midColumn>
-        <div class="d-flex justify-content-between" *ngIf="selectedRow">
-          <div class="card-container flex-grow-1 flex-shrink-1">
-            <fd-card
-              fdCompact
-              cardType="list"
-              *ngFor="let supplier of selectedRow.suppliers"
-            >
-              <fd-card-header style="height: 140px">
-                <h2 fd-card-title>{{ supplier.name }}</h2>
-                <h3 fd-card-subtitle>{{ supplier.description }}</h3>
-              </fd-card-header>
-              <fd-card-footer>
-                <button *fdCardFooterActionItem fd-button>Ask for quote</button>
-              </fd-card-footer>
-            </fd-card>
+        <div class="d-flex justify-content-between" *ngIf="suppliers">
+          <div class="d-flex flex-column">
+            <h4 fd-title class="flex-shrink-0">Suppliers</h4>
+            <span
+              class="custom-bold"
+              fd-text
+              [innerHTML]="selectedProducts.join(', ')"
+            ></span>
+            <div class="card-container flex-grow-1 flex-shrink-1">
+              <fd-card
+                fdCompact
+                cardType="list"
+                *ngFor="let supplier of suppliers"
+              >
+                <fd-card-header style="height: 140px">
+                  <h2 fd-card-title>{{ supplier.name }}</h2>
+                  <h3 fd-card-subtitle>{{ supplier.description }}</h3>
+                </fd-card-header>
+                <fd-card-footer>
+                  <button *fdCardFooterActionItem fd-button>
+                    Ask for quote
+                  </button>
+                </fd-card-footer>
+              </fd-card>
+            </div>
           </div>
           <button
             fd-button
             fdCompact
             fdType="transparent"
             aria-label="Close"
-            (click)="
-              selectedRow = null; changeLayout('OneColumnStartFullScreen')
-            "
+            (click)="suppliers = null; changeLayout('OneColumnStartFullScreen')"
             title="Close"
           >
             <i class="sap-icon--decline"></i>

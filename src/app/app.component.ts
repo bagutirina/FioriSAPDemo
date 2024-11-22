@@ -72,7 +72,11 @@ export class AppComponent {
   selectedPrices = [];
   date: Nullable<FdDate> = FdDate.getNow();
   selectedRange: Nullable<DateRange<FdDate>>;
+
   selectedRow: any;
+  selectedProducts: any;
+
+  suppliers: any;
 
   user: ShellbarUser = {
     fullName: 'William Willson',
@@ -306,5 +310,25 @@ export class AppComponent {
     } else if (this.tableRows[i].isRowSpanChild) {
       this.tableRows[i - 1].hovered = !clear;
     }
+  }
+
+  setSuppliers() {
+    this.selectedProducts = Array.from(
+      new Set(
+        tableRows
+          .filter((row) => row.checked)
+          .map(
+            (row) =>
+              row.name + (row.vendor ? ' <b>' + row.vendor + '</b> ' : '')
+          )
+      )
+    );
+    this.suppliers = Array.from(
+      new Set(
+        tableRows
+          .filter((row) => row.checked)
+          .flatMap((row) => row.suppliers || [])
+      )
+    );
   }
 }
