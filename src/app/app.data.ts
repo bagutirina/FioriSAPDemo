@@ -23,6 +23,10 @@ export const tableRows: any[] = [
     properties: '',
     description: descriptionExample,
     checked: false,
+    suppliers: [
+      { name: 'IKEA Deutschland', description: 'https://www.ikea.com/de/de/' },
+      { name: 'Home24', description: 'https://www.home24.de/' },
+    ],
   },
   {
     name: 'Desk',
@@ -36,6 +40,10 @@ export const tableRows: any[] = [
     properties: 'height-adjustable',
     description: descriptionExample,
     checked: false,
+    suppliers: [
+      { name: 'IKEA Deutschland', description: 'https://www.ikea.com/de/de/' },
+      { name: 'OTTO', description: 'https://www.otto.de/' },
+    ],
   },
   {
     name: 'Chair',
@@ -49,6 +57,13 @@ export const tableRows: any[] = [
     properties: '',
     description: descriptionExample,
     checked: false,
+    suppliers: [
+      { name: 'Staples', description: 'https://www.staples.de/' },
+      {
+        name: 'Office Discount',
+        description: 'https://www.office-discount.de/',
+      },
+    ],
   },
   {
     name: 'Roller Cabinet',
@@ -62,6 +77,10 @@ export const tableRows: any[] = [
     properties: 'lockable',
     description: descriptionExample,
     checked: false,
+    suppliers: [
+      { name: 'Staples', description: 'https://www.staples.de/' },
+      { name: 'Schäfer Shop', description: 'https://www.schaefer-shop.de/' },
+    ],
   },
   {
     name: 'Laptop',
@@ -75,6 +94,10 @@ export const tableRows: any[] = [
     properties: '',
     description: descriptionExample,
     checked: false,
+    suppliers: [
+      { name: 'Computacenter', description: 'https://www.computacenter.com/' },
+      { name: 'Bechtle', description: 'https://www.bechtle.com/' },
+    ],
   },
   {
     name: 'Laptop',
@@ -89,8 +112,8 @@ export const tableRows: any[] = [
     description: descriptionExample,
     checked: false,
     suppliers: [
-      { name: 'ComputaCenter', description: 'https://www.computacenter.com' },
-      { name: 'Bechtle', description: '' },
+      { name: 'Computacenter', description: 'https://www.computacenter.com/' },
+      { name: 'Bechtle', description: 'https://www.bechtle.com/' },
     ],
   },
   {
@@ -105,6 +128,10 @@ export const tableRows: any[] = [
     properties: '',
     description: descriptionExample,
     checked: false,
+    suppliers: [
+      { name: 'MediaMarkt', description: 'https://www.mediamarkt.de/' },
+      { name: 'Saturn', description: 'https://www.saturn.de/' },
+    ],
   },
   {
     name: 'Visual Studio License',
@@ -118,6 +145,10 @@ export const tableRows: any[] = [
     properties: '',
     description: descriptionExample,
     checked: false,
+    suppliers: [
+      { name: 'SoftwareONE', description: 'https://www.softwareone.com/' },
+      { name: 'Compuwave', description: 'https://www.compuwave.de/' },
+    ],
   },
   {
     name: 'Visual Studio Pro License',
@@ -131,6 +162,10 @@ export const tableRows: any[] = [
     properties: '',
     description: descriptionExample,
     checked: false,
+    suppliers: [
+      { name: 'SoftwareONE', description: 'https://www.softwareone.com/' },
+      { name: 'Compuwave', description: 'https://www.compuwave.de/' },
+    ],
   },
   {
     name: 'Shelf - large',
@@ -145,6 +180,10 @@ export const tableRows: any[] = [
     description: descriptionExample,
     checked: false,
     rowSpan: 2,
+    suppliers: [
+      { name: 'Hornbach', description: 'https://www.hornbach.de/' },
+      { name: 'OBI', description: 'https://www.obi.de/' },
+    ],
   },
   {
     name: 'Assembly Service',
@@ -157,6 +196,10 @@ export const tableRows: any[] = [
     material: '',
     properties: '',
     isRowSpanChild: true,
+    suppliers: [
+      { name: 'MyHammer', description: 'https://www.my-hammer.de/' },
+      { name: 'TaskRabbit', description: 'https://www.taskrabbit.de/' },
+    ],
   },
 ];
 

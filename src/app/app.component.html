@@ -299,14 +299,14 @@
       </ng-template>
       <ng-template #midColumn>
         <div class="d-flex justify-content-between" *ngIf="suppliers">
-          <div class="d-flex flex-column">
-            <h4 fd-title class="flex-shrink-0">Suppliers</h4>
+          <div class="d-flex flex-column h-100">
+            <h4 fd-title>Suppliers</h4>
             <span
-              class="custom-bold"
+              class="custom-bold pt-2"
               fd-text
               [innerHTML]="selectedProducts.join(', ')"
             ></span>
-            <div class="card-container flex-grow-1 flex-shrink-1">
+            <div class="card-container gap-3">
               <fd-card
                 fdCompact
                 cardType="list"
@@ -324,6 +324,7 @@
               </fd-card>
             </div>
           </div>
+
           <button
             fd-button
             fdCompact

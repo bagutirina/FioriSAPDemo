@@ -324,11 +324,15 @@ export class AppComponent {
       )
     );
     this.suppliers = Array.from(
-      new Set(
-        tableRows
-          .filter((row) => row.checked)
-          .flatMap((row) => row.suppliers || [])
-      )
+      tableRows
+        .filter((row) => row.checked) // Filtrează doar rândurile bifate
+        .flatMap((row) => row.suppliers || []) // Creează o listă de toți supplierii din rândurile bifate
+        .reduce((acc, supplier) => {
+          // Construiește un Map pentru a asigura unicitatea pe baza numelui
+          acc.set(supplier.name, supplier);
+          return acc;
+        }, new Map()) // Initializează cu un Map gol
+        .values() // Extrage doar valorile unice
     );
   }
 }
