@@ -67,11 +67,7 @@ export class AppComponent {
   selectedPrices = [];
   date: Nullable<FdDate> = FdDate.getNow();
   selectedRange: Nullable<DateRange<FdDate>>;
-
   selectedRow: any;
-  selectedProducts: any;
-
-  suppliers: any;
   suppliersOnCategories: any;
 
   user: ShellbarUser = {
@@ -298,39 +294,28 @@ export class AppComponent {
   }
 
   prepareSuppliers() {
-    this.selectedProducts = Array.from(
-      new Set(products.filter((row) => row.checked).map((row) => row.name))
-    );
-
-    this.suppliers = Array.from(
-      products
-        .filter((row) => row.checked) // Filtrează doar rândurile bifate
-        .flatMap((row) => row.suppliers || []) // Creează o listă de toți supplierii din rândurile bifate
-        .reduce((acc, supplier) => {
-          // Construiește un Map pentru a asigura unicitatea pe baza numelui
-          acc.set(supplier.name, supplier);
-          return acc;
-        }, new Map()) // Initializează cu un Map gol
-        .values() // Extrage doar valorile unice
-    );
-
     this.suppliersOnCategories = categories.map((category) => {
-      // Filtrăm produsele din categoria curentă și cu `checked: true`
       const filteredProducts = products.filter(
         (product) => product.checked && product.category === category.id
       );
 
-      // Construim obiectul categoriei
+      // Obținem produse unice după nume
+      const uniqueProducts = Array.from(
+        new Map(
+          filteredProducts.map((product) => [product.name, product])
+        ).values()
+      );
+
       return {
         name: category.name,
-        products: filteredProducts.map((product) => product.name), // Numele produselor
+        products: uniqueProducts.map((product) => product.name),
         suppliers: Array.from(
           new Map(
-            filteredProducts
-              .flatMap((product) => product.suppliers || []) // Adunăm toți supplierii
-              .map((supplier) => [supplier.name, supplier]) // Mapăm pentru a obține unici
+            uniqueProducts
+              .flatMap((product) => product.suppliers || [])
+              .map((supplier) => [supplier.name, supplier])
           ).values()
-        ), // Valori unice pe baza numelui furnizorului
+        ),
       };
     });
   }

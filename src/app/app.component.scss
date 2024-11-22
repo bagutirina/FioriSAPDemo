@@ -189,7 +189,7 @@ fd-dynamic-page-header {
   gap: 1.5rem;
   justify-content: flex-start; /* Cardurile sunt aliniate la stânga */
   align-items: flex-start; /* Fiecare rând se aliniază corect */
-  padding: 2rem 1rem 1rem 0rem;
+  padding: 1rem 1rem 1rem 0rem;
   overflow: auto;
 }
 
@@ -215,4 +215,8 @@ fd-card {
     scrollbar-color: var(--sapScrollBarThumb) var(--sapBackgroundColor) !important;
     scrollbar-width: thin;
   }
+}
+
+.close-button {
+  margin-right: -6px;
 }

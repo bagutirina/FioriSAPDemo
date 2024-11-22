@@ -61,7 +61,7 @@
       <ng-template #startColumn>
         <div
           class="table-container d-flex w-100 h-100 pb-1 pt-2"
-          *ngIf="!suppliers"
+          *ngIf="!suppliersOnCategories"
         >
           <div class="d-flex flex-column w-100 flex-grow-0 flex-shrink-0">
             <h4 fd-title class="flex-shrink-0">Purchase Requests</h4>
@@ -299,66 +299,77 @@
         </div>
       </ng-template>
       <ng-template #midColumn>
-        <div class="d-flex w-100 h-100 flex-column" *ngIf="suppliers">
-          <div class="d-flex flex-column w-100 flex-grow-0 flex-shrink-0">
-            <div class="d-flex w-100">
-              <div class="d-flex flex-column w-100 flex-shrink-1 flex-grow-1">
-                <h4 fd-title>Suppliers</h4>
-                <span
-                  class="pt-2"
-                  fd-text
-                  [innerHTML]="selectedProducts.join(', ')"
-                ></span>
-              </div>
-              <button
-                class="flex-grow-0 flex-shrink-0"
-                fd-button
-                fdCompact
-                fdType="transparent"
-                aria-label="Close"
-                (click)="
-                  suppliers = null; changeLayout('OneColumnStartFullScreen')
-                "
-                title="Close"
-              >
-                <i class="sap-icon--decline"></i>
-              </button>
+        <div
+          class="d-flex w-100 h-100 flex-column"
+          *ngIf="suppliersOnCategories"
+        >
+          <!-- header: title + close button -->
+          <div class="d-flex w-100 flex-grow-0 flex-shrink-0 pb-4">
+            <div class="d-flex flex-column w-100 flex-shrink-1 flex-grow-1">
+              <h4 fd-title>Suppliers</h4>
             </div>
-          </div>
-          <div
-            class="d-flex w-100 flex-grow-1 flex-shrink-1 card-container gap-3"
-          >
-            <fd-card
+            <button
+              class="flex-grow-0 flex-shrink-0 close-button"
+              fd-button
               fdCompact
-              cardType="list"
-              *ngFor="let supplier of suppliers"
+              fdType="transparent"
+              aria-label="Close"
+              (click)="
+                suppliersOnCategories = null;
+                changeLayout('OneColumnStartFullScreen')
+              "
+              title="Close"
             >
-              <fd-card-header>
-                <fd-avatar
-                  *ngIf="supplier.image; else placeholder"
-                  [image]="supplier.image"
-                  [circle]="true"
-                  size="s"
-                  ariaLabel="avatar image"
-                  title="avatar image"
-                ></fd-avatar>
-                <ng-template #placeholder>
-                  <fd-avatar
-                    [circle]="true"
-                    [placeholder]="true"
-                    size="s"
-                    glyph="company-view"
-                  ></fd-avatar>
-                </ng-template>
-                <h2 fd-card-title>{{ supplier.name }}</h2>
-                <a fd-link fd-card-subtitle [href]="supplier.link">{{
-                  supplier.link
-                }}</a>
-              </fd-card-header>
-              <fd-card-footer>
-                <button *fdCardFooterActionItem fd-button>Ask for quote</button>
-              </fd-card-footer>
-            </fd-card>
+              <i class="sap-icon--decline"></i>
+            </button>
+          </div>
+          <!-- content: categories -->
+          <div
+            class="d-flex w-100 flex-grow-1 flex-shrink-1 flex-column overflow-auto gap-3"
+          >
+            <!-- category -->
+            <div *ngFor="let category of suppliersOnCategories">
+              <h5 fd-compact fd-title>{{ category.name }}</h5>
+              <div fd-text>{{ category.products.join(", ") }}</div>
+              <!-- suppliers -->
+              <div
+                class="d-flex w-100 flex-grow-1 flex-shrink-1 card-container gap-3"
+              >
+                <fd-card
+                  fdCompact
+                  cardType="list"
+                  *ngFor="let supplier of category.suppliers"
+                >
+                  <fd-card-header>
+                    <fd-avatar
+                      *ngIf="supplier.image; else placeholder"
+                      [image]="supplier.image"
+                      [circle]="true"
+                      size="s"
+                      ariaLabel="avatar image"
+                      title="avatar image"
+                    ></fd-avatar>
+                    <ng-template #placeholder>
+                      <fd-avatar
+                        [circle]="true"
+                        [placeholder]="true"
+                        size="s"
+                        glyph="company-view"
+                      ></fd-avatar>
+                    </ng-template>
+                    <h2 fd-card-title>{{ supplier.name }}</h2>
+                    <a fd-link fd-card-subtitle [href]="supplier.link">{{
+                      supplier.link
+                    }}</a>
+                  </fd-card-header>
+                  <fd-card-footer>
+                    <button *fdCardFooterActionItem fd-button>
+                      Ask for quote
+                    </button>
+                  </fd-card-footer>
+                </fd-card>
+              </div>
+            </div>
           </div>
         </div>
       </ng-template>
