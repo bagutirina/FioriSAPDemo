@@ -17,18 +17,7 @@ import {
 } from '@fundamental-ngx/core/datetime';
 import { DateRange } from '@fundamental-ngx/core/calendar';
 import { Nullable } from '@fundamental-ngx/cdk/utils';
-import {
-  chartData,
-  descriptionExample,
-  prices,
-  tableRows,
-  warranties,
-} from './app.data';
-import {
-  SearchInput,
-  SuggestionItem,
-  ValueLabelItem,
-} from '@fundamental-ngx/platform';
+import { chartData, prices, tableRows, warranties } from './app.data';
 
 @Component({
   selector: 'app-root',
@@ -93,7 +82,7 @@ export class AppComponent {
       glyph: 'bell',
       callback: this.actionNotificationCallback,
       label: 'Notifications',
-      notificationCount: 2,
+      notificationCount: 1,
       notificationLabel: 'Unread Notifications',
     },
   ];
