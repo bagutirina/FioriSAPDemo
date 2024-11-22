@@ -214,6 +214,7 @@ fd-card {
 
 ::ng-deep {
   .fd-scrollbar {
-    scrollbar-color: var(--fdScrollbar_Thumb_Color) var(--sapBackgroundColor) !important;
+    scrollbar-color: var(--sapScrollBarThumb) var(--sapBackgroundColor) !important;
+    scrollbar-width: thin;
   }
 }
