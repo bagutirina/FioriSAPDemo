@@ -256,7 +256,7 @@
                     <i
                       title="Purchase Rquest Details"
                       fd-table-icon
-                      [glyph]="'multiselect-all'"
+                      [glyph]="'message-information'"
                       [navigation]="true"
                       role="presentation"
                     ></i>
@@ -331,49 +331,66 @@
           <div
             class="d-flex w-100 flex-grow-1 flex-shrink-1 flex-column overflow-auto gap-4"
           >
-            <!-- category -->
-            <div *ngFor="let category of suppliersOnCategories">
-              <h5 fd-compact fd-title>{{ category.name }}</h5>
-              <div fd-text>{{ category.products.join(", ") }}</div>
-              <!-- suppliers -->
-              <div
-                class="d-flex w-100 flex-grow-1 flex-shrink-1 card-container gap-4"
+            <fd-panel
+              [expanded]="true"
+              fdCompact
+              expandAriaLabel="Panel Expand"
+              expandAriaLabelledBy="panel-compact-1"
+              *ngFor="let category of suppliersOnCategories"
+            >
+              <span
+                fd-panel-title
+                id="panel-compact-1"
+                class="category-title"
+                >{{ category.name }}</span
               >
-                <fd-card
-                  fdCompact
-                  cardType="list"
-                  *ngFor="let supplier of category.suppliers"
+              <div
+                fd-panel-content
+                ariaLabel="Panel Content"
+                id="panel-content-3"
+              >
+                <div fd-text>{{ category.products.join(", ") }}</div>
+
+                <!-- suppliers -->
+                <div
+                  class="d-flex w-100 flex-grow-1 flex-shrink-1 card-container gap-4"
                 >
-                  <fd-card-header>
-                    <fd-avatar
-                      *ngIf="supplier.image; else placeholder"
-                      [image]="supplier.image"
-                      [circle]="true"
-                      size="s"
-                      ariaLabel="avatar image"
-                      title="avatar image"
-                    ></fd-avatar>
-                    <ng-template #placeholder>
+                  <fd-card
+                    fdCompact
+                    cardType="list"
+                    *ngFor="let supplier of category.suppliers"
+                  >
+                    <fd-card-header>
                       <fd-avatar
+                        *ngIf="supplier.image; else placeholder"
+                        [image]="supplier.image"
                         [circle]="true"
-                        [placeholder]="true"
                         size="s"
-                        glyph="company-view"
+                        ariaLabel="avatar image"
+                        title="avatar image"
                       ></fd-avatar>
-                    </ng-template>
-                    <h2 fd-card-title>{{ supplier.name }}</h2>
-                    <a fd-link fd-card-subtitle [href]="supplier.link">{{
-                      supplier.link
-                    }}</a>
-                  </fd-card-header>
-                  <fd-card-footer>
-                    <button *fdCardFooterActionItem fd-button>
-                      Ask for quote
-                    </button>
-                  </fd-card-footer>
-                </fd-card>
+                      <ng-template #placeholder>
+                        <fd-avatar
+                          [circle]="true"
+                          [placeholder]="true"
+                          size="s"
+                          glyph="company-view"
+                        ></fd-avatar>
+                      </ng-template>
+                      <h2 fd-card-title>{{ supplier.name }}</h2>
+                      <a fd-link fd-card-subtitle [href]="supplier.link">{{
+                        supplier.link
+                      }}</a>
+                    </fd-card-header>
+                    <fd-card-footer>
+                      <button *fdCardFooterActionItem fd-button>
+                        Ask for quote
+                      </button>
+                    </fd-card-footer>
+                  </fd-card>
+                </div>
               </div>
-            </div>
+            </fd-panel>
           </div>
         </div>
       </ng-template>

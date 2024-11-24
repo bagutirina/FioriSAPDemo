@@ -222,3 +222,22 @@ fd-card {
 .px120 {
   padding: 1rem 0rem 1rem 2rem !important;
 }
+
+.fd-panel__content {
+  padding-left: 46px !important;
+  border-bottom: none;
+  padding-top: 0px;
+}
+
+::ng-deep {
+  .fd-panel__header {
+    border-bottom: none !important;
+    min-height: 26px !important;
+    height: 26px !important;
+  }
+}
+
+.category-title {
+  font-size: 15px;
+  font-weight: 600;
+}
