@@ -251,7 +251,7 @@ export const products: any[] = [
   },
   {
     name: 'Visual Studio Pro License',
-    date: '01.02.2025',
+    date: '01.03.2025',
     amount: '1',
     vendor: 'Microsoft',
     warranty: '',
