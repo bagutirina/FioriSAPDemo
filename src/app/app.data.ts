@@ -287,6 +287,7 @@ export const products: any[] = [
     properties: '',
     description: descriptionExample,
     checked: false,
+    rowSpan: 2,
     suppliers: [
       {
         name: 'Hornbach',
@@ -311,6 +312,7 @@ export const products: any[] = [
     price: '',
     material: '',
     properties: 'For large shelf (3x2 meters)',
+    isRowSpanChild: true,
     suppliers: [
       {
         name: 'MyHammer',
