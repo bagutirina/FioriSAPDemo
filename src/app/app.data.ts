@@ -50,7 +50,7 @@ export const products: any[] = [
   {
     name: 'Desk',
     date: '01.02.2025',
-    amount: '2',
+    amount: '1',
     vendor: 'IKEA',
     warranty: '2 years',
     size: '',
@@ -180,7 +180,7 @@ export const products: any[] = [
     size: '',
     price: '1850',
     material: 'HW10_L1',
-    properties: 'with GPU',
+    properties: 'GPU',
     description: descriptionExample,
     checked: false,
     suppliers: [
@@ -203,7 +203,7 @@ export const products: any[] = [
     amount: '6',
     vendor: 'Dell',
     warranty: '4 years',
-    size: 'more than 17 inch',
+    size: '17 inch',
     price: '100',
     material: '',
     properties: '',
@@ -276,7 +276,7 @@ export const products: any[] = [
     category: 3,
   },
   {
-    name: 'Shelf - large',
+    name: 'Shelf',
     date: '01.02.2025',
     amount: '1',
     vendor: '',
@@ -284,7 +284,7 @@ export const products: any[] = [
     size: '3x2 Meter',
     price: '',
     material: '',
-    properties: 'Including assembly service',
+    properties: '',
     description: descriptionExample,
     checked: false,
     rowSpan: 2,
@@ -311,7 +311,7 @@ export const products: any[] = [
     size: '',
     price: '',
     material: '',
-    properties: '',
+    properties: 'For large shelf (3x2 meters)',
     isRowSpanChild: true,
     suppliers: [
       {
