@@ -46,11 +46,11 @@
         <div class="legend-container mt-4">
           <span class="legend-item">
             <span class="color-box" style="background-color: #5899da"></span>
-            Amount Purchesed (last 12 months)
+            Amount Purchased (last 12 months)
           </span>
           <span class="legend-item">
             <span class="color-box" style="background-color: red"></span>
-            Overall Percentage Purchesed (last 12 months)
+            Overall Percentage Purchased (last 12 months)
           </span>
         </div>
       </div>
@@ -128,16 +128,7 @@
                   [(ngModel)]="selectedPrices"
                 ></fd-multi-input>
               </div>
-              <!-- material -->
-              <div class="filter-item" fd-toolbar-item>
-                <span fd-label class="filter-label">Material</span>
-                <fd-multi-input
-                  fdCompact
-                  inputId="dropdownExampleInput1"
-                  [dropdownValues]="materials"
-                  [(ngModel)]="selectedMaterials"
-                ></fd-multi-input>
-              </div>
+
               <fd-toolbar-separator></fd-toolbar-separator>
               <button
                 [disabled]="checkboxValue === false"
@@ -173,7 +164,6 @@
                   <th fd-table-cell>Warranty</th>
                   <th fd-table-cell>Size</th>
                   <th fd-table-cell class="text-end pe-4">Price</th>
-                  <th fd-table-cell>Material</th>
                   <th fd-table-cell>Description</th>
                   <th fd-table-cell></th>
                 </tr>
@@ -238,9 +228,6 @@
                     <span fd-table-text *ngIf="row.price"
                       >{{ row.price }} €</span
                     >
-                  </td>
-                  <td fd-table-cell>
-                    <span fd-table-text>{{ row.material }}</span>
                   </td>
                   <td fd-table-cell style="border-left-style: none">
                     <span fd-table-text>{{ row.properties }}</span>

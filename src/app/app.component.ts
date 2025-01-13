@@ -184,14 +184,14 @@ export class AppComponent {
           labels: data.map((row) => row.name),
           datasets: [
             {
-              label: 'Overall Percentage Purchesed',
+              label: 'Overall Percentage Purchased',
               data: data.map((row) => row.percent),
               borderColor: 'red',
               yAxisID: 'yy',
               type: 'line',
             },
             {
-              label: 'Amount Purchesed',
+              label: 'Amount Purchased',
               data: data.map((row) => row.count),
               backgroundColor: '#5899da', // '0a6ed1','#5899da',
               maxBarThickness: 50, // Lățimea maximă a barelor
