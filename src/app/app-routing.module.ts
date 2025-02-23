@@ -8,7 +8,7 @@ const routes: Routes = [
   { path: 'purchase', component: PurchaseComponent },
   { path: 'monitor', component: MonitorComponent },
 
-  { path: '**', redirectTo: 'purchase' },
+  { path: '**', redirectTo: 'monitor' },
 ];
 
 @NgModule({
