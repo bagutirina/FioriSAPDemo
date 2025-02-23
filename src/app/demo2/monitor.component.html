@@ -67,8 +67,8 @@
           <fd-multi-input
             fdCompact
             inputId="dropdownExampleInput1"
-            [dropdownValues]="vendors"
-            [(ngModel)]="selectedVendor"
+            [dropdownValues]="countries"
+            [(ngModel)]="selectedCountries"
           ></fd-multi-input>
         </div>
 
@@ -78,8 +78,8 @@
           <fd-multi-input
             fdCompact
             inputId="dropdownExampleInput1"
-            [dropdownValues]="warranties"
-            [(ngModel)]="selectedWarranties"
+            [dropdownValues]="domains"
+            [(ngModel)]="selectedDomains"
           ></fd-multi-input>
         </div>
 
@@ -89,8 +89,8 @@
           <fd-multi-input
             fdCompact
             inputId="dropdownExampleInput1"
-            [dropdownValues]="prices"
-            [(ngModel)]="selectedPrices"
+            [dropdownValues]="countryAreas"
+            [(ngModel)]="selectedCountryAreas"
           ></fd-multi-input>
         </div>
 
@@ -112,8 +112,8 @@
           <fd-multi-input
             fdCompact
             inputId="dropdownExampleInput1"
-            [dropdownValues]="vendors"
-            [(ngModel)]="selectedVendor"
+            [dropdownValues]="reviewStatuses"
+            [(ngModel)]="selectedReviewStatuses"
           ></fd-multi-input>
         </div>
       </fd-toolbar>
@@ -144,19 +144,11 @@
             </th>
             <th fd-table-cell class="col-date">Date Range</th>
             <th fd-table-cell>Score</th>
-            <th fd-table-cell class="col-status">Review Status</th>
+            <th fd-table-cell class="col-status text-center">Review Status</th>
           </tr>
         </thead>
         <tbody fd-table-body [noBorderY]="true">
-          <ng-container
-            *ngFor="
-              let row of monitorData
-                | filter : searchText : 'docTitle'
-                | filter : (showOnlyChecked ? 'checked' : '')
-                | sortBy : ascending : sortByKey;
-              let i = index
-            "
-          >
+          <ng-container *ngFor="let row of filteredMonitorData; let i = index">
             <tr
               *ngIf="!row.expanded"
               fd-table-row

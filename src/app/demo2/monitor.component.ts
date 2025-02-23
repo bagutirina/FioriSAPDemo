@@ -43,18 +43,28 @@ export class MonitorComponent {
   monitorData = monitorData;
 
   // filters
-  vendors = Array.from(
-    new Set(monitorData.map((row) => row.vendor).filter((v) => v))
+  reviewStatuses = Array.from(
+    new Set(monitorData.map((row) => row.reviewStatus).filter((v) => v))
   );
-  selectedVendor = [];
-  warranties = warranties;
-  selectedWarranties = [];
-  materials = Array.from(
-    new Set(monitorData.map((row) => row.material).filter((v) => v))
+  selectedReviewStatuses = [];
+
+  countryAreas = Array.from(
+    new Set(
+      monitorData.map((row) => row.countryOrAreaOccurrence).filter((v) => v)
+    )
   );
-  selectedMaterials = [];
-  prices = prices;
-  selectedPrices = [];
+  selectedCountryAreas = [];
+
+  countries = Array.from(
+    new Set(monitorData.map((row) => row.country).filter((v) => v))
+  );
+  selectedCountries = [];
+
+  domains = Array.from(
+    new Set(monitorData.map((row) => row.domain).filter((v) => v))
+  );
+  selectedDomains = [];
+
   date: Nullable<FdDate> = FdDate.getNow();
   selectedRange: Nullable<DateRange<FdDate>>;
   selectedRow: any;
@@ -151,5 +161,13 @@ export class MonitorComponent {
       default:
         return '';
     }
+  }
+
+  get filteredMonitorData() {
+    return this.monitorData
+      .filter((row) =>
+        row.docTitle.toLowerCase().includes(this.searchText.toLowerCase())
+      ) // Aplică filtrul de text
+      .filter((row) => (this.showOnlyChecked ? row.checked : true)); // Aplică filtrul de checked doar dacă e activ
   }
 }
