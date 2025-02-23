@@ -111,15 +111,16 @@ tr.expanded {
 }
 
 .expanded-col {
-  background-color: rgb(198 225 207 / 12%);
+  background-color: white; // #ededed60;
   border-left-color: transparent !important;
 }
 .expanded-details {
   padding: 10px;
   border-left-color: transparent !important;
-  background-color: rgb(198 225 207 / 12%);
+  background-color: white;
   .expanded-details-content {
-    // padding-left: 30px;
+    padding-left: 30px;
+    background-color: #ededed60;
   }
   h5 {
     font-size: 16px;
