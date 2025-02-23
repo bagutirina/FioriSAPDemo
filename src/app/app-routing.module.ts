@@ -4,11 +4,10 @@ import { PurchaseComponent } from './demo1/purchase.component';
 import { MonitorComponent } from './demo2/monitor.component';
 
 const routes: Routes = [
-  { path: '', pathMatch: 'full', redirectTo: 'monitor' },
-  { path: 'purchase', component: PurchaseComponent },
+  { path: '', pathMatch: 'full', redirectTo: 'purchase' },
+  { path: 'purchase', component: MonitorComponent },
   { path: 'monitor', component: MonitorComponent },
-
-  { path: '**', redirectTo: 'purchase' },
+  { path: '**', redirectTo: 'monitor' },
 ];
 
 @NgModule({
