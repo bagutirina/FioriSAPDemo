@@ -1,0 +1,15 @@
+.dashboard-item {
+  width: 40%;
+  border: 2px solid rgb(221 218 235);
+  flex-grow: 1;
+  flex-shrink: 1;
+  margin: 100px;
+  height: 200px;
+  padding: 30px;
+  border-radius: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-width: 400px;
+  background: #add8e669;
+}

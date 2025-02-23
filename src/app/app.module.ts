@@ -16,10 +16,12 @@ import { SortByPipe } from './sort.pipe';
 import { PlatformSearchFieldModule } from '@fundamental-ngx/platform';
 import { PurchaseComponent } from './demo1/purchase.component';
 import { MonitorComponent } from './demo2/monitor.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 @NgModule({
   declarations: [
     AppComponent,
+    DashboardComponent,
     PurchaseComponent,
     MonitorComponent,
     FilterPipe,
