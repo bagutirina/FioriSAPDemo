@@ -3,7 +3,7 @@ export const monitorData: any[] = [
     docTitle:
       'Compositions Comprising Lichen-Forming Fungi or Scytalone for Preventing and Treating Diabetes Mellitus',
     country: 'South Korea',
-    source: 'https://www.lens.org/lens/patent/161-531-716-867-330',
+    source: 'https://www.lens.org',
     docType: 'Patent Application',
     organization: 'Univ Sunchon Nat Ind Acad Coop',
     domain: 'Pharmaceutical',

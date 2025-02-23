@@ -1,15 +1,22 @@
 .dashboard-item {
   width: 40%;
-  border: 2px solid rgb(221 218 235);
+  // border: 2px solid rgb(221 218 235);
   flex-grow: 1;
   flex-shrink: 1;
   margin: 100px;
   height: 200px;
   padding: 30px;
-  border-radius: 30px;
+  border-radius: 20px;
   display: flex;
   justify-content: center;
   align-items: center;
   max-width: 400px;
   background: #add8e669;
+  box-shadow: 0 3px 5px -1px rgb(0 0 0 / 10%), 0 5px 8px 0 rgb(0 0 0 / 7%),
+    0 1px 10px 0 rgb(0 0 0 / 6%);
+  font-size: 18px;
+
+  &:hover {
+    box-shadow: none;
+  }
 }
