@@ -4,8 +4,8 @@ import { PurchaseComponent } from './demo1/purchase.component';
 import { MonitorComponent } from './demo2/monitor.component';
 
 const routes: Routes = [
-  { path: '', pathMatch: 'full', redirectTo: 'purchase' },
-  { path: 'purchase', component: MonitorComponent },
+  { path: '', pathMatch: 'full', redirectTo: 'monitor' },
+  { path: 'purchase', component: PurchaseComponent },
   { path: 'monitor', component: MonitorComponent },
   { path: '**', redirectTo: 'monitor' },
 ];
