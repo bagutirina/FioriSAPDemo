@@ -1,0 +1,388 @@
+<fd-shellbar>
+  <fd-shellbar-logo>
+    <a
+      href="#"
+      class="fd-shellbar__logo fd-shellbar__logo--image-replaced"
+      aria-label="SAP"
+    ></a>
+  </fd-shellbar-logo>
+
+  <fd-shellbar-title> Manage Purchase Requisitions </fd-shellbar-title>
+
+  <fd-shellbar-actions
+    [user]="user"
+    [userMenu]="userMenu"
+    [closePopoverOnSelect]="true"
+  >
+    <fd-shellbar-action glyph="search" ariaLabel="Search"></fd-shellbar-action>
+
+    <fd-shellbar-action
+      *ngFor="let action of actions"
+      [glyph]="action.glyph"
+      [callback]="action.callback"
+      [label]="action.label"
+      [notificationCount]="action.notificationCount"
+      [notificationLabel]="action.notificationLabel"
+    ></fd-shellbar-action>
+  </fd-shellbar-actions>
+</fd-shellbar>
+
+<fd-dynamic-page
+  fdCompact
+  [autoResponsive]="true"
+  ariaLabel="Example Dynamic Page"
+  class="main-content h-100"
+>
+  <fd-dynamic-page-header title="Purchase History"> </fd-dynamic-page-header>
+  <fd-dynamic-page-subheader
+    class="px-0"
+    [collapsible]="true"
+    [pinnable]="false"
+    [collapsed]="false"
+  >
+    <div class="d-flex w-100 flex-column mb-4">
+      <div class="chart-container d-flex flex-column pb-5">
+        <canvas id="chart"></canvas>
+        <div class="legend-container mt-4">
+          <span class="legend-item">
+            <span class="color-box" style="background-color: #5899da"></span>
+            Amount Purchased (last 12 months)
+          </span>
+          <span class="legend-item">
+            <span class="color-box" style="background-color: red"></span>
+            Overall Percentage Purchased (last 12 months)
+          </span>
+        </div>
+      </div>
+    </div>
+  </fd-dynamic-page-subheader>
+  <fd-dynamic-page-content
+    class="h-100 w-100 {{ !suppliersOnCategories ? 'px12' : 'px120' }}"
+  >
+    <fd-flexible-column-layout [(layout)]="layout" class="h-100 w-100 d-flex">
+      <ng-template #startColumn>
+        <div
+          class="table-container d-flex w-100 h-100 pb-1 pt-2"
+          *ngIf="!suppliersOnCategories"
+        >
+          <div class="d-flex flex-column w-100 flex-grow-0 flex-shrink-0">
+            <h4 fd-title class="flex-shrink-0">
+              Purchase Requisition 1001234567
+            </h4>
+            <!-- filters -->
+            <fd-toolbar [shouldOverflow]="false">
+              <!-- search -->
+              <fd-input-group
+                fd-toolbar-item
+                fdCompact
+                glyph="search"
+                glyphAriaLabel="Search"
+                title="Search"
+                placeholder="Search"
+                [button]="true"
+                [disabled]="false"
+                [(ngModel)]="searchText"
+                (addOnButtonClicked)="searchText = ''"
+                class="search-input"
+              >
+              </fd-input-group>
+
+              <!-- date range -->
+              <div class="filter-item" fd-toolbar-item>
+                <span fd-label class="filter-label">Due Date Range</span>
+                <fd-date-picker
+                  fdCompact
+                  type="range"
+                  [showTodayButton]="true"
+                  [(ngModel)]="selectedRange"
+                >
+                </fd-date-picker>
+              </div>
+              <!-- vendor -->
+              <div class="filter-item" fd-toolbar-item>
+                <span fd-label class="filter-label">Vendor</span>
+                <fd-multi-input
+                  fdCompact
+                  inputId="dropdownExampleInput1"
+                  [dropdownValues]="vendors"
+                  [(ngModel)]="selectedVendor"
+                ></fd-multi-input>
+              </div>
+              <!-- Warranty -->
+              <div class="filter-item" fd-toolbar-item>
+                <span fd-label class="filter-label">Warranty</span>
+                <fd-multi-input
+                  fdCompact
+                  inputId="dropdownExampleInput1"
+                  [dropdownValues]="warranties"
+                  [(ngModel)]="selectedWarranties"
+                ></fd-multi-input>
+              </div>
+              <!-- prise range -->
+              <div class="filter-item" fd-toolbar-item>
+                <span fd-label class="filter-label">Price Range</span>
+                <fd-multi-input
+                  fdCompact
+                  inputId="dropdownExampleInput1"
+                  [dropdownValues]="prices"
+                  [(ngModel)]="selectedPrices"
+                ></fd-multi-input>
+              </div>
+
+              <fd-toolbar-separator></fd-toolbar-separator>
+              <button
+                [disabled]="checkboxValue === false"
+                fdCompact
+                fd-toolbar-item
+                fd-button
+                label="Check Suppliers"
+                fdType="emphasized"
+                (click)="
+                  prepareSuppliers(); changeLayout('OneColumnMidFullScreen')
+                "
+              ></button>
+            </fd-toolbar>
+          </div>
+
+          <div class="scrollable-table flex-grow-1 flex-shrink-1">
+            <table fd-table fdCompact [responsive]="true">
+              <thead fd-table-header [noBorderY]="true">
+                <tr fd-table-row>
+                  <th fd-table-cell>
+                    <fd-checkbox
+                      aria-label="Select all"
+                      title="Select all"
+                      [tristate]="true"
+                      [ngModel]="checkboxValue"
+                      (ngModelChange)="selectAll($event)"
+                    ></fd-checkbox>
+                  </th>
+                  <th fd-table-cell class="col-name">Product Name</th>
+                  <th fd-table-cell class="col-date">Due Date</th>
+                  <th fd-table-cell>Amount</th>
+                  <th fd-table-cell>Vendor</th>
+                  <th fd-table-cell>Warranty</th>
+                  <th fd-table-cell>Size</th>
+                  <th fd-table-cell class="text-end pe-4">Price</th>
+                  <th fd-table-cell>Description</th>
+                  <th fd-table-cell></th>
+                </tr>
+              </thead>
+              <tbody fd-table-body [noBorderY]="true">
+                <tr
+                  *ngFor="
+                    let row of products
+                      | filter : searchText : 'name'
+                      | sortBy : ascending : sortByKey;
+                    let i = index
+                  "
+                  fd-table-row
+                  [attr.aria-selected]="row.checked"
+                  [hoverable]="true"
+                  [class.rowSpanChild]="row.isRowSpanChild"
+                  [class.rowSpan]="row.rowSpan"
+                  [class.hovered]="row.hovered"
+                  [class.checked]="row.checked"
+                  (mouseenter)="setGroupHovering(i)"
+                  (mouseleave)="setGroupHovering(i, true)"
+                >
+                  <td
+                    fd-table-cell
+                    *ngIf="!row.isRowSpanChild"
+                    [attr.rowSpan]="row.rowSpan || 1"
+                    class="px-0 col-check"
+                  >
+                    <div class="d-flex h-100 align-items-center">
+                      <fd-checkbox
+                        [attr.aria-label]="'Select row ' + (i + 1)"
+                        [attr.title]="'Select row ' + (i + 1)"
+                        [value]="row.checked"
+                        (click)="
+                          row.checked
+                            ? (row.checked = false)
+                            : (row.checked = true);
+                          select(i)
+                        "
+                      ></fd-checkbox>
+                    </div>
+                  </td>
+                  <td fd-table-cell class="col-name">
+                    <span fd-table-text>{{ row.name }}</span>
+                  </td>
+                  <td fd-table-cell class="col-date">
+                    <span fd-table-text>{{ row.date }}</span>
+                  </td>
+                  <td fd-table-cell>
+                    <span fd-table-text>{{ row.amount }}</span>
+                  </td>
+                  <td fd-table-cell>
+                    <span fd-table-text>{{ row.vendor }}</span>
+                  </td>
+                  <td fd-table-cell>
+                    <span fd-table-text>{{ row.warranty }}</span>
+                  </td>
+                  <td fd-table-cell>
+                    <span fd-table-text>{{ row.size }}</span>
+                  </td>
+                  <td fd-table-cell class="text-end pe-4">
+                    <span fd-table-text *ngIf="row.price"
+                      >{{ row.price }} €</span
+                    >
+                  </td>
+                  <td fd-table-cell style="border-left-style: none">
+                    <span fd-table-text>{{ row.properties }}</span>
+                  </td>
+                  <td
+                    class="col-details"
+                    *ngIf="!row.isRowSpanChild"
+                    [attr.rowSpan]="row.rowSpan || 1"
+                    fd-table-cell
+                    [fitContent]="true"
+                    [noPadding]="true"
+                    (click)="openCloseDialog(dialogTemplate, i)"
+                    style="cursor: pointer"
+                  >
+                    <i
+                      title="Purchase Rquest Details"
+                      fd-table-icon
+                      [glyph]="'message-information'"
+                      [navigation]="true"
+                      role="presentation"
+                    ></i>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <ng-template
+            let-dialog
+            let-dialogConfig="dialogConfig"
+            #dialogTemplate
+          >
+            <fd-dialog [dialogConfig]="dialogConfig" [dialogRef]="dialog">
+              <fd-dialog-header>
+                <h1 id="fd-dialog-header-7" fd-title>
+                  Purchase Request Details
+                </h1>
+              </fd-dialog-header>
+
+              <fd-dialog-body>
+                <div
+                  id="fd-dialog-body-7"
+                  role="dialog"
+                  class="description-text"
+                >
+                  {{ dialog.data.description }}
+                </div>
+              </fd-dialog-body>
+
+              <fd-dialog-footer>
+                <fd-button-bar
+                  fdCompact
+                  fdkInitialFocus
+                  fdType="emphasized"
+                  label="Ok"
+                  (click)="dialog.close()"
+                  ariaLabel="Ok Emphasized"
+                >
+                </fd-button-bar>
+              </fd-dialog-footer>
+            </fd-dialog>
+          </ng-template>
+        </div>
+      </ng-template>
+      <ng-template #midColumn>
+        <div
+          class="d-flex w-100 h-100 flex-column pe-2"
+          *ngIf="suppliersOnCategories"
+        >
+          <!-- header: title + close button -->
+          <div class="d-flex w-100 flex-grow-0 flex-shrink-0 pb-4">
+            <div class="d-flex flex-column w-100 flex-shrink-1 flex-grow-1">
+              <h4 fd-title>Suppliers</h4>
+            </div>
+            <button
+              class="flex-grow-0 flex-shrink-0 close-button"
+              fd-button
+              fdCompact
+              fdType="transparent"
+              aria-label="Close"
+              (click)="
+                suppliersOnCategories = null;
+                changeLayout('OneColumnStartFullScreen')
+              "
+              title="Close"
+            >
+              <i class="sap-icon--decline"></i>
+            </button>
+          </div>
+          <!-- content: categories -->
+          <div
+            class="d-flex w-100 flex-grow-1 flex-shrink-1 flex-column overflow-auto gap-4"
+          >
+            <fd-panel
+              [expanded]="true"
+              fdCompact
+              expandAriaLabel="Panel Expand"
+              expandAriaLabelledBy="panel-compact-1"
+              *ngFor="let category of suppliersOnCategories"
+            >
+              <span
+                fd-panel-title
+                id="panel-compact-1"
+                class="category-title"
+                >{{ category.name }}</span
+              >
+              <div
+                fd-panel-content
+                ariaLabel="Panel Content"
+                id="panel-content-3"
+              >
+                <div fd-text>{{ category.products.join(", ") }}</div>
+
+                <!-- suppliers -->
+                <div
+                  class="d-flex w-100 flex-grow-1 flex-shrink-1 card-container gap-4"
+                >
+                  <fd-card
+                    fdCompact
+                    cardType="list"
+                    *ngFor="let supplier of category.suppliers"
+                  >
+                    <fd-card-header>
+                      <fd-avatar
+                        *ngIf="supplier.image; else placeholder"
+                        [image]="supplier.image"
+                        [circle]="true"
+                        size="s"
+                        ariaLabel="avatar image"
+                        title="avatar image"
+                      ></fd-avatar>
+                      <ng-template #placeholder>
+                        <fd-avatar
+                          [circle]="true"
+                          [placeholder]="true"
+                          size="s"
+                          glyph="company-view"
+                        ></fd-avatar>
+                      </ng-template>
+                      <h2 fd-card-title>{{ supplier.name }}</h2>
+                      <a fd-link fd-card-subtitle [href]="supplier.link">{{
+                        supplier.link
+                      }}</a>
+                    </fd-card-header>
+                    <fd-card-footer>
+                      <button *fdCardFooterActionItem fd-button>
+                        Ask for quote
+                      </button>
+                    </fd-card-footer>
+                  </fd-card>
+                </div>
+              </div>
+            </fd-panel>
+          </div>
+        </div>
+      </ng-template>
+    </fd-flexible-column-layout>
+  </fd-dynamic-page-content>
+</fd-dynamic-page>

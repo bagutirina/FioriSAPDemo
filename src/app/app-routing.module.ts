@@ -1,10 +1,18 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { PurchaseComponent } from './demo1/purchase.component';
+import { MonitorComponent } from './demo2/monitor.component';
 
-const routes: Routes = [];
+const routes: Routes = [
+  { path: '', pathMatch: 'full', redirectTo: 'purchase' },
+  { path: 'purchase', component: PurchaseComponent },
+  { path: 'monitor', component: MonitorComponent },
+
+  { path: '**', redirectTo: 'purchase' },
+];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

@@ -1,0 +1,260 @@
+:host {
+  width: 100%;
+  height: 100%;
+  display: block;
+  // background: var(--fdToolbar_Solid_Background);
+}
+
+.main-content {
+  max-width: 95%;
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+}
+.title {
+  color: #089556;
+}
+// layout
+.table-container {
+  display: flex;
+  flex-direction: column;
+  // padding-left: 24px !important;
+  // padding-right: 24px !important;
+  padding-top: 12px;
+
+  // background: var(--fdToolbar_Solid_Background);
+  //padding: 20px;
+}
+
+::ng-deep .fd-toolbar__overflow {
+  fdk-dynamic-portal:not(:last-child) {
+    padding-top: 20px;
+  }
+}
+
+fd-toolbar ::ng-deep .fd-toolbar.fd-toolbar--solid {
+  padding-top: 60px;
+  padding-bottom: 40px;
+  background-color: white;
+  // padding-left: 20px;
+  // padding-right: 20px;
+  // gap: 10px;
+}
+
+.search-input {
+  flex: 1 1 auto;
+  ::ng-deep .fd-input-group {
+    // border-width: 0 0 1px 0;
+    background-color: transparent;
+    border-color: lightgray;
+    border-radius: 10px;
+  }
+}
+.importantOnlyChk {
+  margin-left: -7px;
+  ::ng-deep {
+    .fd-checkbox__label-container {
+      margin-left: 5px;
+    }
+  }
+}
+
+.filter-item {
+  position: relative;
+  flex-grow: 1;
+  flex-shrink: 1;
+  max-width: 260px;
+  .filter-label {
+    position: absolute;
+    top: -20px;
+  }
+}
+.fd-date-picker {
+  width: 100%;
+}
+
+.scrollable-table {
+  overflow-y: auto;
+  width: 100%;
+}
+
+.fd-table__cell {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+tr {
+  cursor: pointer;
+}
+
+th {
+  background-color: #cfe3da !important;
+  td:hover {
+    background-color: #cfe3da;
+  }
+}
+.fd-table__row--hoverable:hover {
+  background-color: #ededed82;
+}
+
+tr.expanded {
+  background-color: rgb(182 211 192 / 24%);
+  cursor: pointer;
+  td {
+    border-bottom: none;
+  }
+  td.col-check {
+    border-left: none;
+  }
+}
+
+.expanded-col {
+  background-color: rgb(198 225 207 / 12%);
+  border-left-color: transparent !important;
+}
+.expanded-details {
+  padding: 10px;
+  border-left-color: transparent !important;
+  background-color: rgb(198 225 207 / 12%);
+  .expanded-details-content {
+    // padding-left: 30px;
+  }
+  h5 {
+    font-size: 16px;
+    color: #5a8974;
+  }
+
+  .table-col1 {
+    width: 150px;
+    display: inline-block;
+  }
+  .table-col11 {
+    width: 220px;
+    display: inline-block;
+  }
+  .table-col2 {
+    width: 100px;
+    display: inline-block;
+    text-align: center;
+  }
+  .table-col22 {
+    width: 100px;
+    display: inline-block;
+  }
+  .table-col3 {
+    width: 100px;
+    display: inline-block;
+    text-align: center;
+  }
+  .table-col33 {
+    width: 120px;
+    display: inline-block;
+    text-align: center;
+  }
+  .table-col4 {
+    width: 130px;
+    display: inline-block;
+  }
+  .table-col5 {
+    width: 120px;
+    display: inline-block;
+    text-align: center;
+  }
+}
+
+.col-name {
+  min-width: 150px;
+  padding-left: 0px;
+}
+.col-date {
+  min-width: 120px;
+}
+.col-status {
+  min-width: 140px;
+}
+.col-docType {
+  min-width: 130px;
+}
+.col-domain {
+  min-width: 130px;
+}
+.col-source {
+  max-width: 190px;
+  word-wrap: break-word;
+}
+.col-coutryAreeaOccurence {
+  min-width: 130px;
+}
+
+.status-tag {
+  display: block;
+  width: 100%;
+  padding: 4px 8px;
+  border-radius: 10px;
+  font-size: 12px;
+  color: rgb(0, 0, 0);
+  text-transform: uppercase;
+  text-align: center;
+  font-weight: 600;
+}
+
+.status-confirmed {
+  background-color: #f0d3d2;
+} /* Roșu */
+.status-relevant {
+  background-color: #bed4ec;
+} /* Albastru */
+.status-review {
+  background-color: #f7debc;
+} /* Galben */
+.status-closed {
+  background-color: #d2fadc;
+} /* Verde */
+.status-not-relevant {
+  background-color: #dbe2e9;
+} /* Gri */
+
+.sortable {
+  cursor: pointer;
+}
+
+.description-text {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+.fd-table__row:last-child .fd-table__cell {
+  border-bottom-color: var(--sapList_BorderColor) !important;
+}
+
+::ng-deep {
+  .fd-scrollbar {
+    scrollbar-color: var(--sapScrollBarThumb) var(--sapBackgroundColor) !important;
+    scrollbar-width: thin;
+  }
+}
+
+::-webkit-scrollbar {
+  background-clip: padding-box;
+  background: transparent;
+}
+::-webkit-scrollbar:vertical {
+  width: 5px;
+}
+::-webkit-scrollbar:horizontal {
+  height: 5px;
+}
+::-webkit-scrollbar-thumb {
+  background-clip: padding-box;
+  background-color: #e6e9e8;
+  border: 0px solid transparent;
+}
+::-webkit-scrollbar-thumb:hover {
+  background-color: #b4c7bf;
+}
+::-webkit-scrollbar-button {
+  display: none;
+}
+::-webkit-scrollbar-corner {
+  background-color: transparent;
+}

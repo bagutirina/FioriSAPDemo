@@ -1,0 +1,487 @@
+<fd-shellbar>
+  <fd-shellbar-logo>
+    <a href="#" aria-label="Custom Logo">
+      <img
+        src="assets/images/BFN-logo.png"
+        alt="Custom Logo"
+        style="height: 32px"
+      />
+    </a>
+  </fd-shellbar-logo>
+
+  <fd-shellbar-title> Bundesamt für Naturschutz </fd-shellbar-title>
+
+  <fd-shellbar-actions
+    [user]="user"
+    [userMenu]="userMenu"
+    [closePopoverOnSelect]="true"
+  >
+    <fd-shellbar-action glyph="search" ariaLabel="Search"></fd-shellbar-action>
+
+    <fd-shellbar-action
+      *ngFor="let action of actions"
+      [glyph]="action.glyph"
+      [callback]="action.callback"
+      [label]="action.label"
+      [notificationCount]="action.notificationCount"
+      [notificationLabel]="action.notificationLabel"
+    ></fd-shellbar-action>
+  </fd-shellbar-actions>
+</fd-shellbar>
+<div class="main-content w-100 h-100">
+  <h4 fd-title class="flex-shrink-0 mt-5 mb-2 title">
+    Nagoya-Protocol Monitor
+  </h4>
+
+  <div class="table-container d-flex w-100 py-3 h-100">
+    <div class="d-flex flex-column w-100 flex-grow-0 flex-shrink-0">
+      <fd-toolbar [shouldOverflow]="false">
+        <fd-checkbox
+          class="importantOnlyChk"
+          [(ngModel)]="showOnlyChecked"
+          label="Show only selected"
+        ></fd-checkbox>
+
+        <fd-toolbar-separator class="mx-2"></fd-toolbar-separator>
+
+        <!-- search -->
+        <fd-input-group
+          fd-toolbar-item
+          fdCompact
+          glyph="search"
+          glyphAriaLabel="Search"
+          title="Search"
+          placeholder="Search"
+          [button]="true"
+          [disabled]="false"
+          [(ngModel)]="searchText"
+          (addOnButtonClicked)="searchText = ''"
+          class="search-input pe-3"
+        >
+        </fd-input-group>
+        <fd-toolbar-separator class="mx-2"></fd-toolbar-separator>
+
+        <!-- COUNTRY -->
+        <div class="filter-item" fd-toolbar-item>
+          <span fd-label class="filter-label">Country</span>
+          <fd-multi-input
+            fdCompact
+            inputId="dropdownExampleInput1"
+            [dropdownValues]="vendors"
+            [(ngModel)]="selectedVendor"
+          ></fd-multi-input>
+        </div>
+
+        <!-- Domain -->
+        <div class="filter-item" fd-toolbar-item>
+          <span fd-label class="filter-label">Domain</span>
+          <fd-multi-input
+            fdCompact
+            inputId="dropdownExampleInput1"
+            [dropdownValues]="warranties"
+            [(ngModel)]="selectedWarranties"
+          ></fd-multi-input>
+        </div>
+
+        <!-- Country / Area Occurance -->
+        <div class="filter-item" fd-toolbar-item>
+          <span fd-label class="filter-label">Country / Area Occurance</span>
+          <fd-multi-input
+            fdCompact
+            inputId="dropdownExampleInput1"
+            [dropdownValues]="prices"
+            [(ngModel)]="selectedPrices"
+          ></fd-multi-input>
+        </div>
+
+        <!-- date range -->
+        <div class="filter-item" fd-toolbar-item>
+          <span fd-label class="filter-label">Date Range</span>
+          <fd-date-picker
+            fdCompact
+            type="range"
+            [showTodayButton]="true"
+            [(ngModel)]="selectedRange"
+          >
+          </fd-date-picker>
+        </div>
+
+        <!-- Review Status -->
+        <div class="filter-item" fd-toolbar-item>
+          <span fd-label class="filter-label">Review Status</span>
+          <fd-multi-input
+            fdCompact
+            inputId="dropdownExampleInput1"
+            [dropdownValues]="vendors"
+            [(ngModel)]="selectedVendor"
+          ></fd-multi-input>
+        </div>
+      </fd-toolbar>
+    </div>
+
+    <div class="scrollable-table w-100 h-100">
+      <table fd-table fdCompact [responsive]="true">
+        <thead fd-table-header [noBorderY]="true">
+          <tr fd-table-row>
+            <th fd-table-cell>
+              <!-- <fd-checkbox
+                aria-label="Select all"
+                title="Select all"
+                [tristate]="true"
+                [ngModel]="checkboxValue"
+                (ngModelChange)="selectAll($event)"
+              ></fd-checkbox> -->
+            </th>
+            <th fd-table-cell class="col-name">Title</th>
+            <th fd-table-cell>Country</th>
+            <th fd-table-cell class="col-source">Source</th>
+            <th fd-table-cell class="col-docType">Type</th>
+            <th fd-table-cell>Organization</th>
+            <th fd-table-cell class="col-domain">Domain</th>
+            <th fd-table-cell>Organisms</th>
+            <th fd-table-cell class="col-coutryAreeaOccurence">
+              Country / Area Occurance
+            </th>
+            <th fd-table-cell class="col-date">Date Range</th>
+            <th fd-table-cell>Score</th>
+            <th fd-table-cell class="col-status">Review Status</th>
+          </tr>
+        </thead>
+        <tbody fd-table-body [noBorderY]="true">
+          <ng-container
+            *ngFor="
+              let row of monitorData
+                | filter : searchText : 'docTitle'
+                | filter : (showOnlyChecked ? 'checked' : '')
+                | sortBy : ascending : sortByKey;
+              let i = index
+            "
+          >
+            <tr
+              *ngIf="!row.expanded"
+              fd-table-row
+              [hoverable]="true"
+              [class.checked]="row.checked"
+              [class.expanded]="row.expanded"
+              (click)="toggleRowExpansion(i)"
+            >
+              <td fd-table-cell class="px-0 col-check">
+                <div class="d-flex h-100 align-items-center">
+                  <fd-checkbox
+                    [attr.aria-label]="'Select row ' + (i + 1)"
+                    [attr.title]="'Select row ' + (i + 1)"
+                    [value]="row.checked"
+                    (click)="
+                      $event.preventDefault();
+                      $event.stopPropagation();
+                      row.checked
+                        ? (row.checked = false)
+                        : (row.checked = true);
+                      select(i)
+                    "
+                  ></fd-checkbox>
+                </div>
+              </td>
+              <td fd-table-cell class="col-name">
+                <span fd-table-text *ngIf="!row.expanded">{{
+                  row.docTitle
+                }}</span>
+              </td>
+              <td fd-table-cell>
+                <span fd-table-text *ngIf="!row.expanded">{{
+                  row.country
+                }}</span>
+              </td>
+              <td fd-table-cell class="col-source">
+                <a
+                  *ngIf="!row.expanded"
+                  d-table-text
+                  [href]="row.source"
+                  (click)="$event.stopPropagation()"
+                  target="_blank"
+                  >{{ row.source }}</a
+                >
+              </td>
+              <td fd-table-cell class="col-docType">
+                <span fd-table-text *ngIf="!row.expanded">{{
+                  row.docType
+                }}</span>
+              </td>
+              <td fd-table-cell>
+                <span fd-table-text *ngIf="!row.expanded">{{
+                  row.organization
+                }}</span>
+              </td>
+              <td fd-table-cell class="col-domain">
+                <span fd-table-text *ngIf="!row.expanded">{{
+                  row.domain
+                }}</span>
+              </td>
+              <td fd-table-cell>
+                <span fd-table-text *ngIf="!row.expanded">{{
+                  row.organisms
+                }}</span>
+              </td>
+              <td fd-table-cell class="col-coutryAreeaOccurence">
+                <span fd-table-text *ngIf="!row.expanded">{{
+                  row.countryOrAreaOccurrence
+                }}</span>
+              </td>
+              <td fd-table-cell class="col-date">
+                <span fd-table-text *ngIf="!row.expanded">{{
+                  row.dateRange
+                }}</span>
+              </td>
+              <td fd-table-cell>
+                <span fd-table-text *ngIf="!row.expanded">{{
+                  row.relevanceScore
+                }}</span>
+              </td>
+              <td
+                fd-table-cell
+                class="col-status"
+                style="border-left-style: none"
+              >
+                <span
+                  *ngIf="!row.expanded"
+                  fd-table-text
+                  class="status-tag"
+                  [ngClass]="getStatusClass(row.reviewStatus)"
+                  >{{ row.reviewStatus }}</span
+                >
+              </td>
+            </tr>
+            <tr *ngIf="row.expanded" (click)="toggleRowExpansion(i)">
+              <td
+                fd-table-cell
+                class="px-0 col-check expanded-col"
+                style="width: 40px"
+              >
+                <div
+                  class="d-flex h-100 align-items-top"
+                  style="padding-top: 12px"
+                >
+                  <fd-checkbox
+                    [attr.aria-label]="'Select row ' + (i + 1)"
+                    [attr.title]="'Select row ' + (i + 1)"
+                    [value]="row.checked"
+                    (click)="
+                      $event.preventDefault();
+                      $event.stopPropagation();
+                      row.checked
+                        ? (row.checked = false)
+                        : (row.checked = true);
+                      select(i)
+                    "
+                  ></fd-checkbox>
+                </div>
+              </td>
+              <td fd-table-cell colspan="11" class="expanded-details ps-0 pb-4">
+                <div class="expanded-details-content">
+                  <!-- <h5>Overview</h5> -->
+                  <div class="d-flex w-100 flex-row py-3 gap-3">
+                    <!-- Document Information -->
+                    <div class="d-flex flex-column me-2">
+                      <span class="mb-2"
+                        ><strong>Document Information</strong></span
+                      >
+                      <div class="d-flex flex-row" style="max-width: 700px">
+                        <span class="fw-bold me-2">Title:</span>
+                        <span class="fst-italic">{{ row.docTitle }}</span>
+                      </div>
+                      <div>
+                        <span class="fw-bold me-2">Domain:</span>
+                        <span class="fst-italic">Pharmaceutical / Medical</span>
+                      </div>
+                      <div>
+                        <span class="fw-bold me-2">Document type:</span>
+                        <span class="fst-italic">{{ row.docType }}</span>
+                      </div>
+                      <div>
+                        <span class="fw-bold me-2">Organisms:</span>
+                        <span class="fst-italic">{{ row.organisms }}</span>
+                      </div>
+                      <div>
+                        <span class="fw-bold me-2">Author:</span>
+                        <span class="fst-italic"
+                          >Hur Jae Seoun (KR), Koh Young Jin (KR), Ren Mei Rong
+                          (CN)</span
+                        >
+                      </div>
+                      <div>
+                        <span class="fw-bold me-2">Country:</span>
+                        <span class="fst-italic">{{ row.country }}</span>
+                      </div>
+                      <div>
+                        <span class="fw-bold me-2">Nagoya Member:</span>
+                        <span class="fst-italic">Yes</span>
+                      </div>
+                      <div>
+                        <span class="fw-bold me-2">Date:</span>
+                        <span class="fst-italic">{{ row.dateRange }}</span>
+                      </div>
+                    </div>
+
+                    <!-- Review Status -->
+                    <div class="d-flex flex-column ms-5 me-2">
+                      <p class="mb-2"><strong>Review Status</strong></p>
+                      <span
+                        fd-table-text
+                        class="status-tag"
+                        [ngClass]="getStatusClass(row.reviewStatus)"
+                        >{{ row.reviewStatus }}</span
+                      >
+                    </div>
+
+                    <!-- Terms indicating Uitilization -->
+                    <div class="d-flex flex-column ms-5">
+                      <span class="mb-2">
+                        <strong>Terms</strong>
+                      </span>
+                      <span class="fw-bold mb-2">Extracted terms</span>
+                      <span class="fst-italic">Pharmaceutical composition</span>
+                      <span class="fst-italic"
+                        >Preventing and treating diabetes</span
+                      >
+                      <span class="fst-italic"
+                        >Composition for preventing and treating type 2
+                        diabetes</span
+                      >
+                      <span class="fst-italic"
+                        >Pharmaceutically acceptable salt</span
+                      >
+                      <span class="fst-italic"
+                        >Isolated from / Derived from lichen-forming fungi</span
+                      >
+                      <span class="fst-italic">reduce resistance</span>
+                      <span class="fst-italic">Myelochroa galbina</span>
+                    </div>
+
+                    <!-- Score -->
+                    <div class="d-flex flex-column ms-5">
+                      <div>
+                        <span class="table-col1 fw-bold">Score</span>
+                        <span class="table-col2 fw-bold">{{
+                          row.relevanceScore
+                        }}</span>
+                      </div>
+
+                      <div
+                        class="mt-2 mb-2 pb-2"
+                        style="border-bottom: 1px solid lightgray"
+                      >
+                        <span class="table-col1 fw-bold">Criteria</span>
+                        <span class="table-col2 fw-bold">Score</span>
+                        <span class="table-col3 fw-bold">Weight</span>
+                      </div>
+                      <div>
+                        <span class="table-col1">Utilization Terms (Tags)</span>
+                        <span class="table-col2">95%</span>
+                        <span class="table-col3">40.4</span>
+                      </div>
+
+                      <div>
+                        <span class="table-col1">Organism (origin)</span>
+                        <span class="table-col2">100%</span>
+                        <span class="table-col3">23.33</span>
+                      </div>
+
+                      <div>
+                        <span class="table-col1">Organisation (domain)</span>
+                        <span class="table-col2">85%</span>
+                        <span class="table-col3">13.33</span>
+                      </div>
+
+                      <div>
+                        <span class="table-col1">Organisation (country)</span>
+                        <span class="table-col2">100%</span>
+                        <span class="table-col3">23.33</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Genetic Resource & Origin -->
+                  <div class="d-flex flex-column mt-4" style="max-width: 700px">
+                    <p class="mb-2">
+                      <strong>Genetic Resource & Origin</strong>
+                    </p>
+
+                    <div
+                      class="mb-2 pb-2"
+                      style="border-bottom: 1px solid lightgray"
+                    >
+                      <span class="table-col11 fw-bold">Organism</span>
+                      <span class="table-col22 fw-bold">Kingdom</span>
+                      <span class="table-col4 fw-bold">Country of Origin</span>
+                      <span class="table-col33 fw-bold">Nagoya</span>
+                      <span class="table-col5 fw-bold">GBIF Reference</span>
+                    </div>
+
+                    <div>
+                      <span class="table-col11">Myelochroa galbina</span>
+                      <span class="table-col22">Fungi</span>
+                      <span class="table-col4">United States</span>
+                      <span class="table-col33">Yes</span>
+                      <span class="table-col5"><a href="#">GBIF</a> </span>
+                    </div>
+                    <div>
+                      <span class="table-col11"
+                        >Arabidopsis lyrata subsp. lyrata</span
+                      >
+                      <span class="table-col22">Plantae</span>
+                      <span class="table-col4">Canada</span>
+                      <span class="table-col33">Yes</span>
+                      <span class="table-col5"><a href="#">GBIF</a> </span>
+                    </div>
+                    <div>
+                      <span class="table-col11">Clavulina sprucei</span>
+                      <span class="table-col22">Fungi</span>
+                      <span class="table-col4">Brazil</span>
+                      <span class="table-col33">Yes</span>
+                      <span class="table-col5"><a href="#">GBIF</a> </span>
+                    </div>
+                    <div>
+                      <span class="table-col11">Lecanicillium fusisporum</span>
+                      <span class="table-col22">Fungi</span>
+                      <span class="table-col4">China</span>
+                      <span class="table-col33">Yes</span>
+                      <span class="table-col5"><a href="#">GBIF</a> </span>
+                    </div>
+                    <div>
+                      <span class="table-col11">Chrysomyxa neoglandulosi</span>
+                      <span class="table-col22">Fungi</span>
+                      <span class="table-col4">United States</span>
+                      <span class="table-col33">Yes</span>
+                      <span class="table-col5"><a href="#">GBIF</a> </span>
+                    </div>
+                    <div>
+                      <span class="table-col11">Chrysomyxa piperiana</span>
+                      <span class="table-col22">Fungi</span>
+                      <span class="table-col4">Russia</span>
+                      <span class="table-col33">No</span>
+                      <span class="table-col5"><a href="#">GBIF</a> </span>
+                    </div>
+                    <div>
+                      <span class="table-col11">Chrysomyxa arctostaphyli</span>
+                      <span class="table-col22">Fungi</span>
+                      <span class="table-col4">Canada</span>
+                      <span class="table-col33">Yes</span>
+                      <span class="table-col5"><a href="#">GBIF</a> </span>
+                    </div>
+                    <div>
+                      <span class="table-col11">Chrysomyxa pyrolae</span>
+                      <span class="table-col22">Fungi</span>
+                      <span class="table-col4">Finland</span>
+                      <span class="table-col33">Yes</span>
+                      <span class="table-col5"><a href="#">GBIF</a> </span>
+                    </div>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </ng-container>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
