@@ -11,7 +11,7 @@ export const monitorData: any[] = [
     countryOrAreaOccurrence: 'United States of America',
     dateRange: 'Oct 8, 2018',
     relevanceScore: '96%',
-    reviewStatus: 'Confirmed Case',
+    reviewStatus: 'Completed',
   },
   {
     docTitle:
@@ -25,7 +25,7 @@ export const monitorData: any[] = [
     countryOrAreaOccurrence: 'United States, Canada, International (WO)',
     dateRange: 'May 22, 2015',
     relevanceScore: '85%',
-    reviewStatus: 'Relevant',
+    reviewStatus: 'Completed',
   },
   {
     docTitle:
@@ -54,7 +54,7 @@ export const monitorData: any[] = [
       'South Korea, China, United States, International (WO)',
     dateRange: 'Nov 20, 2017',
     relevanceScore: '80%',
-    reviewStatus: 'Closed',
+    reviewStatus: 'Discarded',
   },
   {
     docTitle: 'Products and Methods for Improving Plant Growth Features',
@@ -67,7 +67,7 @@ export const monitorData: any[] = [
     countryOrAreaOccurrence: 'International (WO)',
     dateRange: 'Jul 5, 2023',
     relevanceScore: '78%',
-    reviewStatus: 'Not Relevant',
+    reviewStatus: 'Under Review',
   },
 ];
 

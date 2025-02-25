@@ -179,7 +179,7 @@
                   row.docTitle
                 }}</span>
               </td>
-              <td fd-table-cell>
+              <td fd-table-cell class="col-country">
                 <span fd-table-text *ngIf="!row.expanded">{{
                   row.country
                 }}</span>
@@ -269,11 +269,11 @@
                 </div>
               </td>
               <td fd-table-cell colspan="11" class="expanded-details ps-0">
-                <div class="expanded-details-content pb-4">
+                <div class="expanded-details-content pb-4 w-100">
                   <!-- <h5>Overview</h5> -->
-                  <div class="d-flex w-100 flex-row py-4 gap-3">
+                  <div class="d-flex w-100 flex-row py-4 gap-3 w-100">
                     <!-- Document Information -->
-                    <div class="d-flex flex-column me-2">
+                    <div class="d-flex flex-column me-2" style="width: 50%">
                       <span class="mb-2"
                         ><strong>Document Information</strong></span
                       >
@@ -290,9 +290,13 @@
                         <span class="fst-italic">{{ row.docType }}</span>
                       </div>
                       <div>
+                        <span class="fw-bold me-2">Organization:</span>
+                        <span class="fst-italic">{{ row.organization }}</span>
+                      </div>
+                      <!-- <div>
                         <span class="fw-bold me-2">Organisms:</span>
                         <span class="fst-italic">{{ row.organisms }}</span>
-                      </div>
+                      </div> -->
                       <div>
                         <span class="fw-bold me-2">Author:</span>
                         <span class="fst-italic"
@@ -314,19 +318,10 @@
                       </div>
                     </div>
 
-                    <!-- Review Status -->
-                    <div class="d-flex flex-column ms-5 me-2">
-                      <p class="mb-2"><strong>Review Status</strong></p>
-                      <span
-                        fd-table-text
-                        class="status-tag"
-                        [ngClass]="getStatusClass(row.reviewStatus)"
-                        >{{ row.reviewStatus }}</span
-                      >
-                    </div>
-
                     <!-- Terms indicating Uitilization -->
-                    <div class="d-flex flex-column ms-5">
+                    <div
+                      class="d-flex flex-column ms-4 flex-grow-1 flex-shrink-1"
+                    >
                       <span class="mb-2">
                         <strong>Terms indicating utilisation</strong>
                       </span>
@@ -349,124 +344,183 @@
                       <span class="fst-italic">Myelochroa galbina</span>
                     </div>
 
-                    <!-- Score -->
-                    <div class="d-flex flex-column ms-5">
-                      <div>
-                        <span class="table-col1 fw-bold">Score</span>
-                        <span class="table-col2 fw-bold">{{
-                          row.relevanceScore
-                        }}</span>
+                    <!-- Review Status -->
+                    <div
+                      class="d-flex flex-column ms-4 flex-grow-0 flex-shrink-0 me-3"
+                      style="width: 190px"
+                    >
+                      <div class="d-flex flex-column">
+                        <p class="mb-2 text-center">
+                          <strong>Review Status</strong>
+                        </p>
+                        <span
+                          fd-table-text
+                          class="status-tag"
+                          [ngClass]="getStatusClass(row.reviewStatus)"
+                          >{{ row.reviewStatus }}</span
+                        >
                       </div>
 
-                      <div
-                        class="mt-2 mb-2 pb-2"
-                        style="border-bottom: 1px solid lightgray"
+                      <p class="mt-5 mb-0 pb-1">
+                        <strong>Assess Document Relevance</strong>
+                      </p>
+                      <fd-combobox
+                        fdCompact
+                        ariaLabel="Standard"
+                        placeholder="Select relevance..."
+                        [dropdownValues]="[
+                          'Confirmed Case',
+                          'Highly Relevant',
+                          'Somewhat Relevant',
+                          'Low Relevance',
+                          'Not Relevant'
+                        ]"
+                        [(ngModel)]="selectedAccess[i]"
+                        (click)="$event.stopPropagation()"
                       >
-                        <span class="table-col1 fw-bold">Criteria</span>
-                        <span class="table-col2 fw-bold">Score</span>
-                        <span class="table-col3 fw-bold">Weight</span>
-                      </div>
-                      <div>
-                        <span class="table-col1">Utilization Terms (Tags)</span>
-                        <span class="table-col2">95%</span>
-                        <span class="table-col3">40.4</span>
-                      </div>
-
-                      <div>
-                        <span class="table-col1">Organism (origin)</span>
-                        <span class="table-col2">100%</span>
-                        <span class="table-col3">23.33</span>
-                      </div>
-
-                      <div>
-                        <span class="table-col1">Organisation (domain)</span>
-                        <span class="table-col2">85%</span>
-                        <span class="table-col3">13.33</span>
-                      </div>
-
-                      <div>
-                        <span class="table-col1">Organisation (country)</span>
-                        <span class="table-col2">100%</span>
-                        <span class="table-col3">23.33</span>
-                      </div>
+                      </fd-combobox>
                     </div>
                   </div>
 
-                  <!-- Genetic Resource & Origin -->
-                  <div class="d-flex flex-column mt-4" style="max-width: 700px">
-                    <p class="mb-2">
-                      <strong>Genetic Resource & Origin</strong>
-                    </p>
+                  <div class="d-flex w-100 flex-row py-4 gap-3 w-100">
+                    <!-- Genetic Resource & Origin -->
+                    <div class="mt-4" style="width: 50%">
+                      <div class="d-flex flex-column" style="max-width: 700px">
+                        <p class="mb-2">
+                          <strong>Genetic Resource & Origin</strong>
+                        </p>
 
+                        <div
+                          class="mb-2 pb-2"
+                          style="border-bottom: 1px solid lightgray"
+                        >
+                          <span class="table-col11 fw-bold">Organism</span>
+                          <span class="table-col22 fw-bold">Kingdom</span>
+                          <span class="table-col4 fw-bold"
+                            >Country of Origin</span
+                          >
+                          <span class="table-col33 fw-bold">Nagoya</span>
+                          <span class="table-col5 fw-bold">GBIF Reference</span>
+                        </div>
+
+                        <div>
+                          <span class="table-col11">Myelochroa galbina</span>
+                          <span class="table-col22">Fungi</span>
+                          <span class="table-col4">United States</span>
+                          <span class="table-col33">Yes</span>
+                          <span class="table-col5"><a href="#">GBIF</a> </span>
+                        </div>
+                        <div>
+                          <span class="table-col11"
+                            >Arabidopsis lyrata subsp. lyrata</span
+                          >
+                          <span class="table-col22">Plantae</span>
+                          <span class="table-col4">Canada</span>
+                          <span class="table-col33">Yes</span>
+                          <span class="table-col5"><a href="#">GBIF</a> </span>
+                        </div>
+                        <div>
+                          <span class="table-col11">Clavulina sprucei</span>
+                          <span class="table-col22">Fungi</span>
+                          <span class="table-col4">Brazil</span>
+                          <span class="table-col33">Yes</span>
+                          <span class="table-col5"><a href="#">GBIF</a> </span>
+                        </div>
+                        <div>
+                          <span class="table-col11"
+                            >Lecanicillium fusisporum</span
+                          >
+                          <span class="table-col22">Fungi</span>
+                          <span class="table-col4">China</span>
+                          <span class="table-col33">Yes</span>
+                          <span class="table-col5"><a href="#">GBIF</a> </span>
+                        </div>
+                        <div>
+                          <span class="table-col11"
+                            >Chrysomyxa neoglandulosi</span
+                          >
+                          <span class="table-col22">Fungi</span>
+                          <span class="table-col4">United States</span>
+                          <span class="table-col33">Yes</span>
+                          <span class="table-col5"><a href="#">GBIF</a> </span>
+                        </div>
+                        <div>
+                          <span class="table-col11">Chrysomyxa piperiana</span>
+                          <span class="table-col22">Fungi</span>
+                          <span class="table-col4">Russia</span>
+                          <span class="table-col33">No</span>
+                          <span class="table-col5"><a href="#">GBIF</a> </span>
+                        </div>
+                        <div>
+                          <span class="table-col11"
+                            >Chrysomyxa arctostaphyli</span
+                          >
+                          <span class="table-col22">Fungi</span>
+                          <span class="table-col4">Canada</span>
+                          <span class="table-col33">Yes</span>
+                          <span class="table-col5"><a href="#">GBIF</a> </span>
+                        </div>
+                        <div>
+                          <span class="table-col11">Chrysomyxa pyrolae</span>
+                          <span class="table-col22">Fungi</span>
+                          <span class="table-col4">Finland</span>
+                          <span class="table-col33">Yes</span>
+                          <span class="table-col5"><a href="#">GBIF</a> </span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Score -->
+                    <div class="mt-4 ms-4 flex-grow-1 flex-shrink-1">
+                      <div class="d-flex flex-column" style="max-width: 355px">
+                        <div>
+                          <span class="table-col1 fw-bold">Score</span>
+                          <span class="table-col2 fw-bold">{{
+                            row.relevanceScore
+                          }}</span>
+                        </div>
+
+                        <div
+                          class="mt-2 mb-2 pb-2"
+                          style="border-bottom: 1px solid lightgray"
+                        >
+                          <span class="table-col1 fw-bold">Criteria</span>
+                          <span class="table-col2 fw-bold">Score</span>
+                          <span class="table-col3 fw-bold">Weight</span>
+                        </div>
+                        <div>
+                          <span class="table-col1"
+                            >Utilization Terms (Tags)</span
+                          >
+                          <span class="table-col2">95%</span>
+                          <span class="table-col3">40.4</span>
+                        </div>
+
+                        <div>
+                          <span class="table-col1">Organism (origin)</span>
+                          <span class="table-col2">100%</span>
+                          <span class="table-col3">23.33</span>
+                        </div>
+
+                        <div>
+                          <span class="table-col1">Organisation (domain)</span>
+                          <span class="table-col2">85%</span>
+                          <span class="table-col3">13.33</span>
+                        </div>
+
+                        <div>
+                          <span class="table-col1">Organisation (country)</span>
+                          <span class="table-col2">100%</span>
+                          <span class="table-col3">23.33</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- nothing :) -->
                     <div
-                      class="mb-2 pb-2"
-                      style="border-bottom: 1px solid lightgray"
-                    >
-                      <span class="table-col11 fw-bold">Organism</span>
-                      <span class="table-col22 fw-bold">Kingdom</span>
-                      <span class="table-col4 fw-bold">Country of Origin</span>
-                      <span class="table-col33 fw-bold">Nagoya</span>
-                      <span class="table-col5 fw-bold">GBIF Reference</span>
-                    </div>
-
-                    <div>
-                      <span class="table-col11">Myelochroa galbina</span>
-                      <span class="table-col22">Fungi</span>
-                      <span class="table-col4">United States</span>
-                      <span class="table-col33">Yes</span>
-                      <span class="table-col5"><a href="#">GBIF</a> </span>
-                    </div>
-                    <div>
-                      <span class="table-col11"
-                        >Arabidopsis lyrata subsp. lyrata</span
-                      >
-                      <span class="table-col22">Plantae</span>
-                      <span class="table-col4">Canada</span>
-                      <span class="table-col33">Yes</span>
-                      <span class="table-col5"><a href="#">GBIF</a> </span>
-                    </div>
-                    <div>
-                      <span class="table-col11">Clavulina sprucei</span>
-                      <span class="table-col22">Fungi</span>
-                      <span class="table-col4">Brazil</span>
-                      <span class="table-col33">Yes</span>
-                      <span class="table-col5"><a href="#">GBIF</a> </span>
-                    </div>
-                    <div>
-                      <span class="table-col11">Lecanicillium fusisporum</span>
-                      <span class="table-col22">Fungi</span>
-                      <span class="table-col4">China</span>
-                      <span class="table-col33">Yes</span>
-                      <span class="table-col5"><a href="#">GBIF</a> </span>
-                    </div>
-                    <div>
-                      <span class="table-col11">Chrysomyxa neoglandulosi</span>
-                      <span class="table-col22">Fungi</span>
-                      <span class="table-col4">United States</span>
-                      <span class="table-col33">Yes</span>
-                      <span class="table-col5"><a href="#">GBIF</a> </span>
-                    </div>
-                    <div>
-                      <span class="table-col11">Chrysomyxa piperiana</span>
-                      <span class="table-col22">Fungi</span>
-                      <span class="table-col4">Russia</span>
-                      <span class="table-col33">No</span>
-                      <span class="table-col5"><a href="#">GBIF</a> </span>
-                    </div>
-                    <div>
-                      <span class="table-col11">Chrysomyxa arctostaphyli</span>
-                      <span class="table-col22">Fungi</span>
-                      <span class="table-col4">Canada</span>
-                      <span class="table-col33">Yes</span>
-                      <span class="table-col5"><a href="#">GBIF</a> </span>
-                    </div>
-                    <div>
-                      <span class="table-col11">Chrysomyxa pyrolae</span>
-                      <span class="table-col22">Fungi</span>
-                      <span class="table-col4">Finland</span>
-                      <span class="table-col33">Yes</span>
-                      <span class="table-col5"><a href="#">GBIF</a> </span>
-                    </div>
+                      class="d-flex flex-column ms-4 flex-grow-0 flex-shrink-0"
+                      style="width: 120px"
+                    ></div>
                   </div>
                 </div>
               </td>

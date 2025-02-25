@@ -169,6 +169,9 @@ tr.expanded {
   min-width: 150px;
   padding-left: 0px;
 }
+.col-country {
+  min-width: 130px;
+}
 .col-date {
   min-width: 120px;
 }
@@ -201,21 +204,17 @@ tr.expanded {
   font-weight: 600;
 }
 
-.status-confirmed {
-  background-color: #f0d3d2;
-} /* Roșu */
-.status-relevant {
-  background-color: #bed4ec;
-} /* Albastru */
 .status-review {
-  background-color: #f7debc;
-} /* Galben */
-.status-closed {
-  background-color: #d2fadc;
+  background-color: #ecd3884d;
+}
+
+.status-completed {
+  background-color: rgb(141 197 154 / 30%);
+} /* Albastru */
+
+.status-discarded {
+  background-color: #e69da442;
 } /* Verde */
-.status-not-relevant {
-  background-color: #dbe2e9;
-} /* Gri */
 
 .sortable {
   cursor: pointer;

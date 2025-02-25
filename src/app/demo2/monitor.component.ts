@@ -41,6 +41,7 @@ export class MonitorComponent {
   ascending = false;
   sortByKey = '';
   monitorData = monitorData;
+  selectedAccess = ['', '', '', '', ''];
 
   // filters
   reviewStatuses = Array.from(
@@ -148,16 +149,12 @@ export class MonitorComponent {
 
   getStatusClass(status: string): string {
     switch (status) {
-      case 'Confirmed Case':
-        return 'status-confirmed';
-      case 'Relevant':
-        return 'status-relevant';
       case 'Under Review':
         return 'status-review';
-      case 'Closed':
-        return 'status-closed';
-      case 'Not Relevant':
-        return 'status-not-relevant';
+      case 'Completed':
+        return 'status-completed';
+      case 'Discarded':
+        return 'status-discarded';
       default:
         return '';
     }
