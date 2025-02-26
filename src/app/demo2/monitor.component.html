@@ -347,15 +347,15 @@
                     <!-- Review Status -->
                     <div
                       class="d-flex flex-column ms-4 flex-grow-0 flex-shrink-0 me-3"
-                      style="width: 120px"
+                      style="width: 140px"
                     >
-                      <div class="d-flex flex-column align-self-end">
+                      <div class="d-flex flex-column w-100">
                         <p class="mb-2 text-center">
                           <strong>Review Status</strong>
                         </p>
                         <span
                           fd-table-text
-                          class="status-tag"
+                          class="status-tag w-100"
                           [ngClass]="getStatusClass(row.reviewStatus)"
                           >{{ row.reviewStatus }}</span
                         >
@@ -459,10 +459,13 @@
                           style="max-width: 210px"
                         >
                           <p class="mb-0 pb-1">
-                            <strong>Assess Document Relevance</strong>
+                            <strong
+                              >Assess Document Relevance for Model
+                              Training</strong
+                            >
                           </p>
                           <fd-combobox
-                            class="pt-2"
+                            class="pt-3"
                             fdCompact
                             ariaLabel="Standard"
                             placeholder="Select relevance..."
