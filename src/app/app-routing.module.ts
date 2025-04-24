@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { PurchaseComponent } from './demo1/purchase.component';
 import { MonitorComponent } from './demo2/monitor.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { SchadenfallComponent } from './demo3/schadenfall.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'dashboard' },
@@ -12,6 +13,7 @@ const routes: Routes = [
       { path: 'dashboard', component: DashboardComponent },
       { path: 'purchase', component: PurchaseComponent },
       { path: 'monitor', component: MonitorComponent },
+      { path: 'schadenfall', component: SchadenfallComponent },
     ],
   },
 

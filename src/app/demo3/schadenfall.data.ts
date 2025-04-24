@@ -1,0 +1,82 @@
+export const schadenfallData: any[] = [
+  {
+    fall: '001',
+    antragsteller: 'Max Mustermann',
+    policennummer: 'DE1234567890',
+    schadenfallnummer: 'SF20240101',
+    ort: 'Berlin',
+    typ: 'haftpflicht',
+    summe: 1200.5,
+    datum: '2024-11-15',
+    score: 82,
+    status: 'genehmigt',
+  },
+  {
+    fall: '002',
+    antragsteller: 'Erika Musterfrau',
+    policennummer: 'DE0987654321',
+    schadenfallnummer: 'SF20240314',
+    ort: 'München',
+    typ: 'kfz',
+    summe: 4500.0,
+    datum: '2025-01-03',
+    score: 70,
+    status: 'in prüfung',
+  },
+  {
+    fall: '003',
+    antragsteller: 'Hans Müller',
+    policennummer: 'DE1122334455',
+    schadenfallnummer: 'SF20240228',
+    ort: 'Hamburg',
+    typ: 'hausrat',
+    summe: 870.75,
+    datum: '2025-03-21',
+    score: 90,
+    status: 'abgelehnt',
+  },
+  {
+    fall: '004',
+    antragsteller: 'Laura Schmidt',
+    policennummer: 'DE6677889900',
+    schadenfallnummer: 'SF20240122',
+    ort: 'Köln',
+    typ: 'unfall',
+    summe: 2300.0,
+    datum: '2025-02-10',
+    score: 65,
+    status: 'in prüfung',
+  },
+  {
+    fall: '005',
+    antragsteller: 'Peter Klein',
+    policennummer: 'DE5544332211',
+    schadenfallnummer: 'SF20240401',
+    ort: 'Stuttgart',
+    typ: 'rechtsschutz',
+    summe: 1500.2,
+    datum: '2025-04-01',
+    score: 77,
+    status: 'genehmigt',
+  },
+];
+
+// summe range
+export const betragsspanne = [
+  'Unter 50 EUR',
+  '50 - 100 EUR',
+  '100 - 500 EUR',
+  '500 - 750 EUR',
+  '750 - 1000 EUR',
+  'Über 1000 EUR',
+];
+
+// score range
+export const scoringbereich = [
+  'Unter 20',
+  '20 - 40',
+  '40 - 60',
+  '60 - 80',
+  '80 - 90',
+  'Über 90',
+];

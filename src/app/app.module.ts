@@ -17,6 +17,7 @@ import { PlatformSearchFieldModule } from '@fundamental-ngx/platform';
 import { PurchaseComponent } from './demo1/purchase.component';
 import { MonitorComponent } from './demo2/monitor.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { SchadenfallComponent } from './demo3/schadenfall.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
     DashboardComponent,
     PurchaseComponent,
     MonitorComponent,
+    SchadenfallComponent,
     FilterPipe,
     SortByPipe,
   ],

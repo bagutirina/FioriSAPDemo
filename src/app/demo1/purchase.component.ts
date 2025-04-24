@@ -24,6 +24,7 @@ import {
   products,
   warranties,
 } from './purchase.data';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-purchase',
@@ -96,9 +97,13 @@ export class PurchaseComponent {
     },
   ];
 
-  constructor(public dialogService: DialogService) {}
+  constructor(
+    public dialogService: DialogService,
+    private titleService: Title
+  ) {}
 
   ngOnInit(): void {
+    this.titleService.setTitle('Manage Purchase Requisitions');
     const data = chartData;
     this.chartOptions = {
       responsive: true,

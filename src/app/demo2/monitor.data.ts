@@ -70,21 +70,3 @@ export const monitorData: any[] = [
     reviewStatus: 'Under Review',
   },
 ];
-
-export const warranties = [
-  'Under 1 year',
-  '1 year',
-  '2 years',
-  '3 years',
-  '4 years',
-  'Over 4 years',
-];
-
-export const prices = [
-  'Under 50 EUR',
-  '50 - 100 EUR',
-  '100 - 500 EUR',
-  '500 - 750 EUR',
-  '750 - 1000 EUR',
-  'Over 1000 EUR',
-];

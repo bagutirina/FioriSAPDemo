@@ -1,13 +1,10 @@
 import { Component } from '@angular/core';
 import {
-  DialogContentType,
   DialogService,
   FdDate,
-  FlexibleColumnLayout,
   ShellbarUser,
   ShellbarUserMenu,
 } from '@fundamental-ngx/core';
-import Chart from 'chart.js/auto';
 import { ChangeDetectionStrategy } from '@angular/core';
 import {
   DATE_TIME_FORMATS,
@@ -17,13 +14,17 @@ import {
 } from '@fundamental-ngx/core/datetime';
 import { DateRange } from '@fundamental-ngx/core/calendar';
 import { Nullable } from '@fundamental-ngx/cdk/utils';
-import { monitorData } from './monitor.data';
+import {
+  schadenfallData,
+  betragsspanne,
+  scoringbereich,
+} from './schadenfall.data';
 import { Title } from '@angular/platform-browser';
 
 @Component({
-  selector: 'app-monitor',
-  templateUrl: './monitor.component.html',
-  styleUrls: ['./monitor.component.scss'],
+  selector: 'app-schadenfall',
+  templateUrl: './schadenfall.component.html',
+  styleUrls: ['./schadenfall.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     {
@@ -36,42 +37,44 @@ import { Title } from '@angular/platform-browser';
     },
   ],
 })
-export class MonitorComponent {
+export class SchadenfallComponent {
   checkboxValue: boolean | null = false;
   searchText = '';
   ascending = false;
   sortByKey = '';
-  monitorData = monitorData;
+  schadenfallData = schadenfallData;
   selectedAccess = ['', '', '', '', ''];
 
   // filters
-  reviewStatuses = Array.from(
-    new Set(monitorData.map((row) => row.reviewStatus).filter((v) => v))
-  );
-  selectedReviewStatuses = [];
 
-  countryAreas = Array.from(
-    new Set(
-      monitorData.map((row) => row.countryOrAreaOccurrence).filter((v) => v)
-    )
+  //typ
+  typs = Array.from(
+    new Set(schadenfallData.map((row) => row.typ).filter((v) => v))
   );
-  selectedCountryAreas = [];
+  selectedTyps = [];
 
-  countries = Array.from(
-    new Set(monitorData.map((row) => row.country).filter((v) => v))
+  //summe
+  betragsspanne = betragsspanne;
+  selectedBetragsspanne = [];
+
+  // score
+  scoringbereich = scoringbereich;
+  selectedScoringbereich = [];
+
+  //status
+  statuses = Array.from(
+    new Set(schadenfallData.map((row) => row.status).filter((v) => v))
   );
-  selectedCountries = [];
+  selectedStatuses = [];
 
-  domains = Array.from(
-    new Set(monitorData.map((row) => row.domain).filter((v) => v))
-  );
-  selectedDomains = [];
-
+  //date
   date: Nullable<FdDate> = FdDate.getNow();
   selectedRange: Nullable<DateRange<FdDate>>;
+
   selectedRow: any;
   showOnlyChecked = false;
 
+  //user
   user: ShellbarUser = {
     fullName: 'William Willson',
     colorAccent: 6,
@@ -105,7 +108,7 @@ export class MonitorComponent {
   ) {}
 
   ngOnInit(): void {
-    this.titleService.setTitle('Nagoya-Protocol Monitor');
+    this.titleService.setTitle('Schadenfallanalyse');
   }
 
   // Select all
@@ -121,14 +124,14 @@ export class MonitorComponent {
     }
   }
   private _selectAll(): void {
-    monitorData.forEach((row) => (row.checked = true));
+    schadenfallData.forEach((row) => (row.checked = true));
   }
   private _deselectAll(): void {
-    monitorData.forEach((row) => (row.checked = false));
+    schadenfallData.forEach((row) => (row.checked = false));
   }
   private _getSelectAllValue(): boolean | null {
-    const checked = monitorData.filter((row) => row.checked);
-    if (checked.length === monitorData.length) {
+    const checked = schadenfallData.filter((row) => row.checked);
+    if (checked.length === schadenfallData.length) {
       return true;
     } else if (!checked.length) {
       return false;
@@ -150,7 +153,8 @@ export class MonitorComponent {
 
   toggleRowExpansion(index: number) {
     // Comută între expansiune și retragere
-    this.monitorData[index].expanded = !this.monitorData[index].expanded;
+    this.schadenfallData[index].expanded =
+      !this.schadenfallData[index].expanded;
   }
 
   getStatusClass(status: string): string {
@@ -166,11 +170,13 @@ export class MonitorComponent {
     }
   }
 
-  get filteredMonitorData() {
-    return this.monitorData
+  get filteredSchadenfallData() {
+    return this.schadenfallData
       .filter((row) =>
-        row.docTitle.toLowerCase().includes(this.searchText.toLowerCase())
-      ) // Aplică filtrul de text
-      .filter((row) => (this.showOnlyChecked ? row.checked : true)); // Aplică filtrul de checked doar dacă e activ
+        Object.values(row).some((value) =>
+          String(value).toLowerCase().includes(this.searchText.toLowerCase())
+        )
+      )
+      .filter((row) => (this.showOnlyChecked ? row.checked : true));
   }
 }
