@@ -163,6 +163,16 @@ tr.expanded {
     display: inline-block;
     text-align: center;
   }
+
+  .table-col111 {
+    width: 200px;
+    display: inline-block;
+  }
+  .table-col222 {
+    width: 60px;
+    display: inline-block;
+    text-align: center;
+  }
 }
 
 .col-fall {
@@ -256,4 +266,8 @@ tr.expanded {
 }
 ::-webkit-scrollbar-corner {
   background-color: transparent;
+}
+
+.col-value {
+  max-width: 90%;
 }

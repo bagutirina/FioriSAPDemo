@@ -159,7 +159,7 @@ export class SchadenfallComponent {
 
   getStatusClass(status: string): string {
     switch (status) {
-      case 'Under Review':
+      case 'In Review':
         return 'status-review';
       case 'Completed':
         return 'status-completed';
