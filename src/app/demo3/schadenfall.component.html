@@ -32,7 +32,10 @@
 <div class="main-content w-100 h-100">
   <h4 fd-title class="flex-shrink-0 mt-5 mb-2 title">Schadenfall-Monitor</h4>
 
-  <div class="table-container d-flex w-100 py-3 h-100">
+  <div
+    class="table-container flex-column d-flex w-100 py-3"
+    style="height: calc(100% - 150px)"
+  >
     <div class="d-flex flex-column w-100 flex-grow-0 flex-shrink-0">
       <fd-toolbar [shouldOverflow]="false">
         <fd-checkbox
@@ -118,7 +121,7 @@
       </fd-toolbar>
     </div>
 
-    <div class="scrollable-table w-100 h-100">
+    <div class="scrollable-table w-100 flex-grow-1 flex-shrink-1">
       <table fd-table fdCompact [responsive]="true">
         <thead fd-table-header [noBorderY]="true">
           <tr fd-table-row>
