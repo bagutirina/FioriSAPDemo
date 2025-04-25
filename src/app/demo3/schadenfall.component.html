@@ -202,7 +202,7 @@
               <span fd-table-text *ngIf="!row.expanded">{{ row.datum }}</span>
             </td>
             <td fd-table-cell class="col-score">
-              <span fd-table-text *ngIf="!row.expanded">{{ row.score }}</span>
+              <span fd-table-text *ngIf="!row.expanded">{{ row.score }}%</span>
             </td>
             <td
               fd-table-cell
@@ -287,7 +287,9 @@
                       </div>
                       <div>
                         <span class="fw-bold me-2">Beteiligte Personen:</span>
-                        <span class="fst-italic">{{ "" }}</span>
+                        <span class="fst-italic">{{
+                          row.beteiligtePersonen
+                        }}</span>
                       </div>
                     </div>
                     <!-- Document Information 3 -->
@@ -357,9 +359,9 @@
                     >
                       <div>
                         <span class="table-col111 fw-bold">Score</span>
-                        <span class="table-col222 fw-bold">{{
-                          row.score
-                        }}</span>
+                        <span class="table-col222 fw-bold"
+                          >{{ row.score }}%</span
+                        >
                       </div>
 
                       <div
@@ -374,26 +376,34 @@
                         <span class="table-col111"
                           >Logische Inkonsistenzen</span
                         >
-                        <span class="table-col222">72%</span>
+                        <span class="table-col222"
+                          >{{ row.logischeInkonsistenzen }}%</span
+                        >
                       </div>
 
                       <div>
                         <span class="table-col111"
                           >Zeitliche Inkonsistenzen</span
                         >
-                        <span class="table-col222">21%</span>
+                        <span class="table-col222"
+                          >{{ row.zeitlicheInkonsistenzen }}%</span
+                        >
                       </div>
 
                       <div>
                         <span class="table-col111">Ungewöhnliche Angaben</span>
-                        <span class="table-col222">0%</span>
+                        <span class="table-col222"
+                          >{{ row["ungewöhnlicheAngaben"] }}%</span
+                        >
                       </div>
 
                       <div>
                         <span class="table-col111"
                           >Korrelation mit Betrugsfällen</span
                         >
-                        <span class="table-col222">0%</span>
+                        <span class="table-col222"
+                          >{{ row["korrelationMitBetrugsfällen"] }}%</span
+                        >
                       </div>
                     </div>
                   </div>
