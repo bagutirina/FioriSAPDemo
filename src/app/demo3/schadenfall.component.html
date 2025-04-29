@@ -29,7 +29,7 @@
     ></fd-shellbar-action>
   </fd-shellbar-actions>
 </fd-shellbar>
-<div class="main-content h-100 flex-column d-flex">
+<div class="main-content h-100 flex-column d-flex pb-4">
   <h4 fd-title class="flex-shrink-0 flex-grow-0 mt-5 mb-2 title">
     Schadenfall-Monitor
   </h4>
@@ -74,7 +74,7 @@
 
       <!-- SUMME -->
       <div class="filter-item" fd-toolbar-item>
-        <span fd-label class="filter-label">Betragsspanne</span>
+        <span fd-label class="filter-label">Summe</span>
         <fd-multi-input
           fdCompact
           inputId="dropdownExampleInput1"
@@ -85,7 +85,7 @@
 
       <!-- date range -->
       <div class="filter-item" fd-toolbar-item>
-        <span fd-label class="filter-label">Datumsbereich</span>
+        <span fd-label class="filter-label">Datum</span>
         <fd-date-picker
           fdCompact
           type="range"
@@ -97,7 +97,7 @@
 
       <!-- SCORE -->
       <div class="filter-item" fd-toolbar-item>
-        <span fd-label class="filter-label">Scoringbereich</span>
+        <span fd-label class="filter-label">Score</span>
         <fd-multi-input
           fdCompact
           inputId="dropdownExampleInput1"
@@ -291,65 +291,52 @@
                           row.beteiligtePersonen
                         }}</span>
                       </div>
-                    </div>
-                    <!-- Document Information 3 -->
-                    <div class="d-flex flex-column mx-4" style="width: 35%">
-                      <p class="mb-2">
+                      <p class="mb-2 pt-4">
                         <strong>Schadenshergang</strong>
                       </p>
                       <span class="col-value">{{ row.schadenshergang }}</span>
-
-                      <p class="mb-2 mt-4">
+                    </div>
+                    <!-- Document Information 3 -->
+                    <div class="d-flex flex-column mx-4" style="width: 30%">
+                      <p class="mb-2">
                         <strong>Einschätzung</strong>
                       </p>
                       <span class="col-value">{{ row["einschätzung"] }}</span>
 
-                      <p class="mb-2 mt-4">
+                      <p class="mt-4 mb-2">
                         <strong>Auffälligkeiten</strong>
                       </p>
-                      <span class="col-value">{{
-                        row["auffälligkeiten"]
-                      }}</span>
+                      <span class="col-value" *ngIf="row.auffalligkeiten">
+                        <ul>
+                          <li *ngFor="let x of row.auffalligkeiten?.split('*')">
+                            {{ x }}
+                          </li>
+                        </ul>
+                      </span>
                       <span
                         class="col-value fst-italic"
-                        *ngIf="!row['auffälligkeiten']"
+                        *ngIf="!row.auffalligkeiten"
                         style="color: #9f9f9f; font-size: 13px"
                         >Keine Unstimmigkeiten festgestellt.</span
                       >
                     </div>
 
-                    <!-- Beurteilung -->
                     <div
-                      class="d-flex flex-column ms-3 me-4"
-                      style="width: 15%"
+                      class="d-flex flex-column ms-3 me-4 pt-4"
+                      style="width: 20%"
                     >
-                      <p class="mb-0 pb-1">
-                        <strong>Beurteilung</strong>
-                      </p>
-                      <fd-combobox
-                        class="pt-3"
-                        fdCompact
-                        ariaLabel="Standard"
-                        placeholder="Bewertung wählen..."
-                        [dropdownValues]="[
-                          'Offen',
-                          'Betrug',
-                          'Verdächtig',
-                          'Rückfragen klären',
-                          'Unverdächtig'
-                        ]"
-                        [(ngModel)]="selectedAccess[i]"
-                        (click)="$event.stopPropagation()"
-                      >
-                      </fd-combobox>
-                      <span
-                        class="mt-2 fst-italic"
-                        style="color: #9f9f9f; font-size: 13px"
-                      >
-                        Your assesment helps improve model accuracy by providing
-                        continuous training data for optimizing document
-                        relevance predictions
-                      </span>
+                      <img
+                        *ngIf="row.image"
+                        src="assets/images/{{ row.image }}"
+                        alt=" "
+                        style="width: 100%; border-radius: 3px"
+                        (click)="
+                          $event.preventDefault();
+                          $event.stopPropagation();
+                          dialogImage = row.image;
+                          openDialog(confirmationDialog)
+                        "
+                      />
                     </div>
 
                     <!-- score/criteria -->
@@ -405,6 +392,26 @@
                           >{{ row["korrelationMitBetrugsfällen"] }}%</span
                         >
                       </div>
+
+                      <p class="mb-0 pt-4">
+                        <strong>Beurteilung</strong>
+                      </p>
+                      <fd-combobox
+                        class="pt-2"
+                        fdCompact
+                        ariaLabel="Standard"
+                        placeholder="Bewertung wählen"
+                        [dropdownValues]="[
+                          'Offen',
+                          'Betrug',
+                          'Verdächtig',
+                          'Rückfragen klären',
+                          'Unverdächtig'
+                        ]"
+                        [(ngModel)]="selectedAccess[i]"
+                        (click)="$event.stopPropagation()"
+                      >
+                      </fd-combobox>
                     </div>
                   </div>
 
@@ -434,3 +441,36 @@
     </table>
   </div>
 </div>
+
+<ng-template let-dialog let-dialogConfig="dialogConfig" #confirmationDialog>
+  <fd-dialog [dialogConfig]="dialogConfig" [dialogRef]="dialog">
+    <fd-dialog-header>
+      <h1 id="fd-dialog-header-10" fd-title>
+        Schadensdokumentation – Bildmaterial
+        <button
+          class="close-button"
+          aria-label="Schließen"
+          (click)="dialog.dismiss('Cancel')"
+        >
+          ✕
+        </button>
+      </h1>
+    </fd-dialog-header>
+
+    <fd-dialog-body>
+      <img
+        src="assets/images/{{ dialogImage }}"
+        alt=" "
+        style="width: 100%; border-radius: 3px"
+      />
+    </fd-dialog-body>
+
+    <fd-dialog-footer>
+      <fd-button-bar
+        label="Schließen"
+        (click)="dialog.dismiss('Cancel')"
+        ariaLabel="Close"
+      ></fd-button-bar>
+    </fd-dialog-footer>
+  </fd-dialog>
+</ng-template>

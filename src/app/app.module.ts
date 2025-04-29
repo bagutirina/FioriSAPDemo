@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
   ButtonModule,
+  DialogModule,
   FundamentalNgxCoreModule,
   ProgressIndicatorModule,
 } from '@fundamental-ngx/core';
@@ -39,6 +40,7 @@ import { SchadenfallComponent } from './demo3/schadenfall.component';
     TruncateModule,
     PlatformSearchFieldModule,
     ProgressIndicatorModule,
+    DialogModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

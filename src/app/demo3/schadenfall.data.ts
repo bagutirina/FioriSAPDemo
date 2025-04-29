@@ -9,9 +9,9 @@ export const schadenfallData: any[] = [
     summe: 800,
     datum: '2025-02-28',
     score: 72,
-    status: 'In Review',
+    status: 'In Bearbeitung',
     beurteilung: 'Offen',
-    beteiligtePersonen: '',
+    beteiligtePersonen: 'Georg Juelke',
     logischeInkonsistenzen: 72,
     zeitlicheInkonsistenzen: 21,
     ungewöhnlicheAngaben: 0,
@@ -20,30 +20,7 @@ export const schadenfallData: any[] = [
       'Ich hatte mein Auto draußen geparkt als es über Nacht gehagelt hatte. Die Nagelkörner haben die Windschutzscheibe und die Motorhaube stark beschädigt.',
     einschätzung:
       'Es wurden mehrere schwerwiegende Unstimmigkeiten zwischen der Benutzerbeschreibung und dem erkannten Schadensbild festgestellt. Die Art des Schadens, die Tageszeit des Vorfalls und der Umfang der Schäden stimmen nicht überein. Diese Diskrepanzen deuten auf eine mögliche betrügerische Aktivität hin und erfordern eine gründlichere Untersuchung.',
-  },
-  {
-    fall: '791 KLM: Einbruch Keller März 2025',
-    antragsteller: 'Rainer Vogel',
-    policennummer: 'TNB - 4509 - 776F',
-    schadenfallnummer: '791 KLM',
-    ort: 'Hamburg',
-    typ: 'Einbruch',
-    summe: 980,
-    datum: '2025-03-12',
-    score: 51,
-    status: 'Discarded',
-    beteiligtePersonen: '',
-    beurteilung: 'Offen',
-    logischeInkonsistenzen: 18,
-    zeitlicheInkonsistenzen: 12,
-    ungewöhnlicheAngaben: 7,
-    korrelationMitBetrugsfällen: 5,
-    schadenshergang:
-      'Der Keller wurde aufgebrochen, als ich nicht zu Hause war. Gestohlen wurden ein E-Bike und Werkzeuge.',
-    einschätzung:
-      'Beschädigung am Schloss vorhanden, aber Zeitpunkt unklar. Kameraaufzeichnung unvollständig.',
-    auffälligkeiten:
-      '* Fehlende Meldung an Polizei.\n* Kein Kaufnachweis für das E-Bike beigelegt.',
+    image: 'image_1.png',
   },
   {
     fall: '118 BVR: Brandschaden Küche Jan 2025',
@@ -55,9 +32,9 @@ export const schadenfallData: any[] = [
     summe: 1450,
     datum: '2025-01-10',
     score: 84,
-    status: 'Completed',
+    status: 'Abgeschlossen',
     beurteilung: 'Geschlossen',
-    beteiligtePersonen: '',
+    beteiligtePersonen: 'Bagut Irina',
     logischeInkonsistenzen: 5,
     zeitlicheInkonsistenzen: 2,
     ungewöhnlicheAngaben: 1,
@@ -66,17 +43,41 @@ export const schadenfallData: any[] = [
       'Beim Kochen hat sich ein Tuch entzündet und das Feuer hat sich auf die Küchenzeile ausgebreitet.',
     einschätzung:
       'Die Beschreibung stimmt mit den festgestellten Brandspuren überein. Die Temperaturverläufe und der Brandschwerpunkt passen zum Bericht.',
+    image: 'image_3.png',
+  },
+  {
+    fall: '791 KLM: Einbruch Keller März 2025',
+    antragsteller: 'Rainer Vogel',
+    policennummer: 'TNB - 4509 - 776F',
+    schadenfallnummer: '791 KLM',
+    ort: 'Hamburg',
+    typ: 'Einbruch',
+    summe: 980,
+    datum: '2025-03-12',
+    score: 51,
+    status: 'Abgelehnt',
+    beteiligtePersonen: 'Georg Juelke',
+    beurteilung: 'Offen',
+    logischeInkonsistenzen: 18,
+    zeitlicheInkonsistenzen: 12,
+    ungewöhnlicheAngaben: 7,
+    korrelationMitBetrugsfällen: 5,
+    schadenshergang:
+      'Der Keller wurde aufgebrochen, als ich nicht zu Hause war. Gestohlen wurden ein E-Bike und Werkzeuge.',
+    einschätzung:
+      'Beschädigung am Schloss vorhanden, aber Zeitpunkt unklar. Kameraaufzeichnung unvollständig.',
+    auffalligkeiten:
+      'Fehlende Meldung an Polizei.*Kein Kaufnachweis für das E-Bike beigelegt.',
   },
 ];
 
 // summe range
 export const betragsspanne = [
-  'Unter 50 EUR',
-  '50 - 100 EUR',
-  '100 - 500 EUR',
-  '500 - 750 EUR',
-  '750 - 1000 EUR',
-  'Über 1000 EUR',
+  'Unter 100 EUR',
+  '100 - 1.000 EUR',
+  '1.000 - 10.000 EUR',
+  '10.000 - 100.000 EUR',
+  'Über 100.000 EUR',
 ];
 
 // score range

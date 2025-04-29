@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, TemplateRef } from '@angular/core';
 import {
   DialogService,
   FdDate,
@@ -43,7 +43,7 @@ export class SchadenfallComponent {
   ascending = false;
   sortByKey = '';
   schadenfallData = schadenfallData;
-  selectedAccess = ['', '', '', '', ''];
+  selectedAccess = ['Offen', 'Offen', 'Offen', '', ''];
 
   // filters
 
@@ -104,7 +104,8 @@ export class SchadenfallComponent {
 
   constructor(
     public dialogService: DialogService,
-    private titleService: Title
+    private titleService: Title,
+    private _dialogService: DialogService
   ) {}
 
   ngOnInit(): void {
@@ -159,11 +160,11 @@ export class SchadenfallComponent {
 
   getStatusClass(status: string): string {
     switch (status) {
-      case 'In Review':
+      case 'In Bearbeitung':
         return 'status-review';
-      case 'Completed':
+      case 'Abgeschlossen':
         return 'status-completed';
-      case 'Discarded':
+      case 'Abgelehnt':
         return 'status-discarded';
       default:
         return '';
@@ -178,5 +179,21 @@ export class SchadenfallComponent {
         )
       )
       .filter((row) => (this.showOnlyChecked ? row.checked : true));
+  }
+
+  dialogImage: string = '';
+
+  openDialog(dialog: TemplateRef<any>): void {
+    const dialogRef = this._dialogService.open(dialog, {
+      responsivePadding: true,
+      ariaLabelledBy: 'fd-dialog-header-10',
+      ariaDescribedBy: 'fd-dialog-body-10',
+      focusTrapped: true,
+    });
+
+    dialogRef.afterClosed.subscribe(
+      (result) => {},
+      (error) => {}
+    );
   }
 }
