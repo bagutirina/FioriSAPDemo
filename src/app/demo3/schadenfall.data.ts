@@ -21,6 +21,8 @@ export const schadenfallData: any[] = [
     einschätzung:
       'Es wurden mehrere schwerwiegende Unstimmigkeiten zwischen der Benutzerbeschreibung und dem erkannten Schadensbild festgestellt. Die Art des Schadens, die Tageszeit des Vorfalls und der Umfang der Schäden stimmen nicht überein. Diese Diskrepanzen deuten auf eine mögliche betrügerische Aktivität hin und erfordern eine gründlichere Untersuchung.',
     image: 'image_1.png',
+    auffalligkeiten:
+      'Inkonsistenz zwischen Schadensbeschreibung und tatsächlichem Schadensbild (z. B. Schadensmuster nicht typisch für Hagelschäden)*Zeitliche Diskrepanz: Wetterbericht zeigt keinen Hagel im angegebenen Zeitraum für die Region Lingen*Umfang der Schäden wirkt untypisch für die gemeldete Schadensart und legt mögliche Manipulation nahe',
   },
   {
     fall: '118 BVR: Brandschaden Küche Jan 2025',
