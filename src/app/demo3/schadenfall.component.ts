@@ -43,7 +43,7 @@ export class SchadenfallComponent {
   ascending = false;
   sortByKey = '';
   schadenfallData = schadenfallData;
-  selectedAccess = ['Offen', 'Offen', 'Offen', '', ''];
+  selectedAccess = ['Offen', 'Offen', 'Offen', '', '', '', '', '', ''];
 
   // filters
 
