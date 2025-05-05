@@ -21,7 +21,7 @@ export const schadenfallData: any[] = [
     einschätzung:
       'Es wurden mehrere schwerwiegende Unstimmigkeiten zwischen der Benutzerbeschreibung und dem erkannten Schadensbild festgestellt. Die Art des Schadens, die Tageszeit des Vorfalls und der Umfang der Schäden stimmen nicht überein. Diese Diskrepanzen deuten auf eine mögliche betrügerische Aktivität hin und erfordern eine gründlichere Untersuchung.',
     auffalligkeiten:
-      'Die Benutzerbeschreibung erwähnt einen Hagelschaden, während das erkannte Schadensbild auf einen einzelnen starken Aufprall hindeutet.',
+      ' Die Benutzerbeschreibung erwähnt einen Hagelschaden, während das erkannte Schadensbild auf einen einzelnen starken Aufprall hindeutet. * Der Benutzer gibt an, dass der Vorfall um die Mittagszeit geschah, aber das erkannte Schadensbild deutet auf einen Sonnenauf- oder -untergang hin.* Die Benutzerbeschreibung erwähnt Schäden an der Motorhaube, die im erkannten Schadensbild nicht sichtbar sind.',
     image: 'image_1.jpg',
   },
   {
@@ -71,7 +71,7 @@ export const schadenfallData: any[] = [
     einschätzung:
       'Es wurden mehrere schwerwiegende Unstimmigkeiten in der Schilderung des Unfalls identifiziert. Möglicher provozierter Schaden zur Abrechnung.',
     auffalligkeiten:
-      'Schadensbild passt nicht zur angegebenen Uhrzeit (18:30 Uhr).',
+      'Schadensbild passt nicht zur angegebenen Uhrzeit (18:30 Uhr).* Zwischen beteiligten Fahrern besteht ein Verwandtschaftsverhältnis.* Schadenshöhe erscheint überhöht im Verhältnis zum Fahrzeugwert.* Ungewöhnlich starker Schaden bei angeblich geringer Geschwindigkeit.',
     image: 'image_3.jpg',
   },
   {
@@ -119,7 +119,8 @@ export const schadenfallData: any[] = [
       'Ich hatte mein E-Bike mit einem stabilen Schloss vor dem EDEKA gesichert. Als ich nach 15 Minuten wiederkam, war nur noch das Vorderrad da – samt Schloss. Der Rest des Fahrrads war spurlos verschwunden.',
     einschätzung:
       'Typischer Diebstahlmodus, plausibel. Ungewöhnlich schnelles Vorgehen der Täter. Möglicherweise gezielter Diebstahl durch Profis.',
-    auffalligkeiten: 'Teures Rad (E-Bike), aber keine Rahmensicherung.',
+    auffalligkeiten:
+      'Teures Rad (E-Bike), aber keine Rahmensicherung.* Ungewöhnlich schnelles Vorgehen der Täter.',
     image: 'image_6.jpg',
   },
   {
@@ -144,7 +145,7 @@ export const schadenfallData: any[] = [
     einschätzung:
       'Ungewöhnlich hoher Wert, keine dokumentierte Sicherung im Safe. Möglicher fingierter Verlust zur Versicherungsabrechnung.',
     auffalligkeiten:
-      'Sehr späte Schadensmeldung, kein offizieller Polizeibericht',
+      'Sehr späte Schadensmeldung, kein offizieller Polizeibericht* Ungewöhnlich detaillierte Angabe des Werts ohne Belege.* Versicherte war bereits in einem früheren Betrugsfall involviert.',
     image: 'image_7.jpg',
   },
 ];
