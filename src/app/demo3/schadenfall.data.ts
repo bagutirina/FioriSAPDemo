@@ -14,7 +14,7 @@ export const schadenfallData: any[] = [
     beurteilung: 'Offen',
     logischeInkonsistenzen: '81',
     zeitlicheInkonsistenzen: '21',
-    ungewöhnlicheAngaben: '0%',
+    ungewöhnlicheAngaben: '0',
     korrelationMitBetrugsfällen: '0',
     schadenshergang:
       'Ich hatte mein Auto draußen geparkt als es über Nacht gehagelt hatte. Die Hagelkörner haben die Windschutzscheibe und die Motorhaube stark beschädigt.',
