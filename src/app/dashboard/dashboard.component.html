@@ -1,16 +1,34 @@
 <div class="w-100 pt-5 d-flex gap-1 justify-content-center">
-  <div class="dashboard-item" (click)="navigateTo('/purchase')">
+  <div
+    class="dashboard-item"
+    (click)="navigateTo('/purchase')"
+    style="background-color: #e9e9e9"
+  >
     <span>Manage Purchase Requisitions</span>
   </div>
-  <div class="dashboard-item" (click)="navigateTo('/monitor')">
-    <span>Nagoya-Protocol Monitor</span>
+  <div
+    class="dashboard-item d-flex flex-column"
+    style="background-color: #cfe3da"
+    (click)="navigateTo('/monitor')"
+  >
+    <span>Nagoya</span>
+    <span>Protocol Monitor</span>
   </div>
 
-  <div class="dashboard-item" (click)="navigateTo('/schadenfall')">
-    <span>Schadenfall-Monitor</span>
+  <div
+    class="dashboard-item d-flex flex-column"
+    (click)="navigateTo('/schadenfall')"
+    style="background-color: #cfe1e3"
+  >
+    <span>Schadenfall</span>
+    <span>Monitor</span>
   </div>
 
-  <div class="dashboard-item" (click)="navigateTo('/insurance')">
-    <span>Insurance application Compain/SDK</span>
+  <div
+    class="dashboard-item d-flex flex-column"
+    (click)="navigateTo('/insurance')"
+  >
+    <span>Insurance</span>
+    <span>Compain/SDK</span>
   </div>
 </div>
