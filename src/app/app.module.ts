@@ -19,6 +19,7 @@ import { PurchaseComponent } from './demo1/purchase.component';
 import { MonitorComponent } from './demo2/monitor.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { SchadenfallComponent } from './demo3/schadenfall.component';
+import { CompainSDKComponent } from './demo4/compain-SDK.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { SchadenfallComponent } from './demo3/schadenfall.component';
     SchadenfallComponent,
     FilterPipe,
     SortByPipe,
+    CompainSDKComponent,
   ],
   imports: [
     BrowserModule,
