@@ -165,11 +165,11 @@ tr.expanded {
   }
 
   .table-col111 {
-    width: 200px;
+    width: 100px;
     display: inline-block;
   }
   .table-col222 {
-    width: 60px;
+    width: 120px;
     display: inline-block;
     text-align: center;
   }
@@ -187,7 +187,7 @@ tr.expanded {
 }
 
 .col-icd10Codes {
-  min-width: 130px;
+  max-width: 230px;
 }
 .col-typ {
   min-width: 130px;
@@ -198,10 +198,15 @@ tr.expanded {
 }
 .col-status {
   min-width: 140px;
+  max-width: 140px;
+  width: 14px;
 }
 
 .col-score {
   text-align: center;
+}
+.col-name {
+  text-align: left;
 }
 
 .status-tag {
@@ -214,6 +219,10 @@ tr.expanded {
   text-transform: uppercase;
   text-align: center;
   font-weight: 600;
+}
+
+.status-open {
+  background-color: #c4c1bb4d;
 }
 
 .status-inProgress {
@@ -307,4 +316,20 @@ tr.expanded {
 .code {
   border: 1px solid rgb(88 166 191);
   border-radius: 5px;
+  font-weight: bold;
+  color: rgb(88 166 191);
+}
+.code-rejection {
+  border: 1px solid rgb(243, 65, 11);
+  border-radius: 5px;
+  font-weight: bold;
+  color: rgb(243, 65, 11);
+}
+.fs-17 {
+  font-size: 17px;
+}
+.icd {
+  &:not(:last-child) {
+    border-bottom: 1px solid #dfdfdf;
+  }
 }

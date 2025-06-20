@@ -5,7 +5,7 @@
     </a>
   </fd-shellbar-logo>
 
-  <fd-shellbar-title> Insurance </fd-shellbar-title>
+  <fd-shellbar-title> Analyse von Versicherungsanträgen </fd-shellbar-title>
 
   <fd-shellbar-actions
     [user]="user"
@@ -29,7 +29,7 @@
   style="height: calc(100% - 25px)"
 >
   <h4 fd-title class="flex-shrink-0 flex-grow-0 mt-5 mb-2 title">
-    Insurance application
+    KI-gestützte Beurteilung von Risikovoranfragen
   </h4>
 
   <div class="d-flex flex-column w-100 flex-grow-0 flex-shrink-0">
@@ -37,7 +37,7 @@
       <fd-checkbox
         class="importantOnlyChk"
         [(ngModel)]="showOnlyChecked"
-        label="Show only selected"
+        label="Nur ausgewähltes anzeigen"
       ></fd-checkbox>
 
       <fd-toolbar-separator class="mx-2"></fd-toolbar-separator>
@@ -49,7 +49,7 @@
         glyph="search"
         glyphAriaLabel="Search"
         title="Search"
-        placeholder="Search"
+        placeholder="Suche..."
         [button]="true"
         [disabled]="false"
         [(ngModel)]="searchText"
@@ -61,7 +61,7 @@
 
       <!-- contract -->
       <div class="filter-item" fd-toolbar-item>
-        <span fd-label class="filter-label">Contract</span>
+        <span fd-label class="filter-label">Wunschtarife</span>
         <fd-multi-input
           fdCompact
           inputId="dropdownExampleInput1"
@@ -78,14 +78,12 @@
           inputId="dropdownExampleInput1"
           [dropdownValues]="codes"
           [(ngModel)]="selectedCodes"
-          [displayFn]="displayFunc"
-          [valueFn]="valueFunc"
         ></fd-multi-input>
       </div>
 
       <!-- date range -->
       <div class="filter-item" fd-toolbar-item>
-        <span fd-label class="filter-label">Date</span>
+        <span fd-label class="filter-label">Datum</span>
         <fd-date-picker
           fdCompact
           type="range"
@@ -132,12 +130,13 @@
               (ngModelChange)="selectAll($event)"
             ></fd-checkbox> -->
           </th>
-          <th fd-table-cell class="col-job">Job</th>
-          <th fd-table-cell class="col-gender">Gender</th>
-          <th fd-table-cell class="col-date">Birthday</th>
-          <th fd-table-cell class="col-contract">Contract</th>
+          <!-- <th fd-table-cell class="col-name">Patienten</th> -->
+          <th fd-table-cell class="col-job">Beruf</th>
+          <th fd-table-cell class="col-gender">Geschlecht</th>
+          <th fd-table-cell class="col-date">Geburtstag</th>
+          <th fd-table-cell class="col-contract">Wunschtarife</th>
           <th fd-table-cell class="col-icd10Codes">ICD-10 Codes</th>
-          <th fd-table-cell class="col-date">Date</th>
+          <th fd-table-cell class="col-date">Datum</th>
           <th fd-table-cell class="col-score">Score</th>
           <th fd-table-cell class="col-status text-center">Status</th>
         </tr>
@@ -167,15 +166,24 @@
                 ></fd-checkbox>
               </div>
             </td>
+            <!-- <td fd-table-cell class="col-name">
+              <span fd-table-text *ngIf="!row.expanded">{{
+                row.metadata.patient_name
+              }}</span>
+            </td> -->
             <td fd-table-cell class="col-job">
-              <span fd-table-text *ngIf="!row.expanded">{{ row.job }}</span>
+              <span fd-table-text *ngIf="!row.expanded">{{
+                row.metadata.occupation
+              }}</span>
             </td>
             <td fd-table-cell class="col-gender">
-              <span fd-table-text *ngIf="!row.expanded">{{ row.gender }}</span>
+              <span fd-table-text *ngIf="!row.expanded">{{
+                row.metadata.gender
+              }}</span>
             </td>
             <td fd-table-cell class="col-date">
               <span fd-table-text *ngIf="!row.expanded">{{
-                row.birthday
+                row.metadata.date_of_birth
               }}</span>
             </td>
             <td fd-table-cell class="col-contract">
@@ -183,18 +191,27 @@
                 row.contract
               }}</span>
             </td>
-            <td fd-table-cell class="col-icd10Codes">
-              <span fd-table-text *ngIf="!row.expanded">
+            <td
+              fd-table-cell
+              class="col-icd10Codes pt-1 pb-1"
+              [style.line-height]="'36px'"
+            >
+              <span fd-table-text *ngIf="!row.expanded" class="flex-wrap">
+                <span *ngFor="let icd of row.icds" class="code me-2 py-1 px-2">
+                  {{ icd.icd_code }}
+                </span>
                 <span
-                  *ngFor="let code of row.icd10Codes"
-                  class="code me-2 py-1 px-2"
+                  *ngFor="let icd of row.rejections"
+                  class="code-rejection me-2 py-1 px-2"
                 >
-                  {{ code }}
+                  {{ icd.icd_code }}
                 </span>
               </span>
             </td>
             <td fd-table-cell class="col-date">
-              <span fd-table-text *ngIf="!row.expanded">{{ row.date }}</span>
+              <span fd-table-text *ngIf="!row.expanded">{{
+                row.metadata.document_date
+              }}</span>
             </td>
             <td fd-table-cell class="col-score">
               <span fd-table-text *ngIf="!row.expanded">{{ row.score }}%</span>
@@ -238,62 +255,121 @@
             </td>
             <td fd-table-cell colspan="11" class="expanded-details ps-0">
               <div class="expanded-details-content pb-4 w-100">
-                <!-- <h5>Overview</h5> -->
                 <div class="d-flex w-100 flex-row pt-4 gap-3 w-100">
                   <div class="d-flex flex-row flex-shrink-1 flex-grow-1">
-                    <!-- Applicant-->
+                    <!-- Antragsteller-->
                     <div class="d-flex flex-column me-2" style="width: 20%">
-                      <span class="mb-3"><strong>Applicant</strong></span>
+                      <span class="mb-3 fs-17"
+                        ><strong>Antragsteller</strong></span
+                      >
+
                       <div class="d-flex flex-row" style="max-width: 700px">
-                        <span class="fw-bold me-2">Job:</span>
-                        <span class="fst-italic">{{ row.job }}</span>
+                        <span class="fw-bold me-2">Patienten:</span>
+                        <span class="fst-italic">{{
+                          row.metadata.patient_name
+                        }}</span>
+                      </div>
+                      <div class="d-flex flex-row" style="max-width: 700px">
+                        <span class="fw-bold me-2">Beruf:</span>
+                        <span class="fst-italic">{{
+                          row.metadata.occupation
+                        }}</span>
                       </div>
                       <div>
-                        <span class="fw-bold me-2">Gender:</span>
-                        <span class="fst-italic">{{ row.gender }}</span>
+                        <span class="fw-bold me-2">Geschlecht:</span>
+                        <span class="fst-italic">{{
+                          row.metadata.gender
+                        }}</span>
                       </div>
                       <div>
-                        <span class="fw-bold me-2">Birthday:</span>
-                        <span class="fst-italic">{{ row.birthday }}</span>
+                        <span class="fw-bold me-2">Geburtstag:</span>
+                        <span class="fst-italic">{{
+                          row.metadata.date_of_birth
+                        }}</span>
                       </div>
                       <div>
-                        <span class="fw-bold me-2">Contract:</span>
+                        <span class="fw-bold me-2">Wunschtarife:</span>
                         <span class="fst-italic">{{ row.contract }}</span>
                       </div>
                     </div>
 
                     <!-- Diseases -->
-                    <div class="d-flex flex-column mx-4" style="width: 20%">
-                      <span class="mb-3"><strong>Diseases</strong></span>
+                    <div class="d-flex flex-column mx-4" style="width: 80%">
+                      <span class="mb-3 fs-17"
+                        ><strong>Krankheiten</strong></span
+                      >
 
-                      <div>
-                        <span class="fw-bold me-2">ICD-10:</span>
+                      <div
+                        *ngFor="let icd of row.icds"
+                        class="pb-4 mb-4 d-flex flex-column icd"
+                      >
+                        <div>
+                          <span class="fw-bold me-2">ICD-10:</span>
+                          <span class="code me-2 py-1 px-2">
+                            {{ icd.icd_code }}
+                          </span>
+                        </div>
+                        <!-- <div class="mt-2">
+                          <span class="fw-bold me-2">Priority:</span>
+                          <span>{{ icd.priority }}</span>
+                        </div> -->
+                        <span class="fw-bold me-2 mt-2">Evidence:</span>
+                        <ul>
+                          <li *ngFor="let e of icd.evidence">
+                            {{ sanitizeEvidence(e) }}
+                          </li>
+                        </ul>
+                        <div>
+                          <span class="fw-bold me-2">Justification:</span>
+                          <span class="d-inline-block">
+                            {{ icd.justification }}
+                          </span>
+                        </div>
+                      </div>
+                      <div
+                        *ngFor="let icd of row.rejections"
+                        class="pb-4 mb-4 d-flex flex-column icd"
+                      >
+                        <div>
+                          <span class="fw-bold me-2">ICD-10:</span>
+                          <span class="code-rejection me-2 py-1 px-2">
+                            {{ icd.icd_code }}
+                          </span>
+                        </div>
+                        <!-- <div class="mt-2 mb-2">
+                          <span class="fw-bold me-2">Priority:</span>
+                          <span>{{ icd.priority }}</span>
+                        </div> -->
+                        <span class="fw-bold me-2">Evidence:</span>
+                        <ul>
+                          <li *ngFor="let e of icd.evidence">
+                            {{ sanitizeEvidence(e) }}
+                          </li>
+                        </ul>
+                        <div>
+                          <span class="fw-bold me-2">Justification:</span>
+                          <span class="d-inline-block">
+                            {{ icd.justification }}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Status & Score -->
+                  <div
+                    class="d-flex flex-column ms-4 flex-grow-0 flex-shrink-0 me-3"
+                  >
+                    <div class="d-flex flex-column w-100">
+                      <div class="mb-3">
+                        <span class="table-col111 fw-bold">Status</span>
                         <span
-                          ><span
-                            *ngFor="let code of row.icd10Codes"
-                            class="code me-2 py-1 px-2"
-                          >
-                            {{ code }}
-                          </span></span
+                          class="table-col222 fw-bold status-tag"
+                          [ngClass]="getStatusClass(row.status)"
+                          >{{ row.status }}</span
                         >
                       </div>
 
-                      <div>
-                        <span class="fw-bold me-2">Category:</span>
-                        <span></span>
-                      </div>
-                    </div>
-
-                    <!-- Anfrage -->
-                    <div class="d-flex flex-column mx-4" style="width: 30%">
-                      <span class="mb-3"><strong>Anfrage</strong></span>
-                    </div>
-
-                    <!-- score/criteria -->
-                    <div
-                      class="d-flex flex-column ms-5"
-                      style="width: 30%; max-width: 280px"
-                    >
                       <div>
                         <span class="table-col111 fw-bold">Score</span>
                         <span class="table-col222 fw-bold"
@@ -301,7 +377,7 @@
                         >
                       </div>
 
-                      <div
+                      <!-- <div
                         class="mt-3 mb-2"
                         style="border-bottom: 1px solid lightgray"
                       >
@@ -341,45 +417,28 @@
                         <span class="table-col222"
                           >{{ row["korrelationMitBetrugsfällen"] }}%</span
                         >
+                      </div> -->
+
+                      <div>
+                        <span class="table-col111 fw-bold">Beurteilung</span>
+                        <span class="table-col222 fw-bold">
+                          <fd-combobox
+                            class="pt-2"
+                            fdCompact
+                            ariaLabel="Standard"
+                            placeholder="Bewertung wählen"
+                            [dropdownValues]="[
+                              'Offen',
+                              'Unkritisch',
+                              'Mit Aufschlag anbieten',
+                              'Abzulehnen'
+                            ]"
+                            [(ngModel)]="selectedAccess[i]"
+                            (click)="$event.stopPropagation()"
+                          >
+                          </fd-combobox>
+                        </span>
                       </div>
-
-                      <p class="mb-0 pt-4">
-                        <strong>Beurteilung</strong>
-                      </p>
-                      <fd-combobox
-                        class="pt-2"
-                        fdCompact
-                        ariaLabel="Standard"
-                        placeholder="Bewertung wählen"
-                        [dropdownValues]="[
-                          'Offen',
-                          'Betrug',
-                          'Verdächtig',
-                          'Rückfragen klären',
-                          'Unverdächtig'
-                        ]"
-                        [(ngModel)]="selectedAccess[i]"
-                        (click)="$event.stopPropagation()"
-                      >
-                      </fd-combobox>
-                    </div>
-                  </div>
-
-                  <!-- Status -->
-                  <div
-                    class="d-flex flex-column ms-4 flex-grow-0 flex-shrink-0 me-3"
-                    style="width: 140px"
-                  >
-                    <div class="d-flex flex-column w-100">
-                      <p class="mb-2 text-center">
-                        <strong>Status</strong>
-                      </p>
-                      <span
-                        fd-table-text
-                        class="status-tag w-100"
-                        [ngClass]="getStatusClass(row.status)"
-                        >{{ row.status }}</span
-                      >
                     </div>
                   </div>
                 </div>

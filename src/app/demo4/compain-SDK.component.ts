@@ -14,7 +14,7 @@ import {
 } from '@fundamental-ngx/core/datetime';
 import { DateRange } from '@fundamental-ngx/core/calendar';
 import { Nullable } from '@fundamental-ngx/cdk/utils';
-import { compainSDKData, codes, scores } from './compain-SDK.data';
+import { compainSDKData, scores, statuses } from './compain-SDK.data';
 import { Title } from '@angular/platform-browser';
 
 @Component({
@@ -50,7 +50,13 @@ export class CompainSDKComponent {
   selectedContracts = [];
 
   //code
-  codes = codes;
+  codes = Array.from(
+    new Set(
+      compainSDKData
+        .map((row) => row.icds.map((i: { icd_code: any }) => i.icd_code))
+        .flat()
+    )
+  );
   selectedCodes = [];
 
   // score
@@ -58,9 +64,7 @@ export class CompainSDKComponent {
   selectedScores = [];
 
   //status
-  statuses = Array.from(
-    new Set(compainSDKData.map((row) => row.status).filter((v) => v))
-  );
+  statuses = statuses;
   selectedStatuses = [];
 
   //date
@@ -105,7 +109,7 @@ export class CompainSDKComponent {
   ) {}
 
   ngOnInit(): void {
-    this.titleService.setTitle('Insurance application');
+    this.titleService.setTitle('Insurance');
   }
 
   // Select all
@@ -155,11 +159,13 @@ export class CompainSDKComponent {
 
   getStatusClass(status: string): string {
     switch (status) {
-      case 'In progress':
+      case 'Offen':
+        return 'status-open';
+      case 'In Bearbeitung':
         return 'status-inProgress';
-      case 'Completed':
+      case 'Abgeschlossen':
         return 'status-completed';
-      case 'Rejected':
+      case 'Abgelehnt':
         return 'status-rejected';
       default:
         return '';
@@ -176,12 +182,8 @@ export class CompainSDKComponent {
       .filter((row) => (this.showOnlyChecked ? row.checked : true));
   }
 
-  displayFunc(item: { code: string; description: string }): string {
-    return `${item.code} - ${item.description}`;
-  }
-
-  valueFunc(obj: any): string {
-    return obj.code;
+  sanitizeEvidence(text: string): string {
+    return text.replace(/^-\s*/, '');
   }
 
   dialogImage: string = '';
