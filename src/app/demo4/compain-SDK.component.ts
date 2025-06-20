@@ -46,17 +46,22 @@ export class CompainSDKComponent {
 
   //contract
   contracts = Array.from(
-    new Set(this.data.map((row) => row.metadata.contract_type).filter((v) => v))
+    new Set(
+      compainSDKData.map((row) => row.metadata.contract_types).filter((v) => v)
+    )
   );
   selectedContracts = [];
 
   //code
   codes = Array.from(
-    new Set(
-      this.data
+    new Set([
+      ...compainSDKData
         .map((row) => row.icds.map((i: { icd_code: any }) => i.icd_code))
-        .flat()
-    )
+        .flat(),
+      ...compainSDKData
+        .map((row) => row.rejections.map((i: { icd_code: any }) => i.icd_code))
+        .flat(),
+    ])
   );
   selectedCodes = [];
 
