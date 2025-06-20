@@ -328,8 +328,12 @@ tr.expanded {
 .fs-17 {
   font-size: 17px;
 }
-.icd {
-  &:not(:last-child) {
-    border-bottom: 1px solid #dfdfdf;
-  }
+
+.line {
+  border-left: 3px solid rgb(88 166 191 / 50%);
+  margin-left: 45%;
+}
+.line-rejection {
+  border-left: 3px solid rgb(243 65 11 / 50%);
+  margin-left: 45%;
 }

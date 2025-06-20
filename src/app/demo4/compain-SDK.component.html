@@ -188,7 +188,7 @@
             </td>
             <td fd-table-cell class="col-contract">
               <span fd-table-text *ngIf="!row.expanded">{{
-                row.contract
+                row.metadata.contract_type
               }}</span>
             </td>
             <td
@@ -289,7 +289,9 @@
                       </div>
                       <div>
                         <span class="fw-bold me-2">Wunschtarife:</span>
-                        <span class="fst-italic">{{ row.contract }}</span>
+                        <span class="fst-italic">{{
+                          row.metadata.contract_type
+                        }}</span>
                       </div>
                     </div>
 
@@ -301,56 +303,63 @@
 
                       <div
                         *ngFor="let icd of row.icds"
-                        class="pb-4 mb-4 d-flex flex-column icd"
+                        class="pb-4 mb-4 d-flex flex-row icd gap-2"
                       >
-                        <div>
-                          <span class="fw-bold me-2">ICD-10:</span>
-                          <span class="code me-2 py-1 px-2">
+                        <div class="d-flex flex-column icd gap-2">
+                          <span class="code me-2 py-1 px-2 flex-grow-0">
                             {{ icd.icd_code }}
                           </span>
+                          <div class="line flex-grow-1"></div>
                         </div>
-                        <!-- <div class="mt-2">
-                          <span class="fw-bold me-2">Priority:</span>
-                          <span>{{ icd.priority }}</span>
-                        </div> -->
-                        <span class="fw-bold me-2 mt-2">Evidence:</span>
-                        <ul>
-                          <li *ngFor="let e of icd.evidence">
-                            {{ sanitizeEvidence(e) }}
-                          </li>
-                        </ul>
-                        <div>
-                          <span class="fw-bold me-2">Justification:</span>
-                          <span class="d-inline-block">
-                            {{ icd.justification }}
+
+                        <div class="d-flex flex-column">
+                          <span class="mt-1">
+                            {{ icd.name }}
                           </span>
+                          <span class="fw-bold me-2 mt-3">Evidence:</span>
+                          <ul>
+                            <li *ngFor="let e of icd.evidence">
+                              {{ sanitizeEvidence(e) }}
+                            </li>
+                          </ul>
+                          <div>
+                            <span class="fw-bold me-2">Justification:</span>
+                            <span class="d-inline-block">
+                              {{ icd.justification }}
+                            </span>
+                          </div>
                         </div>
                       </div>
+
                       <div
                         *ngFor="let icd of row.rejections"
-                        class="pb-4 mb-4 d-flex flex-column icd"
+                        class="pb-4 mb-4 d-flex flex-row icd gap-2"
                       >
-                        <div>
-                          <span class="fw-bold me-2">ICD-10:</span>
-                          <span class="code-rejection me-2 py-1 px-2">
+                        <div class="d-flex flex-column icd gap-2">
+                          <span
+                            class="code-rejection me-2 py-1 px-2 flex-grow-0"
+                          >
                             {{ icd.icd_code }}
                           </span>
+                          <div class="line-rejection flex-grow-1"></div>
                         </div>
-                        <!-- <div class="mt-2 mb-2">
-                          <span class="fw-bold me-2">Priority:</span>
-                          <span>{{ icd.priority }}</span>
-                        </div> -->
-                        <span class="fw-bold me-2">Evidence:</span>
-                        <ul>
-                          <li *ngFor="let e of icd.evidence">
-                            {{ sanitizeEvidence(e) }}
-                          </li>
-                        </ul>
-                        <div>
-                          <span class="fw-bold me-2">Justification:</span>
-                          <span class="d-inline-block">
-                            {{ icd.justification }}
+
+                        <div class="d-flex flex-column">
+                          <span class="mt-1">
+                            {{ icd.name }}
                           </span>
+                          <span class="fw-bold me-2 mt-3">Evidence:</span>
+                          <ul>
+                            <li *ngFor="let e of icd.evidence">
+                              {{ sanitizeEvidence(e) }}
+                            </li>
+                          </ul>
+                          <div>
+                            <span class="fw-bold me-2">Justification:</span>
+                            <span class="d-inline-block">
+                              {{ icd.justification }}
+                            </span>
+                          </div>
                         </div>
                       </div>
                     </div>

@@ -45,7 +45,9 @@ export class CompainSDKComponent {
 
   //contract
   contracts = Array.from(
-    new Set(compainSDKData.map((row) => row.contract).filter((v) => v))
+    new Set(
+      compainSDKData.map((row) => row.metadata.contract_type).filter((v) => v)
+    )
   );
   selectedContracts = [];
 

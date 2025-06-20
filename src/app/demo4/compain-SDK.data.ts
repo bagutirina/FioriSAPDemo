@@ -8,10 +8,12 @@ export const compainSDKData: any[] = [
       document_date: '16.04.2025',
       occupation: 'Ernährungsberaterin (Nutritionist)',
       'self-employed_since': '2014',
+      contract_type: 'contract type 1',
     },
     icds: [
       {
         icd_code: 'E03.9',
+        name: 'Hypothyreose, nicht näher bezeichnet',
         evidence: [
           '- 05.2023 -Schilddrüsenunterfunktion seit Kindheit- LThyroxin 1x am Tag 88mcg',
           '- 31.03.2025 Check-Up, Mi. 2.4. Blutabnahme Ergebnisse des Hausarzt-Besuchs: Autoimmunthyreoiditis ist ausgeschlossen, Vit.D Mangel ist behoben',
@@ -22,6 +24,7 @@ export const compainSDKData: any[] = [
       },
       {
         icd_code: 'D25.9',
+        name: 'Uterusmyom, nicht näher bezeichnet',
         evidence: [
           'Diagnose: Uterusmyome',
           'In der Untersuchung zeigten sich drei asymptomatische Myome a.e. subserös von 2,3x 1,7cm, 2,1x 1,6cm und 1,3x 1cm.',
@@ -32,6 +35,7 @@ export const compainSDKData: any[] = [
       },
       {
         icd_code: 'M21.42',
+        name: 'Valgusstellung, Fuß [pes valgus], linker Fuß',
         evidence: [
           '- Knie/Senk-Spreiz-Fuß mit Einlagen (28.02.2024)',
           'Abgeflachtes Längs- und durchgetretenes Quergewölbe beide Füße',
@@ -43,6 +47,7 @@ export const compainSDKData: any[] = [
       },
       {
         icd_code: 'M22.40',
+        name: 'Chondromalacia patellae, nicht näher bezeichnet, Seite nicht näher bezeichnet',
         evidence: [
           'Linkes Knie: 11.2.22 KrankenGymnastik + 11.8.22 KrankenGymnastik, dr. moll // Diagnose: Chondro Patella binnenschaden',
           'zweites MRT 13.7.22 // mit hat gezeigt dass diese leichte Reizung über die Jahre gleich geblieben ist + hyaluronsäure ins linke Knie bekommen (18.02.2019), (28.02.2019), (04.03.2019)',
@@ -55,6 +60,7 @@ export const compainSDKData: any[] = [
       },
       {
         icd_code: 'J30.1',
+        name: 'Allergische Rhinopathie durch Pollen',
         evidence: [
           '- Heuschnupfen: kein allergisches Asthma. Keine Des durchgeführt oder angeraten.',
         ],
@@ -64,6 +70,7 @@ export const compainSDKData: any[] = [
       },
       {
         icd_code: 'F45.8',
+        name: 'Sonstige somatoforme Störungen',
         evidence: [
           '- Knirscherschiene, kein Zahnabrieb, kein CMD, keine Physio',
         ],
@@ -75,6 +82,7 @@ export const compainSDKData: any[] = [
     rejections: [
       {
         icd_code: 'E03.9',
+        name: 'Hypothyreose, nicht näher bezeichnet',
         evidence: [
           '- 05.2023 -Schilddrüsenunterfunktion seit Kindheit- LThyroxin 1x am Tag 88mcg',
           '- 31.03.2025 Check-Up, Mi. 2.4. Blutabnahme Ergebnisse des Hausarzt-Besuchs: Autoimmunthyreoiditis ist ausgeschlossen, Vit.D Mangel ist behoben',
@@ -95,6 +103,7 @@ export const compainSDKData: any[] = [
       document_date: '16.04.2025',
       occupation: 'Ernährungsberaterin (Nutritionist)',
       'self-employed_since': '2014',
+      contract_type: 'contract type 2',
     },
     icds: [
       {
@@ -140,6 +149,7 @@ export const compainSDKData: any[] = [
       document_date: '16.04.2025',
       occupation: 'Ernährungsberaterin (Nutritionist)',
       'self-employed_since': '2014',
+      contract_type: 'contract type 3',
     },
     icds: [
       {
@@ -195,6 +205,7 @@ export const compainSDKData: any[] = [
       document_date: '16.04.2025',
       occupation: 'Ernährungsberaterin (Nutritionist)',
       'self-employed_since': '2014',
+      contract_type: 'contract type 4',
     },
     icds: [
       {
