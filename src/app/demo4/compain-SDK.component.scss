@@ -197,9 +197,10 @@ tr.expanded {
   text-align: center;
 }
 .col-status {
-  min-width: 140px;
-  max-width: 140px;
+  min-width: 160px;
+  max-width: 160px;
   width: 14px;
+  padding-right: 20px;
 }
 
 .col-score {
@@ -318,12 +319,18 @@ tr.expanded {
   border-radius: 5px;
   font-weight: bold;
   color: rgb(88 166 191);
+  &:hover {
+    background-color: rgb(88 166 191 / 10%);
+  }
 }
 .code-rejection {
   border: 1px solid rgb(243, 65, 11);
   border-radius: 5px;
   font-weight: bold;
   color: rgb(243, 65, 11);
+  &:hover {
+    background-color: rgb(243 65 11 / 10%);
+  }
 }
 .fs-17 {
   font-size: 17px;
@@ -336,4 +343,8 @@ tr.expanded {
 .line-rejection {
   border-left: 3px solid rgb(243 65 11 / 50%);
   margin-left: 45%;
+}
+
+::ng-deep .fd-bar--footer {
+  border-top: none !important;
 }

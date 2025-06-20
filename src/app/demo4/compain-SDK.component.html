@@ -117,7 +117,9 @@
     </fd-toolbar>
   </div>
 
-  <div class="scrollable-table w-100 flex-grow-1 flex-shrink-1">
+  <div
+    class="scrollable-table w-100 flex-grow-1 flex-shrink-1 d-flex flex-column"
+  >
     <table fd-table fdCompact [responsive]="true">
       <thead fd-table-header [noBorderY]="true">
         <tr fd-table-row>
@@ -152,7 +154,7 @@
             (click)="toggleRowExpansion(i)"
           >
             <td fd-table-cell class="px-0 col-check">
-              <div class="d-flex h-100 align-items-end">
+              <div class="d-flex h-100 align-items-center">
                 <fd-checkbox
                   [attr.aria-label]="'Select row ' + (i + 1)"
                   [attr.title]="'Select row ' + (i + 1)"
@@ -197,12 +199,29 @@
               [style.line-height]="'36px'"
             >
               <span fd-table-text *ngIf="!row.expanded" class="flex-wrap">
-                <span *ngFor="let icd of row.icds" class="code me-2 py-1 px-2">
+                <span
+                  *ngFor="let icd of row.icds"
+                  class="code me-2 py-1 px-2"
+                  (click)="
+                    open_icd = icd;
+                    open_rejection = false;
+                    $event.preventDefault();
+                    $event.stopPropagation();
+                    openDialog(confirmationDialog)
+                  "
+                >
                   {{ icd.icd_code }}
                 </span>
                 <span
                   *ngFor="let icd of row.rejections"
                   class="code-rejection me-2 py-1 px-2"
+                  (click)="
+                    open_icd = icd;
+                    open_rejection = true;
+                    $event.preventDefault();
+                    $event.stopPropagation();
+                    openDialog(confirmationDialog)
+                  "
                 >
                   {{ icd.icd_code }}
                 </span>
@@ -255,7 +274,9 @@
             </td>
             <td fd-table-cell colspan="11" class="expanded-details ps-0">
               <div class="expanded-details-content pb-4 w-100">
-                <div class="d-flex w-100 flex-row pt-4 gap-3 w-100">
+                <div
+                  class="d-flex w-100 flex-row pt-4 gap-3 w-100 position-relative"
+                >
                   <div class="d-flex flex-row flex-shrink-1 flex-grow-1">
                     <!-- Antragsteller-->
                     <div class="d-flex flex-column me-2" style="width: 20%">
@@ -265,33 +286,44 @@
 
                       <div class="d-flex flex-row" style="max-width: 700px">
                         <span class="fw-bold me-2">Patienten:</span>
-                        <span class="fst-italic">{{
-                          row.metadata.patient_name
-                        }}</span>
+                        <span>{{ row.metadata.patient_name }}</span>
                       </div>
                       <div class="d-flex flex-row" style="max-width: 700px">
                         <span class="fw-bold me-2">Beruf:</span>
-                        <span class="fst-italic">{{
-                          row.metadata.occupation
-                        }}</span>
+                        <span>{{ row.metadata.occupation }}</span>
                       </div>
                       <div>
                         <span class="fw-bold me-2">Geschlecht:</span>
-                        <span class="fst-italic">{{
-                          row.metadata.gender
-                        }}</span>
+                        <span>{{ row.metadata.gender }}</span>
                       </div>
                       <div>
                         <span class="fw-bold me-2">Geburtstag:</span>
-                        <span class="fst-italic">{{
-                          row.metadata.date_of_birth
-                        }}</span>
+                        <span>{{ row.metadata.date_of_birth }}</span>
                       </div>
                       <div>
                         <span class="fw-bold me-2">Wunschtarife:</span>
-                        <span class="fst-italic">{{
-                          row.metadata.contract_type
-                        }}</span>
+                        <span>{{ row.metadata.contract_type }}</span>
+                      </div>
+
+                      <!-- Beurteilung -->
+                      <div class="mt-5">
+                        <div class="fw-bold fs-17">Beurteilung</div>
+                        <div class="fw-bold">
+                          <fd-combobox
+                            fdCompact
+                            ariaLabel="Standard"
+                            placeholder="Bewertung wählen"
+                            [dropdownValues]="[
+                              'Offen',
+                              'Unkritisch',
+                              'Mit Aufschlag anbieten',
+                              'Abzulehnen'
+                            ]"
+                            [(ngModel)]="selectedAccess[i]"
+                            (click)="$event.stopPropagation()"
+                          >
+                          </fd-combobox>
+                        </div>
                       </div>
                     </div>
 
@@ -316,8 +348,8 @@
                           <span class="mt-1">
                             {{ icd.name }}
                           </span>
-                          <span class="fw-bold me-2 mt-3">Evidence:</span>
-                          <ul>
+                          <span class="fw-bold me-2 mt-2">Evidence:</span>
+                          <ul class="mb-2">
                             <li *ngFor="let e of icd.evidence">
                               {{ sanitizeEvidence(e) }}
                             </li>
@@ -348,8 +380,8 @@
                           <span class="mt-1">
                             {{ icd.name }}
                           </span>
-                          <span class="fw-bold me-2 mt-3">Evidence:</span>
-                          <ul>
+                          <span class="fw-bold me-2 mt-2">Evidence:</span>
+                          <ul class="mb-2">
                             <li *ngFor="let e of icd.evidence">
                               {{ sanitizeEvidence(e) }}
                             </li>
@@ -367,87 +399,26 @@
 
                   <!-- Status & Score -->
                   <div
-                    class="d-flex flex-column ms-4 flex-grow-0 flex-shrink-0 me-3"
+                    class="d-flex flex-column ms-4 flex-grow-0 flex-shrink-0 mt-2"
+                    style="position: absolute; right: 10px; top: 10px"
                   >
                     <div class="d-flex flex-column w-100">
-                      <div class="mb-3">
-                        <span class="table-col111 fw-bold">Status</span>
+                      <div class="mb-3 align-self-end mt-2">
+                        <!-- <span class="table-col111 fw-bold">Status</span> -->
                         <span
-                          class="table-col222 fw-bold status-tag"
+                          class="fw-bold status-tag px-2"
+                          style="width: 132px"
                           [ngClass]="getStatusClass(row.status)"
                           >{{ row.status }}</span
                         >
                       </div>
 
-                      <div>
+                      <!-- <div>
                         <span class="table-col111 fw-bold">Score</span>
                         <span class="table-col222 fw-bold"
                           >{{ row.score }}%</span
                         >
-                      </div>
-
-                      <!-- <div
-                        class="mt-3 mb-2"
-                        style="border-bottom: 1px solid lightgray"
-                      >
-                        <span class="table-col111 fw-bold">Kriterium</span>
-                        <span class="table-col222 fw-bold">Score</span>
-                      </div>
-
-                      <div>
-                        <span class="table-col111"
-                          >Logische Inkonsistenzen</span
-                        >
-                        <span class="table-col222"
-                          >{{ row.logischeInkonsistenzen }}%</span
-                        >
-                      </div>
-
-                      <div>
-                        <span class="table-col111"
-                          >Zeitliche Inkonsistenzen</span
-                        >
-                        <span class="table-col222"
-                          >{{ row.zeitlicheInkonsistenzen }}%</span
-                        >
-                      </div>
-
-                      <div>
-                        <span class="table-col111">Ungewöhnliche Angaben</span>
-                        <span class="table-col222"
-                          >{{ row["ungewöhnlicheAngaben"] }}%</span
-                        >
-                      </div>
-
-                      <div>
-                        <span class="table-col111"
-                          >Korrelation mit Betrugsfällen</span
-                        >
-                        <span class="table-col222"
-                          >{{ row["korrelationMitBetrugsfällen"] }}%</span
-                        >
                       </div> -->
-
-                      <div>
-                        <span class="table-col111 fw-bold">Beurteilung</span>
-                        <span class="table-col222 fw-bold">
-                          <fd-combobox
-                            class="pt-2"
-                            fdCompact
-                            ariaLabel="Standard"
-                            placeholder="Bewertung wählen"
-                            [dropdownValues]="[
-                              'Offen',
-                              'Unkritisch',
-                              'Mit Aufschlag anbieten',
-                              'Abzulehnen'
-                            ]"
-                            [(ngModel)]="selectedAccess[i]"
-                            (click)="$event.stopPropagation()"
-                          >
-                          </fd-combobox>
-                        </span>
-                      </div>
                     </div>
                   </div>
                 </div>
@@ -458,33 +429,68 @@
       </tbody>
     </table>
   </div>
+
+  <fd-busy-indicator
+    *ngIf="loading"
+    [loading]="loading"
+    ariaLabel="loading"
+    title="Please Wait"
+    class="justify-content-center mb-2 me-3"
+  >
+  </fd-busy-indicator>
 </div>
 
 <ng-template let-dialog let-dialogConfig="dialogConfig" #confirmationDialog>
   <fd-dialog [dialogConfig]="dialogConfig" [dialogRef]="dialog">
-    <fd-dialog-header>
-      <h1 id="fd-dialog-header-10" fd-title>
-        Schadensdokumentation – Bildmaterial
-        <button
-          class="close-button"
-          aria-label="Schließen"
-          (click)="dialog.dismiss('Cancel')"
-        >
-          ✕
-        </button>
-      </h1>
-    </fd-dialog-header>
-
     <fd-dialog-body>
-      <img
-        src="assets/images/{{ dialogImage }}"
-        alt=" "
-        style="width: 100%; border-radius: 3px"
-      />
+      <button
+        class="close-button position-absolute sap-position-top-0 sap-position-right-0"
+        aria-label="Schließen"
+        (click)="dialog.dismiss('Cancel')"
+      >
+        ✕
+      </button>
+      <div class="d-flex icd gap-2 px-4 pt-4 pb-2">
+        <span
+          class="{{
+            open_rejection ? 'code-rejection' : 'code'
+          }} me-2 py-1 px-2 flex-grow-0"
+        >
+          {{ open_icd.icd_code }}
+        </span>
+        <span class="mt-1">
+          {{ open_icd.name }}
+        </span>
+      </div>
+      <div class="w-100 px-4 py-2">
+        <div
+          style="
+            border-top: 1px solid rgb(233, 228, 228);
+            width: 100%;
+            height: 2px;
+          "
+        ></div>
+      </div>
+
+      <div class="d-flex flex-column px-4 pb-4">
+        <span class="fw-bold me-2 mt-2">Evidence:</span>
+        <ul class="mb-2">
+          <li *ngFor="let e of open_icd.evidence">
+            {{ sanitizeEvidence(e) }}
+          </li>
+        </ul>
+        <div>
+          <div class="fw-bold me-2 mt-2">Justification:</div>
+          <span class="d-inline-block">
+            {{ open_icd.justification }}
+          </span>
+        </div>
+      </div>
     </fd-dialog-body>
 
     <fd-dialog-footer>
       <fd-button-bar
+        class="my-2 mb-3"
         label="Schließen"
         (click)="dialog.dismiss('Cancel')"
         ariaLabel="Close"

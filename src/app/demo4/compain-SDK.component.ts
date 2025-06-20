@@ -1,4 +1,4 @@
-import { Component, TemplateRef } from '@angular/core';
+import { ChangeDetectorRef, Component, TemplateRef } from '@angular/core';
 import {
   DialogService,
   FdDate,
@@ -38,23 +38,22 @@ export class CompainSDKComponent {
   searchText = '';
   ascending = false;
   sortByKey = '';
-  compainSDKData = compainSDKData;
+  data = compainSDKData.slice(1);
   selectedAccess = ['Offen', 'Offen', 'Offen', '', '', '', '', '', ''];
+  loading = false;
 
   // filters
 
   //contract
   contracts = Array.from(
-    new Set(
-      compainSDKData.map((row) => row.metadata.contract_type).filter((v) => v)
-    )
+    new Set(this.data.map((row) => row.metadata.contract_type).filter((v) => v))
   );
   selectedContracts = [];
 
   //code
   codes = Array.from(
     new Set(
-      compainSDKData
+      this.data
         .map((row) => row.icds.map((i: { icd_code: any }) => i.icd_code))
         .flat()
     )
@@ -107,11 +106,22 @@ export class CompainSDKComponent {
   constructor(
     public dialogService: DialogService,
     private titleService: Title,
-    private _dialogService: DialogService
+    private _dialogService: DialogService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
     this.titleService.setTitle('Insurance');
+
+    setTimeout(() => {
+      this.loading = true;
+      this.cdr.detectChanges();
+      setTimeout(() => {
+        this.loading = false;
+        this.data = [compainSDKData[0], ...this.data];
+        this.cdr.detectChanges();
+      }, 10000);
+    }, 100);
   }
 
   // Select all
@@ -127,14 +137,14 @@ export class CompainSDKComponent {
     }
   }
   private _selectAll(): void {
-    compainSDKData.forEach((row) => (row.checked = true));
+    this.data.forEach((row) => (row.checked = true));
   }
   private _deselectAll(): void {
-    compainSDKData.forEach((row) => (row.checked = false));
+    this.data.forEach((row) => (row.checked = false));
   }
   private _getSelectAllValue(): boolean | null {
-    const checked = compainSDKData.filter((row) => row.checked);
-    if (checked.length === compainSDKData.length) {
+    const checked = this.data.filter((row) => row.checked);
+    if (checked.length === this.data.length) {
       return true;
     } else if (!checked.length) {
       return false;
@@ -156,7 +166,7 @@ export class CompainSDKComponent {
 
   toggleRowExpansion(index: number) {
     // Comută între expansiune și retragere
-    this.compainSDKData[index].expanded = !this.compainSDKData[index].expanded;
+    this.data[index].expanded = !this.data[index].expanded;
   }
 
   getStatusClass(status: string): string {
@@ -175,27 +185,27 @@ export class CompainSDKComponent {
   }
 
   get filteredCompainSDKData() {
-    return this.compainSDKData
+    return this.data
       .filter((row) =>
-        Object.values(row).some((value) =>
-          String(value).toLowerCase().includes(this.searchText.toLowerCase())
-        )
+        JSON.stringify(row)
+          .toLowerCase()
+          .includes(this.searchText.toLowerCase())
       )
       .filter((row) => (this.showOnlyChecked ? row.checked : true));
   }
-
   sanitizeEvidence(text: string): string {
     return text.replace(/^-\s*/, '');
   }
 
-  dialogImage: string = '';
-
+  open_icd: any = null;
+  open_rejection = false;
   openDialog(dialog: TemplateRef<any>): void {
     const dialogRef = this._dialogService.open(dialog, {
       responsivePadding: true,
       ariaLabelledBy: 'fd-dialog-header-10',
       ariaDescribedBy: 'fd-dialog-body-10',
       focusTrapped: true,
+      width: '600px',
     });
 
     dialogRef.afterClosed.subscribe(
