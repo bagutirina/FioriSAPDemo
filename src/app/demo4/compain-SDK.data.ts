@@ -8,7 +8,7 @@ export const compainSDKData: any[] = [
       document_date: '16.04.2025',
       occupation: 'Ernährungsberaterin (Nutritionist)',
       'self-employed_since': '2014',
-      contract_types: 'contract type 1',
+      contract_types: ['contract 1', 'contract 2'],
     },
     icds: [
       {
@@ -103,7 +103,7 @@ export const compainSDKData: any[] = [
       document_date: '16.04.2025',
       occupation: 'Ernährungsberaterin (Nutritionist)',
       'self-employed_since': '2014',
-      contract_types: 'contract type 2',
+      contract_types: ['contract 2', 'contract 3'],
     },
     icds: [
       {
@@ -149,7 +149,7 @@ export const compainSDKData: any[] = [
       document_date: '16.04.2025',
       occupation: 'Ernährungsberaterin (Nutritionist)',
       'self-employed_since': '2014',
-      contract_types: 'contract type 3',
+      contract_types: ['contract 3'],
     },
     icds: [
       {
@@ -205,7 +205,7 @@ export const compainSDKData: any[] = [
       document_date: '16.04.2025',
       occupation: 'Ernährungsberaterin (Nutritionist)',
       'self-employed_since': '2014',
-      contract_types: 'contract type 4',
+      contract_types: ['contract 1', 'contract 4'],
     },
     icds: [
       {

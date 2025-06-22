@@ -184,10 +184,12 @@ tr.expanded {
 }
 .col-contract {
   min-width: 130px;
+  max-width: 140px;
 }
 
 .col-icd10Codes {
   max-width: 230px;
+  line-height: 36px;
 }
 .col-typ {
   min-width: 130px;

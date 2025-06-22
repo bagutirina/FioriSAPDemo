@@ -189,15 +189,11 @@
               }}</span>
             </td>
             <td fd-table-cell class="col-contract">
-              <span fd-table-text *ngIf="!row.expanded">{{
-                row.metadata.contract_types
+              <span fd-table-text *ngIf="!row.expanded" class="flex-wrap">{{
+                row.metadata.contract_types.join(", ")
               }}</span>
             </td>
-            <td
-              fd-table-cell
-              class="col-icd10Codes pt-1 pb-1"
-              [style.line-height]="'36px'"
-            >
+            <td fd-table-cell class="col-icd10Codes pt-1 pb-1">
               <span fd-table-text *ngIf="!row.expanded" class="flex-wrap">
                 <span
                   *ngFor="let icd of row.icds"
@@ -300,9 +296,11 @@
                         <span class="fw-bold me-2">Geburtstag:</span>
                         <span>{{ row.metadata.date_of_birth }}</span>
                       </div>
-                      <div>
+                      <div class="d-flex">
                         <span class="fw-bold me-2">Wunschtarife:</span>
-                        <span>{{ row.metadata.contract_types }}</span>
+                        <span>{{
+                          row.metadata.contract_types.join(", ")
+                        }}</span>
                       </div>
 
                       <!-- Beurteilung -->
