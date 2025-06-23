@@ -114,6 +114,19 @@
           [(ngModel)]="selectedStatuses"
         ></fd-multi-input>
       </div>
+
+      <fd-toolbar-separator class="mx-2"></fd-toolbar-separator>
+
+      <button
+        class="export-button"
+        [disabled]="checkboxValue === false"
+        fdCompact
+        fd-toolbar-item
+        fd-button
+        label="Export"
+        fdType="emphasized"
+        (click)="generarePdf()"
+      ></button>
     </fd-toolbar>
   </div>
 
@@ -124,13 +137,13 @@
       <thead fd-table-header [noBorderY]="true">
         <tr fd-table-row>
           <th fd-table-cell>
-            <!-- <fd-checkbox
+            <fd-checkbox
               aria-label="Select all"
               title="Select all"
               [tristate]="true"
               [ngModel]="checkboxValue"
               (ngModelChange)="selectAll($event)"
-            ></fd-checkbox> -->
+            ></fd-checkbox>
           </th>
           <!-- <th fd-table-cell class="col-name">Patienten</th> -->
           <th fd-table-cell class="col-job">Beruf</th>

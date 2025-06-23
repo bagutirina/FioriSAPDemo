@@ -1,3 +1,6 @@
+import { style } from '@angular/animations';
+import * as moment from 'moment';
+
 export const compainSDKData: any[] = [
   {
     timestamp: '6/19/2025',
@@ -154,6 +157,341 @@ export const compainSDKData: any[] = [
     status: 'Abgelehnt',
   },
 ];
+
+export function PDFTemplate(rows: any[]) {
+  const content: any[] = [
+    {
+      text: `Datum: ${moment().format('DD.MM.YYYY')}`,
+      alignment: 'right',
+      margin: [0, 0, 0, 30],
+    },
+    {
+      text: 'PDF-Bericht',
+      style: 'header',
+      alignment: 'center',
+      margin: [0, 0, 0, 5],
+    },
+    {
+      text: 'Ausgewählte Fälle aus der KI-Anwendung',
+      alignment: 'center',
+      margin: [0, 0, 0, 50],
+    },
+  ];
+
+  rows.forEach((row, index) => {
+    const meta = row.metadata || {};
+    const icds = row.icds || [];
+    const rejections = row.rejections || [];
+
+    content.push(
+      {
+        text: `Fall ${index + 1} von ${rows.length}`,
+        style: 'subheader',
+        margin: [0, 10, 0, 2],
+      },
+
+      {
+        canvas: [
+          {
+            type: 'line',
+            x1: 0,
+            y1: 0,
+            x2: 515,
+            y2: 0,
+            lineWidth: 0.5,
+            lineColor: 'lightgray',
+          },
+        ],
+        margin: [0, 0, 0, 5],
+      },
+
+      {
+        table: {
+          widths: ['*', 100],
+
+          body: [
+            [
+              // Coloana 1: Antragsteller
+              {
+                stack: [
+                  {
+                    margin: [10, 10, 10, 10],
+                    table: {
+                      widths: ['21%', '*'],
+                      body: [
+                        [
+                          { text: 'Patienten:', bold: true },
+                          { text: meta.patient_name ?? '-' },
+                        ],
+                        [
+                          { text: 'Beruf:', bold: true },
+                          { text: meta.occupation ?? '-' },
+                        ],
+                        [
+                          { text: 'Geschlecht:', bold: true },
+                          { text: meta.gender ?? '-' },
+                        ],
+                        [
+                          { text: 'Geburtstag:', bold: true },
+                          { text: meta.date_of_birth ?? '-' },
+                        ],
+                        [
+                          { text: 'Wunschtarife:', bold: true },
+                          {
+                            text: (meta.contract_types ?? []).join(', ') || '-',
+                          },
+                        ],
+                      ],
+                    },
+                    layout: 'noBorders',
+                  },
+                ],
+              },
+
+              // Coloana 2: status & score
+              {
+                stack: [
+                  {
+                    table: {
+                      widths: [100],
+                      body: [
+                        [
+                          {
+                            text: '  ' + (row.status ?? '-') + '  ',
+                            style:
+                              row.status === 'Offen'
+                                ? 'statusOpen'
+                                : row.status === 'In Bearbeitung'
+                                ? 'statusInProgress'
+                                : row.status === 'Abgeschlossen'
+                                ? 'statusCompleted'
+                                : 'statusRejected',
+                            color: 'white',
+                            fontSize: 11,
+                            bold: true,
+                            margin: [6, 1, 6, 1],
+                            alignment: 'center',
+                          },
+                        ],
+                      ],
+                    },
+                    layout: 'noBorders',
+                    alignment: 'right',
+                    margin: [0, 10, 0, 0],
+                  },
+                  {
+                    text: row.score,
+                    style: 'score',
+                    margin: [0, 10, 0, 0],
+                    alignment: 'center',
+                  },
+                ],
+              },
+            ],
+          ],
+        },
+
+        layout: {
+          defaultBorder: false,
+          fillColor: function () {
+            return '#f5f5f5';
+          },
+        },
+      }
+    );
+
+    if (icds.length > 0) {
+      icds.forEach((icd: any, idx: number) => {
+        content.push(
+          {
+            margin: [15, 5, 0, 2],
+            columns: [
+              {
+                width: 60,
+                table: {
+                  widths: [60],
+                  body: [
+                    [
+                      {
+                        text: icd.icd_code,
+                        fillColor: icd.highlighted ? 'yellow' : 'white',
+                        color: '#057395',
+                        fontSize: 12,
+                        bold: true,
+                        margin: [6, 1, 6, 1],
+                        alignment: 'center',
+                      },
+                    ],
+                  ],
+                },
+                layout: {
+                  hLineColor: function () {
+                    return '#057395';
+                  },
+                  vLineColor: function () {
+                    return '#057395';
+                  },
+                  hLineWidth: function () {
+                    return 1;
+                  },
+                  vLineWidth: function () {
+                    return 1;
+                  },
+                },
+                alignment: 'center',
+                margin: [0, 10, 20, 0],
+              },
+
+              {
+                width: '*',
+                text: `${icd.name}`,
+                bold: true,
+                alignment: 'left',
+                margin: [23, 12, 0, 0],
+              },
+            ],
+          },
+
+          {
+            text: 'Justification:',
+            italics: true,
+            margin: [100, 5, 0, 5],
+          },
+          {
+            text: icd.justification,
+            margin: [100, 0, 0, 5],
+          },
+          {
+            text: 'Evidence:',
+            italics: true,
+            margin: [100, 5, 0, 5],
+          },
+          {
+            ul: (icd.evidence ?? []).map((e: string) => e.replace(/^\* /, '')),
+            margin: [100, 0, 0, 20],
+          }
+        );
+      });
+    }
+
+    if (rejections.length > 0) {
+      rejections.forEach((icd: any, idx: number) => {
+        content.push(
+          {
+            margin: [15, 5, 0, 2],
+            columns: [
+              {
+                width: 60,
+                table: {
+                  widths: [60],
+                  body: [
+                    [
+                      {
+                        text: icd.icd_code,
+                        color: 'red',
+                        fontSize: 12,
+                        bold: true,
+                        margin: [6, 1, 6, 1],
+                        alignment: 'center',
+                      },
+                    ],
+                  ],
+                },
+                layout: {
+                  hLineColor: function () {
+                    return 'red';
+                  },
+                  vLineColor: function () {
+                    return 'red';
+                  },
+                  hLineWidth: function () {
+                    return 1;
+                  },
+                  vLineWidth: function () {
+                    return 1;
+                  },
+                },
+                alignment: 'center',
+                margin: [0, 10, 20, 0],
+              },
+
+              {
+                width: '*',
+                text: `${icd.name}`,
+                bold: true,
+                alignment: 'left',
+                margin: [25, 12, 0, 0],
+              },
+            ],
+          },
+
+          {
+            text: 'Justification:',
+            italics: true,
+            margin: [100, 5, 0, 5],
+          },
+          {
+            text: icd.justification,
+            margin: [100, 0, 0, 5],
+          },
+          {
+            text: 'Evidence:',
+            italics: true,
+            margin: [100, 5, 0, 5],
+          },
+          {
+            ul: (icd.evidence ?? []).map((e: string) => e.replace(/^\* /, '')),
+            margin: [100, 0, 0, 20],
+          }
+        );
+      });
+    }
+  });
+
+  return {
+    pageSize: 'A4',
+    pageMargins: [40, 40, 40, 40],
+    content,
+    fontSize: 14,
+    defaultStyle: {
+      font: 'Roboto',
+      bold: false,
+    },
+    styles: {
+      header: { fontSize: 18, bold: true },
+      subheader: { fontSize: 10, color: 'gray', bold: true },
+      subheader2: { fontSize: 14, bold: true },
+      statusOpen: {
+        fontSize: 12,
+        bold: true,
+        fillColor: 'gray',
+        color: 'white',
+      },
+      statusInProgress: {
+        fontSize: 12,
+        bold: true,
+        fillColor: 'lightblue',
+        color: 'white',
+      },
+      statusCompleted: {
+        fontSize: 12,
+        bold: true,
+        fillColor: 'green',
+        color: 'white',
+      },
+      statusRejected: {
+        fontSize: 10,
+        bold: true,
+        fillColor: 'red',
+        color: 'white',
+      },
+      score: {
+        fontSize: 14,
+        bold: true,
+      },
+    },
+  };
+}
 
 // score range
 export const scores = [

@@ -14,7 +14,12 @@ import {
 } from '@fundamental-ngx/core/datetime';
 import { DateRange } from '@fundamental-ngx/core/calendar';
 import { Nullable } from '@fundamental-ngx/cdk/utils';
-import { compainSDKData, scores, statuses } from './compain-SDK.data';
+import {
+  compainSDKData,
+  scores,
+  statuses,
+  PDFTemplate,
+} from './compain-SDK.data';
 import { Title } from '@angular/platform-browser';
 
 @Component({
@@ -41,6 +46,7 @@ export class CompainSDKComponent {
   data = compainSDKData.slice(1);
   selectedAccess = ['Offen', 'Offen', 'Offen', '', '', '', '', '', ''];
   loading = false;
+  private pdfMake: any;
 
   // filters
 
@@ -216,5 +222,20 @@ export class CompainSDKComponent {
       (result) => {},
       (error) => {}
     );
+  }
+
+  //generate pdf
+  async generarePdf() {
+    if (!this.pdfMake) {
+      const pdfMakeModule = await import('pdfmake/build/pdfmake');
+      const pdfFonts = await import('pdfmake/build/vfs_fonts');
+
+      pdfMakeModule.vfs = pdfFonts.vfs;
+
+      this.pdfMake = pdfMakeModule;
+    }
+    this.pdfMake
+      .createPdf(PDFTemplate(compainSDKData.filter((row) => row.checked)))
+      .open();
   }
 }

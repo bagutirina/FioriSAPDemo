@@ -365,3 +365,14 @@ tr.expanded {
   border-left-style: none !important;
   border-right-style: none !important;
 }
+
+.export-button {
+  --fdButtonColor: black;
+  --fdButtonBorderColor: rgb(141, 183, 196) !important;
+  --fdButtonBackgroundColor: rgb(185, 214, 223) !important;
+
+  color: black;
+  height: 30px;
+  min-height: 30px;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.15);
+}
