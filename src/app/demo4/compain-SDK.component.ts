@@ -47,7 +47,7 @@ export class CompainSDKComponent {
   //contract
   contracts = Array.from(
     new Set(compainSDKData.map((row) => row.metadata.contract_types).flat())
-  );
+  ).sort();
 
   selectedContracts = [];
 
@@ -198,7 +198,7 @@ export class CompainSDKComponent {
       .filter((row) => (this.showOnlyChecked ? row.checked : true));
   }
   sanitizeEvidence(text: string): string {
-    return text.replace(/^-\s*/, '');
+    return text.replace(/^-\s*/, '').replace(/^\*\s*/, '');
   }
 
   open_icd: any = null;

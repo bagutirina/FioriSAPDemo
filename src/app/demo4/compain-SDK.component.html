@@ -185,7 +185,7 @@
             </td>
             <td fd-table-cell class="col-date">
               <span fd-table-text *ngIf="!row.expanded">{{
-                row.metadata.date_of_birth
+                row.metadata.date_of_birth | date : "dd MMM YYYY"
               }}</span>
             </td>
             <td fd-table-cell class="col-contract">
@@ -198,6 +198,7 @@
                 <span
                   *ngFor="let icd of row.icds"
                   class="code me-2 py-1 px-2"
+                  [class.highlighted]="icd.highlighted"
                   (click)="
                     open_icd = icd;
                     open_rejection = false;
@@ -225,11 +226,13 @@
             </td>
             <td fd-table-cell class="col-date">
               <span fd-table-text *ngIf="!row.expanded">{{
-                row.metadata.document_date
+                row.timestamp | date : "dd MMM YYYY"
               }}</span>
             </td>
-            <td fd-table-cell class="col-score">
-              <span fd-table-text *ngIf="!row.expanded">{{ row.score }}%</span>
+            <td fd-table-cell class="col-score fw-bold">
+              <span fd-table-text *ngIf="!row.expanded" class="fw-bold">{{
+                row.score
+              }}</span>
             </td>
             <td
               fd-table-cell
@@ -294,7 +297,9 @@
                       </div>
                       <div>
                         <span class="fw-bold me-2">Geburtstag:</span>
-                        <span>{{ row.metadata.date_of_birth }}</span>
+                        <span>{{
+                          row.metadata.date_of_birth | date : "dd MMM YYYY"
+                        }}</span>
                       </div>
                       <div class="d-flex">
                         <span class="fw-bold me-2">Wunschtarife:</span>
@@ -317,7 +322,7 @@
                               'Mit Aufschlag anbieten',
                               'Abzulehnen'
                             ]"
-                            [(ngModel)]="selectedAccess[i]"
+                            [(ngModel)]="row.evaluation"
                             (click)="$event.stopPropagation()"
                           >
                           </fd-combobox>
@@ -336,7 +341,10 @@
                         class="pb-4 mb-4 d-flex flex-row icd gap-2"
                       >
                         <div class="d-flex flex-column icd gap-2">
-                          <span class="code me-2 py-1 px-2 flex-grow-0">
+                          <span
+                            class="code me-2 py-1 px-2 flex-grow-0"
+                            [class.highlighted]="icd.highlighted"
+                          >
                             {{ icd.icd_code }}
                           </span>
                           <div class="line flex-grow-1"></div>
@@ -400,7 +408,12 @@
                     class="d-flex flex-column ms-4 flex-grow-0 flex-shrink-0 mt-2"
                     style="position: absolute; right: 10px; top: 10px"
                   >
-                    <div class="d-flex flex-column w-100">
+                    <div class="d-flex flex-row w-100">
+                      <div>
+                        <span class="table-col222 fw-bold ps-3 pt-2">{{
+                          row.score
+                        }}</span>
+                      </div>
                       <div class="mb-3 align-self-end mt-2">
                         <!-- <span class="table-col111 fw-bold">Status</span> -->
                         <span
@@ -410,13 +423,6 @@
                           >{{ row.status }}</span
                         >
                       </div>
-
-                      <!-- <div>
-                        <span class="table-col111 fw-bold">Score</span>
-                        <span class="table-col222 fw-bold"
-                          >{{ row.score }}%</span
-                        >
-                      </div> -->
                     </div>
                   </div>
                 </div>
@@ -450,6 +456,7 @@
       </button>
       <div class="d-flex icd gap-2 px-4 pt-3 pb-2">
         <span
+          [class.highlighted]="open_icd.highlighted"
           class="{{
             open_rejection ? 'code-rejection' : 'code'
           }} me-2 py-1 px-2 flex-grow-0"

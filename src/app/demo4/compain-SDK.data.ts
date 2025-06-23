@@ -1,244 +1,156 @@
 export const compainSDKData: any[] = [
   {
-    timestamp: '123456',
+    timestamp: '6/19/2025',
     metadata: {
-      patient_name: 'Name Vorname',
-      gender: 'female',
-      date_of_birth: '18.09.1988',
-      document_date: '16.04.2025',
-      occupation: 'Ernährungsberaterin (Nutritionist)',
-      'self-employed_since': '2014',
-      contract_types: ['contract 1', 'contract 2'],
+      patient_name: 'Max Mustermann',
+      gender: 'Männlich',
+      date_of_birth: '12-12-1997',
+      document_date: '6/19/2025',
+      occupation: 'Student',
+      contract_types: ['RZ A', 'Tarif SG/10'],
     },
     icds: [
       {
-        icd_code: 'E03.9',
-        name: 'Hypothyreose, nicht näher bezeichnet',
+        icd_code: 'E66',
+        highlighted: true,
+        name: 'Adipositas durch übermäßige Kalorienzufuhr',
         evidence: [
-          '- 05.2023 -Schilddrüsenunterfunktion seit Kindheit- LThyroxin 1x am Tag 88mcg',
-          '- 31.03.2025 Check-Up, Mi. 2.4. Blutabnahme Ergebnisse des Hausarzt-Besuchs: Autoimmunthyreoiditis ist ausgeschlossen, Vit.D Mangel ist behoben',
-        ],
-        priority: 'Secondary',
-        justification:
-          'The patient has a documented history of hypothyroidism since childhood and is currently taking levothyroxine 88mcg daily for management. This is a chronic condition requiring ongoing medication but is not the primary reason for the current medical evaluation. The autoimmune thyroiditis was ruled out in the most recent check-up.',
-      },
-      {
-        icd_code: 'D25.9',
-        name: 'Uterusmyom, nicht näher bezeichnet',
-        evidence: [
-          'Diagnose: Uterusmyome',
-          'In der Untersuchung zeigten sich drei asymptomatische Myome a.e. subserös von 2,3x 1,7cm, 2,1x 1,6cm und 1,3x 1cm.',
-        ],
-        priority: 'Secondary',
-        justification:
-          "The gynecological report dated 24.03.2025 confirms the presence of three asymptomatic uterine myomas (fibroids). The code D25.9 represents 'Leiomyoma of uterus, unspecified' which is appropriate as the specific type is not definitively classified beyond 'a.e. subserös' (likely subserosal). This is a secondary condition as it's described as asymptomatic.",
-      },
-      {
-        icd_code: 'M21.42',
-        name: 'Valgusstellung, Fuß [pes valgus], linker Fuß',
-        evidence: [
-          '- Knie/Senk-Spreiz-Fuß mit Einlagen (28.02.2024)',
-          'Abgeflachtes Längs- und durchgetretenes Quergewölbe beide Füße',
-          'Dekompensierter Knick-Senk-Spreizfuß bds.',
-        ],
-        priority: 'Secondary',
-        justification:
-          "The orthopedic documentation clearly indicates bilateral pes planovalgus (flat feet with pronation), specifically described as 'Knick-Senk-Spreizfuß beidseits' (bilateral pes planovalgus with splay foot). M21.42 specifically codes for flat foot deformity affecting both feet, which is more specific than M21.40 (unspecified site). The patient uses orthotic insoles for this condition.",
-      },
-      {
-        icd_code: 'M22.40',
-        name: 'Chondromalacia patellae, nicht näher bezeichnet, Seite nicht näher bezeichnet',
-        evidence: [
-          'Linkes Knie: 11.2.22 KrankenGymnastik + 11.8.22 KrankenGymnastik, dr. moll // Diagnose: Chondro Patella binnenschaden',
-          'zweites MRT 13.7.22 // mit hat gezeigt dass diese leichte Reizung über die Jahre gleich geblieben ist + hyaluronsäure ins linke Knie bekommen (18.02.2019), (28.02.2019), (04.03.2019)',
-          'Retropatellare Chondropathie mit diskretem begleitendem Gelenkerguss',
-          'Patellofemorales Syndrom bds, V.a. Knorpelschaden retropatellar bds.',
+          '* Der Patient weist eine deutliche positive Energiebilanz bei gleichzeitigem Bewegungsmangel auf.',
+          '* Kein Hinweis auf endokrine oder genetische Ursachen – primär kalorienbedingte Gewichtszunahme.',
+          '* BMI von 34,2 kg/m², entsprechende Befunde sprechen für eine alimentäre Adipositas.',
         ],
         priority: 'Primary',
         justification:
-          "The patient has a documented chondropathy of the patella (patellofemoral syndrome) with evidence of cartilage damage. This condition required multiple treatments including physical therapy and hyaluronic acid injections. M22.40 codes for 'Chondromalacia patellae, unspecified knee' which accurately represents the condition. This appears to be the primary reason for medical consultation based on the extensive documentation and treatment history.",
+          'Die Berichte deuten darauf hin, dass die Gewichtszunahme des Patienten vor allem durch eine chronisch positive Energiebilanz – also eine übermäßige Kalorienzufuhr bei gleichzeitig geringem Energieverbrauch – verursacht wird. Da keine Hinweise auf endokrine oder genetische Ursachen vorliegen, spricht dies für eine alimentäre Adipositas, bei der Überernährung der Hauptfaktor ist. Der BMI von 34,2 kg/m² bestätigt das Vorliegen von Adipositas gemäß der Klassifikation E66.',
       },
       {
-        icd_code: 'J30.1',
-        name: 'Allergische Rhinopathie durch Pollen',
+        icd_code: 'J45',
+        name: 'Asthma bronchiale',
         evidence: [
-          '- Heuschnupfen: kein allergisches Asthma. Keine Des durchgeführt oder angeraten.',
+          '* In der Auskultation beidseits exspiratorisches Giemen, vereinbar mit einer obstruktiven Ventilationsstörung.',
+          '* Es besteht eine bekannte Asthma bronchiale-Diagnose seit dem Kindesalter mit regelmäßiger inhalativer Therapie.',
+          '* Im Rahmen einer allergischen Exposition kam es zu einem akuten Asthmaanfall mit Dyspnoe und Hustenreiz.',
         ],
         priority: 'Secondary',
         justification:
-          "The patient reports having hay fever (allergic rhinitis due to pollen) without allergic asthma. J30.1 specifically codes for 'Allergic rhinitis due to pollen' which matches the description of 'Heuschnupfen' (hay fever). This is a secondary condition as it's mentioned as a pre-existing condition without current active treatment.",
+          'Die Befunde wie exspiratorisches Giemen und obstruktive Ventilationsstörung in der Auskultation sind typische Zeichen einer Atemwegsobstruktion bei Asthma bronchiale. Die bestehende Diagnose seit dem Kindesalter sowie das Auftreten eines akuten Asthmaanfalls nach allergischer Exposition bestätigen den chronisch-entzündlichen Charakter der Erkrankung. Zusammen mit den Symptomen Dyspnoe und Hustenreiz sprechen diese Befunde klar für die Diagnose J45 – Asthma bronchiale.',
       },
       {
-        icd_code: 'F45.8',
-        name: 'Sonstige somatoforme Störungen',
+        icd_code: 'S62.50',
+        name: 'Fraktur des Daumens, Teil nicht näher bezeichnet',
         evidence: [
-          '- Knirscherschiene, kein Zahnabrieb, kein CMD, keine Physio',
+          '* Klinisch bestehen Druckschmerz und Krepitation im Daumengrundglied, der genaue Frakturverlauf ist noch abzuklären.',
+          '* Im Röntgenbild zeigte sich eine Fraktur im Bereich des Daumenskeletts',
         ],
         priority: 'Secondary',
         justification:
-          'The patient uses a night guard (Knirscherschiene) for teeth grinding (bruxism). While no temporomandibular joint disorder (CMD) is present, the use of a night guard indicates bruxism. F45.8 (Other somatoform disorders) is the appropriate code for bruxism according to ICD-10 classification when there is no structural damage. This is a secondary condition requiring ongoing management with a night guard.',
-      },
-    ],
-    rejections: [
-      {
-        icd_code: 'E03.9',
-        name: 'Hypothyreose, nicht näher bezeichnet',
-        evidence: [
-          '- 05.2023 -Schilddrüsenunterfunktion seit Kindheit- LThyroxin 1x am Tag 88mcg',
-          '- 31.03.2025 Check-Up, Mi. 2.4. Blutabnahme Ergebnisse des Hausarzt-Besuchs: Autoimmunthyreoiditis ist ausgeschlossen, Vit.D Mangel ist behoben',
-        ],
-        priority: 'Secondary',
-        justification:
-          'The patient has a documented history of hypothyroidism since childhood and is currently taking levothyroxine 88mcg daily for management. This is a chronic condition requiring ongoing medication but is not the primary reason for the current medical evaluation. The autoimmune thyroiditis was ruled out in the most recent check-up.',
-      },
-    ],
-    status: 'Offen',
-  },
-  {
-    timestamp: '123456',
-    metadata: {
-      patient_name: 'Name Vorname',
-      gender: 'female',
-      date_of_birth: '18.09.1988',
-      document_date: '16.04.2025',
-      occupation: 'Ernährungsberaterin (Nutritionist)',
-      'self-employed_since': '2014',
-      contract_types: ['contract 2', 'contract 3'],
-    },
-    icds: [
-      {
-        icd_code: 'E03.9',
-        evidence: [
-          '- 05.2023 -Schilddrüsenunterfunktion seit Kindheit- LThyroxin 1x am Tag 88mcg',
-          '- 31.03.2025 Check-Up, Mi. 2.4. Blutabnahme Ergebnisse des Hausarzt-Besuchs: Autoimmunthyreoiditis ist ausgeschlossen, Vit.D Mangel ist behoben',
-        ],
-        priority: 'Secondary',
-        justification:
-          'The patient has a documented history of hypothyroidism since childhood and is currently taking levothyroxine 88mcg daily for management. This is a chronic condition requiring ongoing medication but is not the primary reason for the current medical evaluation. The autoimmune thyroiditis was ruled out in the most recent check-up.',
-      },
-      {
-        icd_code: 'F45.8',
-        evidence: [
-          '- Knirscherschiene, kein Zahnabrieb, kein CMD, keine Physio',
-        ],
-        priority: 'Secondary',
-        justification:
-          'The patient uses a night guard (Knirscherschiene) for teeth grinding (bruxism). While no temporomandibular joint disorder (CMD) is present, the use of a night guard indicates bruxism. F45.8 (Other somatoform disorders) is the appropriate code for bruxism according to ICD-10 classification when there is no structural damage. This is a secondary condition requiring ongoing management with a night guard.',
-      },
-    ],
-    rejections: [
-      {
-        icd_code: 'E03.9',
-        evidence: [
-          '- 05.2023 -Schilddrüsenunterfunktion seit Kindheit- LThyroxin 1x am Tag 88mcg',
-          '- 31.03.2025 Check-Up, Mi. 2.4. Blutabnahme Ergebnisse des Hausarzt-Besuchs: Autoimmunthyreoiditis ist ausgeschlossen, Vit.D Mangel ist behoben',
-        ],
-        priority: 'Secondary',
-        justification:
-          'The patient has a documented history of hypothyroidism since childhood and is currently taking levothyroxine 88mcg daily for management. This is a chronic condition requiring ongoing medication but is not the primary reason for the current medical evaluation. The autoimmune thyroiditis was ruled out in the most recent check-up.',
-      },
-    ],
-    status: 'In Bearbeitung',
-  },
-  {
-    timestamp: '123456',
-    metadata: {
-      patient_name: 'Name Vorname',
-      gender: 'female',
-      date_of_birth: '18.09.1988',
-      document_date: '16.04.2025',
-      occupation: 'Ernährungsberaterin (Nutritionist)',
-      'self-employed_since': '2014',
-      contract_types: ['contract 3'],
-    },
-    icds: [
-      {
-        icd_code: 'D25.9',
-        evidence: [
-          'Diagnose: Uterusmyome',
-          'In der Untersuchung zeigten sich drei asymptomatische Myome a.e. subserös von 2,3x 1,7cm, 2,1x 1,6cm und 1,3x 1cm.',
-        ],
-        priority: 'Secondary',
-        justification:
-          "The gynecological report dated 24.03.2025 confirms the presence of three asymptomatic uterine myomas (fibroids). The code D25.9 represents 'Leiomyoma of uterus, unspecified' which is appropriate as the specific type is not definitively classified beyond 'a.e. subserös' (likely subserosal). This is a secondary condition as it's described as asymptomatic.",
-      },
-      {
-        icd_code: 'M22.40',
-        evidence: [
-          'Linkes Knie: 11.2.22 KrankenGymnastik + 11.8.22 KrankenGymnastik, dr. moll // Diagnose: Chondro Patella binnenschaden',
-          'zweites MRT 13.7.22 // mit hat gezeigt dass diese leichte Reizung über die Jahre gleich geblieben ist + hyaluronsäure ins linke Knie bekommen (18.02.2019), (28.02.2019), (04.03.2019)',
-          'Retropatellare Chondropathie mit diskretem begleitendem Gelenkerguss',
-          'Patellofemorales Syndrom bds, V.a. Knorpelschaden retropatellar bds.',
-        ],
-        priority: 'Primary',
-        justification:
-          "The patient has a documented chondropathy of the patella (patellofemoral syndrome) with evidence of cartilage damage. This condition required multiple treatments including physical therapy and hyaluronic acid injections. M22.40 codes for 'Chondromalacia patellae, unspecified knee' which accurately represents the condition. This appears to be the primary reason for medical consultation based on the extensive documentation and treatment history.",
-      },
-      {
-        icd_code: 'J30.1',
-        evidence: [
-          '- Heuschnupfen: kein allergisches Asthma. Keine Des durchgeführt oder angeraten.',
-        ],
-        priority: 'Secondary',
-        justification:
-          "The patient reports having hay fever (allergic rhinitis due to pollen) without allergic asthma. J30.1 specifically codes for 'Allergic rhinitis due to pollen' which matches the description of 'Heuschnupfen' (hay fever). This is a secondary condition as it's mentioned as a pre-existing condition without current active treatment.",
-      },
-      {
-        icd_code: 'F45.8',
-        evidence: [
-          '- Knirscherschiene, kein Zahnabrieb, kein CMD, keine Physio',
-        ],
-        priority: 'Secondary',
-        justification:
-          'The patient uses a night guard (Knirscherschiene) for teeth grinding (bruxism). While no temporomandibular joint disorder (CMD) is present, the use of a night guard indicates bruxism. F45.8 (Other somatoform disorders) is the appropriate code for bruxism according to ICD-10 classification when there is no structural damage. This is a secondary condition requiring ongoing management with a night guard.',
+          'Die klinischen Symptome wie Druckschmerz und Krepitation im Daumengrundglied deuten auf eine knöcherne Verletzung hin, die durch das Röntgenbild bestätigt wird. Die Fraktur im Bereich des Daumenskeletts ohne genauere Lokalisation spricht für eine Daumenfraktur, deren genaue Ausdehnung noch abgeklärt werden muss. Diese Befunde sind typisch für die Diagnose S62.50 – Fraktur des Daumens, Teil nicht näher bezeichnet.',
       },
     ],
     rejections: [],
+    score: '47%',
+    evaluation: 'Mit Aufschlag anbieten',
     status: 'Abgeschlossen',
   },
   {
-    timestamp: '123456',
+    timestamp: '6/12/2025',
     metadata: {
-      patient_name: 'Name Vorname',
-      gender: 'female',
-      date_of_birth: '18.09.1988',
-      document_date: '16.04.2025',
-      occupation: 'Ernährungsberaterin (Nutritionist)',
-      'self-employed_since': '2014',
-      contract_types: ['contract 1', 'contract 4'],
+      patient_name: 'Martina Expemplario',
+      gender: 'Weiblich',
+      date_of_birth: '08-21-1988',
+      document_date: '6/12/2025',
+      occupation: 'Software Developer',
+      contract_types: ['RZ A', 'Tarif WG', 'KVS3/EKV2'],
     },
     icds: [
       {
-        icd_code: 'J30.1',
+        icd_code: 'S93',
+        name: 'Verstauchung und Zerrung einer oder mehrerer Zehen',
         evidence: [
-          '- Heuschnupfen: kein allergisches Asthma. Keine Des durchgeführt oder angeraten.',
+          '* Klinisch zeigt sich eine deutliche Druckempfindlichkeit über dem Grundgelenk der zweiten Zehe, kein Hinweis auf Fraktur im Röntgenbild.',
+          '* Die Untersuchung ergab eine Zerrung der Kapselbandstrukturen an der Zehengrundgelenksregion mit eingeschränkter Beweglichkeit.',
         ],
-        priority: 'Secondary',
+        priority: 'Primary',
         justification:
-          "The patient reports having hay fever (allergic rhinitis due to pollen) without allergic asthma. J30.1 specifically codes for 'Allergic rhinitis due to pollen' which matches the description of 'Heuschnupfen' (hay fever). This is a secondary condition as it's mentioned as a pre-existing condition without current active treatment.",
+          'Die beschriebenen Befunde – insbesondere die Druckempfindlichkeit über dem Grundgelenk der zweiten Zehe und die Zerrung der Kapselbandstrukturen bei fehlendem Frakturnachweis im Röntgen – sprechen für eine Verstauchung oder Zerrung der Zehe. Die eingeschränkte Beweglichkeit bestätigt zudem die funktionelle Beeinträchtigung typischerweise bei einer solchen Weichteilverletzung. Somit passen die klinischen und bildgebenden Befunde gut zur Diagnose S93.',
       },
       {
-        icd_code: 'F45.8',
+        icd_code: 'L84',
+        name: 'Hühneraugen und Horn- (Haut-) Schwielen',
         evidence: [
-          '- Knirscherschiene, kein Zahnabrieb, kein CMD, keine Physio',
+          '* Der Patient klagt über lokale Druckschmerzen beim Gehen, verursacht durch eine ausgeprägte Schwielenbildung an der lateralen Fußkante.',
+          '* Typische Hyperkeratosen mit zentralem Hornkegel im Bereich der plantaren Vorfußregion sprechen für ein Hühnerauge.',
         ],
         priority: 'Secondary',
         justification:
-          'The patient uses a night guard (Knirscherschiene) for teeth grinding (bruxism). While no temporomandibular joint disorder (CMD) is present, the use of a night guard indicates bruxism. F45.8 (Other somatoform disorders) is the appropriate code for bruxism according to ICD-10 classification when there is no structural damage. This is a secondary condition requiring ongoing management with a night guard.',
+          'Die beschriebenen lokalen Druckschmerzen und die ausgeprägte Schwielenbildung an der Fußkante deuten auf eine chronische mechanische Reizung hin, die typisch für Hornhautverdickungen ist. Die charakteristischen Hyperkeratosen mit zentralem Hornkegel im Bereich des Vorfußes sind ein typisches Merkmal von Hühneraugen (Clavi). Diese klinischen Zeichen sprechen somit eindeutig für die Diagnose L84 – Hühneraugen und Hornschwielen.',
+      },
+    ],
+    rejections: [],
+    score: '97%',
+    evaluation: 'Unkritisch',
+    status: 'Abgeschlossen',
+  },
+  {
+    timestamp: '6/12/2025',
+    metadata: {
+      patient_name: 'Martha Beih-Spiel',
+      gender: 'Weiblich',
+      date_of_birth: '06-03-1950',
+      document_date: '6/12/2025',
+      occupation: 'Rentner',
+      contract_types: ['RZ A', 'RZ TA', 'KVS3/EKV2'],
+    },
+    icds: [
+      {
+        icd_code: 'S70.0',
+        name: 'Prellung der Hüfte',
+        evidence: [
+          '* Der Patient berichtet über einen Sturz auf die linke Körperseite mit anschließenden Schmerzen im Bereich der Hüfte.',
+          '* Es zeigt sich ein ausgedehntes Hämatom über dem Trochanter major bei intaktem Knochenstatus.',
+          '* Sonografisch keine Gelenkbeteiligung, jedoch deutliche Weichteilschwellung im Bereich der lateralen Hüfte.',
+        ],
+        priority: 'Secondary',
+        justification:
+          'Die berichteten Schmerzen nach einem Sturz auf die Hüfte sowie das ausgedehnte Hämatom über dem Trochanter major sprechen für eine Weichteilverletzung ohne Knochenbeteiligung. Der intakte Knochenstatus im Röntgenbild und die sonografisch nachgewiesene Weichteilschwellung ohne Gelenkbeteiligung bestätigen das Bild einer Prellung der Hüfte. Diese Befunde sind typisch für die Diagnose S70.0 – Prellung der Hüfte.',
+      },
+      {
+        icd_code: 'L40',
+        name: 'Psoriasis',
+        evidence: [
+          '* Dermatohistologisch zeigt sich eine Akanthose mit Parakeratose, vereinbar mit einer Psoriasis vulgaris.',
+          '* Die Familienanamnese ist positiv für Psoriasis, erste Symptome traten im dritten Lebensjahrzehnt auf.',
+        ],
+        priority: 'Secondary',
+        justification:
+          'Die dermatohistologischen Befunde mit Akanthose und Parakeratose sind charakteristisch für die Psoriasis vulgaris und bestätigen die klinische Diagnose. Zudem spricht die positive Familienanamnese zusammen mit dem typischen Erkrankungsbeginn im dritten Lebensjahrzehnt für eine genetisch und immunologisch bedingte Psoriasis. Diese Merkmale unterstützen somit eindeutig die Diagnose L40 – Psoriasis.',
       },
     ],
     rejections: [
       {
-        icd_code: 'E03.9',
+        icd_code: 'I74',
+        name: 'Arterielle Embolie und Thrombose',
         evidence: [
-          '- 05.2023 -Schilddrüsenunterfunktion seit Kindheit- LThyroxin 1x am Tag 88mcg',
-          '- 31.03.2025 Check-Up, Mi. 2.4. Blutabnahme Ergebnisse des Hausarzt-Besuchs: Autoimmunthyreoiditis ist ausgeschlossen, Vit.D Mangel ist behoben',
+          '* Die Duplexsonographie zeigte eine frische Thrombose der A. femoralis superficialis mit fehlender Flusskontinuität.',
+        ],
+        priority: 'Primary',
+        justification:
+          'Die Duplexsonographie weist auf eine frische Thrombose der A. femoralis superficialis hin, was eine akute Verschlusserscheinung der Arterie durch ein Blutgerinnsel darstellt. Die fehlende Flusskontinuität bestätigt den Verschluss der Gefäßlumen, was typisch für eine arterielle Thrombose oder Embolie ist. Diese Befunde sprechen somit klar für die Diagnose I74 – arterielle Embolie und Thrombose.',
+      },
+      {
+        icd_code: 'G30',
+        name: 'Alzheimer-Krankheit',
+        evidence: [
+          '* Die Patientin zeigt eine progrediente Gedächtnisstörung mit Orientierungsproblemen im Alltag, typisch für eine demenzielle Entwicklung.',
+          '* In der neuropsychologischen Testung zeigten sich deutliche Defizite im Kurzzeitgedächtnis, in der Wortflüssigkeit und im logischen Denken.',
         ],
         priority: 'Secondary',
         justification:
-          'The patient has a documented history of hypothyroidism since childhood and is currently taking levothyroxine 88mcg daily for management. This is a chronic condition requiring ongoing medication but is not the primary reason for the current medical evaluation. The autoimmune thyroiditis was ruled out in the most recent check-up.',
+          'Die progrediente Gedächtnisstörung und die Orientierungsprobleme im Alltag sind charakteristische Symptome einer demenziellen Erkrankung wie der Alzheimer-Krankheit. Die neuropsychologischen Testungen, die Defizite im Kurzzeitgedächtnis, der Wortflüssigkeit und im logischen Denken zeigen, unterstützen diese Diagnose zusätzlich. Diese Befunde passen somit gut zum klinischen Bild der Alzheimer-Krankheit (G30).',
       },
     ],
+    score: '0%',
+    evaluation: 'Abzulehnen',
     status: 'Abgelehnt',
   },
 ];

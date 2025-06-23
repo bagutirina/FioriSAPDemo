@@ -320,9 +320,17 @@ tr.expanded {
   border: 1px solid rgb(88 166 191);
   border-radius: 5px;
   font-weight: bold;
-  color: rgb(88 166 191);
+  color: rgb(81 149 171);
+  min-width: 65px;
+  text-align: center;
   &:hover {
     background-color: rgb(88 166 191 / 10%);
+  }
+  &.highlighted {
+    background-color: #ffff0063;
+    &:hover {
+      background-color: yellow;
+    }
   }
 }
 .code-rejection {
@@ -330,6 +338,8 @@ tr.expanded {
   border-radius: 5px;
   font-weight: bold;
   color: rgb(243, 65, 11);
+  min-width: 65px;
+  text-align: center;
   &:hover {
     background-color: rgb(243 65 11 / 10%);
   }
@@ -340,13 +350,18 @@ tr.expanded {
 
 .line {
   border-left: 3px solid rgb(88 166 191 / 50%);
-  margin-left: 45%;
+  margin-left: 43%;
 }
 .line-rejection {
   border-left: 3px solid rgb(243 65 11 / 50%);
-  margin-left: 45%;
+  margin-left: 43%;
 }
 
 ::ng-deep .fd-bar--footer {
   border-top: none !important;
+}
+
+.fd-table__cell:last-child {
+  border-left-style: none !important;
+  border-right-style: none !important;
 }
