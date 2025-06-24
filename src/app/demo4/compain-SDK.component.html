@@ -191,29 +191,29 @@
             <td fd-table-cell class="col-job">
               <span
                 fd-table-text
-                *ngIf="!row.expanded && row.metadata.occupation"
-                >{{ row.metadata.occupation }}</span
+                *ngIf="!row.expanded && row.metadata?.occupation"
+                >{{ row.metadata?.occupation }}</span
               >
               <span
                 fd-table-text
-                *ngIf="!row.expanded && !row.metadata.occupation"
+                *ngIf="!row?.expanded && !row.metadata?.occupation"
                 class="na"
                 >{{ "N/A" }}</span
               >
             </td>
             <td fd-table-cell class="col-gender">
               <span fd-table-text *ngIf="!row.expanded">{{
-                row.metadata.gender
+                row.metadata?.gender
               }}</span>
             </td>
             <td fd-table-cell class="col-date">
               <span fd-table-text *ngIf="!row.expanded">{{
-                row.metadata.date_of_birth
+                row.metadata?.date_of_birth
               }}</span>
             </td>
             <td fd-table-cell class="col-contract">
               <span fd-table-text *ngIf="!row.expanded" class="flex-wrap">{{
-                row.metadata.contract_types.join(", ")
+                row.metadata?.contract_types.join(", ")
               }}</span>
             </td>
             <td fd-table-cell class="col-icd10Codes pt-1 pb-1">
@@ -251,19 +251,19 @@
               <span
                 fd-table-text
                 *ngIf="
-                  !row.expanded && (row.timestamp || row.metadata.document_date)
+                  !row.expanded &&
+                  (row.timestamp || row.metadata?.document_date)
                 "
-                >{{ row.timestamp || row.metadata.document_date }}</span
+                >{{ row.timestamp || row.metadata?.document_date }}</span
               >
 
               <span
                 fd-table-text
                 *ngIf="
                   !row.expanded &&
-                  !(row.timestamp || row.metadata.document_date)
+                  !(row.timestamp || row.metadata?.document_date)
                 "
-                class="na"
-                >{{ "N/A" }}</span
+                >{{ today | date : "dd.MM.yyyy" }}</span
               >
             </td>
             <!-- <td fd-table-cell class="col-score fw-bold">
@@ -322,13 +322,13 @@
 
                       <div class="d-flex flex-row" style="max-width: 700px">
                         <span class="fw-bold me-2">Patienten:</span>
-                        <span>{{ row.metadata.patient_name }}</span>
+                        <span>{{ row.metadata?.patient_name }}</span>
                       </div>
                       <div class="d-flex flex-row" style="max-width: 700px">
                         <span class="fw-bold me-2">Beruf:</span>
                         <span
-                          *ngIf="row.metadata.occupation; else noOccupation"
-                          >{{ row.metadata.occupation }}</span
+                          *ngIf="row.metadata?.occupation; else noOccupation"
+                          >{{ row.metadata?.occupation }}</span
                         >
                         <ng-template #noOccupation
                           ><span class="na">N/A</span></ng-template
@@ -336,16 +336,16 @@
                       </div>
                       <div>
                         <span class="fw-bold me-2">Geschlecht:</span>
-                        <span>{{ row.metadata.gender }}</span>
+                        <span>{{ row.metadata?.gender }}</span>
                       </div>
                       <div>
                         <span class="fw-bold me-2">Geburtstag:</span>
-                        <span>{{ row.metadata.date_of_birth }}</span>
+                        <span>{{ row.metadata?.date_of_birth }}</span>
                       </div>
                       <div class="d-flex">
                         <span class="fw-bold me-2">Wunschtarife:</span>
                         <span>{{
-                          row.metadata.contract_types.join(", ")
+                          row.metadata?.contract_types.join(", ")
                         }}</span>
                       </div>
 

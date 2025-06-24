@@ -72,6 +72,8 @@ export class CompainSDKComponent {
   selectedRow: any;
   showOnlyChecked = false;
 
+  today = new Date();
+
   //user
   user: ShellbarUser = {
     fullName: 'William Willson',
@@ -131,7 +133,11 @@ export class CompainSDKComponent {
       .subscribe({
         next: (response) => {
           this.loading = false;
-          this.data = [...response.map((item: any) => item.data), ...this.data];
+
+          this.data = [
+            ...response.map((item: any) => item.data).filter((d: any) => d),
+            ...this.data,
+          ];
           this.loadFilters();
           this.cdr.detectChanges();
         },
