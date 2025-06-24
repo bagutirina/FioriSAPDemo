@@ -189,9 +189,17 @@
               }}</span>
             </td> -->
             <td fd-table-cell class="col-job">
-              <span fd-table-text *ngIf="!row.expanded">{{
-                row.metadata.occupation
-              }}</span>
+              <span
+                fd-table-text
+                *ngIf="!row.expanded && row.metadata.occupation"
+                >{{ row.metadata.occupation }}</span
+              >
+              <span
+                fd-table-text
+                *ngIf="!row.expanded && !row.metadata.occupation"
+                class="na"
+                >{{ "N/A" }}</span
+              >
             </td>
             <td fd-table-cell class="col-gender">
               <span fd-table-text *ngIf="!row.expanded">{{
@@ -240,9 +248,26 @@
               </span>
             </td>
             <td fd-table-cell class="col-date">
-              <span fd-table-text *ngIf="!row.expanded">{{
-                row.metadata.document_date || row.metadata.timestamp
-              }}</span>
+              <span
+                fd-table-text
+                *ngIf="
+                  !row.expanded &&
+                  (row.metadata.timestamp || row.metadata.document_date)
+                "
+                >{{
+                  row.metadata.timestamp || row.metadata.document_date
+                }}</span
+              >
+
+              <span
+                fd-table-text
+                *ngIf="
+                  !row.expanded &&
+                  !(row.metadata.timestamp || row.metadata.document_date)
+                "
+                class="na"
+                >{{ "N/A" }}</span
+              >
             </td>
             <!-- <td fd-table-cell class="col-score fw-bold">
               <span fd-table-text *ngIf="!row.expanded" class="fw-bold">{{
@@ -304,7 +329,13 @@
                       </div>
                       <div class="d-flex flex-row" style="max-width: 700px">
                         <span class="fw-bold me-2">Beruf:</span>
-                        <span>{{ row.metadata.occupation }}</span>
+                        <span
+                          *ngIf="row.metadata.occupation; else noOccupation"
+                          >{{ row.metadata.occupation }}</span
+                        >
+                        <ng-template #noOccupation
+                          ><span class="na">N/A</span></ng-template
+                        >
                       </div>
                       <div>
                         <span class="fw-bold me-2">Geschlecht:</span>
@@ -329,13 +360,9 @@
                             fdCompact
                             ariaLabel="Standard"
                             placeholder="Bewertung wählen"
-                            [dropdownValues]="[
-                              'Offen',
-                              'Unkritisch',
-                              'Mit Aufschlag anbieten',
-                              'Abzulehnen'
-                            ]"
-                            [(ngModel)]="row.evaluation"
+                            [dropdownValues]="evaluations"
+                            [ngModel]="row.evaluation || evaluations[0]"
+                            (ngModelChange)="row.evaluation = $event"
                             (click)="$event.stopPropagation()"
                           >
                           </fd-combobox>

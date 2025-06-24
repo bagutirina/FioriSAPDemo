@@ -224,7 +224,10 @@ export function PDFTemplate(rows: any[]) {
                         ],
                         [
                           { text: 'Beruf:', bold: true },
-                          { text: meta.occupation ?? '-' },
+                          {
+                            text: meta.occupation || 'N/A',
+                            style: meta.occupation ? '' : 'na',
+                          },
                         ],
                         [
                           { text: 'Geschlecht:', bold: true },
@@ -499,6 +502,11 @@ export function PDFTemplate(rows: any[]) {
         color: 'gray',
         italics: true,
       },
+      na: {
+        fontSize: 10,
+        color: 'gray',
+        italics: true,
+      },
     },
   };
 }
@@ -518,4 +526,10 @@ export const statuses = [
   'In Bearbeitung',
   'Abgeschlossen',
   'Abgelehnt',
+];
+export const evaluations = [
+  'Offen',
+  'Unkritisch',
+  'Mit Aufschlag anbieten',
+  'Abzulehnen',
 ];

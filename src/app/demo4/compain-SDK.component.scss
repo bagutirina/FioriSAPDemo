@@ -381,3 +381,9 @@ tr.expanded {
 .fd-table__cell--focusable:focus:after {
   border: none !important;
 }
+
+.na {
+  color: rgb(172, 172, 172);
+  font-style: italic;
+  font-size: 12pxs;
+}

@@ -19,10 +19,10 @@ import {
   scores,
   statuses,
   PDFTemplate,
+  evaluations,
 } from './compain-SDK.data';
 import { Title } from '@angular/platform-browser';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { catchError, of } from 'rxjs';
 
 @Component({
   selector: 'app-compain-SDK',
@@ -50,6 +50,7 @@ export class CompainSDKComponent {
   loading = false;
   private pdfMake: any;
   readonly token = 'compin-semantic-bridge-super-secret-access-token';
+  evaluations = evaluations;
 
   // filters
 
