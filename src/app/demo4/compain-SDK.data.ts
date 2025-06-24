@@ -187,7 +187,7 @@ export function PDFTemplate(rows: any[]) {
       {
         text: `Fall ${index + 1} von ${rows.length}`,
         style: 'subheader',
-        margin: [0, 10, 0, 2],
+        margin: [0, index === 0 ? 10 : 50, 0, 2],
       },
 
       {
@@ -316,7 +316,7 @@ export function PDFTemplate(rows: any[]) {
                         text: icd.icd_code,
                         fillColor: icd.highlighted ? 'yellow' : 'white',
                         color: '#057395',
-                        fontSize: 12,
+                        fontSize: 10,
                         bold: true,
                         margin: [6, 1, 6, 1],
                         alignment: 'center',
@@ -368,7 +368,7 @@ export function PDFTemplate(rows: any[]) {
           },
           {
             ul: (icd.evidence ?? []).map((e: string) => e.replace(/^\* /, '')),
-            margin: [100, 0, 0, 20],
+            margin: [100, 0, 0, 10],
           }
         );
       });
@@ -389,7 +389,7 @@ export function PDFTemplate(rows: any[]) {
                       {
                         text: icd.icd_code,
                         color: 'red',
-                        fontSize: 12,
+                        fontSize: 10,
                         bold: true,
                         margin: [6, 1, 6, 1],
                         alignment: 'center',
@@ -441,7 +441,7 @@ export function PDFTemplate(rows: any[]) {
           },
           {
             ul: (icd.evidence ?? []).map((e: string) => e.replace(/^\* /, '')),
-            margin: [100, 0, 0, 20],
+            margin: [100, 0, 0, 10],
           }
         );
       });
