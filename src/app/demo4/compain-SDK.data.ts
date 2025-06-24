@@ -207,7 +207,7 @@ export function PDFTemplate(rows: any[]) {
 
       {
         table: {
-          widths: ['*', 100],
+          widths: ['*', 110],
 
           body: [
             [
@@ -280,11 +280,17 @@ export function PDFTemplate(rows: any[]) {
                     margin: [0, 10, 0, 0],
                   },
                   {
-                    text: row.score,
-                    style: 'score',
-                    margin: [0, 10, 0, 0],
+                    text: row.evaluation,
+                    style: 'evaluation',
+                    margin: [10, 5, 10, 0],
                     alignment: 'center',
                   },
+                  // {
+                  //   text: row.score,
+                  //   style: 'score',
+                  //   margin: [0, 10, 0, 0],
+                  //   alignment: 'center',
+                  // },
                 ],
               },
             ],
@@ -353,7 +359,7 @@ export function PDFTemplate(rows: any[]) {
           },
 
           {
-            text: 'Justification:',
+            text: 'Begründung:',
             italics: true,
             margin: [100, 5, 0, 5],
           },
@@ -362,7 +368,7 @@ export function PDFTemplate(rows: any[]) {
             margin: [100, 0, 0, 5],
           },
           {
-            text: 'Evidence:',
+            text: 'Relevante Textstellen:',
             italics: true,
             margin: [100, 5, 0, 5],
           },
@@ -426,7 +432,7 @@ export function PDFTemplate(rows: any[]) {
           },
 
           {
-            text: 'Justification:',
+            text: 'Begründung:',
             italics: true,
             margin: [100, 5, 0, 5],
           },
@@ -435,7 +441,7 @@ export function PDFTemplate(rows: any[]) {
             margin: [100, 0, 0, 5],
           },
           {
-            text: 'Evidence:',
+            text: 'Relevante Textstellen:',
             italics: true,
             margin: [100, 5, 0, 5],
           },
@@ -488,6 +494,11 @@ export function PDFTemplate(rows: any[]) {
       score: {
         fontSize: 14,
         bold: true,
+      },
+      evaluation: {
+        fontSize: 10,
+        color: 'gray',
+        italics: true,
       },
     },
   };
