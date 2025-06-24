@@ -206,7 +206,7 @@ export function PDFTemplate(rows: any[]) {
 
       {
         table: {
-          widths: ['*', 120],
+          widths: ['*', 110],
 
           body: [
             [
@@ -282,9 +282,15 @@ export function PDFTemplate(rows: any[]) {
                     margin: [0, 10, 0, 0],
                   },
                   {
-                    text: row.evaluation,
+                    text: 'Beurteilung: ',
+                    style: 'evaluationTitle',
+                    margin: [10, 10, 10, 0],
+                    alignment: 'center',
+                  },
+                  {
+                    text: row.evaluation || 'Offen',
                     style: 'evaluation',
-                    margin: [10, 5, 10, 0],
+                    margin: [10, 0, 10, 0],
                     alignment: 'center',
                   },
                   // {
@@ -502,6 +508,12 @@ export function PDFTemplate(rows: any[]) {
         color: 'gray',
         italics: true,
       },
+      evaluationTitle: {
+        fontSize: 10,
+        color: 'gray',
+        bold: true,
+      },
+
       na: {
         fontSize: 10,
         color: 'gray',
