@@ -52,26 +52,9 @@ export class CompainSDKComponent {
   readonly token = 'compin-semantic-bridge-super-secret-access-token';
   evaluations = evaluations;
 
-  // filters
-
-  //contract
-  contracts = Array.from(
-    new Set(compainSDKData.map((row) => row.metadata.contract_types).flat())
-  ).sort();
-
+  contracts: string[] = [];
   selectedContracts = [];
-
-  //code
-  codes = Array.from(
-    new Set([
-      ...compainSDKData
-        .map((row) => row.icds.map((i: { icd_code: any }) => i.icd_code))
-        .flat(),
-      ...compainSDKData
-        .map((row) => row.rejections.map((i: { icd_code: any }) => i.icd_code))
-        .flat(),
-    ])
-  );
+  codes: string[] = [];
   selectedCodes = [];
 
   // score
@@ -127,7 +110,6 @@ export class CompainSDKComponent {
 
   ngOnInit(): void {
     this.titleService.setTitle('Insurance');
-
     this.loadMoreData();
   }
 
@@ -150,6 +132,7 @@ export class CompainSDKComponent {
         next: (response) => {
           this.loading = false;
           this.data = [...response.map((item: any) => item.data), ...this.data];
+          this.loadFilters();
           this.cdr.detectChanges();
         },
         error: (err) => {
@@ -158,6 +141,25 @@ export class CompainSDKComponent {
           this.cdr.detectChanges();
         },
       });
+  }
+
+  loadFilters() {
+    this.contracts = Array.from(
+      new Set(this.data.map((row) => row.metadata.contract_types).flat())
+    ).sort();
+
+    this.codes = Array.from(
+      new Set([
+        ...this.data
+          .map((row) => row.icds.map((i: { icd_code: any }) => i.icd_code))
+          .flat(),
+        ...this.data
+          .map((row) =>
+            row.rejections.map((i: { icd_code: any }) => i.icd_code)
+          )
+          .flat(),
+      ])
+    );
   }
 
   // Select all

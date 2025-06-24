@@ -155,6 +155,69 @@ export const compainSDKData: any[] = [
     evaluation: 'Abzulehnen',
     status: 'Abgelehnt',
   },
+
+  {
+    timestamp: '12.06.2025',
+    metadata: {
+      patient_name: 'Martha Beih-Spiel',
+      gender: 'Weiblich',
+      date_of_birth: '03.06.1950',
+      document_date: '12.06.2025',
+      occupation: 'Rentner',
+      contract_types: ['RZ A', 'RZ TA', 'KVS3/EKV2'],
+    },
+    icds: [
+      {
+        icd_code: 'S70.0',
+        icd_name: 'Prellung der Hüfte',
+        evidence: [
+          '* Der Patient berichtet über einen Sturz auf die linke Körperseite mit anschließenden Schmerzen im Bereich der Hüfte.',
+          '* Es zeigt sich ein ausgedehntes Hämatom über dem Trochanter major bei intaktem Knochenstatus.',
+          '* Sonografisch keine Gelenkbeteiligung, jedoch deutliche Weichteilschwellung im Bereich der lateralen Hüfte.',
+        ],
+        priority: 'Secondary',
+        justification:
+          'Die berichteten Schmerzen nach einem Sturz auf die Hüfte sowie das ausgedehnte Hämatom über dem Trochanter major sprechen für eine Weichteilverletzung ohne Knochenbeteiligung. Der intakte Knochenstatus im Röntgenbild und die sonografisch nachgewiesene Weichteilschwellung ohne Gelenkbeteiligung bestätigen das Bild einer Prellung der Hüfte. Diese Befunde sind typisch für die Diagnose S70.0 – Prellung der Hüfte.',
+      },
+      {
+        icd_code: 'L40',
+        icd_name: 'Psoriasis',
+        evidence: [
+          '* Dermatohistologisch zeigt sich eine Akanthose mit Parakeratose, vereinbar mit einer Psoriasis vulgaris.',
+          '* Die Familienanamnese ist positiv für Psoriasis, erste Symptome traten im dritten Lebensjahrzehnt auf.',
+        ],
+        priority: 'Secondary',
+        justification:
+          'Die dermatohistologischen Befunde mit Akanthose und Parakeratose sind charakteristisch für die Psoriasis vulgaris und bestätigen die klinische Diagnose. Zudem spricht die positive Familienanamnese zusammen mit dem typischen Erkrankungsbeginn im dritten Lebensjahrzehnt für eine genetisch und immunologisch bedingte Psoriasis. Diese Merkmale unterstützen somit eindeutig die Diagnose L40 – Psoriasis.',
+      },
+    ],
+    rejections: [
+      {
+        icd_code: 'I74',
+        icd_name: 'Arterielle Embolie und Thrombose',
+        evidence: [
+          '* Die Duplexsonographie zeigte eine frische Thrombose der A. femoralis superficialis mit fehlender Flusskontinuität.',
+        ],
+        priority: 'Primary',
+        justification:
+          'Die Duplexsonographie weist auf eine frische Thrombose der A. femoralis superficialis hin, was eine akute Verschlusserscheinung der Arterie durch ein Blutgerinnsel darstellt. Die fehlende Flusskontinuität bestätigt den Verschluss der Gefäßlumen, was typisch für eine arterielle Thrombose oder Embolie ist. Diese Befunde sprechen somit klar für die Diagnose I74 – arterielle Embolie und Thrombose.',
+      },
+      {
+        icd_code: 'G30',
+        icd_name: 'Alzheimer-Krankheit',
+        evidence: [
+          '* Die Patientin zeigt eine progrediente Gedächtnisstörung mit Orientierungsproblemen im Alltag, typisch für eine demenzielle Entwicklung.',
+          '* In der neuropsychologischen Testung zeigten sich deutliche Defizite im Kurzzeitgedächtnis, in der Wortflüssigkeit und im logischen Denken.',
+        ],
+        priority: 'Secondary',
+        justification:
+          'Die progrediente Gedächtnisstörung und die Orientierungsprobleme im Alltag sind charakteristische Symptome einer demenziellen Erkrankung wie der Alzheimer-Krankheit. Die neuropsychologischen Testungen, die Defizite im Kurzzeitgedächtnis, der Wortflüssigkeit und im logischen Denken zeigen, unterstützen diese Diagnose zusätzlich. Diese Befunde passen somit gut zum klinischen Bild der Alzheimer-Krankheit (G30).',
+      },
+    ],
+    score: '0%',
+    evaluation: 'Abzulehnen',
+    status: 'In Bearbeitung',
+  },
 ];
 
 export function PDFTemplate(rows: any[]) {
@@ -261,14 +324,15 @@ export function PDFTemplate(rows: any[]) {
                           {
                             text: '  ' + (row.status ?? 'Offen') + '  ',
                             style:
-                              (row.status ?? 'Offen') === 'Offen'
+                              row.status === 'Offen'
                                 ? 'statusOpen'
                                 : row.status === 'In Bearbeitung'
                                 ? 'statusInProgress'
                                 : row.status === 'Abgeschlossen'
                                 ? 'statusCompleted'
-                                : 'statusRejected',
-                            color: 'white',
+                                : row.status === 'Abgelehnt'
+                                ? 'statusRejected'
+                                : 'statusOpen',
                             fontSize: 11,
                             bold: true,
                             margin: [6, 1, 6, 1],
@@ -476,28 +540,28 @@ export function PDFTemplate(rows: any[]) {
       subheader: { fontSize: 10, color: 'gray', bold: true },
       subheader2: { fontSize: 14, bold: true },
       statusOpen: {
-        fontSize: 12,
+        fontSize: 10,
         bold: true,
-        fillColor: 'gray',
-        color: 'white',
+        fillColor: '#d2eaf1',
+        color: 'black',
       },
       statusInProgress: {
-        fontSize: 12,
+        fontSize: 10,
         bold: true,
-        fillColor: 'lightblue',
-        color: 'white',
+        fillColor: '#f9fadf',
+        color: 'black',
       },
       statusCompleted: {
-        fontSize: 12,
+        fontSize: 10,
         bold: true,
-        fillColor: 'green',
-        color: 'white',
+        fillColor: '#d5e6d8',
+        color: 'black',
       },
       statusRejected: {
         fontSize: 10,
         bold: true,
-        fillColor: 'red',
-        color: 'white',
+        fillColor: '#efd1d4',
+        color: 'black',
       },
       score: {
         fontSize: 14,
@@ -505,12 +569,11 @@ export function PDFTemplate(rows: any[]) {
       },
       evaluation: {
         fontSize: 10,
-        color: 'gray',
-        italics: true,
+        color: 'black',
       },
       evaluationTitle: {
         fontSize: 10,
-        color: 'gray',
+        color: 'black',
         bold: true,
       },
 
