@@ -251,19 +251,16 @@
               <span
                 fd-table-text
                 *ngIf="
-                  !row.expanded &&
-                  (row.metadata.timestamp || row.metadata.document_date)
+                  !row.expanded && (row.timestamp || row.metadata.document_date)
                 "
-                >{{
-                  row.metadata.timestamp || row.metadata.document_date
-                }}</span
+                >{{ row.timestamp || row.metadata.document_date }}</span
               >
 
               <span
                 fd-table-text
                 *ngIf="
                   !row.expanded &&
-                  !(row.metadata.timestamp || row.metadata.document_date)
+                  !(row.timestamp || row.metadata.document_date)
                 "
                 class="na"
                 >{{ "N/A" }}</span
