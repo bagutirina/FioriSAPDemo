@@ -21,6 +21,8 @@ import {
   PDFTemplate,
 } from './compain-SDK.data';
 import { Title } from '@angular/platform-browser';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { catchError, of } from 'rxjs';
 
 @Component({
   selector: 'app-compain-SDK',
@@ -43,10 +45,11 @@ export class CompainSDKComponent {
   searchText = '';
   ascending = false;
   sortByKey = '';
-  data = compainSDKData.slice(1);
+  data = [...compainSDKData];
   selectedAccess = ['Offen', 'Offen', 'Offen', '', '', '', '', '', ''];
   loading = false;
   private pdfMake: any;
+  readonly token = 'compin-semantic-bridge-super-secret-access-token';
 
   // filters
 
@@ -117,21 +120,46 @@ export class CompainSDKComponent {
     public dialogService: DialogService,
     private titleService: Title,
     private _dialogService: DialogService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private http: HttpClient
   ) {}
 
   ngOnInit(): void {
     this.titleService.setTitle('Insurance');
 
-    setTimeout(() => {
-      this.loading = true;
-      this.cdr.detectChanges();
-      setTimeout(() => {
-        this.loading = false;
-        this.data = [compainSDKData[0], ...this.data];
-        this.cdr.detectChanges();
-      }, 10000);
-    }, 100);
+    this.loadMoreData();
+  }
+
+  loadMoreData() {
+    this.loading = true;
+    this.cdr.detectChanges();
+
+    this.http
+      .get<any>(
+        'https://qd5xlflzyj.execute-api.eu-central-1.amazonaws.com/v0/job/config/compin123',
+        {
+          headers: new HttpHeaders({
+            Authorization: `Bearer compin-semantic-bridge-super-secret-access-token`,
+          })
+            .append('Content-Type', 'application/json')
+            .append('Access-Control-Allow-Headers', 'Content-Type')
+            .append('Access-Control-Allow-Methods', 'GET')
+            .append('Access-Control-Allow-Origin', '*')
+            .append('Accept', '*/*'),
+        }
+      )
+      .subscribe({
+        next: (data) => {
+          this.loading = false;
+          this.data = [...data, ...this.data];
+          this.cdr.detectChanges();
+        },
+        error: (err) => {
+          this.loading = false;
+
+          this.cdr.detectChanges();
+        },
+      });
   }
 
   // Select all

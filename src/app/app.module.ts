@@ -20,6 +20,7 @@ import { MonitorComponent } from './demo2/monitor.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { SchadenfallComponent } from './demo3/schadenfall.component';
 import { CompainSDKComponent } from './demo4/compain-SDK.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import { CompainSDKComponent } from './demo4/compain-SDK.component';
     PlatformSearchFieldModule,
     ProgressIndicatorModule,
     DialogModule,
+    HttpClientModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
