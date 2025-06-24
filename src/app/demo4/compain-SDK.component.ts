@@ -140,23 +140,20 @@ export class CompainSDKComponent {
         {
           headers: new HttpHeaders({
             Authorization: `Bearer compin-semantic-bridge-super-secret-access-token`,
-          })
-            .append('Content-Type', 'application/json')
-            .append('Access-Control-Allow-Headers', 'Content-Type')
-            .append('Access-Control-Allow-Methods', 'GET')
-            .append('Access-Control-Allow-Origin', '*')
-            .append('Accept', '*/*'),
+            'Content-Type': 'application/json',
+            Accept: '*/*',
+          }),
         }
       )
       .subscribe({
-        next: (data) => {
+        next: (response) => {
           this.loading = false;
-          this.data = [...data, ...this.data];
+          this.data = [...response.map((item: any) => item.data), ...this.data];
           this.cdr.detectChanges();
         },
         error: (err) => {
+          console.error('API error', err);
           this.loading = false;
-
           this.cdr.detectChanges();
         },
       });
@@ -218,7 +215,7 @@ export class CompainSDKComponent {
       case 'Abgelehnt':
         return 'status-rejected';
       default:
-        return '';
+        return 'status-open';
     }
   }
 
@@ -259,11 +256,10 @@ export class CompainSDKComponent {
       const pdfFonts = await import('pdfmake/build/vfs_fonts');
 
       pdfMakeModule.vfs = pdfFonts.vfs;
-
       this.pdfMake = pdfMakeModule;
     }
     this.pdfMake
-      .createPdf(PDFTemplate(compainSDKData.filter((row) => row.checked)))
+      .createPdf(PDFTemplate(this.data.filter((row) => row.checked)))
       .open();
   }
 }

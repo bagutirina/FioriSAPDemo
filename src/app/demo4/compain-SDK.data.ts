@@ -1,14 +1,13 @@
-import { style } from '@angular/animations';
 import * as moment from 'moment';
 
 export const compainSDKData: any[] = [
   {
-    timestamp: '6/19/2025',
+    timestamp: '19.06.2025',
     metadata: {
       patient_name: 'Max Mustermann',
       gender: 'Männlich',
-      date_of_birth: '12-12-1997',
-      document_date: '6/19/2025',
+      date_of_birth: '12.12.1997',
+      document_date: '19.06.2025',
       occupation: 'Student',
       contract_types: ['RZ A', 'Tarif SG/10'],
     },
@@ -16,7 +15,7 @@ export const compainSDKData: any[] = [
       {
         icd_code: 'E66',
         highlighted: true,
-        name: 'Adipositas durch übermäßige Kalorienzufuhr',
+        icd_name: 'Adipositas durch übermäßige Kalorienzufuhr',
         evidence: [
           '* Der Patient weist eine deutliche positive Energiebilanz bei gleichzeitigem Bewegungsmangel auf.',
           '* Kein Hinweis auf endokrine oder genetische Ursachen – primär kalorienbedingte Gewichtszunahme.',
@@ -28,7 +27,7 @@ export const compainSDKData: any[] = [
       },
       {
         icd_code: 'J45',
-        name: 'Asthma bronchiale',
+        icd_name: 'Asthma bronchiale',
         evidence: [
           '* In der Auskultation beidseits exspiratorisches Giemen, vereinbar mit einer obstruktiven Ventilationsstörung.',
           '* Es besteht eine bekannte Asthma bronchiale-Diagnose seit dem Kindesalter mit regelmäßiger inhalativer Therapie.',
@@ -40,7 +39,7 @@ export const compainSDKData: any[] = [
       },
       {
         icd_code: 'S62.50',
-        name: 'Fraktur des Daumens, Teil nicht näher bezeichnet',
+        icd_name: 'Fraktur des Daumens, Teil nicht näher bezeichnet',
         evidence: [
           '* Klinisch bestehen Druckschmerz und Krepitation im Daumengrundglied, der genaue Frakturverlauf ist noch abzuklären.',
           '* Im Röntgenbild zeigte sich eine Fraktur im Bereich des Daumenskeletts',
@@ -56,19 +55,19 @@ export const compainSDKData: any[] = [
     status: 'Abgeschlossen',
   },
   {
-    timestamp: '6/12/2025',
+    timestamp: '12.06.2025',
     metadata: {
       patient_name: 'Martina Expemplario',
       gender: 'Weiblich',
-      date_of_birth: '08-21-1988',
-      document_date: '6/12/2025',
+      date_of_birth: '21.08.1988',
+      document_date: '12.06.2025',
       occupation: 'Software Developer',
       contract_types: ['RZ A', 'Tarif WG', 'KVS3/EKV2'],
     },
     icds: [
       {
         icd_code: 'S93',
-        name: 'Verstauchung und Zerrung einer oder mehrerer Zehen',
+        icd_name: 'Verstauchung und Zerrung einer oder mehrerer Zehen',
         evidence: [
           '* Klinisch zeigt sich eine deutliche Druckempfindlichkeit über dem Grundgelenk der zweiten Zehe, kein Hinweis auf Fraktur im Röntgenbild.',
           '* Die Untersuchung ergab eine Zerrung der Kapselbandstrukturen an der Zehengrundgelenksregion mit eingeschränkter Beweglichkeit.',
@@ -79,7 +78,7 @@ export const compainSDKData: any[] = [
       },
       {
         icd_code: 'L84',
-        name: 'Hühneraugen und Horn- (Haut-) Schwielen',
+        icd_name: 'Hühneraugen und Horn- (Haut-) Schwielen',
         evidence: [
           '* Der Patient klagt über lokale Druckschmerzen beim Gehen, verursacht durch eine ausgeprägte Schwielenbildung an der lateralen Fußkante.',
           '* Typische Hyperkeratosen mit zentralem Hornkegel im Bereich der plantaren Vorfußregion sprechen für ein Hühnerauge.',
@@ -95,19 +94,19 @@ export const compainSDKData: any[] = [
     status: 'Abgeschlossen',
   },
   {
-    timestamp: '6/12/2025',
+    timestamp: '12.06.2025',
     metadata: {
       patient_name: 'Martha Beih-Spiel',
       gender: 'Weiblich',
-      date_of_birth: '06-03-1950',
-      document_date: '6/12/2025',
+      date_of_birth: '03.06.1950',
+      document_date: '12.06.2025',
       occupation: 'Rentner',
       contract_types: ['RZ A', 'RZ TA', 'KVS3/EKV2'],
     },
     icds: [
       {
         icd_code: 'S70.0',
-        name: 'Prellung der Hüfte',
+        icd_name: 'Prellung der Hüfte',
         evidence: [
           '* Der Patient berichtet über einen Sturz auf die linke Körperseite mit anschließenden Schmerzen im Bereich der Hüfte.',
           '* Es zeigt sich ein ausgedehntes Hämatom über dem Trochanter major bei intaktem Knochenstatus.',
@@ -119,7 +118,7 @@ export const compainSDKData: any[] = [
       },
       {
         icd_code: 'L40',
-        name: 'Psoriasis',
+        icd_name: 'Psoriasis',
         evidence: [
           '* Dermatohistologisch zeigt sich eine Akanthose mit Parakeratose, vereinbar mit einer Psoriasis vulgaris.',
           '* Die Familienanamnese ist positiv für Psoriasis, erste Symptome traten im dritten Lebensjahrzehnt auf.',
@@ -132,7 +131,7 @@ export const compainSDKData: any[] = [
     rejections: [
       {
         icd_code: 'I74',
-        name: 'Arterielle Embolie und Thrombose',
+        icd_name: 'Arterielle Embolie und Thrombose',
         evidence: [
           '* Die Duplexsonographie zeigte eine frische Thrombose der A. femoralis superficialis mit fehlender Flusskontinuität.',
         ],
@@ -142,7 +141,7 @@ export const compainSDKData: any[] = [
       },
       {
         icd_code: 'G30',
-        name: 'Alzheimer-Krankheit',
+        icd_name: 'Alzheimer-Krankheit',
         evidence: [
           '* Die Patientin zeigt eine progrediente Gedächtnisstörung mit Orientierungsproblemen im Alltag, typisch für eine demenzielle Entwicklung.',
           '* In der neuropsychologischen Testung zeigten sich deutliche Defizite im Kurzzeitgedächtnis, in der Wortflüssigkeit und im logischen Denken.',
@@ -207,7 +206,7 @@ export function PDFTemplate(rows: any[]) {
 
       {
         table: {
-          widths: ['*', 110],
+          widths: ['*', 120],
 
           body: [
             [
@@ -217,7 +216,7 @@ export function PDFTemplate(rows: any[]) {
                   {
                     margin: [10, 10, 10, 10],
                     table: {
-                      widths: ['21%', '*'],
+                      widths: [80, '*'],
                       body: [
                         [
                           { text: 'Patienten:', bold: true },
@@ -257,9 +256,9 @@ export function PDFTemplate(rows: any[]) {
                       body: [
                         [
                           {
-                            text: '  ' + (row.status ?? '-') + '  ',
+                            text: '  ' + (row.status ?? 'Offen') + '  ',
                             style:
-                              row.status === 'Offen'
+                              (row.status ?? 'Offen') === 'Offen'
                                 ? 'statusOpen'
                                 : row.status === 'In Bearbeitung'
                                 ? 'statusInProgress'
@@ -350,10 +349,10 @@ export function PDFTemplate(rows: any[]) {
 
               {
                 width: '*',
-                text: `${icd.name}`,
+                text: `${icd.icd_name}`,
                 bold: true,
                 alignment: 'left',
-                margin: [23, 12, 0, 0],
+                margin: [28, 12, 0, 0],
               },
             ],
           },
@@ -361,20 +360,20 @@ export function PDFTemplate(rows: any[]) {
           {
             text: 'Begründung:',
             italics: true,
-            margin: [100, 5, 0, 5],
+            margin: [105, 5, 0, 5],
           },
           {
             text: icd.justification,
-            margin: [100, 0, 0, 5],
+            margin: [105, 0, 0, 5],
           },
           {
             text: 'Relevante Textstellen:',
             italics: true,
-            margin: [100, 5, 0, 5],
+            margin: [105, 5, 0, 5],
           },
           {
             ul: (icd.evidence ?? []).map((e: string) => e.replace(/^\* /, '')),
-            margin: [100, 0, 0, 10],
+            margin: [105, 0, 0, 10],
           }
         );
       });
@@ -423,7 +422,7 @@ export function PDFTemplate(rows: any[]) {
 
               {
                 width: '*',
-                text: `${icd.name}`,
+                text: `${icd.icd_name}`,
                 bold: true,
                 alignment: 'left',
                 margin: [25, 12, 0, 0],
