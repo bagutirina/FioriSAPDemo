@@ -8,7 +8,7 @@ export const compainSDKData: any[] = [
       gender: 'Männlich',
       date_of_birth: '12.12.1997',
       document_date: '19.06.2025',
-      occupation: 'Student',
+      job: 'Student',
       contract_types: ['RZ A', 'Tarif SG/10'],
     },
     icds: [
@@ -61,7 +61,7 @@ export const compainSDKData: any[] = [
       gender: 'Weiblich',
       date_of_birth: '21.08.1988',
       document_date: '12.06.2025',
-      occupation: 'Software Developer',
+      job: 'Software Developer',
       contract_types: ['RZ A', 'Tarif WG', 'KVS3/EKV2'],
     },
     icds: [
@@ -100,7 +100,7 @@ export const compainSDKData: any[] = [
       gender: 'Weiblich',
       date_of_birth: '03.06.1950',
       document_date: '12.06.2025',
-      occupation: 'Rentner',
+      job: 'Rentner',
       contract_types: ['RZ A', 'RZ TA', 'KVS3/EKV2'],
     },
     icds: [
@@ -225,8 +225,8 @@ export function PDFTemplate(rows: any[]) {
                         [
                           { text: 'Beruf:', bold: true },
                           {
-                            text: meta.occupation || 'N/A',
-                            style: meta.occupation ? '' : 'na',
+                            text: meta.job || 'N/A',
+                            style: meta.job ? '' : 'na',
                           },
                         ],
                         [
