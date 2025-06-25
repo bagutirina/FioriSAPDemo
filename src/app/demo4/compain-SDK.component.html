@@ -248,23 +248,13 @@
               </span>
             </td>
             <td fd-table-cell class="col-date">
-              <span
-                fd-table-text
-                *ngIf="
-                  !row.expanded &&
-                  (row.timestamp || row.metadata?.document_date)
-                "
-                >{{ row.timestamp || row.metadata?.document_date }}</span
-              >
+              <span fd-table-text *ngIf="!row.expanded && row.timestamp">{{
+                row.timestamp
+              }}</span>
 
-              <span
-                fd-table-text
-                *ngIf="
-                  !row.expanded &&
-                  !(row.timestamp || row.metadata?.document_date)
-                "
-                >{{ today | date : "dd.MM.yyyy" }}</span
-              >
+              <span fd-table-text *ngIf="!row.expanded && !row.timestamp">{{
+                today | date : "dd.MM.yyyy"
+              }}</span>
             </td>
             <!-- <td fd-table-cell class="col-score fw-bold">
               <span fd-table-text *ngIf="!row.expanded" class="fw-bold">{{

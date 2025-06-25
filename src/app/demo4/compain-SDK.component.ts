@@ -135,10 +135,18 @@ export class CompainSDKComponent {
         next: (response) => {
           this.loading = false;
 
-          this.data = [
-            ...response.map((item: any) => item.data).filter((d: any) => d),
-            ...this.data,
-          ];
+          const apiData = response
+            .map((item: any) =>
+              item.data
+                ? {
+                    ...item.data,
+                    timestamp: this.getDateFromTimestamp(item.timestamp),
+                  }
+                : null
+            )
+            .filter((d: any) => d);
+
+          this.data = [...apiData, ...this.data];
           this.loadFilters();
           this.cdr.detectChanges();
         },
@@ -148,6 +156,20 @@ export class CompainSDKComponent {
           this.cdr.detectChanges();
         },
       });
+  }
+
+  getDateFromTimestamp(timestamp: string) {
+    return timestamp
+      ? new Date(timestamp).toLocaleDateString('ro-RO', {
+          day: '2-digit',
+          month: '2-digit',
+          year: 'numeric',
+        })
+      : new Date().toLocaleDateString('ro-RO', {
+          day: '2-digit',
+          month: '2-digit',
+          year: 'numeric',
+        });
   }
 
   loadFilters() {
