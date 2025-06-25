@@ -144,7 +144,16 @@ export class CompainSDKComponent {
                   }
                 : null
             )
-            .filter((d: any) => d);
+            .filter((d: any) => d)
+            .map((item: any) => ({
+              ...item,
+              metadata: {
+                ...item.metadata,
+                contract_types: this.getContractTypes(
+                  item.metadata?.contract_types
+                ),
+              },
+            }));
 
           this.data = [...apiData, ...this.data];
           this.loadFilters();
@@ -158,6 +167,17 @@ export class CompainSDKComponent {
       });
   }
 
+  getContractTypes(contractTypes: any) {
+    return contractTypes
+      ? Array.from(
+          new Set(
+            contractTypes
+              .flatMap((s: any) => s.split(',').map((t: any) => t.trim()))
+              .filter(Boolean)
+          )
+        )
+      : [];
+  }
   getDateFromTimestamp(timestamp: string) {
     return timestamp
       ? new Date(timestamp).toLocaleDateString('ro-RO', {
