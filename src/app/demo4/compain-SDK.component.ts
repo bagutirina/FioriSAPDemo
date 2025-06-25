@@ -112,6 +112,7 @@ export class CompainSDKComponent {
 
   ngOnInit(): void {
     this.titleService.setTitle('Insurance');
+    this.loadFilters();
     this.loadMoreData();
   }
 
