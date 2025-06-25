@@ -172,7 +172,11 @@ export class CompainSDKComponent {
       ? Array.from(
           new Set(
             contractTypes
-              .flatMap((s: any) => s.split(',').map((t: any) => t.trim()))
+              .flatMap((s: any) =>
+                'SDK:AM12, AM30, S1, Z8, TA6/100, PPN, LKH: GUP500, PVN, Hanse: KVS3, EKV2, PVN>KUT/100'
+                  .split(',')
+                  .map((t: any) => t.trim())
+              )
               .filter(Boolean)
           )
         )
