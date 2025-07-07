@@ -20,6 +20,7 @@ import {
   statuses,
   PDFTemplate,
   evaluations,
+  reasonableThreshold,
 } from './compain-SDK.data';
 import { Title } from '@angular/platform-browser';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -45,7 +46,11 @@ export class CompainSDKComponent {
   searchText = '';
   ascending = false;
   sortByKey = '';
-  data = [...compainSDKData];
+  data = [...compainSDKData].map((item) => ({
+    ...item.data,
+    timestamp: item.timestamp,
+  }));
+  reasonableThreshold = reasonableThreshold;
   selectedAccess = ['Offen', 'Offen', 'Offen', '', '', '', '', '', ''];
   loading = false;
   private pdfMake: any;
@@ -153,6 +158,7 @@ export class CompainSDKComponent {
                   item.metadata?.contract_types
                 ),
               },
+              icds: this.getIcds(item),
             }));
 
           this.data = [...apiData, ...this.data];
@@ -167,13 +173,21 @@ export class CompainSDKComponent {
       });
   }
 
+  getIcds(item: {
+    icds: { icd_code: string }[];
+    rejections: { icd_code: string }[];
+  }) {
+    const rcodes = item.rejections.map((r) => r.icd_code);
+    return item.icds.filter((icd) => !rcodes.includes(icd.icd_code));
+  }
+
   getContractTypes(contractTypes: any) {
     return contractTypes
       ? Array.from(
           new Set(
             contractTypes
               .flatMap((s: any) =>
-                'SDK:AM12, AM30, S1, Z8, TA6/100, PPN, LKH: GUP500, PVN, Hanse: KVS3, EKV2, PVN>KUT/100'
+                s //'SDK:AM12, AM30, S1, Z8, TA6/100, PPN, LKH: GUP500, PVN, Hanse: KVS3, EKV2, PVN>KUT/100'
                   .split(',')
                   .map((t: any) => t.trim())
               )

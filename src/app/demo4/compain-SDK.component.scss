@@ -180,7 +180,8 @@ tr.expanded {
   padding-left: 0px;
 }
 .col-gender {
-  min-width: 130px;
+  min-width: 60px;
+  max-width: 70px;
 }
 .col-contract {
   min-width: 130px;
@@ -195,7 +196,7 @@ tr.expanded {
   min-width: 130px;
 }
 .col-date {
-  min-width: 120px;
+  min-width: 100px;
   text-align: center;
 }
 .col-status {
@@ -210,6 +211,14 @@ tr.expanded {
 }
 .col-name {
   text-align: left;
+}
+
+.col-medication {
+  max-width: 230px;
+}
+
+.col-medical_procedures {
+  max-width: 230px;
 }
 
 .status-tag {
@@ -323,6 +332,10 @@ tr.expanded {
   color: rgb(81 149 171);
   min-width: 65px;
   text-align: center;
+  margin-right: 10px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  padding: 4px 16px;
   &:hover {
     background-color: rgb(88 166 191 / 10%);
   }
@@ -332,6 +345,10 @@ tr.expanded {
       background-color: yellow;
     }
   }
+  &.dashed {
+    border: 1px dashed rgb(88 166 191);
+    // padding: 3px 15px;
+  }
 }
 .code-rejection {
   border: 1px solid rgb(243, 65, 11);
@@ -340,12 +357,32 @@ tr.expanded {
   color: rgb(243, 65, 11);
   min-width: 65px;
   text-align: center;
+  margin-right: 10px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  padding: 4px 16px;
   &:hover {
     background-color: rgb(243 65 11 / 10%);
   }
+  &.dashed {
+    border: 1px dashed rgb(243, 65, 11);
+    // padding: 3px 15px;
+  }
 }
-.fs-17 {
-  font-size: 17px;
+.questionMark {
+  position: absolute;
+  right: -5px;
+  top: -7px;
+  font-weight: bold;
+  color: #696868;
+  width: 19px;
+  height: 19px;
+  border-radius: 50%;
+  background: rgba(217, 216, 216, 0.86);
+  text-align: center;
+  font-size: 15px;
+  line-height: 19px;
+  padding-top: 0px;
 }
 
 .line {
@@ -382,8 +419,16 @@ tr.expanded {
   border: none !important;
 }
 
-.na {
-  color: rgb(172, 172, 172);
-  font-style: italic;
-  font-size: 12pxs;
+.icd-name {
+  font-weight: bold;
+  font-size: 14px;
+  padding-top: 6px;
+}
+.section-title {
+  font-size: 16px;
+  // color: #3f0202;
+}
+.icd-subtitle {
+  color: black;
+  font-weight: 500;
 }
