@@ -378,11 +378,13 @@ tr.expanded {
   width: 19px;
   height: 19px;
   border-radius: 50%;
-  background: rgba(217, 216, 216, 0.86);
+  background: white;
   text-align: center;
   font-size: 15px;
   line-height: 19px;
   padding-top: 0px;
+  box-shadow: 2px 3px 3px -1px rgba(0, 0, 0, 0.33),
+    0 1px 6px 3px rgba(0, 0, 0, 0.13);
 }
 
 .line {
