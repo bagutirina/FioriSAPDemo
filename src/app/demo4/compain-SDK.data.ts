@@ -457,21 +457,21 @@ export function PDFTemplate(rows: any[]) {
 
           {
             text: 'Relevante Textstellen:',
-            italics: true,
-            margin: [105, 5, 0, 5],
+            bold: true,
+            margin: [104, 5, 0, 5],
           },
           {
             ul: (icd.evidence ?? []).map((e: string) => e.replace(/^\* /, '')),
-            margin: [105, 0, 0, 10],
+            margin: [104, 0, 0, 10],
           },
           {
             text: 'Begründung' + (icd.score ? ' (' + icd.score + '%):' : ':'),
-            italics: true,
-            margin: [105, 5, 0, 5],
+            bold: true,
+            margin: [104, 5, 0, 5],
           },
           {
             text: icd.justification,
-            margin: [105, 0, 0, 5],
+            margin: [104, 0, 0, 5],
           }
         );
       });
@@ -531,7 +531,7 @@ export function PDFTemplate(rows: any[]) {
           },
           {
             text: 'Relevante Textstellen:',
-            italics: true,
+            bold: true,
             margin: [100, 5, 0, 5],
           },
           {
@@ -540,7 +540,7 @@ export function PDFTemplate(rows: any[]) {
           },
           {
             text: 'Begründung' + (icd.score ? ' (' + icd.score + '%):' : ':'),
-            italics: true,
+            bold: true,
             margin: [100, 5, 0, 5],
           },
           {
@@ -554,7 +554,7 @@ export function PDFTemplate(rows: any[]) {
     content.push({
       text: 'Weitere medizinisch relevante Informationen:',
       bold: true,
-      margin: [100, 10, 0, 10],
+      margin: [101, 10, 0, 10],
     });
 
     if (row.medically_relevant_information?.length) {
@@ -562,12 +562,12 @@ export function PDFTemplate(rows: any[]) {
         ul: (row.medically_relevant_information ?? []).map((e: string) =>
           e.replace(/^\* /, '')
         ),
-        margin: [100, 0, 0, 10],
+        margin: [101, 0, 0, 10],
       });
     } else {
       content.push({
         text: '- ',
-        margin: [100, 3, 0, 0],
+        margin: [101, 3, 0, 0],
       });
     }
   });
