@@ -446,7 +446,7 @@
                           <div>
                             <span class="me-2 icd-subtitle"
                               >Begründung:
-                              {{ icd.score ? "(" + icd.score + ")" : "" }}
+                              {{ icd.score ? "(" + icd.score + "%)" : "" }}
                             </span>
                             <span class="d-inline-block ms-4">
                               {{ icd.justification }}
@@ -489,7 +489,9 @@
                           <div>
                             <span class="me-2 icd-subtitle"
                               >Begründung:
-                              {{ icd.score ? "(" + icd.score + ")" : "" }}</span
+                              {{
+                                icd.score ? "(" + icd.score + "%)" : ""
+                              }}</span
                             >
                             <span class="d-inline-block ms-4">
                               {{ icd.justification }}
@@ -620,7 +622,7 @@
         <div>
           <div class="fw-bold me-2 mt-2">
             Begründung:
-            {{ open_icd.score ? "(" + open_icd.score + ")" : "" }}
+            {{ open_icd.score ? "(" + open_icd.score + "%)" : "" }}
           </div>
           <span class="d-inline-block">
             {{ open_icd.justification }}

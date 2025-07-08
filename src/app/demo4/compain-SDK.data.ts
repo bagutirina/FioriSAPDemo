@@ -456,7 +456,7 @@ export function PDFTemplate(rows: any[]) {
           },
 
           {
-            text: 'Begründung:',
+            text: 'Begründung(' + icd.score + '%)',
             italics: true,
             margin: [105, 5, 0, 5],
           },
@@ -465,7 +465,7 @@ export function PDFTemplate(rows: any[]) {
             margin: [105, 0, 0, 5],
           },
           {
-            text: 'Relevante Textstellen:',
+            text: 'Relevante Textstellen',
             italics: true,
             margin: [105, 5, 0, 5],
           },
@@ -531,7 +531,7 @@ export function PDFTemplate(rows: any[]) {
           },
 
           {
-            text: 'Begründung:',
+            text: 'Begründung(' + icd.score + '%)',
             italics: true,
             margin: [100, 5, 0, 5],
           },
@@ -540,7 +540,7 @@ export function PDFTemplate(rows: any[]) {
             margin: [100, 0, 0, 5],
           },
           {
-            text: 'Relevante Textstellen:',
+            text: 'Relevante Textstellen',
             italics: true,
             margin: [100, 5, 0, 5],
           },
