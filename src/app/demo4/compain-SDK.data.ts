@@ -456,22 +456,22 @@ export function PDFTemplate(rows: any[]) {
           },
 
           {
-            text: 'Begründung(' + icd.score + '%)',
-            italics: true,
-            margin: [105, 5, 0, 5],
-          },
-          {
-            text: icd.justification,
-            margin: [105, 0, 0, 5],
-          },
-          {
-            text: 'Relevante Textstellen',
+            text: 'Relevante Textstellen:',
             italics: true,
             margin: [105, 5, 0, 5],
           },
           {
             ul: (icd.evidence ?? []).map((e: string) => e.replace(/^\* /, '')),
             margin: [105, 0, 0, 10],
+          },
+          {
+            text: 'Begründung' + (icd.score ? ' (' + icd.score + '%):' : ':'),
+            italics: true,
+            margin: [105, 5, 0, 5],
+          },
+          {
+            text: icd.justification,
+            margin: [105, 0, 0, 5],
           }
         );
       });
@@ -529,24 +529,23 @@ export function PDFTemplate(rows: any[]) {
               },
             ],
           },
-
           {
-            text: 'Begründung(' + icd.score + '%)',
-            italics: true,
-            margin: [100, 5, 0, 5],
-          },
-          {
-            text: icd.justification,
-            margin: [100, 0, 0, 5],
-          },
-          {
-            text: 'Relevante Textstellen',
+            text: 'Relevante Textstellen:',
             italics: true,
             margin: [100, 5, 0, 5],
           },
           {
             ul: (icd.evidence ?? []).map((e: string) => e.replace(/^\* /, '')),
             margin: [100, 0, 0, 10],
+          },
+          {
+            text: 'Begründung' + (icd.score ? ' (' + icd.score + '%):' : ':'),
+            italics: true,
+            margin: [100, 5, 0, 5],
+          },
+          {
+            text: icd.justification,
+            margin: [100, 0, 0, 5],
           }
         );
       });
