@@ -305,30 +305,6 @@ export function PDFTemplate(rows: any[]) {
                             text: (meta.contract_types ?? []).join(', ') || '-',
                           },
                         ],
-
-                        [
-                          {
-                            text: 'Medikamente:',
-                            bold: true,
-                            margin: [0, 10, 0, 0],
-                          },
-                          {
-                            text: (row.medication ?? []).join(', ') || '-',
-                            margin: [0, 10, 0, 0],
-                          },
-                        ],
-                        [
-                          {
-                            text: 'Medizinische Maßnahmen:',
-                            bold: true,
-                            margin: [0, 10, 0, 0],
-                          },
-                          {
-                            text:
-                              (row.medical_procedures ?? []).join(', ') || '-',
-                            margin: [0, 10, 0, 0],
-                          },
-                        ],
                       ],
                     },
                     layout: 'noBorders',
@@ -400,6 +376,63 @@ export function PDFTemplate(rows: any[]) {
         },
       }
     );
+
+    content.push({
+      margin: [0, 5, 0, 0],
+      table: {
+        widths: ['60%', '40%'],
+
+        body: [
+          [
+            // Coloana 1: medication
+            {
+              stack: [
+                {
+                  text: 'Medikamente:',
+                  bold: true,
+                  margin: [10, 5, 0, 5],
+                },
+                {
+                  ul: (row.medication ?? []).map((e: string) =>
+                    e.replace(/^\* /, '')
+                  ),
+                  margin: [10, 0, 0, 10],
+                },
+              ],
+            },
+
+            // Coloana 2: status & score
+            {
+              stack: [
+                {
+                  text: 'Medizinische Maßnahmen:',
+                  bold: true,
+                  margin: [0, 5, 0, 5],
+                },
+                {
+                  ul: (row.medical_procedures ?? []).map((e: string) =>
+                    e.replace(/^\* /, '')
+                  ),
+                  margin: [0, 0, 0, 10],
+                },
+              ],
+            },
+          ],
+        ],
+      },
+
+      layout: {
+        hLineWidth: function (i: any) {
+          return 3;
+        },
+        vLineWidth: function () {
+          return 0;
+        },
+        hLineColor: function () {
+          return '#f5f5f5';
+        },
+      },
+    });
 
     if (icds.length > 0) {
       icds.forEach((icd: any, idx: number) => {
