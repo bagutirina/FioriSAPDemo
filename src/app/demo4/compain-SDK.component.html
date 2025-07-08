@@ -444,11 +444,13 @@
                             </li>
                           </ul>
                           <div>
-                            <span class="me-2 icd-subtitle"
-                              >Begründung{{
-                                icd.score ? " (" + icd.score + "%):" : ":"
-                              }}
-                            </span>
+                            <span class="me-2 icd-subtitle">Begründung</span>
+                            <span *ngIf="icd.score"> (</span>
+                            <span *ngIf="icd.score" class="fw-bold"
+                              >{{ icd.score }}%</span
+                            >
+                            <span *ngIf="icd.score">)</span>
+                            <span>:</span>
                             <span class="d-inline-block ms-4">
                               {{ icd.justification }}
                             </span>
@@ -488,11 +490,13 @@
                             </li>
                           </ul>
                           <div>
-                            <span class="me-2 icd-subtitle"
-                              >Begründung{{
-                                icd.score ? " (" + icd.score + "%):" : ":"
-                              }}</span
+                            <span class="me-2 icd-subtitle">Begründung</span>
+                            <span *ngIf="icd.score"> (</span>
+                            <span *ngIf="icd.score" class="fw-bold"
+                              >{{ icd.score }}%</span
                             >
+                            <span *ngIf="icd.score">)</span>
+                            <span>:</span>
                             <span class="d-inline-block ms-4">
                               {{ icd.justification }}
                             </span>
