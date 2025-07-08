@@ -435,3 +435,13 @@ tr.expanded {
   font-weight: 500;
   font-style: italic;
 }
+
+.relevantInfoWrapper::after {
+  content: "";
+  border-left: 3px dashed #d7d7d7;
+  width: 1px;
+  position: absolute;
+  top: 23px;
+  left: 9px;
+  bottom: 14px;
+}
