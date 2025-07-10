@@ -24,557 +24,750 @@
     ></fd-shellbar-action>
   </fd-shellbar-actions>
 </fd-shellbar>
-<div
-  class="main-content flex-column d-flex pb-4"
-  style="height: calc(100% - 25px)"
->
-  <h4 fd-title class="flex-shrink-0 flex-grow-0 mt-5 mb-2 title">
-    KI-gestützte Beurteilung von Risikovoranfragen
-  </h4>
 
-  <div class="d-flex flex-column w-100 flex-grow-0 flex-shrink-0">
-    <fd-toolbar [shouldOverflow]="false">
-      <!-- <fd-checkbox
-        class="importantOnlyChk"
-        [(ngModel)]="showOnlyChecked"
-        label="Nur ausgewähltes anzeigen"
-      ></fd-checkbox>
+<fd-flexible-column-layout [(layout)]="layout" class="h-100 w-100 d-flex">
+  <ng-template #startColumn>
+    <div
+      class="main-content flex-column d-flex pb-4"
+      style="height: calc(100% - 25px)"
+    >
+      <h4 fd-title class="flex-shrink-0 flex-grow-0 mt-5 mb-2 title">
+        KI-gestützte Beurteilung von Risikovoranfragen
+      </h4>
 
-      <fd-toolbar-separator class="mx-2"></fd-toolbar-separator> -->
-
-      <!-- search -->
-      <fd-input-group
-        fd-toolbar-item
-        fdCompact
-        glyph="search"
-        glyphAriaLabel="Search"
-        title="Search"
-        placeholder="Suche..."
-        [button]="true"
-        [disabled]="false"
-        [(ngModel)]="searchText"
-        (addOnButtonClicked)="searchText = ''"
-        class="search-input pe-3"
-      >
-      </fd-input-group>
-
-      <fd-toolbar-separator class="mx-2"></fd-toolbar-separator>
-
-      <!-- contract -->
-      <div class="filter-item" fd-toolbar-item>
-        <span fd-label class="filter-label">Wunschtarife</span>
-        <fd-multi-input
-          fdCompact
-          inputId="dropdownExampleInput1"
-          [dropdownValues]="contracts"
-          [(ngModel)]="selectedContracts"
-        ></fd-multi-input>
-      </div>
-
-      <!-- icd10Codes -->
-      <div class="filter-item" fd-toolbar-item>
-        <span fd-label class="filter-label">ICD-10 Code</span>
-        <fd-multi-input
-          fdCompact
-          inputId="dropdownExampleInput1"
-          [dropdownValues]="codes"
-          [(ngModel)]="selectedCodes"
-        ></fd-multi-input>
-      </div>
-
-      <!-- date range -->
-      <div class="filter-item" fd-toolbar-item>
-        <span fd-label class="filter-label">Datum</span>
-        <fd-date-picker
-          fdCompact
-          type="range"
-          [showTodayButton]="true"
-          [(ngModel)]="selectedRange"
-        >
-        </fd-date-picker>
-      </div>
-
-      <!-- SCORE -->
-      <!-- <div class="filter-item" fd-toolbar-item>
-        <span fd-label class="filter-label">Score</span>
-        <fd-multi-input
-          fdCompact
-          inputId="dropdownExampleInput1"
-          [dropdownValues]="scores"
-          [(ngModel)]="selectedScores"
-        ></fd-multi-input>
-      </div> -->
-
-      <!-- Status -->
-      <div class="filter-item" fd-toolbar-item>
-        <span fd-label class="filter-label">Status</span>
-        <fd-multi-input
-          fdCompact
-          inputId="dropdownExampleInput1"
-          [dropdownValues]="statuses"
-          [(ngModel)]="selectedStatuses"
-        ></fd-multi-input>
-      </div>
-
-      <fd-toolbar-separator class="mx-2"></fd-toolbar-separator>
-
-      <button
-        class="export-button"
-        [disabled]="checkboxValue === false"
-        fdCompact
-        fd-toolbar-item
-        fd-button
-        fdType="emphasized"
-        glyph="download"
-        aria-label="Exportieren"
-        (click)="generarePdf()"
-      ></button>
-    </fd-toolbar>
-  </div>
-
-  <div
-    class="scrollable-table w-100 flex-grow-1 flex-shrink-1 d-flex flex-column"
-  >
-    <table fd-table fdCompact [responsive]="true">
-      <thead fd-table-header [noBorderY]="true">
-        <tr fd-table-row>
-          <th fd-table-cell>
-            <fd-checkbox
-              aria-label="Select all"
-              title="Select all"
-              [tristate]="true"
-              [ngModel]="checkboxValue"
-              (ngModelChange)="selectAll($event)"
-            ></fd-checkbox>
-          </th>
-          <!-- <th fd-table-cell class="col-name">Patienten</th> -->
-          <th fd-table-cell class="col-job">Beruf</th>
-          <th fd-table-cell class="col-gender">Geschlecht</th>
-          <th fd-table-cell class="col-date">Geburtstag</th>
-          <th fd-table-cell class="col-contract">Wunschtarife</th>
-          <th fd-table-cell class="col-medication">Medikamente</th>
-          <th fd-table-cell class="col-medical_procedures">
-            Medizinische Maßnahmen
-          </th>
-          <th fd-table-cell class="col-icd10Codes">ICD-10 Codes</th>
-          <th fd-table-cell class="col-date">Datum</th>
-          <!-- <th fd-table-cell class="col-score">Score</th> -->
-          <th fd-table-cell class="col-status text-center">Status</th>
-        </tr>
-      </thead>
-      <tbody fd-table-body [noBorderY]="true">
-        <ng-container *ngFor="let row of filteredCompainSDKData; let i = index">
-          <tr
-            *ngIf="!row.expanded"
-            fd-table-row
-            [hoverable]="true"
-            [class.checked]="row.checked"
-            [class.expanded]="row.expanded"
-            (click)="toggleRowExpansion(i)"
+      <!-- toolbar: search & filters -->
+      <div class="d-flex flex-column w-100 flex-grow-0 flex-shrink-0">
+        <fd-toolbar [shouldOverflow]="false">
+          <!-- search -->
+          <fd-input-group
+            fd-toolbar-item
+            fdCompact
+            glyph="search"
+            glyphAriaLabel="Search"
+            title="Search"
+            placeholder="Suche..."
+            [button]="true"
+            [disabled]="false"
+            [(ngModel)]="searchText"
+            (addOnButtonClicked)="searchText = ''"
+            class="search-input pe-3"
           >
-            <td fd-table-cell class="px-0 col-check">
-              <div class="d-flex h-100 align-items-center">
-                <fd-checkbox
-                  [attr.aria-label]="'Select row ' + (i + 1)"
-                  [attr.title]="'Select row ' + (i + 1)"
-                  [value]="row.checked"
-                  (click)="
-                    $event.preventDefault();
-                    $event.stopPropagation();
-                    row.checked ? (row.checked = false) : (row.checked = true);
-                    select(i)
-                  "
-                ></fd-checkbox>
-              </div>
-            </td>
-            <td fd-table-cell class="col-job">
-              <span fd-table-text *ngIf="!row.expanded && row.metadata?.job">{{
-                row.metadata?.job
-              }}</span>
-              <span
-                fd-table-text
-                *ngIf="!row?.expanded && !row.metadata?.job"
-                class="na"
-                >{{ "-" }}</span
-              >
-            </td>
-            <td fd-table-cell class="col-gender">
-              <span fd-table-text *ngIf="!row.expanded">{{
-                row.metadata?.gender
-              }}</span>
-            </td>
-            <td fd-table-cell class="col-date">
-              <span fd-table-text *ngIf="!row.expanded">{{
-                row.metadata?.date_of_birth
-              }}</span>
-            </td>
-            <td fd-table-cell class="col-contract">
-              <span fd-table-text *ngIf="!row.expanded" class="flex-wrap">{{
-                row.metadata?.contract_types.join(", ")
-              }}</span>
-            </td>
-            <td fd-table-cell class="col-medication">
-              <span fd-table-text *ngIf="!row.expanded" class="flex-wrap">{{
-                row.medication?.join(", ")
-              }}</span>
-            </td>
-            <td fd-table-cell class="col-medical_procedures">
-              <span fd-table-text *ngIf="!row.expanded" class="flex-wrap">{{
-                row.medical_procedures?.join(", ")
-              }}</span>
-            </td>
+          </fd-input-group>
 
-            <td fd-table-cell class="col-icd10Codes pt-1 pb-1">
-              <span fd-table-text *ngIf="!row.expanded" class="flex-wrap">
-                <span
-                  *ngFor="let icd of row.icds"
-                  class="code d-inline-block position-relative"
-                  [class.highlighted]="icd.highlighted"
-                  [class.dashed]="icd.score < reasonableThreshold"
-                  (click)="
-                    open_icd = icd;
-                    open_rejection = false;
-                    $event.preventDefault();
-                    $event.stopPropagation();
-                    openDialog(confirmationDialog)
-                  "
-                >
-                  <span>{{ icd.icd_code }}</span>
-                  <span
-                    class="questionMark"
-                    *ngIf="icd.score < reasonableThreshold"
-                    >?</span
-                  >
-                </span>
-                <span
-                  *ngFor="let icd of row.rejections"
-                  class="code-rejection d-inline-block position-relative"
-                  [class.dashed]="icd.score < reasonableThreshold"
-                  (click)="
-                    open_icd = icd;
-                    open_rejection = true;
-                    $event.preventDefault();
-                    $event.stopPropagation();
-                    openDialog(confirmationDialog)
-                  "
-                >
-                  <span>{{ icd.icd_code }}</span>
-                  <span
-                    class="questionMark"
-                    *ngIf="icd.score < reasonableThreshold"
-                    >?</span
-                  >
-                </span>
-              </span>
-            </td>
-            <td fd-table-cell class="col-date">
-              <span fd-table-text *ngIf="!row.expanded && row.timestamp">{{
-                row.timestamp
-              }}</span>
+          <fd-toolbar-separator class="mx-2"></fd-toolbar-separator>
 
-              <span fd-table-text *ngIf="!row.expanded && !row.timestamp">{{
-                today | date : "dd.MM.yyyy"
-              }}</span>
-            </td>
-            <!-- <td fd-table-cell class="col-score fw-bold">
-              <span fd-table-text *ngIf="!row.expanded" class="fw-bold">{{
-                row.score
-              }}</span>
-            </td> -->
-            <td
-              fd-table-cell
-              class="col-status"
-              style="border-left-style: none"
+          <!-- contract -->
+          <div class="filter-item" fd-toolbar-item>
+            <span fd-label class="filter-label">Wunschtarife</span>
+            <fd-multi-input
+              fdCompact
+              inputId="dropdownExampleInput1"
+              [dropdownValues]="contracts"
+              [(ngModel)]="selectedContracts"
+            ></fd-multi-input>
+          </div>
+
+          <!-- icd10Codes -->
+          <div class="filter-item" fd-toolbar-item>
+            <span fd-label class="filter-label">ICD-10 Code</span>
+            <fd-multi-input
+              fdCompact
+              inputId="dropdownExampleInput1"
+              [dropdownValues]="codes"
+              [(ngModel)]="selectedCodes"
+            ></fd-multi-input>
+          </div>
+
+          <!-- date range -->
+          <div class="filter-item" fd-toolbar-item>
+            <span fd-label class="filter-label">Datum</span>
+            <fd-date-picker
+              fdCompact
+              type="range"
+              [showTodayButton]="true"
+              [(ngModel)]="selectedRange"
             >
-              <span
-                *ngIf="!row.expanded"
-                fd-table-text
-                class="status-tag"
-                [ngClass]="getStatusClass(row.status)"
-                >{{ row.status || "Offen" }}</span
-              >
-            </td>
-          </tr>
-          <tr *ngIf="row.expanded" (click)="toggleRowExpansion(i)">
-            <td
-              fd-table-cell
-              class="px-0 col-check expanded-col"
-              style="width: 40px"
-            >
-              <div
-                class="d-flex h-100 align-items-top"
-                style="padding-top: 18px"
-              >
+            </fd-date-picker>
+          </div>
+
+          <!-- Status -->
+          <div class="filter-item" fd-toolbar-item>
+            <span fd-label class="filter-label">Status</span>
+            <fd-multi-input
+              fdCompact
+              inputId="dropdownExampleInput1"
+              [dropdownValues]="statuses"
+              [(ngModel)]="selectedStatuses"
+            ></fd-multi-input>
+          </div>
+
+          <fd-toolbar-separator class="mx-2"></fd-toolbar-separator>
+
+          <button
+            class="export-button"
+            [disabled]="checkboxValue === false"
+            fdCompact
+            fd-toolbar-item
+            fd-button
+            fdType="emphasized"
+            glyph="download"
+            aria-label="Exportieren"
+            title="PDF exportieren"
+            (click)="generarePdf()"
+          ></button>
+        </fd-toolbar>
+      </div>
+
+      <!-- table -->
+      <div
+        class="scrollable-table w-100 flex-grow-1 flex-shrink-1 d-flex flex-column"
+      >
+        <table fd-table fdCompact [responsive]="true">
+          <thead fd-table-header [noBorderY]="true">
+            <tr fd-table-row>
+              <th fd-table-cell>
                 <fd-checkbox
-                  [attr.aria-label]="'Select row ' + (i + 1)"
-                  [attr.title]="'Select row ' + (i + 1)"
-                  [value]="row.checked"
-                  (click)="
-                    $event.preventDefault();
-                    $event.stopPropagation();
-                    row.checked ? (row.checked = false) : (row.checked = true);
-                    select(i)
-                  "
+                  aria-label="Select all"
+                  title="Select all"
+                  [tristate]="true"
+                  [ngModel]="checkboxValue"
+                  (ngModelChange)="selectAll($event)"
                 ></fd-checkbox>
-              </div>
-            </td>
-            <td fd-table-cell colspan="11" class="expanded-details ps-0">
-              <div class="expanded-details-content pb-4 w-100">
-                <div
-                  class="d-flex w-100 flex-row pt-4 gap-3 w-100 position-relative"
-                >
-                  <div class="d-flex flex-row flex-shrink-1 flex-grow-1">
-                    <!-- Antragsteller, Medication, Medical procedures-->
-                    <div class="d-flex flex-column me-2" style="width: 20%">
-                      <!-- Antragsteller -->
-                      <span class="mb-1 section-title"
-                        ><strong>Antragsteller</strong></span
-                      >
-
-                      <div class="d-flex flex-column mb-2">
-                        <div class="d-flex flex-row" style="max-width: 700px">
-                          <span class="icd-subtitle me-2">Patienten:</span>
-                          <span>{{ row.metadata?.patient_name }}</span>
-                        </div>
-                        <div class="d-flex flex-row" style="max-width: 700px">
-                          <span class="icd-subtitle me-2">Beruf:</span>
-                          <span *ngIf="row.metadata?.job; else noOccupation">{{
-                            row.metadata?.job
-                          }}</span>
-                          <ng-template #noOccupation
-                            ><span class="na">-</span></ng-template
-                          >
-                        </div>
-                        <div>
-                          <span class="icd-subtitle me-2">Geschlecht:</span>
-                          <span>{{ row.metadata?.gender }}</span>
-                        </div>
-                        <div>
-                          <span class="icd-subtitle me-2">Geburtstag:</span>
-                          <span>{{ row.metadata?.date_of_birth }}</span>
-                        </div>
-                        <div class="d-flex">
-                          <span class="icd-subtitle me-2">Wunschtarife:</span>
-                          <span>{{
-                            row.metadata?.contract_types.join(", ")
-                          }}</span>
-                        </div>
-                      </div>
-
-                      <!-- Medication -->
-                      <span class="mb-1 section-title mt-3"
-                        ><strong>Medikamente</strong></span
-                      >
-                      <ul *ngIf="row.medication?.length; else noMedication">
-                        <li *ngFor="let m of row.medication">{{ m }}</li>
-                      </ul>
-                      <ng-template #noMedication
-                        ><span class="na">-</span></ng-template
-                      >
-
-                      <!-- Medical procedures -->
-                      <span class="mb-1 section-title mt-3"
-                        ><strong>Medizinische Maßnahmen</strong></span
-                      >
-                      <ul
-                        *ngIf="row.medication?.length; else noMedicalProcedures"
-                      >
-                        <li *ngFor="let m of row.medical_procedures">
-                          {{ m }}
-                        </li>
-                      </ul>
-                      <ng-template #noMedicalProcedures
-                        ><span class="na">-</span></ng-template
-                      >
-
-                      <!-- Beurteilung -->
-                      <div class="mt-3">
-                        <div class="fw-bold section-title">Beurteilung</div>
-                        <div class="fw-bold">
-                          <fd-combobox
-                            fdCompact
-                            ariaLabel="Standard"
-                            placeholder="Bewertung wählen"
-                            [dropdownValues]="evaluations"
-                            [ngModel]="row.evaluation || evaluations[0]"
-                            (ngModelChange)="row.evaluation = $event"
-                            (click)="$event.stopPropagation()"
-                          >
-                          </fd-combobox>
-                        </div>
-                      </div>
-                    </div>
-
-                    <!-- Diseases -->
-                    <div class="d-flex flex-column mx-4" style="width: 80%">
-                      <span class="mb-2 section-title"
-                        ><strong>Krankheiten</strong></span
-                      >
-
-                      <div
-                        *ngFor="let icd of row.icds"
-                        class="pb-3 mb-3 d-flex flex-row icd gap-2"
-                      >
-                        <div class="d-flex flex-column icd gap-2">
-                          <span
-                            class="code flex-grow-0 d-inline-block position-relative"
-                            [class.highlighted]="icd.highlighted"
-                            [class.dashed]="icd.score < reasonableThreshold"
-                          >
-                            <span>{{ icd.icd_code }}</span>
-                            <span
-                              class="questionMark"
-                              *ngIf="icd.score < reasonableThreshold"
-                              >?</span
-                            >
-                          </span>
-                          <div class="line flex-grow-1"></div>
-                        </div>
-
-                        <div class="d-flex flex-column">
-                          <span class="mt-1 icd-name">
-                            {{ icd.icd_name }}
-                          </span>
-                          <span class="me-2 mt-2 icd-subtitle"
-                            >Relevante Textstellen:</span
-                          >
-                          <ul class="mb-2">
-                            <li *ngFor="let e of icd.evidence">
-                              {{ sanitizeEvidence(e) }}
-                            </li>
-                          </ul>
-                          <div>
-                            <span class="me-2 icd-subtitle">Begründung</span>
-                            <span *ngIf="icd.score"> (</span>
-                            <span *ngIf="icd.score" class="fw-bold"
-                              >{{ icd.score }}%</span
-                            >
-                            <span *ngIf="icd.score">)</span>
-                            <span>:</span>
-                            <span class="d-inline-block ms-4">
-                              {{ icd.justification }}
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div
-                        *ngFor="let icd of row.rejections"
-                        class="pb-3 mb-3 d-flex flex-row icd gap-2"
-                      >
-                        <div class="d-flex flex-column icd gap-2">
-                          <span
-                            class="code-rejection flex-grow-0 d-inline-block position-relative"
-                            [class.dashed]="icd.score < reasonableThreshold"
-                          >
-                            <span> {{ icd.icd_code }}</span>
-                            <span
-                              class="questionMark"
-                              *ngIf="icd.score < reasonableThreshold"
-                              >?</span
-                            >
-                          </span>
-                          <div class="line-rejection flex-grow-1"></div>
-                        </div>
-
-                        <div class="d-flex flex-column">
-                          <span class="mt-1 icd-name">
-                            {{ icd.icd_name }}
-                          </span>
-                          <span class="me-2 mt-2 icd-subtitle"
-                            >Relevante Textstellen:</span
-                          >
-                          <ul class="mb-2">
-                            <li *ngFor="let e of icd.evidence">
-                              {{ sanitizeEvidence(e) }}
-                            </li>
-                          </ul>
-                          <div>
-                            <span class="me-2 icd-subtitle">Begründung</span>
-                            <span *ngIf="icd.score"> (</span>
-                            <span *ngIf="icd.score" class="fw-bold"
-                              >{{ icd.score }}%</span
-                            >
-                            <span *ngIf="icd.score">)</span>
-                            <span>:</span>
-                            <span class="d-inline-block ms-4">
-                              {{ icd.justification }}
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div
-                        class="d-flex flex-column mx-4 relevantInfoWrapper position-relative"
-                        style="padding-left: 70px"
-                      >
-                        <span class="mb-1 icd-name mt-3"
-                          ><strong
-                            >Weitere medizinisch relevante Informationen</strong
-                          ></span
-                        >
-                        <ul
-                          *ngIf="
-                            row.medically_relevant_information?.length;
-                            else noRelevantInfo
-                          "
-                        >
-                          <li
-                            *ngFor="
-                              let info of row.medically_relevant_information
-                            "
-                          >
-                            {{ info }}
-                          </li>
-                        </ul>
-
-                        <ng-template #noRelevantInfo
-                          ><span class="na">-</span></ng-template
-                        >
-                      </div>
-                    </div>
+              </th>
+              <!-- <th fd-table-cell class="col-name">Patienten</th> -->
+              <th fd-table-cell class="col-job">Beruf</th>
+              <th fd-table-cell class="col-gender">Geschlecht</th>
+              <th fd-table-cell class="col-date">Geburtstag</th>
+              <th fd-table-cell class="col-contract">Wunschtarife</th>
+              <th fd-table-cell class="col-medication">Medikamente</th>
+              <th fd-table-cell class="col-medical_procedures">
+                Medizinische Maßnahmen
+              </th>
+              <th fd-table-cell class="col-icd10Codes">ICD-10 Codes</th>
+              <th fd-table-cell class="col-date">Datum</th>
+              <!-- <th fd-table-cell class="col-score">Score</th> -->
+              <th fd-table-cell class="col-status text-center">Status</th>
+              <th fd-table-cell class="col-details text-center"></th>
+            </tr>
+          </thead>
+          <tbody fd-table-body [noBorderY]="true">
+            <ng-container
+              *ngFor="let row of filteredCompainSDKData; let i = index"
+            >
+              <tr fd-table-row [hoverable]="true" [class.checked]="row.checked">
+                <td fd-table-cell class="px-0 col-check">
+                  <div class="d-flex h-100 align-items-center">
+                    <fd-checkbox
+                      [attr.aria-label]="'Select row ' + (i + 1)"
+                      [attr.title]="'Select row ' + (i + 1)"
+                      [value]="row.checked"
+                      (click)="
+                        $event.preventDefault();
+                        $event.stopPropagation();
+                        row.checked
+                          ? (row.checked = false)
+                          : (row.checked = true);
+                        select(i)
+                      "
+                    ></fd-checkbox>
                   </div>
+                </td>
+                <td fd-table-cell class="col-job">
+                  <span fd-table-text *ngIf="row.metadata?.job; else noJob">{{
+                    row.metadata?.job
+                  }}</span>
+                  <ng-template #noJob fd-table-text class="na">{{
+                    "-"
+                  }}</ng-template>
+                </td>
+                <td fd-table-cell class="col-gender">
+                  <span fd-table-text>{{ row.metadata?.gender }}</span>
+                </td>
+                <td fd-table-cell class="col-date">
+                  <span fd-table-text>{{ row.metadata?.date_of_birth }}</span>
+                </td>
+                <td fd-table-cell class="col-contract">
+                  <span fd-table-text class="flex-wrap">{{
+                    row.metadata?.contract_types.join(", ")
+                  }}</span>
+                </td>
+                <td fd-table-cell class="col-medication">
+                  <span fd-table-text class="flex-wrap">{{
+                    row.medication?.join(", ")
+                  }}</span>
+                </td>
+                <td fd-table-cell class="col-medical_procedures">
+                  <span fd-table-text class="flex-wrap">{{
+                    row.medical_procedures?.join(", ")
+                  }}</span>
+                </td>
 
-                  <!-- Status & Score -->
-                  <div
-                    class="d-flex flex-column ms-4 flex-grow-0 flex-shrink-0 mt-2"
-                    style="position: absolute; right: 10px; top: 10px"
+                <td fd-table-cell class="col-icd10Codes pt-1 pb-1">
+                  <span fd-table-text class="flex-wrap">
+                    <span
+                      *ngFor="let icd of row.icds"
+                      class="code d-inline-block position-relative"
+                      [class.dashed]="icd.score < reasonableThreshold"
+                      [class.double_mark]="
+                        icd.score < reasonableThreshold && icd.highlighted
+                      "
+                      (click)="
+                        detailedICD = icd;
+                        detailedICD_isRejection = false;
+                        $event.preventDefault();
+                        $event.stopPropagation();
+                        openDialog(confirmationDialog)
+                      "
+                    >
+                      <span>{{ icd.icd_code }}</span>
+                      <span class="exclamationMark" *ngIf="icd.highlighted"
+                        >!</span
+                      >
+                      <span
+                        class="questionMark"
+                        *ngIf="icd.score < reasonableThreshold"
+                        >?</span
+                      >
+                    </span>
+                    <span
+                      *ngFor="let icd of row.rejections"
+                      class="code-rejection d-inline-block position-relative"
+                      [class.dashed]="icd.score < reasonableThreshold"
+                      [class.double_mark]="
+                        icd.score < reasonableThreshold && icd.highlighted
+                      "
+                      (click)="
+                        detailedICD = icd;
+                        detailedICD_isRejection = true;
+                        $event.preventDefault();
+                        $event.stopPropagation();
+                        openDialog(confirmationDialog)
+                      "
+                    >
+                      <span>{{ icd.icd_code }}</span>
+                      <span class="exclamationMark" *ngIf="icd.highlighted"
+                        >!</span
+                      >
+                      <span
+                        class="questionMark"
+                        *ngIf="icd.score < reasonableThreshold"
+                        >?</span
+                      >
+                    </span>
+                  </span>
+                </td>
+                <td fd-table-cell class="col-date">
+                  <span fd-table-text *ngIf="row.timestamp; else noTimestamp">{{
+                    row.timestamp
+                  }}</span>
+
+                  <ng-template #noTimestamp fd-table-text>{{
+                    today | date : "dd.MM.yyyy"
+                  }}</ng-template>
+                </td>
+
+                <td
+                  fd-table-cell
+                  class="col-status"
+                  style="border-left-style: none"
+                >
+                  <span
+                    fd-table-text
+                    class="status-tag"
+                    [ngClass]="getStatusClass(row.status)"
+                    >{{ row.status || "Offen" }}</span
                   >
-                    <div class="d-flex flex-row w-100">
-                      <!-- <div>
-                        <span class="table-col222 fw-bold ps-3 pt-2">{{
-                          row.score
-                        }}</span>
-                      </div> -->
-                      <div class="mb-3 align-self-end mt-2">
-                        <!-- <span class="table-col111 fw-bold">Status</span> -->
-                        <span
-                          class="fw-bold status-tag px-2"
-                          style="width: 132px"
-                          [ngClass]="getStatusClass(row.status)"
-                          >{{ row.status || "Offen" }}</span
-                        >
-                      </div>
-                    </div>
+                </td>
+
+                <td fd-table-cell [fitContent]="true">
+                  <button
+                    class="fd-button fd-button--transparent"
+                    title="Navigate"
+                    (click)="
+                      detailedRow = row; changeLayout('OneColumnMidFullScreen')
+                    "
+                    aria-label="navigation"
+                  >
+                    <i [class]="'sap-icon--navigation-right-arrow'"></i>
+                  </button>
+                </td>
+              </tr>
+            </ng-container>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- busy indicator -->
+      <fd-busy-indicator
+        *ngIf="loading"
+        [loading]="loading"
+        ariaLabel="loading"
+        title="Please Wait"
+        class="justify-content-center mb-2 me-3"
+      >
+      </fd-busy-indicator>
+    </div>
+  </ng-template>
+  <ng-template #midColumn>
+    <div class="d-flex w-100 flex-column row-details" *ngIf="detailedRow">
+      <!-- header: title + close button -->
+      <div
+        class="d-flex w-100 flex-grow-0 flex-shrink-0 details-header ps-5 pe-1 py-3 align-items-center"
+      >
+        <button
+          class="fd-button fd-button--transparent details-back"
+          title="Navigate"
+          (click)="detailedRow = null; changeLayout('OneColumnStartFullScreen')"
+          aria-label="navigation"
+        >
+          <i [class]="'sap-icon--navigation-left-arrow'"></i>
+        </button>
+        <div
+          class="d-flex flex-column w-100 flex-shrink-1 flex-grow-1"
+          style="height: auto"
+        >
+          <h4 fd-title class="title" style="height: 20px">Details</h4>
+        </div>
+
+        <button
+          class="export-button me-2"
+          fdCompact
+          fd-toolbar-item
+          fd-button
+          glyph="download"
+          aria-label="Exportieren"
+          title="PDF exportieren"
+          (click)="generarePdf(detailedRow)"
+        ></button>
+
+        <button
+          class="flex-grow-0 flex-shrink-0 close-details-button"
+          fd-button
+          fdCompact
+          fdType="transparent"
+          aria-label="Close"
+          (click)="detailedRow = null; changeLayout('OneColumnStartFullScreen')"
+          title="Close"
+        >
+          <i class="sap-icon--decline"></i>
+        </button>
+      </div>
+      <!-- content: row details -->
+      <div
+        class="d-flex w-100 flex-grow-1 flex-shrink-1 row-details-content px-5 py-2"
+      >
+        <div class="d-flex w-100 flex-row pt-4 gap-3 w-100 position-relative">
+          <div class="d-flex flex-row flex-shrink-1 flex-grow-1">
+            <!-- Antragsteller, Medication, Medical procedures-->
+            <div class="d-flex flex-column me-2" style="width: 20%">
+              <!-- Antragsteller -->
+              <span class="mb-1 section-title"
+                ><strong>Antragsteller</strong></span
+              >
+
+              <div class="d-flex flex-column mb-2" style="line-height: 16px">
+                <div class="d-flex flex-row" style="max-width: 700px">
+                  <span class="icd-subtitle me-1">Patienten:</span>
+                  <span
+                    class="feedback-wrapper px-1"
+                    title="Feedback"
+                    (click)="
+                      openFeedbackModal(feedbackDialog, 'metadata.patient_name')
+                    "
+                    >{{ detailedRow.metadata?.patient_name || "-" }}</span
+                  >
+                </div>
+
+                <div class="d-flex flex-row" style="max-width: 700px">
+                  <span class="icd-subtitle me-1">Beruf:</span>
+                  <span
+                    class="feedback-wrapper px-1"
+                    title="Feedback"
+                    (click)="openFeedbackModal(feedbackDialog, 'metadata.job')"
+                    >{{ detailedRow.metadata?.job || "-" }}</span
+                  >
+                </div>
+
+                <div class="d-flex flex-row">
+                  <span class="icd-subtitle me-1">Geschlecht:</span>
+                  <span
+                    class="feedback-wrapper px-1"
+                    title="Feedback"
+                    (click)="
+                      openFeedbackModal(feedbackDialog, 'metadata.gender')
+                    "
+                    >{{ detailedRow.metadata?.gender || "-" }}</span
+                  >
+                </div>
+
+                <div class="d-flex flex-row">
+                  <span class="icd-subtitle me-1">Geburtstag:</span>
+                  <span
+                    class="feedback-wrapper px-1"
+                    title="Feedback"
+                    (click)="
+                      openFeedbackModal(
+                        feedbackDialog,
+                        'metadata.date_of_birth'
+                      )
+                    "
+                    >{{ detailedRow.metadata?.date_of_birth || "-" }}</span
+                  >
+                </div>
+
+                <div class="d-flex flex-row align-items-center">
+                  <span class="icd-subtitle me-1">Wunschtarife:</span>
+                  <span
+                    *ngFor="
+                      let ct of detailedRow.metadata?.contract_types;
+                      let j = index;
+                      let last = last
+                    "
+                  >
+                    <span
+                      class="feedback-wrapper px-1"
+                      title="Feedback"
+                      (click)="
+                        openFeedbackModal(
+                          feedbackDialog,
+                          'metadata.contract_types',
+                          j
+                        )
+                      "
+                      >{{ ct }}</span
+                    >{{ last ? "" : "," }}</span
+                  >
+                </div>
+              </div>
+
+              <!-- Medication -->
+              <span class="mb-1 section-title mt-3"
+                ><strong>Medikamente</strong></span
+              >
+              <ul *ngIf="detailedRow.medication?.length; else noMedication">
+                <li *ngFor="let m of detailedRow.medication; let i = index">
+                  <span
+                    class="feedback-wrapper"
+                    title="Feedback"
+                    (click)="openFeedbackModal(feedbackDialog, 'medication', i)"
+                  >
+                    {{ m }}
+                  </span>
+                </li>
+              </ul>
+              <ng-template #noMedication><span class="na">-</span></ng-template>
+
+              <!-- Medical procedures -->
+              <span class="mb-1 section-title mt-3"
+                ><strong>Medizinische Maßnahmen</strong></span
+              >
+              <ul
+                *ngIf="detailedRow.medication?.length; else noMedicalProcedures"
+              >
+                <li
+                  *ngFor="
+                    let m of detailedRow.medical_procedures;
+                    let i = index
+                  "
+                >
+                  <span
+                    class="feedback-wrapper"
+                    title="Feedback"
+                    (click)="
+                      openFeedbackModal(feedbackDialog, 'medical_procedures', i)
+                    "
+                  >
+                    {{ m }}
+                  </span>
+                </li>
+              </ul>
+              <ng-template #noMedicalProcedures
+                ><span class="na">-</span></ng-template
+              >
+
+              <!-- Beurteilung -->
+              <div class="mt-3">
+                <div class="fw-bold section-title">Beurteilung</div>
+                <div class="fw-bold">
+                  <fd-combobox
+                    fdCompact
+                    ariaLabel="Standard"
+                    placeholder="Bewertung wählen"
+                    [dropdownValues]="evaluations"
+                    [ngModel]="detailedRow.evaluation || evaluations[0]"
+                    (ngModelChange)="detailedRow.evaluation = $event"
+                    (click)="$event.stopPropagation()"
+                  >
+                  </fd-combobox>
+                </div>
+              </div>
+            </div>
+
+            <!-- Diseases -->
+            <div class="d-flex flex-column mx-4" style="width: 80%">
+              <span class="mb-2 section-title"
+                ><strong>Krankheiten</strong></span
+              >
+
+              <div
+                *ngFor="let icd of detailedRow.icds; let i = index"
+                class="pb-3 mb-3 d-flex flex-row icd gap-2"
+              >
+                <div class="d-flex flex-column icd gap-2">
+                  <span
+                    class="code feedback-code flex-grow-0 d-inline-block position-relative"
+                    [class.dashed]="icd.score < reasonableThreshold"
+                    [class.double_mark]="
+                      icd.score < reasonableThreshold && icd.highlighted
+                    "
+                    title="Feedback"
+                    (click)="
+                      openFeedbackModal(feedbackDialog, 'icds.icd_code', i)
+                    "
+                  >
+                    <span class="exclamationMark" *ngIf="icd.highlighted"
+                      >!</span
+                    >
+                    <span>{{ icd.icd_code }}</span>
+                    <span
+                      class="questionMark"
+                      *ngIf="icd.score < reasonableThreshold"
+                      >?</span
+                    >
+                  </span>
+                  <div class="line flex-grow-1"></div>
+                </div>
+
+                <div class="d-flex flex-column">
+                  <span class="mt-1 icd-name">
+                    <span
+                      class="feedback-wrapper px-1"
+                      title="Feedback"
+                      (click)="
+                        openFeedbackModal(feedbackDialog, 'icds.icd_name', i)
+                      "
+                    >
+                      {{ icd.icd_name }}
+                    </span>
+                  </span>
+                  <span class="me-2 mt-2 icd-subtitle"
+                    >Relevante Textstellen:</span
+                  >
+                  <ul class="mb-2">
+                    <li *ngFor="let e of icd.evidence; let j = index">
+                      <span
+                        class="feedback-wrapper px-1"
+                        title="Feedback"
+                        (click)="
+                          openFeedbackModal(
+                            feedbackDialog,
+                            'icds.evidence',
+                            i,
+                            j
+                          )
+                        "
+                      >
+                        {{ sanitizeEvidence(e) }}
+                      </span>
+                    </li>
+                  </ul>
+                  <div>
+                    <span class="me-2 icd-subtitle">Begründung</span>
+                    <span *ngIf="icd.score"> (</span>
+                    <span
+                      *ngIf="icd.score"
+                      class="fw-bold feedback-wrapper px-1"
+                      title="Feedback"
+                      (click)="
+                        openFeedbackModal(feedbackDialog, 'icds.score', i)
+                      "
+                      >{{ icd.score }}%</span
+                    >
+                    <span *ngIf="icd.score">)</span>
+                    <span>:</span>
+                    <span
+                      class="d-inline-block ms-4 feedback-wrapper px-1"
+                      title="Feedback"
+                      (click)="
+                        openFeedbackModal(
+                          feedbackDialog,
+                          'icds.justification',
+                          i
+                        )
+                      "
+                    >
+                      {{ icd.justification }}
+                    </span>
                   </div>
                 </div>
               </div>
-            </td>
-          </tr>
-        </ng-container>
-      </tbody>
-    </table>
-  </div>
 
-  <fd-busy-indicator
-    *ngIf="loading"
-    [loading]="loading"
-    ariaLabel="loading"
-    title="Please Wait"
-    class="justify-content-center mb-2 me-3"
-  >
-  </fd-busy-indicator>
-</div>
+              <div
+                *ngFor="let icd of detailedRow.rejections; let i = index"
+                class="pb-3 mb-3 d-flex flex-row icd gap-2"
+              >
+                <div class="d-flex flex-column icd gap-2">
+                  <span
+                    class="code-rejection feedback-code flex-grow-0 d-inline-block position-relative"
+                    [class.dashed]="icd.score < reasonableThreshold"
+                    [class.double_mark]="
+                      icd.score < reasonableThreshold && icd.highlighted
+                    "
+                    title="Feedback"
+                    (click)="
+                      openFeedbackModal(
+                        feedbackDialog,
+                        'rejections.icd_code',
+                        i
+                      )
+                    "
+                  >
+                    <span> {{ icd.icd_code }}</span>
+                    <span class="exclamationMark" *ngIf="icd.highlighted"
+                      >!</span
+                    >
+                    <span
+                      class="questionMark"
+                      *ngIf="icd.score < reasonableThreshold"
+                      >?</span
+                    >
+                  </span>
+                  <div class="line-rejection flex-grow-1"></div>
+                </div>
+
+                <div class="d-flex flex-column">
+                  <span class="mt-1 icd-name">
+                    <span
+                      class="feedback-wrapper px-1"
+                      title="Feedback"
+                      (click)="
+                        openFeedbackModal(
+                          feedbackDialog,
+                          'rejections.icd_name',
+                          i
+                        )
+                      "
+                    >
+                      {{ icd.icd_name }}
+                    </span>
+                  </span>
+                  <span class="me-2 mt-2 icd-subtitle"
+                    >Relevante Textstellen:</span
+                  >
+                  <ul class="mb-2">
+                    <li *ngFor="let e of icd.evidence; let j = index">
+                      <span
+                        class="feedback-wrapper px-1"
+                        title="Feedback"
+                        (click)="
+                          openFeedbackModal(
+                            feedbackDialog,
+                            'rejections.evidence',
+                            i,
+                            j
+                          )
+                        "
+                      >
+                        {{ sanitizeEvidence(e) }}
+                      </span>
+                    </li>
+                  </ul>
+                  <div>
+                    <span class="me-2 icd-subtitle">Begründung</span>
+                    <span *ngIf="icd.score"> (</span>
+                    <span
+                      *ngIf="icd.score"
+                      class="fw-bold feedback-wrapper px-1"
+                      title="Feedback"
+                      (click)="
+                        openFeedbackModal(feedbackDialog, 'rejections.score', i)
+                      "
+                      >{{ icd.score }}%</span
+                    >
+                    <span *ngIf="icd.score">)</span>
+                    <span>:</span>
+                    <span
+                      class="d-inline-block ms-4 feedback-wrapper px-1"
+                      title="Feedback"
+                      (click)="
+                        openFeedbackModal(
+                          feedbackDialog,
+                          'rejections.justification',
+                          i
+                        )
+                      "
+                    >
+                      {{ icd.justification }}
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <div
+                class="d-flex flex-column mx-4 relevantInfoWrapper position-relative"
+                style="padding-left: 70px"
+              >
+                <span class="mb-1 icd-name mt-3"
+                  ><strong
+                    >Weitere medizinisch relevante Informationen</strong
+                  ></span
+                >
+                <ul
+                  *ngIf="
+                    detailedRow.medically_relevant_information?.length;
+                    else noRelevantInfo
+                  "
+                >
+                  <li
+                    *ngFor="
+                      let info of detailedRow.medically_relevant_information;
+                      let i = index
+                    "
+                  >
+                    <span
+                      class="feedback-wrapper px-1"
+                      title="Feedback"
+                      (click)="
+                        openFeedbackModal(
+                          feedbackDialog,
+                          'medically_relevant_information',
+                          i
+                        )
+                      "
+                    >
+                      {{ info }}
+                    </span>
+                  </li>
+                </ul>
+
+                <ng-template #noRelevantInfo
+                  ><span class="na">-</span></ng-template
+                >
+              </div>
+            </div>
+          </div>
+
+          <!-- Status & Score -->
+          <div
+            class="d-flex flex-column ms-4 flex-grow-0 flex-shrink-0 mt-2"
+            style="position: absolute; right: 10px; top: 10px"
+          >
+            <div class="d-flex flex-row w-100">
+              <div class="mb-3 align-self-end mt-2">
+                <span
+                  class="fw-bold status-tag px-2"
+                  style="width: 132px"
+                  [ngClass]="getStatusClass(detailedRow.status)"
+                  >{{ detailedRow.status || "Offen" }}</span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+</fd-flexible-column-layout>
 
 <ng-template let-dialog let-dialogConfig="dialogConfig" #confirmationDialog>
   <fd-dialog [dialogConfig]="dialogConfig" [dialogRef]="dialog">
@@ -588,22 +781,25 @@
       </button>
       <div class="d-flex icd gap-2 px-4 pt-3 pb-2">
         <span
-          [class.highlighted]="open_icd.highlighted"
-          [class.dashed]="open_icd.score < reasonableThreshold"
+          [class.dashed]="detailedICD.score < reasonableThreshold"
+          [class.double_mark]="
+            detailedICD.score < reasonableThreshold && detailedICD.highlighted
+          "
           class="{{
-            open_rejection ? 'code-rejection' : 'code'
+            detailedICD_isRejection ? 'code-rejection' : 'code'
           }} flex-grow-0 d-inline-block position-relative"
         >
-          <span> {{ open_icd.icd_code }}</span>
+          <span> {{ detailedICD.icd_code }}</span>
+          <span class="exclamationMark" *ngIf="detailedICD.highlighted">!</span>
           <span
             class="questionMark"
-            *ngIf="open_icd.score < reasonableThreshold"
+            *ngIf="detailedICD.score < reasonableThreshold"
             >?</span
           >
         </span>
 
         <span class="mt-1 icd-name">
-          {{ open_icd.icd_name }}
+          {{ detailedICD.icd_name }}
         </span>
       </div>
       <div class="w-100 px-4 py-2">
@@ -619,16 +815,18 @@
       <div class="d-flex flex-column px-4 pb-4">
         <span class="fw-bold me-2 mt-2">Relevante Textstellen:</span>
         <ul class="mb-2">
-          <li *ngFor="let e of open_icd.evidence">
+          <li *ngFor="let e of detailedICD.evidence">
             {{ sanitizeEvidence(e) }}
           </li>
         </ul>
         <div>
           <div class="fw-bold me-2 mt-2">
-            Begründung{{ open_icd.score ? " (" + open_icd.score + "%):" : ":" }}
+            Begründung{{
+              detailedICD.score ? " (" + detailedICD.score + "%):" : ":"
+            }}
           </div>
           <span class="d-inline-block">
-            {{ open_icd.justification }}
+            {{ detailedICD.justification }}
           </span>
         </div>
       </div>
@@ -641,6 +839,93 @@
         (click)="dialog.dismiss('Cancel')"
         ariaLabel="Close"
       ></fd-button-bar>
+    </fd-dialog-footer>
+  </fd-dialog>
+</ng-template>
+
+<ng-template let-dialogFeedback let-dialogConfig="dialogConfig" #feedbackDialog>
+  <fd-dialog [dialogConfig]="dialogConfig" [dialogRef]="dialogFeedback">
+    <fd-dialog-body class="p-4">
+      <div class="d-flex flex-column">
+        <span class="title fs-5 mb-3 text-center">Feedback</span>
+        <!-- text -->
+        <div class="fst-italic feedback-text mx-2">
+          {{ dialogConfig.data.text }}
+        </div>
+
+        <!-- feedback -->
+        <div class="d-flex flex-row pt-3 justify-content-center">
+          <fd-form-group class="d-flex flex-row">
+            <span fd-form-item>
+              <fd-radio-button
+                name="korrekt"
+                [id]="'korrekt'"
+                value="korrekt"
+                state="success"
+                default="true"
+                [(ngModel)]="selectedFeedbackOption"
+              >
+                Korrekt
+              </fd-radio-button>
+            </span>
+            <span fd-form-item>
+              <fd-radio-button
+                [id]="'inkorrekt'"
+                name="inkorrekt"
+                state="error"
+                value="inkorrekt"
+                [(ngModel)]="selectedFeedbackOption"
+              >
+                Inkorrekt
+              </fd-radio-button>
+            </span>
+            <span fd-form-item>
+              <fd-radio-button
+                class="irrelevant"
+                name="irrelevant"
+                [id]="'irrelevant'"
+                value="irrelevant"
+                state="warning"
+                [(ngModel)]="selectedFeedbackOption"
+              >
+                Irrelevant
+              </fd-radio-button>
+            </span>
+          </fd-form-group>
+        </div>
+
+        <!-- Begründung  -->
+        <div fd-form-item class="pt-2 mb-4 px-2">
+          <label fd-form-label [colon]="true" for="textarea-31"
+            >Begründung</label
+          >
+          <textarea
+            style="border: 1px solid #d5d5d5"
+            fd-form-control
+            id="textarea-31"
+            [(ngModel)]="feedbackJustification"
+          ></textarea>
+        </div>
+      </div>
+    </fd-dialog-body>
+
+    <fd-dialog-footer>
+      <button
+        fd-button
+        fdType="transparent"
+        label="Schließen"
+        (click)="dialogFeedback.dismiss('Cancel')"
+        ariaLabel="Close"
+        class="mt-2 mb-4 cancelFeedbackButton"
+      ></button>
+      <button
+        fd-button
+        fdType="transparent"
+        label="Feedback senden"
+        (click)="dialogFeedback.dismiss('Cancel')"
+        ariaLabel="Feedback senden"
+        class="mt-2 mb-4 ms-2 sendFeedbackButton"
+      ></button>
     </fd-dialog-footer>
   </fd-dialog>
 </ng-template>

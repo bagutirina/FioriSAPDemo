@@ -2,6 +2,7 @@ import { ChangeDetectorRef, Component, TemplateRef } from '@angular/core';
 import {
   DialogService,
   FdDate,
+  FlexibleColumnLayout,
   ShellbarUser,
   ShellbarUserMenu,
 } from '@fundamental-ngx/core';
@@ -106,6 +107,12 @@ export class CompainSDKComponent {
       notificationLabel: 'Unread Notifications',
     },
   ];
+
+  layout: FlexibleColumnLayout = 'OneColumnStartFullScreen';
+  changeLayout(newValue: FlexibleColumnLayout): void {
+    this.layout = newValue;
+  }
+  detailedRow: any = {};
 
   constructor(
     public dialogService: DialogService,
@@ -269,11 +276,6 @@ export class CompainSDKComponent {
     }
   }
 
-  toggleRowExpansion(index: number) {
-    // Comută între expansiune și retragere
-    this.data[index].expanded = !this.data[index].expanded;
-  }
-
   getStatusClass(status: string): string {
     switch (status) {
       case 'Offen':
@@ -299,11 +301,12 @@ export class CompainSDKComponent {
       .filter((row) => (this.showOnlyChecked ? row.checked : true));
   }
   sanitizeEvidence(text: string): string {
-    return text.replace(/^-\s*/, '').replace(/^\*\s*/, '');
+    return (text + '').replace(/^-\s*/, '').replace(/^\*\s*/, '');
   }
 
-  open_icd: any = null;
-  open_rejection = false;
+  //icd details dialog
+  detailedICD: any = null;
+  detailedICD_isRejection = false;
   openDialog(dialog: TemplateRef<any>): void {
     const dialogRef = this._dialogService.open(dialog, {
       responsivePadding: true,
@@ -319,8 +322,57 @@ export class CompainSDKComponent {
     );
   }
 
+  //feedback dialog
+  openFeedbackModal(
+    dialog: TemplateRef<any>,
+    itemName: string,
+    index?: any,
+    subIndex?: any
+  ) {
+    const currentIndex = this.data.indexOf(this.detailedRow);
+    const itemNameSplit = itemName.split('.');
+    let text = '';
+    if (itemNameSplit[0] === 'metadata') {
+      text =
+        index || index === 0
+          ? this.data[currentIndex].metadata[itemNameSplit[1]][index]
+          : this.data[currentIndex].metadata[itemNameSplit[1]];
+    } else if (
+      itemNameSplit[0] === 'icds' ||
+      itemNameSplit[0] === 'rejections'
+    ) {
+      text =
+        subIndex || subIndex === 0
+          ? this.data[currentIndex][itemNameSplit[0]][index][itemNameSplit[1]][
+              subIndex
+            ]
+          : this.data[currentIndex][itemNameSplit[0]][index][itemNameSplit[1]];
+      text = text + (itemNameSplit[1] === 'score' ? '%' : '');
+    } else {
+      text = this.data[currentIndex][itemNameSplit[0]][index];
+    }
+
+    const dialogRef = this._dialogService.open(dialog, {
+      responsivePadding: true,
+      ariaLabelledBy: 'fd-dialog-header-10',
+      ariaDescribedBy: 'fd-dialog-body-10',
+      focusTrapped: true,
+      width: '600px',
+      data: {
+        text: this.sanitizeEvidence(text),
+      },
+    });
+
+    dialogRef.afterClosed.subscribe(
+      (result) => {},
+      (error) => {}
+    );
+  }
+
   //generate pdf
-  async generarePdf() {
+  selectedFeedbackOption = 'korrekt';
+  feedbackJustification = '';
+  async generarePdf(row?: any) {
     if (!this.pdfMake) {
       const pdfMakeModule = await import('pdfmake/build/pdfmake');
       const pdfFonts = await import('pdfmake/build/vfs_fonts');
@@ -329,7 +381,9 @@ export class CompainSDKComponent {
       this.pdfMake = pdfMakeModule;
     }
     this.pdfMake
-      .createPdf(PDFTemplate(this.data.filter((row) => row.checked)))
+      .createPdf(
+        PDFTemplate(row ? [row] : this.data.filter((row) => row.checked))
+      )
       .open();
   }
 }

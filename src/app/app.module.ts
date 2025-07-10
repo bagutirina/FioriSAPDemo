@@ -21,6 +21,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { SchadenfallComponent } from './demo3/schadenfall.component';
 import { CompainSDKComponent } from './demo4/compain-SDK.component';
 import { HttpClientModule } from '@angular/common/http';
+import { RadioModule } from '@fundamental-ngx/core/radio';
 
 @NgModule({
   declarations: [
@@ -45,6 +46,7 @@ import { HttpClientModule } from '@angular/common/http';
     ProgressIndicatorModule,
     DialogModule,
     HttpClientModule,
+    RadioModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

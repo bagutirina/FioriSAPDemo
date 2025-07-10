@@ -457,8 +457,11 @@ export function PDFTemplate(rows: any[]) {
                       {
                         text:
                           icd.icd_code +
-                          (icd.score < reasonableThreshold ? '   ?' : ''),
-                        fillColor: icd.highlighted ? 'yellow' : 'white',
+                          (icd.score < reasonableThreshold || icd.highlighted
+                            ? '   '
+                            : '') +
+                          (icd.score < reasonableThreshold ? '?' : '') +
+                          (icd.highlighted ? '!' : ''),
                         color: '#057395',
                         fontSize: 10,
                         bold: true,
@@ -533,7 +536,11 @@ export function PDFTemplate(rows: any[]) {
                       {
                         text:
                           icd.icd_code +
-                          (icd.score < reasonableThreshold ? '   ?' : ''),
+                          (icd.score < reasonableThreshold || icd.highlighted
+                            ? '   '
+                            : '') +
+                          (icd.score < reasonableThreshold ? '?' : '') +
+                          (icd.highlighted ? '!' : ''),
                         color: 'red',
                         fontSize: 10,
                         bold: true,

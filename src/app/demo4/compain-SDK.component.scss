@@ -85,10 +85,6 @@ fd-toolbar ::ng-deep .fd-toolbar.fd-toolbar--solid {
   padding-bottom: 10px;
 }
 
-tr {
-  cursor: pointer;
-}
-
 th {
   background-color: rgb(185 214 223) !important;
   td:hover {
@@ -114,13 +110,14 @@ tr.expanded {
   background-color: white; // #ededed60;
   border-left-color: transparent !important;
 }
-.expanded-details {
-  padding: 10px;
+.row-details {
   border-left-color: transparent !important;
   background-color: white;
-  .expanded-details-content {
-    padding-left: 30px;
-    background-color: #ededed60;
+  height: calc(100% - 50px);
+  padding-right: 2px;
+  .row-details-content {
+    padding: 30px;
+    overflow: auto;
   }
   h5 {
     font-size: 16px;
@@ -274,10 +271,10 @@ tr.expanded {
   background: transparent;
 }
 ::-webkit-scrollbar:vertical {
-  width: 5px;
+  width: 7px;
 }
 ::-webkit-scrollbar:horizontal {
-  height: 5px;
+  height: 7px;
 }
 ::-webkit-scrollbar-thumb {
   background-clip: padding-box;
@@ -326,6 +323,7 @@ tr.expanded {
 }
 
 .code {
+  cursor: pointer;
   border: 1px solid rgb(88 166 191);
   border-radius: 5px;
   font-weight: bold;
@@ -336,21 +334,25 @@ tr.expanded {
   margin-top: 5px;
   margin-bottom: 5px;
   padding: 4px 16px;
-  &:hover {
-    background-color: rgb(88 166 191 / 10%);
+  &.feedback-code:hover {
+    background-color: rgb(255 255 0 / 13%); //feedback
   }
-  &.highlighted {
-    background-color: #ffff0063;
-    &:hover {
-      background-color: yellow;
+  &.double_mark {
+    padding: 4px 24px 4px 16px;
+    .exclamationMark {
+      right: 8px;
+    }
+    .questionMark {
+      right: -7px;
     }
   }
+
   &.dashed {
     border: 1px dashed rgb(88 166 191);
-    // padding: 3px 15px;
   }
 }
 .code-rejection {
+  cursor: pointer;
   border: 1px solid rgb(243, 65, 11);
   border-radius: 5px;
   font-weight: bold;
@@ -361,24 +363,52 @@ tr.expanded {
   margin-top: 5px;
   margin-bottom: 5px;
   padding: 4px 16px;
-  &:hover {
-    background-color: rgb(243 65 11 / 10%);
+  &.feedback-code:hover {
+    background-color: rgb(255 255 0 / 13%); //feedback
   }
+
+  &.double_mark {
+    padding: 4px 24px 4px 16px;
+    .exclamationMark {
+      right: 8px;
+    }
+    .questionMark {
+      right: -7px;
+    }
+  }
+
   &.dashed {
     border: 1px dashed rgb(243, 65, 11);
-    // padding: 3px 15px;
   }
 }
 .questionMark {
   position: absolute;
   right: -5px;
-  top: -7px;
+  top: -8px;
   font-weight: bold;
   color: #696868;
   width: 19px;
   height: 19px;
   border-radius: 50%;
   background: white;
+  text-align: center;
+  font-size: 15px;
+  line-height: 19px;
+  padding-top: 0px;
+  box-shadow: 2px 3px 6px 0px rgba(0, 0, 0, 0.23),
+    0 1px 6px 1px rgba(0, 0, 0, 0.13);
+}
+
+.exclamationMark {
+  position: absolute;
+  right: -5px;
+  top: -8px;
+  font-weight: bold;
+  color: #000000;
+  width: 19px;
+  height: 19px;
+  border-radius: 50%;
+  background: #ffe274;
   text-align: center;
   font-size: 15px;
   line-height: 19px;
@@ -435,6 +465,7 @@ tr.expanded {
   color: black;
   font-weight: 500;
   font-style: italic;
+  padding: 2px;
 }
 
 .relevantInfoWrapper::after {
@@ -445,4 +476,83 @@ tr.expanded {
   top: 23px;
   left: 9px;
   bottom: 14px;
+}
+
+.feedback-wrapper {
+  align-items: center;
+  padding: 2px;
+  cursor: pointer;
+}
+
+.feedback-wrapper:hover {
+  background-color: rgb(255 255 0 / 13%);
+}
+
+// layout
+fd-dynamic-page {
+  max-width: 85%;
+  display: block;
+  padding-left: 24px !important;
+  padding-right: 24px !important;
+  padding-top: 12px;
+  margin: 0 auto;
+}
+fd-dynamic-page-header {
+  padding-left: 17px !important;
+}
+
+::ng-deep {
+  .fd-dynamic-page__header + .fd-scrollbar {
+    flex-grow: 1 !important;
+  }
+}
+
+::ng-deep .fd-flexible-column-layout {
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+
+::ng-deep .fd-flexible-column-layout__column {
+  transition: none !important;
+  //transition: transform 0.1s ease-in-out, width 0.1s ease-in-out !important;
+}
+
+.close-details-button {
+  margin-right: -2px;
+}
+.details-header {
+  background: #f7f7f7;
+}
+.details-back {
+  margin-left: -46px;
+  margin-right: 10px;
+}
+.sendFeedbackButton {
+  --fdButtonColor: rgb(31 103 14);
+  --fdButtonBorderColor: rgb(141, 196, 150) !important;
+  --fdButtonBackgroundColor: rgb(199 231 190 / 72%) !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+.cancelFeedbackButton {
+  --fdButtonColor: black;
+  --fdButtonBorderColor: rgb(138, 138, 138) !important;
+  --fdButtonBackgroundColor: rgba(194, 223, 185, 0) !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+.irrelevant ::ng-deep .fd-radio__label {
+  --fdRadio_Selected_Color: #ffc300 !important;
+  --fdRadio_Hover_Border_Color: #ffc300 !important;
+  --fdRadio_Border: var(--sapField_WarningBorderWidth)
+    var(--fdRadio_Warning_Error_Information_Border_Style) #ffc300 !important;
+}
+
+.feedback-text {
+  color: gray;
+  border: 2px dashed #dddddd;
+  padding: 15px;
+  background: #add8e621;
+  color: gray;
 }
