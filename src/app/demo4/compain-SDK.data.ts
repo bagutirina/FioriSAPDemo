@@ -2,6 +2,7 @@ import * as moment from 'moment';
 
 export const compainSDKData: any[] = [
   {
+    id: '1',
     timestamp: '19.06.2025',
     data: {
       metadata: {
@@ -75,6 +76,7 @@ export const compainSDKData: any[] = [
     },
   },
   {
+    id: '2',
     timestamp: '12.06.2025',
     data: {
       metadata: {
@@ -124,6 +126,7 @@ export const compainSDKData: any[] = [
     },
   },
   {
+    id: '3',
     timestamp: '12.06.2025',
     data: {
       metadata: {

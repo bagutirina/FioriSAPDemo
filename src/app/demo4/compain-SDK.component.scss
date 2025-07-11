@@ -334,8 +334,8 @@ tr.expanded {
   margin-top: 5px;
   margin-bottom: 5px;
   padding: 4px 16px;
-  &.feedback-code:hover {
-    background-color: rgb(255 255 0 / 13%); //feedback
+  &.feedback-code:not(.korrekt):not(.inkorrekt):not(.irrelevant):hover {
+    background-color: rgb(255 255 0 / 10%); //feedback
   }
   &.double_mark {
     padding: 4px 24px 4px 16px;
@@ -363,8 +363,8 @@ tr.expanded {
   margin-top: 5px;
   margin-bottom: 5px;
   padding: 4px 16px;
-  &.feedback-code:hover {
-    background-color: rgb(255 255 0 / 13%); //feedback
+  &.feedback-code:not(.korrekt):not(.inkorrekt):not(.irrelevant):hover {
+    background-color: rgb(255 255 0 / 10%); //feedback
   }
 
   &.double_mark {
@@ -478,16 +478,6 @@ tr.expanded {
   bottom: 14px;
 }
 
-.feedback-wrapper {
-  align-items: center;
-  padding: 2px;
-  cursor: pointer;
-}
-
-.feedback-wrapper:hover {
-  background-color: rgb(255 255 0 / 13%);
-}
-
 // layout
 fd-dynamic-page {
   max-width: 85%;
@@ -542,17 +532,92 @@ fd-dynamic-page-header {
   outline: none !important;
   box-shadow: none !important;
 }
-.irrelevant ::ng-deep .fd-radio__label {
-  --fdRadio_Selected_Color: #ffc300 !important;
-  --fdRadio_Hover_Border_Color: #ffc300 !important;
+.irrelevant_option ::ng-deep .fd-radio__label {
+  --fdRadio_Selected_Color: #8d8d8d !important;
+  --fdRadio_Hover_Border_Color: #8d8d8d !important;
   --fdRadio_Border: var(--sapField_WarningBorderWidth)
-    var(--fdRadio_Warning_Error_Information_Border_Style) #ffc300 !important;
+    var(--fdRadio_Warning_Error_Information_Border_Style) #8d8d8d !important;
+  --fdRadio_Background_Color: #8d8d8d13 !important;
+  --fdRadio_Hover_Background: #8d8d8d2f !important;
+}
+
+.inkorrekt_option ::ng-deep .fd-radio__label {
+  --fdRadio_Selected_Color: red !important;
+  --fdRadio_Hover_Border_Color: red !important;
+  --fdRadio_Border: var(--sapField_WarningBorderWidth)
+    var(--fdRadio_Warning_Error_Information_Border_Style) red !important;
+  --fdRadio_Background_Color: rgba(255, 0, 0, 0.103) !important;
+  --fdRadio_Hover_Background: rgba(255, 0, 0, 0.164) !important;
+}
+.korrekt_option ::ng-deep .fd-radio__label {
+  --fdRadio_Selected_Color: green !important;
+  --fdRadio_Hover_Border_Color: green !important;
+  --fdRadio_Border: var(--sapField_WarningBorderWidth)
+    var(--fdRadio_Warning_Error_Information_Border_Style) green !important;
+  --fdRadio_Background_Color: rgba(0, 128, 0, 0.055) !important;
+  --fdRadio_Hover_Background: rgba(0, 128, 0, 0.11) !important;
 }
 
 .feedback-text {
   color: gray;
-  border: 2px dashed #dddddd;
+  border: 1px dashed rgb(173 216 230 / 39%);
   padding: 15px;
-  background: #add8e621;
+  background: rgba(173, 216, 230, 0.1294117647);
   color: gray;
+  font-style: italic;
+  min-height: 90px;
+  border-radius: 8px;
+}
+
+textarea::placeholder {
+  color: rgb(179, 177, 177);
+}
+
+.feedback-wrapper {
+  align-items: center;
+  padding: 2px;
+  cursor: pointer;
+}
+
+.feedback-wrapper:not(.korrekt):not(.inkorrekt):not(.irrelevant):hover {
+  background-color: rgb(255 255 0 / 10%);
+}
+
+.korrekt {
+  background-color: rgba(0, 128, 0, 0.1);
+}
+.inkorrekt {
+  background-color: rgba(255, 0, 0, 0.1);
+}
+
+.irrelevant {
+  background-color: rgb(113 113 113 / 12%);
+}
+
+.details-layout {
+  display: flex;
+  flex-direction: column;
+  height: calc(100% - 70px);
+}
+
+::ng-deep .fd-radio__label {
+  outline: none !important;
+}
+.feedbacks-wrapper {
+  overflow: auto;
+}
+
+.feedbacks-wrapper .fd-title {
+  white-space: NORMAL;
+  overflow: visible;
+}
+::ng-deep .fd-card__header-text {
+  display: none !important;
+}
+
+.fdbk {
+  border: var(--fdCard_Border) none;
+  border-radius: var(--fdCard_Border_Radius);
+  box-shadow: var(--fdCard_Box_Shadow);
+  padding: 5px;
 }

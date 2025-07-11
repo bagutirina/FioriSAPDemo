@@ -1,8 +1,10 @@
 import { ChangeDetectorRef, Component, TemplateRef } from '@angular/core';
 import {
   DialogService,
+  FD_FLEXIBLE_LAYOUT_CONFIG,
   FdDate,
   FlexibleColumnLayout,
+  FlexibleLayoutConfig,
   ShellbarUser,
   ShellbarUserMenu,
 } from '@fundamental-ngx/core';
@@ -26,6 +28,37 @@ import {
 import { Title } from '@angular/platform-browser';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
+const CustomFlexibleCardLayoutConfig: FlexibleLayoutConfig = {
+  layouts: {
+    OneColumnStartFullScreen: { start: 100, mid: 0, end: 0 },
+    OneColumnMidFullScreen: { start: 0, mid: 100, end: 0 },
+    OneColumnEndFullScreen: { start: 0, mid: 0, end: 100 },
+    TwoColumnsStartExpanded: { start: 100, mid: 0, end: 0 },
+    TwoColumnsMidExpanded: { start: 80, mid: 20, end: 0 },
+    TwoColumnsEndExpanded: { start: 0, mid: 33, end: 67 },
+    ThreeColumnsMidExpanded: { start: 25, mid: 50, end: 25 },
+    ThreeColumnsEndExpanded: { start: 25, mid: 25, end: 50 },
+    ThreeColumnsStartMinimized: { start: 0, mid: 50, end: 50 },
+    ThreeColumnsEndMinimized: { start: 50, mid: 50, end: 0 },
+  },
+};
+
+export type Feedback = 'korrekt' | 'inkorrekt' | 'irrelevant';
+type TranslationKey =
+  | 'patient_name'
+  | 'job'
+  | 'gender'
+  | 'date_of_birth'
+  | 'contract_types'
+  | 'medication'
+  | 'medical_procedures'
+  | 'icd_code'
+  | 'icd_name'
+  | 'evidence'
+  | 'score'
+  | 'justification'
+  | 'medically_relevant_information';
+
 @Component({
   selector: 'app-compain-SDK',
   templateUrl: './compain-SDK.component.html',
@@ -40,6 +73,10 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
       provide: DATE_TIME_FORMATS,
       useValue: FD_DATETIME_FORMATS,
     },
+    {
+      provide: FD_FLEXIBLE_LAYOUT_CONFIG,
+      useValue: CustomFlexibleCardLayoutConfig,
+    },
   ],
 })
 export class CompainSDKComponent {
@@ -50,6 +87,7 @@ export class CompainSDKComponent {
   data = [...compainSDKData].map((item) => ({
     ...item.data,
     timestamp: item.timestamp,
+    id: item.id,
   }));
   reasonableThreshold = reasonableThreshold;
   selectedAccess = ['Offen', 'Offen', 'Offen', '', '', '', '', '', ''];
@@ -108,11 +146,13 @@ export class CompainSDKComponent {
     },
   ];
 
+  detailedRow: any = null;
+
   layout: FlexibleColumnLayout = 'OneColumnStartFullScreen';
   changeLayout(newValue: FlexibleColumnLayout): void {
     this.layout = newValue;
   }
-  detailedRow: any = {};
+  localLayout: FlexibleColumnLayout = 'OneColumnStartFullScreen';
 
   constructor(
     public dialogService: DialogService,
@@ -153,6 +193,7 @@ export class CompainSDKComponent {
                 ? {
                     ...item.data,
                     timestamp: this.getDateFromTimestamp(item.timestamp),
+                    id: item.id,
                   }
                 : null
             )
@@ -323,33 +364,46 @@ export class CompainSDKComponent {
   }
 
   //feedback dialog
+  selectedFeedbackOption: Feedback = 'korrekt';
+  feedbackJustification = '';
+  feedbacks: {
+    [key: string]: {
+      [key: string]: { feedback: Feedback; justification: string };
+    };
+  } = {};
   openFeedbackModal(
     dialog: TemplateRef<any>,
     itemName: string,
     index?: any,
     subIndex?: any
   ) {
-    const currentIndex = this.data.indexOf(this.detailedRow);
+    const feed =
+      this.feedbacks[this.detailedRow.id]?.[
+        this.getItemCode(itemName, index, subIndex)
+      ];
+    this.selectedFeedbackOption = feed?.feedback || 'korrekt';
+    this.feedbackJustification = feed?.justification || '';
+
     const itemNameSplit = itemName.split('.');
     let text = '';
     if (itemNameSplit[0] === 'metadata') {
       text =
         index || index === 0
-          ? this.data[currentIndex].metadata[itemNameSplit[1]][index]
-          : this.data[currentIndex].metadata[itemNameSplit[1]];
+          ? this.detailedRow.metadata[itemNameSplit[1]][index]
+          : this.detailedRow.metadata[itemNameSplit[1]];
     } else if (
       itemNameSplit[0] === 'icds' ||
       itemNameSplit[0] === 'rejections'
     ) {
       text =
         subIndex || subIndex === 0
-          ? this.data[currentIndex][itemNameSplit[0]][index][itemNameSplit[1]][
+          ? this.detailedRow[itemNameSplit[0]][index][itemNameSplit[1]][
               subIndex
             ]
-          : this.data[currentIndex][itemNameSplit[0]][index][itemNameSplit[1]];
+          : this.detailedRow[itemNameSplit[0]][index][itemNameSplit[1]];
       text = text + (itemNameSplit[1] === 'score' ? '%' : '');
     } else {
-      text = this.data[currentIndex][itemNameSplit[0]][index];
+      text = this.detailedRow[itemNameSplit[0]][index];
     }
 
     const dialogRef = this._dialogService.open(dialog, {
@@ -360,18 +414,122 @@ export class CompainSDKComponent {
       width: '600px',
       data: {
         text: this.sanitizeEvidence(text),
+        label:
+          this.translation[
+            (itemNameSplit[1] || itemNameSplit[0]) as TranslationKey
+          ],
       },
     });
 
     dialogRef.afterClosed.subscribe(
-      (result) => {},
+      (result) => {
+        setTimeout(() => {
+          this.feedbacks[this.detailedRow.id] =
+            this.feedbacks[this.detailedRow.id] || {};
+          this.feedbacks[this.detailedRow.id][
+            this.getItemCode(itemName, index, subIndex)
+          ] = {
+            feedback: this.selectedFeedbackOption,
+            justification: this.feedbackJustification,
+          };
+          this.cdr.detectChanges();
+        }, 0);
+      },
       (error) => {}
     );
   }
 
+  getItemCode(itemName: string, index?: number, subindex?: number): string {
+    return `${itemName} ${index || index === 0 ? index : ''} ${
+      subindex || subindex === 0 ? subindex : ''
+    }`;
+  }
+
+  getItemTooltip(itemName: string, index?: number, subindex?: number) {
+    if (!this.detailedRow) return '';
+    const feed =
+      this.feedbacks[this.detailedRow.id]?.[
+        this.getItemCode(itemName, index, subindex)
+      ];
+    return (
+      feed?.justification ||
+      this.capitalizeFirstLetter(feed?.feedback) ||
+      'Feedback senden'
+    );
+  }
+  getItemClass(itemName: string, index?: number, subindex?: number) {
+    if (!this.detailedRow) return '';
+    const feed =
+      this.feedbacks[this.detailedRow.id]?.[
+        this.getItemCode(itemName, index, subindex)
+      ];
+    return !feed ? '' : feed.feedback;
+  }
+
+  translation = {
+    patient_name: 'Patienten',
+    job: 'Beruf',
+    gender: 'Geschlecht',
+    date_of_birth: 'Geburtstag',
+    contract_types: 'Wunschtarif',
+    medication: 'Medikament',
+    medical_procedures: 'Medizinische Maßnahme',
+    icd_code: 'ICD-10 Code',
+    icd_name: ' ICD-10 Name',
+    evidence: 'ICD-10 Relevante Textstelle',
+    score: 'ICD-10 Score',
+    justification: 'ICD-10 Begründung',
+    medically_relevant_information: 'Weitere medizinisch relevante Information',
+  };
+  getFeedbackFromCode(itemCode: string): {
+    label: string;
+    text: string;
+    feedback: Feedback;
+    justification: string;
+  } {
+    let label = '';
+    let text = '';
+
+    const codeSplit = itemCode.split(' ');
+    const itemNameSplit = codeSplit[0].split('.');
+    const index = codeSplit[1];
+    const subIndex = codeSplit[2];
+
+    if (itemNameSplit[0] === 'metadata') {
+      text =
+        index || index === '0'
+          ? this.detailedRow.metadata[itemNameSplit[1]][index]
+          : this.detailedRow.metadata[itemNameSplit[1]];
+    } else if (
+      itemNameSplit[0] === 'icds' ||
+      itemNameSplit[0] === 'rejections'
+    ) {
+      text =
+        subIndex || subIndex === '0'
+          ? this.detailedRow[itemNameSplit[0]][index][itemNameSplit[1]][
+              subIndex
+            ]
+          : this.detailedRow[itemNameSplit[0]][index][itemNameSplit[1]];
+      text = text + (itemNameSplit[1] === 'score' ? '%' : '');
+    } else {
+      text = this.detailedRow[itemNameSplit[0]][index];
+    }
+
+    label =
+      this.translation[
+        (itemNameSplit[1] || itemNameSplit[0]) as TranslationKey
+      ];
+    return { label, text, ...this.feedbacks[this.detailedRow.id]?.[itemCode] };
+  }
+
+  getAllFeedbacks() {
+    if (!this.detailedRow || !this.feedbacks[this.detailedRow?.id]) return [];
+    return Object.keys(this.feedbacks[this.detailedRow.id]).map((code) =>
+      this.getFeedbackFromCode(code)
+    );
+  }
+
   //generate pdf
-  selectedFeedbackOption = 'korrekt';
-  feedbackJustification = '';
   async generarePdf(row?: any) {
     if (!this.pdfMake) {
       const pdfMakeModule = await import('pdfmake/build/pdfmake');
@@ -385,5 +543,10 @@ export class CompainSDKComponent {
         PDFTemplate(row ? [row] : this.data.filter((row) => row.checked))
       )
       .open();
+  }
+
+  capitalizeFirstLetter(str: string) {
+    if (!str) return ''; // dacă e null, undefined sau gol
+    return str.charAt(0).toUpperCase() + str.slice(1);
   }
 }
