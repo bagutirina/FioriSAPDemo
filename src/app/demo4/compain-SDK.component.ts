@@ -209,7 +209,7 @@ export class CompainSDKComponent {
               icds: this.getIcds(item),
             }));
 
-          // this.data = [...apiData, ...this.data];
+          this.data = [...apiData, ...this.data];
           this.loadFilters();
           this.cdr.detectChanges();
         },

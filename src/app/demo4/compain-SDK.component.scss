@@ -334,8 +334,9 @@ tr.expanded {
   margin-top: 5px;
   margin-bottom: 5px;
   padding: 4px 16px;
+  transition: background-color 0.3s ease-in-out;
   &.feedback-code:not(.korrekt):not(.inkorrekt):not(.irrelevant):hover {
-    background-color: rgb(255 255 0 / 10%); //feedback
+    background-color: rgb(255 255 0 / 14%); //feedback
   }
   &.double_mark {
     padding: 4px 24px 4px 16px;
@@ -363,8 +364,9 @@ tr.expanded {
   margin-top: 5px;
   margin-bottom: 5px;
   padding: 4px 16px;
+  transition: background-color 0.3s ease-in-out;
   &.feedback-code:not(.korrekt):not(.inkorrekt):not(.irrelevant):hover {
-    background-color: rgb(255 255 0 / 10%); //feedback
+    background-color: rgb(255 255 0 / 14%); //feedback
   }
 
   &.double_mark {
@@ -505,7 +507,6 @@ fd-dynamic-page-header {
 
 ::ng-deep .fd-flexible-column-layout__column {
   transition: none !important;
-  //transition: transform 0.1s ease-in-out, width 0.1s ease-in-out !important;
 }
 
 .close-details-button {
@@ -533,12 +534,12 @@ fd-dynamic-page-header {
   box-shadow: none !important;
 }
 .irrelevant_option ::ng-deep .fd-radio__label {
-  --fdRadio_Selected_Color: #8d8d8d !important;
-  --fdRadio_Hover_Border_Color: #8d8d8d !important;
+  --fdRadio_Selected_Color: orange !important;
+  --fdRadio_Hover_Border_Color: orange !important;
   --fdRadio_Border: var(--sapField_WarningBorderWidth)
-    var(--fdRadio_Warning_Error_Information_Border_Style) #8d8d8d !important;
-  --fdRadio_Background_Color: #8d8d8d13 !important;
-  --fdRadio_Hover_Background: #8d8d8d2f !important;
+    var(--fdRadio_Warning_Error_Information_Border_Style) orange !important;
+  --fdRadio_Background_Color: rgba(255, 166, 0, 0.219) !important;
+  --fdRadio_Hover_Background: rgba(255, 166, 0, 0.233) !important;
 }
 
 .inkorrekt_option ::ng-deep .fd-radio__label {
@@ -575,23 +576,33 @@ textarea::placeholder {
 
 .feedback-wrapper {
   align-items: center;
-  padding: 2px;
+  padding: 3px 6px !important;
   cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
 }
 
 .feedback-wrapper:not(.korrekt):not(.inkorrekt):not(.irrelevant):hover {
-  background-color: rgb(255 255 0 / 10%);
+  background-color: rgb(255 255 0 / 14%);
 }
 
 .korrekt {
   background-color: rgba(0, 128, 0, 0.1);
+  &:hover {
+    background-color: rgba(0, 128, 0, 0.2);
+  }
 }
 .inkorrekt {
   background-color: rgba(255, 0, 0, 0.1);
+  &:hover {
+    background-color: rgba(255, 0, 0, 0.2);
+  }
 }
 
 .irrelevant {
-  background-color: rgb(113 113 113 / 12%);
+  background-color: rgb(241 131 0 / 15%);
+  &:hover {
+    background-color: rgb(255 127 0 / 20%);
+  }
 }
 
 .details-layout {
@@ -619,5 +630,5 @@ textarea::placeholder {
   border: var(--fdCard_Border) none;
   border-radius: var(--fdCard_Border_Radius);
   box-shadow: var(--fdCard_Box_Shadow);
-  padding: 5px;
+  padding: 8px;
 }

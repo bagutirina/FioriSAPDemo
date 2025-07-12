@@ -329,6 +329,23 @@
           <h4 fd-title class="title" style="height: 20px">Details</h4>
         </div>
 
+        <!-- feedback -->
+        <button
+          class="export-button me-3"
+          fdCompact
+          fd-toolbar-item
+          fd-button
+          glyph="feedback"
+          aria-label="Feedback"
+          title="Gesendetes Feedback"
+          (click)="
+            localLayout =
+              localLayout === 'TwoColumnsMidExpanded'
+                ? 'OneColumnStartFullScreen'
+                : 'TwoColumnsMidExpanded'
+          "
+        ></button>
+
         <!-- export -->
         <button
           class="export-button me-3"
@@ -339,18 +356,6 @@
           aria-label="Exportieren"
           title="PDF exportieren"
           (click)="generarePdf(detailedRow)"
-        ></button>
-
-        <!-- feedback -->
-        <button
-          class="export-button me-2"
-          fdCompact
-          fd-toolbar-item
-          fd-button
-          glyph="feedback"
-          aria-label="Feedback"
-          title="Gesendetes Feedback"
-          (click)="localLayout = 'TwoColumnsMidExpanded'"
         ></button>
 
         <!-- close -->
@@ -393,7 +398,7 @@
                     <div class="d-flex flex-row" style="max-width: 700px">
                       <span class="icd-subtitle me-1">Patienten:</span>
                       <span
-                        class="feedback-wrapper px-1 {{
+                        class="feedback-wrapper {{
                           getItemClass('metadata.patient_name')
                         }}"
                         [title]="getItemTooltip('metadata.patient_name')"
@@ -410,7 +415,7 @@
                     <div class="d-flex flex-row" style="max-width: 700px">
                       <span class="icd-subtitle me-1">Beruf:</span>
                       <span
-                        class="feedback-wrapper px-1 {{
+                        class="feedback-wrapper {{
                           getItemClass('metadata.job')
                         }}"
                         [title]="getItemTooltip('metadata.job')"
@@ -424,7 +429,7 @@
                     <div class="d-flex flex-row">
                       <span class="icd-subtitle me-1">Geschlecht:</span>
                       <span
-                        class="feedback-wrapper px-1 {{
+                        class="feedback-wrapper {{
                           getItemClass('metadata.gender')
                         }}"
                         [title]="getItemTooltip('metadata.gender')"
@@ -438,7 +443,7 @@
                     <div class="d-flex flex-row">
                       <span class="icd-subtitle me-1">Geburtstag:</span>
                       <span
-                        class="feedback-wrapper px-1 {{
+                        class="feedback-wrapper {{
                           getItemClass('metadata.date_of_birth')
                         }}"
                         [title]="getItemTooltip('metadata.date_of_birth')"
@@ -462,7 +467,7 @@
                         "
                       >
                         <span
-                          class="feedback-wrapper px-1 {{
+                          class="feedback-wrapper {{
                             getItemClass('metadata.contract_types', j)
                           }}"
                           [title]="getItemTooltip('metadata.contract_types', j)"
@@ -597,7 +602,7 @@
                     <div class="d-flex flex-column">
                       <span class="mt-1 icd-name">
                         <span
-                          class="feedback-wrapper px-1 {{
+                          class="feedback-wrapper {{
                             getItemClass('icds.icd_name', i)
                           }}"
                           [title]="getItemTooltip('icds.icd_name', i)"
@@ -618,7 +623,7 @@
                       <ul class="mb-2">
                         <li *ngFor="let e of icd.evidence; let j = index">
                           <span
-                            class="feedback-wrapper px-1 {{
+                            class="feedback-wrapper {{
                               getItemClass('icds.evidence', i, j)
                             }}"
                             [title]="getItemTooltip('icds.evidence', i, j)"
@@ -640,7 +645,7 @@
                         <span *ngIf="icd.score"> (</span>
                         <span
                           *ngIf="icd.score"
-                          class="fw-bold feedback-wrapper px-1 {{
+                          class="fw-bold feedback-wrapper {{
                             getItemClass('icds.score', i)
                           }}"
                           [title]="getItemTooltip('icds.score', i)"
@@ -652,7 +657,7 @@
                         <span *ngIf="icd.score">)</span>
                         <span>:</span>
                         <span
-                          class="d-inline-block ms-4 feedback-wrapper px-1 {{
+                          class="d-inline-block ms-4 feedback-wrapper {{
                             getItemClass('icds.justification', i)
                           }}"
                           [title]="getItemTooltip('icds.justification', i)"
@@ -708,7 +713,7 @@
                     <div class="d-flex flex-column">
                       <span class="mt-1 icd-name">
                         <span
-                          class="feedback-wrapper px-1 {{
+                          class="feedback-wrapper {{
                             getItemClass('rejections.icd_name', i)
                           }}"
                           [title]="getItemTooltip('rejections.icd_name', i)"
@@ -729,7 +734,7 @@
                       <ul class="mb-2">
                         <li *ngFor="let e of icd.evidence; let j = index">
                           <span
-                            class="feedback-wrapper px-1 {{
+                            class="feedback-wrapper {{
                               getItemClass('rejections.evidence', i, j)
                             }}"
                             [title]="
@@ -753,7 +758,7 @@
                         <span *ngIf="icd.score"> (</span>
                         <span
                           *ngIf="icd.score"
-                          class="fw-bold feedback-wrapper px-1 {{
+                          class="fw-bold feedback-wrapper {{
                             getItemClass('rejections.score', i)
                           }}"
                           [title]="getItemTooltip('rejections.score', i)"
@@ -769,7 +774,7 @@
                         <span *ngIf="icd.score">)</span>
                         <span>:</span>
                         <span
-                          class="d-inline-block ms-4 feedback-wrapper px-1 {{
+                          class="d-inline-block ms-4 feedback-wrapper {{
                             getItemClass('rejections.justification', i)
                           }}"
                           [title]="
@@ -811,7 +816,7 @@
                         "
                       >
                         <span
-                          class="feedback-wrapper px-1 {{
+                          class="feedback-wrapper {{
                             getItemClass('medically_relevant_information', i)
                           }}"
                           [title]="
@@ -862,7 +867,7 @@
               class="d-flex justify-content-between align-items-center flex-grow-0 flex-shrink-0 pt-4 pe-1 ps-3"
             >
               <h4 class="fs-6 mb-0 title">Gesendetes Feedback</h4>
-              <button
+              <!-- <button
                 fd-button
                 fdType="transparent"
                 aria-label="Close"
@@ -870,7 +875,7 @@
                 title="Close"
               >
                 <i class="sap-icon--decline"></i>
-              </button>
+              </button> -->
             </div>
 
             <div
@@ -879,19 +884,25 @@
               <div *ngFor="let entry of getAllFeedbacks()">
                 <div class="d-flex flex-column fdbk">
                   <b>{{ entry.label }}</b>
-                  <div class="fd-feedback-line">
-                    <strong>Text:</strong> {{ entry.text || "-" }}
+                  <div class="fd-feedback-line fst-italic">
+                    {{ sanitizeEvidence(entry.text) || "-" }}
                   </div>
 
-                  <div class="fd-feedback-line">
-                    <strong>Feedback:</strong>
-                    <span [ngClass]="entry.feedback" class="px-2">
+                  <div class="fd-feedback-line pt-2">
+                    <span
+                      [ngClass]="entry.feedback"
+                      style="
+                        font-weight: 600;
+                        padding: 2px;
+                        border: 1px solid #d7d7d7;
+                      "
+                    >
                       {{ entry.feedback | titlecase }}
                     </span>
                   </div>
 
                   <div class="fd-feedback-line" *ngIf="entry.justification">
-                    <strong>Begründung:</strong> {{ entry.justification }}
+                    <div style="color: gray">{{ entry.justification }}</div>
                   </div>
                 </div>
               </div>
