@@ -154,7 +154,14 @@
             <ng-container
               *ngFor="let row of filteredCompainSDKData; let i = index"
             >
-              <tr fd-table-row [hoverable]="true" [class.checked]="row.checked">
+              <tr
+                fd-table-row
+                [hoverable]="true"
+                [class.checked]="row.checked"
+                (click)="
+                  detailedRow = row; changeLayout('OneColumnMidFullScreen')
+                "
+              >
                 <td fd-table-cell class="px-0 col-check">
                   <div class="d-flex h-100 align-items-center">
                     <fd-checkbox
@@ -879,16 +886,19 @@
             </div>
 
             <div
-              class="d-flex flex-column flex-shrink-1 flex-grow-1 feedbacks-wrapper p-3 gap-2"
+              class="d-flex flex-column flex-shrink-1 flex-grow-1 feedbacks-wrapper p-3 gap-3"
             >
               <div *ngFor="let entry of getAllFeedbacks()">
                 <div class="d-flex flex-column fdbk">
                   <b>{{ entry.label }}</b>
-                  <div class="fd-feedback-line fst-italic">
+                  <div
+                    class="fd-feedback-line fst-italic"
+                    style="color: gray; padding-top: 3px"
+                  >
                     {{ sanitizeEvidence(entry.text) || "-" }}
                   </div>
 
-                  <div class="fd-feedback-line pt-2">
+                  <div class="fd-feedback-line pt-3 pb-1">
                     <span
                       [ngClass]="entry.feedback"
                       style="
@@ -901,8 +911,12 @@
                     </span>
                   </div>
 
-                  <div class="fd-feedback-line" *ngIf="entry.justification">
-                    <div style="color: gray">{{ entry.justification }}</div>
+                  <div
+                    class="fd-feedback-line"
+                    *ngIf="entry.justification"
+                    style="font-size: 13px"
+                  >
+                    <div>{{ entry.justification }}</div>
                   </div>
                 </div>
               </div>

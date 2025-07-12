@@ -334,7 +334,7 @@ tr.expanded {
   margin-top: 5px;
   margin-bottom: 5px;
   padding: 4px 16px;
-  transition: background-color 0.3s ease-in-out;
+  transition: background-color 0.2s ease-in-out;
   &.feedback-code:not(.korrekt):not(.inkorrekt):not(.irrelevant):hover {
     background-color: rgb(255 255 0 / 14%); //feedback
   }
@@ -364,7 +364,7 @@ tr.expanded {
   margin-top: 5px;
   margin-bottom: 5px;
   padding: 4px 16px;
-  transition: background-color 0.3s ease-in-out;
+  transition: background-color 0.2s ease-in-out;
   &.feedback-code:not(.korrekt):not(.inkorrekt):not(.irrelevant):hover {
     background-color: rgb(255 255 0 / 14%); //feedback
   }
@@ -578,7 +578,7 @@ textarea::placeholder {
   align-items: center;
   padding: 3px 6px !important;
   cursor: pointer;
-  transition: background-color 0.3s ease-in-out;
+  transition: background-color 0.2s ease-in-out;
 }
 
 .feedback-wrapper:not(.korrekt):not(.inkorrekt):not(.irrelevant):hover {
