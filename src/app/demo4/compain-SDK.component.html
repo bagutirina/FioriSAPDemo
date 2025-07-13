@@ -408,7 +408,11 @@
                         class="feedback-wrapper {{
                           getItemClass('metadata.patient_name')
                         }}"
-                        [ngxTippy]="tooltipTemplate"
+                        [ngxTippy]="
+                          hasFeedback('metadata.patient_name')
+                            ? tooltipTemplate
+                            : null
+                        "
                         [tippyProps]="{
                           delay: [300, 100],
                           theme: 'light-border',
@@ -436,7 +440,9 @@
                         class="feedback-wrapper {{
                           getItemClass('metadata.job')
                         }}"
-                        [ngxTippy]="tooltipTemplate"
+                        [ngxTippy]="
+                          hasFeedback('metadata.job') ? tooltipTemplate : null
+                        "
                         [tippyProps]="{
                           delay: [300, 100],
                           theme: 'light-border',
@@ -461,7 +467,11 @@
                         class="feedback-wrapper {{
                           getItemClass('metadata.gender')
                         }}"
-                        [ngxTippy]="tooltipTemplate"
+                        [ngxTippy]="
+                          hasFeedback('metadata.gender')
+                            ? tooltipTemplate
+                            : null
+                        "
                         [tippyProps]="{
                           delay: [300, 100],
                           theme: 'light-border',
@@ -486,7 +496,11 @@
                         class="feedback-wrapper {{
                           getItemClass('metadata.date_of_birth')
                         }}"
-                        [ngxTippy]="tooltipTemplate"
+                        [ngxTippy]="
+                          hasFeedback('metadata.date_of_birth')
+                            ? tooltipTemplate
+                            : null
+                        "
                         [tippyProps]="{
                          delay: [300, 100],
                           theme: 'light-border',
@@ -521,7 +535,11 @@
                           class="feedback-wrapper {{
                             getItemClass('metadata.contract_types', j)
                           }}"
-                          [ngxTippy]="tooltipTemplate"
+                          [ngxTippy]="
+                            hasFeedback('metadata.contract_types', j)
+                              ? tooltipTemplate
+                              : null
+                          "
                           [tippyProps]="{
                           delay: [300, 100],
                           theme: 'light-border',
@@ -556,7 +574,9 @@
                         class="feedback-wrapper {{
                           getItemClass('medication', i)
                         }}"
-                        [ngxTippy]="tooltipTemplate"
+                        [ngxTippy]="
+                          hasFeedback('medication', i) ? tooltipTemplate : null
+                        "
                         [tippyProps]="{
                           delay: [300, 100],
                           theme: 'light-border',
@@ -600,7 +620,11 @@
                         class="feedback-wrapper {{
                           getItemClass('medical_procedures', i)
                         }}"
-                        [ngxTippy]="tooltipTemplate"
+                        [ngxTippy]="
+                          hasFeedback('medical_procedures', i)
+                            ? tooltipTemplate
+                            : null
+                        "
                         [tippyProps]="{
                          delay: [300, 100],
                           theme: 'light-border',
@@ -665,7 +689,11 @@
                         [class.double_mark]="
                           icd.score < reasonableThreshold && icd.highlighted
                         "
-                        [ngxTippy]="tooltipTemplate"
+                        [ngxTippy]="
+                          hasFeedback('icds.icd_code', i)
+                            ? tooltipTemplate
+                            : null
+                        "
                         [tippyProps]="{
                           delay: [300, 100],
                           theme: 'light-border',
@@ -700,7 +728,11 @@
                           class="feedback-wrapper {{
                             getItemClass('icds.icd_name', i)
                           }}"
-                          [ngxTippy]="tooltipTemplate"
+                          [ngxTippy]="
+                            hasFeedback('icds.icd_name', i)
+                              ? tooltipTemplate
+                              : null
+                          "
                           [tippyProps]="{
                           delay: [300, 100],
                           theme: 'light-border',
@@ -732,7 +764,11 @@
                             class="feedback-wrapper {{
                               getItemClass('icds.evidence', i, j)
                             }}"
-                            [ngxTippy]="tooltipTemplate"
+                            [ngxTippy]="
+                              hasFeedback('icds.evidence', i, j)
+                                ? tooltipTemplate
+                                : null
+                            "
                             [tippyProps]="{
                           delay: [300, 100],
                           theme: 'light-border',
@@ -765,7 +801,11 @@
                           class="fw-bold feedback-wrapper {{
                             getItemClass('icds.score', i)
                           }}"
-                          [ngxTippy]="tooltipTemplate"
+                          [ngxTippy]="
+                            hasFeedback('icds.score', i)
+                              ? tooltipTemplate
+                              : null
+                          "
                           [tippyProps]="{
                          delay: [300, 100],
                           theme: 'light-border',
@@ -788,7 +828,11 @@
                           class="d-inline-block ms-4 feedback-wrapper {{
                             getItemClass('icds.justification', i)
                           }}"
-                          [ngxTippy]="tooltipTemplate"
+                          [ngxTippy]="
+                            hasFeedback('icds.justification', i)
+                              ? tooltipTemplate
+                              : null
+                          "
                           [tippyProps]="{
                           delay: [300, 100],
                           theme: 'light-border',
@@ -827,7 +871,11 @@
                         [class.double_mark]="
                           icd.score < reasonableThreshold && icd.highlighted
                         "
-                        [ngxTippy]="tooltipTemplate"
+                        [ngxTippy]="
+                          hasFeedback('rejections.icd_code', i)
+                            ? tooltipTemplate
+                            : null
+                        "
                         [tippyProps]="{
                           delay: [300, 100],
                           theme: 'light-border',
@@ -866,7 +914,11 @@
                           class="feedback-wrapper {{
                             getItemClass('rejections.icd_name', i)
                           }}"
-                          [ngxTippy]="tooltipTemplate"
+                          [ngxTippy]="
+                            hasFeedback('rejections.icd_name', i)
+                              ? tooltipTemplate
+                              : null
+                          "
                           [tippyProps]="{
                           delay: [300, 100],
                           theme: 'light-border',
@@ -898,7 +950,11 @@
                             class="feedback-wrapper {{
                               getItemClass('rejections.evidence', i, j)
                             }}"
-                            [ngxTippy]="tooltipTemplate"
+                            [ngxTippy]="
+                              hasFeedback('rejections.evidence', i, j)
+                                ? tooltipTemplate
+                                : null
+                            "
                             [tippyProps]="{
                          delay: [300, 100],
                           theme: 'light-border',
@@ -931,7 +987,11 @@
                           class="fw-bold feedback-wrapper {{
                             getItemClass('rejections.score', i)
                           }}"
-                          [ngxTippy]="tooltipTemplate"
+                          [ngxTippy]="
+                            hasFeedback('rejections.score', i)
+                              ? tooltipTemplate
+                              : null
+                          "
                           [tippyProps]="{
                           delay: [300, 100],
                           theme: 'light-border',
@@ -958,7 +1018,11 @@
                           class="d-inline-block ms-4 feedback-wrapper {{
                             getItemClass('rejections.justification', i)
                           }}"
-                          [ngxTippy]="tooltipTemplate"
+                          [ngxTippy]="
+                            hasFeedback('rejections.justification', i)
+                              ? tooltipTemplate
+                              : null
+                          "
                           [tippyProps]="{
                          delay: [300, 100],
                           theme: 'light-border',
@@ -1009,7 +1073,11 @@
                           class="feedback-wrapper {{
                             getItemClass('medically_relevant_information', i)
                           }}"
-                          [ngxTippy]="tooltipTemplate"
+                          [ngxTippy]="
+                            hasFeedback('medically_relevant_information', i)
+                              ? tooltipTemplate
+                              : null
+                          "
                           [tippyProps]="{
                             delay: [300, 100],
                           theme: 'light-border',
@@ -1286,11 +1354,11 @@
 </ng-template>
 
 <ng-template #tooltipTemplate let-data="data">
-  <div *ngIf="data.feedback">
-    <b class="{{ data.feedback }}_color" style="font-size: 16px">{{
+  <div *ngIf="data.feedback" class="p-2" [class.pb-0]="!data.feedback">
+    <b class="{{ data.feedback }}_color">{{
       capitalizeFirstLetter(data.feedback)
     }}</b>
   </div>
-  <div *ngIf="data.feedback">{{ data.justification }}</div>
+  <div *ngIf="data.feedback" class="p-2">{{ data.justification }}</div>
   <div *ngIf="data.text">{{ data.text }}</div>
 </ng-template>

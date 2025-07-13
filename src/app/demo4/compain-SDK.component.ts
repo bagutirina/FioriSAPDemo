@@ -454,6 +454,15 @@ export class CompainSDKComponent {
     return feed || { text: 'Feedback senden' };
   }
 
+  hasFeedback(itemName: string, index?: number, subindex?: number) {
+    if (!this.detailedRow) return false;
+    const feed =
+      this.feedbacks[this.detailedRow.id]?.[
+        this.getItemCode(itemName, index, subindex)
+      ];
+    return !!feed;
+  }
+
   getItemClass(itemName: string, index?: number, subindex?: number) {
     if (!this.detailedRow) return '';
     const feed =
