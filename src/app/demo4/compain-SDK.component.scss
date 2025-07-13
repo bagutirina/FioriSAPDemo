@@ -605,6 +605,16 @@ textarea::placeholder {
   }
 }
 
+.korrekt_color {
+  color: green;
+}
+.inkorrekt_color {
+  color: red;
+}
+.irrelevant_color {
+  color: orange;
+}
+
 .details-layout {
   display: flex;
   flex-direction: column;
@@ -632,3 +642,16 @@ textarea::placeholder {
   box-shadow: var(--fdCard_Box_Shadow);
   padding: 8px;
 }
+
+// ::ng-deep {
+//   .tippy-box {
+//     background-color: rgb(222, 243, 253) !important;
+//   }
+
+//   .tippy-arrow::before {
+//     border-top-color: rgb(222, 243, 253) !important;
+//   }
+//   .tippy-arrow::after {
+//     border-top-color: rgb(222, 243, 253) !important;
+//   }
+// }

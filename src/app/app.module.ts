@@ -22,6 +22,7 @@ import { SchadenfallComponent } from './demo3/schadenfall.component';
 import { CompainSDKComponent } from './demo4/compain-SDK.component';
 import { HttpClientModule } from '@angular/common/http';
 import { RadioModule } from '@fundamental-ngx/core/radio';
+import { NgxTippyModule } from 'ngx-tippy-wrapper';
 
 @NgModule({
   declarations: [
@@ -47,6 +48,7 @@ import { RadioModule } from '@fundamental-ngx/core/radio';
     DialogModule,
     HttpClientModule,
     RadioModule,
+    NgxTippyModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

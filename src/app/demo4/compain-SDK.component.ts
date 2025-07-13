@@ -451,11 +451,7 @@ export class CompainSDKComponent {
       this.feedbacks[this.detailedRow.id]?.[
         this.getItemCode(itemName, index, subindex)
       ];
-    return (
-      feed?.justification ||
-      this.capitalizeFirstLetter(feed?.feedback) ||
-      'Feedback senden'
-    );
+    return feed || { text: 'Feedback senden' };
   }
 
   getItemClass(itemName: string, index?: number, subindex?: number) {

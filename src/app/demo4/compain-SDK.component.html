@@ -408,7 +408,18 @@
                         class="feedback-wrapper {{
                           getItemClass('metadata.patient_name')
                         }}"
-                        [title]="getItemTooltip('metadata.patient_name')"
+                        [ngxTippy]="tooltipTemplate"
+                        [tippyProps]="{
+                          delay: [300, 100],
+                          theme: 'light-border',
+                          followCursor: true,
+                          placement: 'top',
+                          animation: 'fade',
+                          inertia: true,
+                        }"
+                        [tippyContext]="{
+                          data: getItemTooltip('metadata.patient_name')
+                        }"
                         (click)="
                           openFeedbackModal(
                             feedbackDialog,
@@ -425,7 +436,18 @@
                         class="feedback-wrapper {{
                           getItemClass('metadata.job')
                         }}"
-                        [title]="getItemTooltip('metadata.job')"
+                        [ngxTippy]="tooltipTemplate"
+                        [tippyProps]="{
+                          delay: [300, 100],
+                          theme: 'light-border',
+                          followCursor: true,
+                          placement: 'top',
+                          animation: 'fade',
+                          inertia: true,
+                        }"
+                        [tippyContext]="{
+                          data: getItemTooltip('metadata.job')
+                        }"
                         (click)="
                           openFeedbackModal(feedbackDialog, 'metadata.job')
                         "
@@ -439,7 +461,18 @@
                         class="feedback-wrapper {{
                           getItemClass('metadata.gender')
                         }}"
-                        [title]="getItemTooltip('metadata.gender')"
+                        [ngxTippy]="tooltipTemplate"
+                        [tippyProps]="{
+                          delay: [300, 100],
+                          theme: 'light-border',
+                          followCursor: true,
+                          placement: 'top',
+                          animation: 'fade',
+                          inertia: true,
+                        }"
+                        [tippyContext]="{
+                          data: getItemTooltip('metadata.gender')
+                        }"
                         (click)="
                           openFeedbackModal(feedbackDialog, 'metadata.gender')
                         "
@@ -453,7 +486,18 @@
                         class="feedback-wrapper {{
                           getItemClass('metadata.date_of_birth')
                         }}"
-                        [title]="getItemTooltip('metadata.date_of_birth')"
+                        [ngxTippy]="tooltipTemplate"
+                        [tippyProps]="{
+                         delay: [300, 100],
+                          theme: 'light-border',
+                          followCursor: true,
+                          placement: 'top',
+                          animation: 'fade',
+                          inertia: true,
+                        }"
+                        [tippyContext]="{
+                          data: getItemTooltip('metadata.date_of_birth')
+                        }"
                         (click)="
                           openFeedbackModal(
                             feedbackDialog,
@@ -477,7 +521,18 @@
                           class="feedback-wrapper {{
                             getItemClass('metadata.contract_types', j)
                           }}"
-                          [title]="getItemTooltip('metadata.contract_types', j)"
+                          [ngxTippy]="tooltipTemplate"
+                          [tippyProps]="{
+                          delay: [300, 100],
+                          theme: 'light-border',
+                          followCursor: true,
+                          placement: 'top',
+                          animation: 'fade',
+                          inertia: true,
+                        }"
+                          [tippyContext]="{
+                            data: getItemTooltip('metadata.contract_types', j)
+                          }"
                           (click)="
                             openFeedbackModal(
                               feedbackDialog,
@@ -501,7 +556,18 @@
                         class="feedback-wrapper {{
                           getItemClass('medication', i)
                         }}"
-                        [title]="getItemTooltip('medication', i)"
+                        [ngxTippy]="tooltipTemplate"
+                        [tippyProps]="{
+                          delay: [300, 100],
+                          theme: 'light-border',
+                          followCursor: true,
+                          placement: 'top',
+                          animation: 'fade',
+                          inertia: true,
+                        }"
+                        [tippyContext]="{
+                          data: getItemTooltip('medication', i)
+                        }"
                         (click)="
                           openFeedbackModal(feedbackDialog, 'medication', i)
                         "
@@ -534,7 +600,20 @@
                         class="feedback-wrapper {{
                           getItemClass('medical_procedures', i)
                         }}"
-                        [title]="getItemTooltip('medical_procedures', i)"
+                        [ngxTippy]="tooltipTemplate"
+                        [tippyProps]="{
+                         delay: [300, 100],
+                          theme: 'light-border',
+                          followCursor: true,
+                          placement: 'top',
+                          animation: 'fade',
+                          inertia: true,
+                           interactive: true,
+                           interactiveDebounce: 275000,
+                        }"
+                        [tippyContext]="{
+                          data: getItemTooltip('metadata.medical_procedures', i)
+                        }"
                         (click)="
                           openFeedbackModal(
                             feedbackDialog,
@@ -588,7 +667,18 @@
                         [class.double_mark]="
                           icd.score < reasonableThreshold && icd.highlighted
                         "
-                        [title]="getItemTooltip('icds.icd_code', i)"
+                        [ngxTippy]="tooltipTemplate"
+                        [tippyProps]="{
+                          delay: [300, 100],
+                          theme: 'light-border',
+                          followCursor: true,
+                          placement: 'top',
+                          animation: 'fade',
+                          inertia: true,
+                        }"
+                        [tippyContext]="{
+                          data: getItemTooltip('icds.icd_code', i)
+                        }"
                         (click)="
                           openFeedbackModal(feedbackDialog, 'icds.icd_code', i)
                         "
@@ -612,7 +702,18 @@
                           class="feedback-wrapper {{
                             getItemClass('icds.icd_name', i)
                           }}"
-                          [title]="getItemTooltip('icds.icd_name', i)"
+                          [ngxTippy]="tooltipTemplate"
+                          [tippyProps]="{
+                          delay: [300, 100],
+                          theme: 'light-border',
+                          followCursor: true,
+                          placement: 'top',
+                          animation: 'fade',
+                          inertia: true,
+                        }"
+                          [tippyContext]="{
+                            data: getItemTooltip('icds.icd_name', i)
+                          }"
                           (click)="
                             openFeedbackModal(
                               feedbackDialog,
@@ -633,7 +734,18 @@
                             class="feedback-wrapper {{
                               getItemClass('icds.evidence', i, j)
                             }}"
-                            [title]="getItemTooltip('icds.evidence', i, j)"
+                            [ngxTippy]="tooltipTemplate"
+                            [tippyProps]="{
+                          delay: [300, 100],
+                          theme: 'light-border',
+                          followCursor: true,
+                          placement: 'top',
+                          animation: 'fade',
+                          inertia: true,
+                        }"
+                            [tippyContext]="{
+                              data: getItemTooltip('icds.evidence', i, j)
+                            }"
                             (click)="
                               openFeedbackModal(
                                 feedbackDialog,
@@ -655,7 +767,18 @@
                           class="fw-bold feedback-wrapper {{
                             getItemClass('icds.score', i)
                           }}"
-                          [title]="getItemTooltip('icds.score', i)"
+                          [ngxTippy]="tooltipTemplate"
+                          [tippyProps]="{
+                         delay: [300, 100],
+                          theme: 'light-border',
+                          followCursor: true,
+                          placement: 'top',
+                          animation: 'fade',
+                          inertia: true,
+                        }"
+                          [tippyContext]="{
+                            data: getItemTooltip('icds.score', i)
+                          }"
                           (click)="
                             openFeedbackModal(feedbackDialog, 'icds.score', i)
                           "
@@ -667,7 +790,18 @@
                           class="d-inline-block ms-4 feedback-wrapper {{
                             getItemClass('icds.justification', i)
                           }}"
-                          [title]="getItemTooltip('icds.justification', i)"
+                          [ngxTippy]="tooltipTemplate"
+                          [tippyProps]="{
+                          delay: [300, 100],
+                          theme: 'light-border',
+                          followCursor: true,
+                          placement: 'top',
+                          animation: 'fade',
+                          inertia: true,
+                        }"
+                          [tippyContext]="{
+                            data: getItemTooltip('icds.justification', i)
+                          }"
                           (click)="
                             openFeedbackModal(
                               feedbackDialog,
@@ -695,7 +829,18 @@
                         [class.double_mark]="
                           icd.score < reasonableThreshold && icd.highlighted
                         "
-                        [title]="getItemTooltip('rejections.icd_code', i)"
+                        [ngxTippy]="tooltipTemplate"
+                        [tippyProps]="{
+                          delay: [300, 100],
+                          theme: 'light-border',
+                          followCursor: true,
+                          placement: 'top',
+                          animation: 'fade',
+                          inertia: true,
+                        }"
+                        [tippyContext]="{
+                          data: getItemTooltip('rejections.icd_code', i)
+                        }"
                         (click)="
                           openFeedbackModal(
                             feedbackDialog,
@@ -723,7 +868,18 @@
                           class="feedback-wrapper {{
                             getItemClass('rejections.icd_name', i)
                           }}"
-                          [title]="getItemTooltip('rejections.icd_name', i)"
+                          [ngxTippy]="tooltipTemplate"
+                          [tippyProps]="{
+                          delay: [300, 100],
+                          theme: 'light-border',
+                          followCursor: true,
+                          placement: 'top',
+                          animation: 'fade',
+                          inertia: true,
+                        }"
+                          [tippyContext]="{
+                            data: getItemTooltip('rejections.icd_name', i)
+                          }"
                           (click)="
                             openFeedbackModal(
                               feedbackDialog,
@@ -744,9 +900,18 @@
                             class="feedback-wrapper {{
                               getItemClass('rejections.evidence', i, j)
                             }}"
-                            [title]="
-                              getItemTooltip('rejections.evidence', i, j)
-                            "
+                            [ngxTippy]="tooltipTemplate"
+                            [tippyProps]="{
+                         delay: [300, 100],
+                          theme: 'light-border',
+                          followCursor: true,
+                          placement: 'top',
+                          animation: 'fade',
+                          inertia: true,
+                        }"
+                            [tippyContext]="{
+                              data: getItemTooltip('rejections.evidence', i, j)
+                            }"
                             (click)="
                               openFeedbackModal(
                                 feedbackDialog,
@@ -768,7 +933,18 @@
                           class="fw-bold feedback-wrapper {{
                             getItemClass('rejections.score', i)
                           }}"
-                          [title]="getItemTooltip('rejections.score', i)"
+                          [ngxTippy]="tooltipTemplate"
+                          [tippyProps]="{
+                          delay: [300, 100],
+                          theme: 'light-border',
+                          followCursor: true,
+                          placement: 'top',
+                          animation: 'fade',
+                          inertia: true,
+                        }"
+                          [tippyContext]="{
+                            data: getItemTooltip('rejections.score', i)
+                          }"
                           (click)="
                             openFeedbackModal(
                               feedbackDialog,
@@ -784,9 +960,18 @@
                           class="d-inline-block ms-4 feedback-wrapper {{
                             getItemClass('rejections.justification', i)
                           }}"
-                          [title]="
-                            getItemTooltip('rejections.justification', i)
-                          "
+                          [ngxTippy]="tooltipTemplate"
+                          [tippyProps]="{
+                         delay: [300, 100],
+                          theme: 'light-border',
+                          followCursor: true,
+                          placement: 'top',
+                          animation: 'fade',
+                          inertia: true,
+                        }"
+                          [tippyContext]="{
+                            data: getItemTooltip('rejections.justification', i)
+                          }"
                           (click)="
                             openFeedbackModal(
                               feedbackDialog,
@@ -826,9 +1011,21 @@
                           class="feedback-wrapper {{
                             getItemClass('medically_relevant_information', i)
                           }}"
-                          [title]="
-                            getItemTooltip('medically_relevant_information', i)
-                          "
+                          [ngxTippy]="tooltipTemplate"
+                          [tippyProps]="{
+                            delay: [300, 100],
+                          theme: 'light-border',
+                          followCursor: true,
+                          placement: 'top',
+                          animation: 'fade',
+                          inertia: true,
+                        }"
+                          [tippyContext]="{
+                            data: getItemTooltip(
+                              'medically_relevant_information',
+                              i
+                            )
+                          }"
                           (click)="
                             openFeedbackModal(
                               feedbackDialog,
@@ -1088,4 +1285,14 @@
       ></button>
     </fd-dialog-footer>
   </fd-dialog>
+</ng-template>
+
+<ng-template #tooltipTemplate let-data="data">
+  <div *ngIf="data.feedback">
+    <b class="{{ data.feedback }}_color" style="font-size: 16px">{{
+      capitalizeFirstLetter(data.feedback)
+    }}</b>
+  </div>
+  <div *ngIf="data.feedback">{{ data.justification }}</div>
+  <div *ngIf="data.text">{{ data.text }}</div>
 </ng-template>
