@@ -643,15 +643,15 @@ textarea::placeholder {
   padding: 8px;
 }
 
-// ::ng-deep {
-//   .tippy-box {
-//     background-color: rgb(222, 243, 253) !important;
-//   }
+::ng-deep {
+  .tippy-box {
+    background-color: rgb(236, 236, 236) !important;
+  }
 
-//   .tippy-arrow::before {
-//     border-top-color: rgb(222, 243, 253) !important;
-//   }
-//   .tippy-arrow::after {
-//     border-top-color: rgb(222, 243, 253) !important;
-//   }
-// }
+  .tippy-arrow::before {
+    border-top-color: rgb(236, 236, 236) !important;
+  }
+  .tippy-arrow::after {
+    border-top-color: rgb(236, 236, 236) !important;
+  }
+}
