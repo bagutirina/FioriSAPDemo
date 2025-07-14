@@ -278,7 +278,7 @@ export function PDFTemplate(rows: any[]) {
                   {
                     margin: [10, 10, 10, 10],
                     table: {
-                      widths: [120, '*'],
+                      widths: [80, '*'],
                       body: [
                         [
                           { text: 'Patienten:', bold: true },
@@ -382,53 +382,52 @@ export function PDFTemplate(rows: any[]) {
 
     content.push(
       {
-        canvas: [
-          {
-            type: 'line',
-            x1: 0,
-            y1: 0,
-            x2: 515,
-            y2: 0,
-            lineWidth: 3,
-            lineColor: '#f5f5f5',
-          },
-        ],
-        margin: [0, 7, 0, 5],
-      },
-      {
-        margin: [0, 5, 0, 0],
-        pageBreak: 'avoid',
-        columns: [
-          {
-            width: '60%',
-            stack: [
-              { text: 'Medikamente:', bold: true, margin: [10, 5, 0, 5] },
+        margin: [0, 4, 0, 0],
+        table: {
+          widths: ['60%', '40%'],
+          body: [
+            [
+              // Coloana 1: Medikamente
               {
-                ul: (row.medication ?? []).map((e: string) =>
-                  e.replace(/^\* /, '')
-                ),
-                margin: [10, 0, 0, 10],
+                stack: [
+                  { text: 'Medikamente:', bold: true, margin: [10, 5, 0, 5] },
+                  {
+                    ul: (row.medication ?? []).map((e: string) =>
+                      e.replace(/^\* /, '')
+                    ),
+                    margin: [10, 0, 0, 10],
+                  },
+                ],
+              },
+
+              // Coloana 2: Medizinische Maßnahmen
+              {
+                stack: [
+                  {
+                    text: 'Medizinische Maßnahmen:',
+                    bold: true,
+                    margin: [0, 5, 0, 5],
+                  },
+                  {
+                    ul: (row.medical_procedures ?? []).map((e: string) =>
+                      e.replace(/^\* /, '')
+                    ),
+                    margin: [0, 0, 0, 10],
+                  },
+                ],
               },
             ],
+          ],
+        },
+
+        layout: {
+          defaultBorder: false,
+          fillColor: function () {
+            return '#f1f6f7';
           },
-          {
-            width: '40%',
-            stack: [
-              {
-                text: 'Medizinische Maßnahmen:',
-                bold: true,
-                margin: [0, 5, 0, 5],
-              },
-              {
-                ul: (row.medical_procedures ?? []).map((e: string) =>
-                  e.replace(/^\* /, '')
-                ),
-                margin: [0, 0, 0, 10],
-              },
-            ],
-          },
-        ],
+        },
       },
+
       {
         canvas: [
           {
