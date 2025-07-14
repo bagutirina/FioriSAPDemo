@@ -209,7 +209,9 @@ export class CompainSDKComponent {
               icds: this.getIcds(item),
             }));
 
-          //  this.data = [...apiData, ...this.data];
+          // Comment this line if you don't want the data from the API to be included
+          this.data = [...apiData, ...this.data];
+
           this.loadFilters();
           this.cdr.detectChanges();
         },

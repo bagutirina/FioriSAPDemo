@@ -397,7 +397,7 @@ export function PDFTemplate(rows: any[]) {
       },
       {
         margin: [0, 5, 0, 0],
-        pageBreak: 'avoid', // se aplică acum la nivelul corect
+        pageBreak: 'avoid',
         columns: [
           {
             width: '60%',
