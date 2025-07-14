@@ -1079,7 +1079,7 @@
                               : null
                           "
                           [tippyProps]="{
-                            delay: [300, 100],
+                          delay: [300, 100],
                           theme: 'light-border',
                           followCursor: true,
                           placement: 'top',
@@ -1150,6 +1150,7 @@
 
             <div
               class="d-flex flex-column flex-shrink-1 flex-grow-1 feedbacks-wrapper p-3 gap-3"
+              *ngIf="getAllFeedbacks().length; else noFeedbackSent"
             >
               <div *ngFor="let entry of getAllFeedbacks()">
                 <div class="d-flex flex-column fdbk">
@@ -1184,6 +1185,11 @@
                 </div>
               </div>
             </div>
+            <ng-template #noFeedbackSent>
+              <div class="fst-italic p-2 ms-2 mt-3" style="color: gray">
+                Es wurde noch kein Feedback gesendet.
+              </div>
+            </ng-template>
           </div>
         </ng-template>
       </fd-flexible-column-layout>
@@ -1354,11 +1360,16 @@
 </ng-template>
 
 <ng-template #tooltipTemplate let-data="data">
-  <div *ngIf="data.feedback" class="p-2" [class.pb-0]="!data.feedback">
+  <div
+    *ngIf="data.feedback"
+    class="p-2"
+    [class.pb-0]="!data.feedback"
+    [class.margin-bottmom-minus-15]="!data.justification"
+  >
     <b class="{{ data.feedback }}_color">{{
       capitalizeFirstLetter(data.feedback)
     }}</b>
   </div>
-  <div *ngIf="data.feedback" class="p-2">{{ data.justification }}</div>
+  <div *ngIf="data.feedback" class="p-2 pt-0">{{ data.justification }}</div>
   <div *ngIf="data.text">{{ data.text }}</div>
 </ng-template>
