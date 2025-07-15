@@ -321,9 +321,7 @@ tr.expanded {
   outline: none !important;
   box-shadow: none !important;
 }
-
 .code {
-  cursor: pointer;
   border: 1px solid rgb(88 166 191);
   border-radius: 5px;
   font-weight: bold;
@@ -353,7 +351,6 @@ tr.expanded {
   }
 }
 .code-rejection {
-  cursor: pointer;
   border: 1px solid rgb(243, 65, 11);
   border-radius: 5px;
   font-weight: bold;
@@ -645,6 +642,7 @@ textarea::placeholder {
 
 ::ng-deep .tippy-box {
   box-shadow: 5px 4px 14px 2px rgb(0 8 16 / 24%) !important;
+  max-width: 700px !important;
 }
 
 .margin-bottmom-minus-15 {
@@ -659,4 +657,7 @@ textarea::placeholder {
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 6;
   line-height: 1.2em;
+}
+.cursor-pointer {
+  cursor: pointer;
 }

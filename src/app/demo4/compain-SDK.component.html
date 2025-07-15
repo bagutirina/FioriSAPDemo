@@ -203,7 +203,7 @@
                         : null
                     "
                     [tippyProps]="{
-                          delay: [300, 100],
+                          delay: [500, 100],
                           theme: 'light-border',
                           followCursor: true,
                           placement: 'top',
@@ -222,7 +222,7 @@
                     class="flex-wrap multi-line-ellipsis"
                     [ngxTippy]="row.medication?.join(', ') ? listTooltip : null"
                     [tippyProps]="{
-                          delay: [300, 100],
+                          delay: [500, 100],
                           theme: 'light-border',
                           followCursor: true,
                           placement: 'top',
@@ -243,7 +243,7 @@
                       row.medical_procedures?.join(', ') ? listTooltip : null
                     "
                     [tippyProps]="{
-                          delay: [300, 100],
+                          delay: [500, 100],
                           theme: 'light-border',
                           followCursor: true,
                           placement: 'top',
@@ -266,12 +266,22 @@
                       [class.double_mark]="
                         icd.score < reasonableThreshold && icd.highlighted
                       "
+                      [ngxTippy]="icdTooltip"
+                      [tippyProps]="{
+                          delay: [500, 50],
+                          theme: 'light-border',
+                          followCursor: true,
+                          animation: 'fade',
+                          inertia: true,
+                        }"
+                      [tippyContext]="{
+                        data: {
+                          detailedICD: icd,
+                          detailedICD_isRejection: false
+                        }
+                      }"
                       (click)="
-                        detailedICD = icd;
-                        detailedICD_isRejection = false;
-                        $event.preventDefault();
-                        $event.stopPropagation();
-                        openDialog(confirmationDialog)
+                        $event.preventDefault(); $event.stopPropagation()
                       "
                     >
                       <span>{{ icd.icd_code }}</span>
@@ -291,12 +301,22 @@
                       [class.double_mark]="
                         icd.score < reasonableThreshold && icd.highlighted
                       "
+                      [ngxTippy]="icdTooltip"
+                      [tippyProps]="{
+                          delay: [500, 50],
+                          theme: 'light-border',
+                          followCursor: true,
+                          animation: 'fade',
+                          inertia: true,
+                        }"
+                      [tippyContext]="{
+                        data: {
+                          detailedICD: icd,
+                          detailedICD_isRejection: true
+                        }
+                      }"
                       (click)="
-                        detailedICD = icd;
-                        detailedICD_isRejection = true;
-                        $event.preventDefault();
-                        $event.stopPropagation();
-                        openDialog(confirmationDialog)
+                        $event.preventDefault(); $event.stopPropagation()
                       "
                     >
                       <span>{{ icd.icd_code }}</span>
@@ -733,7 +753,7 @@
                   >
                     <div class="d-flex flex-column icd gap-2">
                       <span
-                        class="code feedback-code flex-grow-0 d-inline-block position-relative {{
+                        class="code feedback-code flex-grow-0 d-inline-block position-relative cursor-pointer {{
                           getItemClass('icds.icd_code', i)
                         }}"
                         [class.dashed]="icd.score < reasonableThreshold"
@@ -917,7 +937,7 @@
                   >
                     <div class="d-flex flex-column icd gap-2">
                       <span
-                        class="code-rejection feedback-code flex-grow-0 d-inline-block position-relative {{
+                        class="code-rejection feedback-code flex-grow-0 d-inline-block position-relative cursor-pointer {{
                           getItemClass('rejections.icd_code', i)
                         }}"
                         [class.dashed]="icd.score < reasonableThreshold"
@@ -1322,6 +1342,59 @@
       ></fd-button-bar>
     </fd-dialog-footer>
   </fd-dialog>
+</ng-template>
+
+<ng-template #icdTooltip let-data="data">
+  <div class="d-flex icd gap-2 px-4 pt-3 pb-2">
+    <span
+      [class.dashed]="data.detailedICD.score < reasonableThreshold"
+      [class.double_mark]="
+        data.detailedICD.score < reasonableThreshold &&
+        data.detailedICD.highlighted
+      "
+      class="{{
+        data.detailedICD_isRejection ? 'code-rejection' : 'code'
+      }} flex-grow-0 d-inline-block position-relative"
+    >
+      <span> {{ data.detailedICD.icd_code }}</span>
+      <span class="exclamationMark" *ngIf="data.detailedICD.highlighted"
+        >!</span
+      >
+      <span
+        class="questionMark"
+        *ngIf="data.detailedICD.score < reasonableThreshold"
+        >?</span
+      >
+    </span>
+
+    <span class="mt-1 icd-name">
+      {{ data.detailedICD.icd_name }}
+    </span>
+  </div>
+  <div class="w-100 px-4 py-2">
+    <div
+      style="border-top: 1px solid rgb(233, 228, 228); width: 100%; height: 2px"
+    ></div>
+  </div>
+
+  <div class="d-flex flex-column px-4 pb-4">
+    <span class="fw-bold me-2 mt-2">Relevante Textstellen:</span>
+    <ul class="mb-2">
+      <li *ngFor="let e of data.detailedICD.evidence">
+        {{ sanitizeEvidence(e) }}
+      </li>
+    </ul>
+    <div>
+      <div class="fw-bold me-2 mt-2">
+        Begründung{{
+          data.detailedICD.score ? " (" + data.detailedICD.score + "%):" : ":"
+        }}
+      </div>
+      <span class="d-inline-block">
+        {{ data.detailedICD.justification }}
+      </span>
+    </div>
+  </div>
 </ng-template>
 
 <ng-template let-dialogFeedback let-dialogConfig="dialogConfig" #feedbackDialog>
