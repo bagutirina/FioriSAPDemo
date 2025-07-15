@@ -650,3 +650,13 @@ textarea::placeholder {
 .margin-bottmom-minus-15 {
   margin-bottom: -15px;
 }
+
+.multi-line-ellipsis {
+  display: -webkit-box;
+  max-height: 120px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 6;
+  line-height: 1.2em;
+}

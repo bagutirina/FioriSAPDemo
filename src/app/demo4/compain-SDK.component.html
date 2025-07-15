@@ -194,19 +194,67 @@
                   <span fd-table-text>{{ row.metadata?.date_of_birth }}</span>
                 </td>
                 <td fd-table-cell class="col-contract">
-                  <span fd-table-text class="flex-wrap">{{
-                    row.metadata?.contract_types.join(", ")
-                  }}</span>
+                  <span
+                    fd-table-text
+                    class="flex-wrap multi-line-ellipsis"
+                    [ngxTippy]="
+                      row.metadata?.contract_types?.join(', ')
+                        ? listTooltip
+                        : null
+                    "
+                    [tippyProps]="{
+                          delay: [300, 100],
+                          theme: 'light-border',
+                          followCursor: true,
+                          placement: 'top',
+                          animation: 'fade',
+                          inertia: true,
+                        }"
+                    [tippyContext]="{
+                      data: row.metadata?.contract_types
+                    }"
+                    >{{ row.metadata?.contract_types.join(", ") }}</span
+                  >
                 </td>
                 <td fd-table-cell class="col-medication">
-                  <span fd-table-text class="flex-wrap">{{
-                    row.medication?.join(", ")
-                  }}</span>
+                  <span
+                    fd-table-text
+                    class="flex-wrap multi-line-ellipsis"
+                    [ngxTippy]="row.medication?.join(', ') ? listTooltip : null"
+                    [tippyProps]="{
+                          delay: [300, 100],
+                          theme: 'light-border',
+                          followCursor: true,
+                          placement: 'top',
+                          animation: 'fade',
+                          inertia: true,
+                        }"
+                    [tippyContext]="{
+                      data: row.medication
+                    }"
+                    >{{ row.medication?.join(", ") }}</span
+                  >
                 </td>
                 <td fd-table-cell class="col-medical_procedures">
-                  <span fd-table-text class="flex-wrap">{{
-                    row.medical_procedures?.join(", ")
-                  }}</span>
+                  <span
+                    fd-table-text
+                    class="flex-wrap multi-line-ellipsis"
+                    [ngxTippy]="
+                      row.medical_procedures?.join(', ') ? listTooltip : null
+                    "
+                    [tippyProps]="{
+                          delay: [300, 100],
+                          theme: 'light-border',
+                          followCursor: true,
+                          placement: 'top',
+                          animation: 'fade',
+                          inertia: true,
+                        }"
+                    [tippyContext]="{
+                      data: row.medical_procedures
+                    }"
+                    >{{ row.medical_procedures?.join(", ") }}</span
+                  >
                 </td>
 
                 <td fd-table-cell class="col-icd10Codes pt-1 pb-1">
@@ -522,7 +570,10 @@
                       >
                     </div>
 
-                    <div class="d-flex flex-row align-items-center">
+                    <div
+                      class="d-flex flex-row w-100 flex-wrap align-items-center"
+                      style="line-height: 20px"
+                    >
                       <span class="icd-subtitle me-1">Wunschtarife:</span>
                       <span
                         *ngFor="
@@ -793,20 +844,21 @@
                           </span>
                         </li>
                       </ul>
-                      <div>
-                        <span class="me-2 icd-subtitle">Begründung</span>
-                        <span *ngIf="icd.score"> (</span>
-                        <span
-                          *ngIf="icd.score"
-                          class="fw-bold feedback-wrapper {{
-                            getItemClass('icds.score', i)
-                          }}"
-                          [ngxTippy]="
-                            hasFeedback('icds.score', i)
-                              ? tooltipTemplate
-                              : null
-                          "
-                          [tippyProps]="{
+                      <div class="d-flex flex-column">
+                        <div class="d-flex">
+                          <span class="me-2 icd-subtitle">Begründung</span>
+                          <span *ngIf="icd.score"> (</span>
+                          <span
+                            *ngIf="icd.score"
+                            class="fw-bold feedback-wrapper {{
+                              getItemClass('icds.score', i)
+                            }}"
+                            [ngxTippy]="
+                              hasFeedback('icds.score', i)
+                                ? tooltipTemplate
+                                : null
+                            "
+                            [tippyProps]="{
                          delay: [300, 100],
                           theme: 'light-border',
                           followCursor: true,
@@ -814,17 +866,18 @@
                           animation: 'fade',
                           inertia: true,
                         }"
-                          [tippyContext]="{
-                            data: getItemTooltip('icds.score', i)
-                          }"
-                          (click)="
-                            openFeedbackModal(feedbackDialog, 'icds.score', i)
-                          "
-                          >{{ icd.score }}%</span
-                        >
-                        <span *ngIf="icd.score">)</span>
-                        <span>:</span>
-                        <span
+                            [tippyContext]="{
+                              data: getItemTooltip('icds.score', i)
+                            }"
+                            (click)="
+                              openFeedbackModal(feedbackDialog, 'icds.score', i)
+                            "
+                            >{{ icd.score }}%</span
+                          >
+                          <span *ngIf="icd.score">)</span>
+                          <span>:</span>
+                        </div>
+                        <div
                           class="d-inline-block ms-4 feedback-wrapper {{
                             getItemClass('icds.justification', i)
                           }}"
@@ -853,7 +906,7 @@
                           "
                         >
                           {{ icd.justification }}
-                        </span>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -1372,4 +1425,14 @@
   </div>
   <div *ngIf="data.feedback" class="p-2 pt-0">{{ data.justification }}</div>
   <div *ngIf="data.text">{{ data.text }}</div>
+</ng-template>
+
+<ng-template #listTooltip let-data="data">
+  <div *ngIf="data" class="p-2">
+    <ul>
+      <li *ngFor="let item of data">
+        {{ item }}
+      </li>
+    </ul>
+  </div>
 </ng-template>
