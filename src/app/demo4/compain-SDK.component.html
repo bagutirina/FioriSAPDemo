@@ -56,8 +56,9 @@
 
           <fd-toolbar-separator class="mx-2"></fd-toolbar-separator>
 
+          <!-- re-activate it in 24.september!!!! -->
           <!-- contract -->
-          <div class="filter-item" fd-toolbar-item>
+          <!-- <div class="filter-item" fd-toolbar-item>
             <span fd-label class="filter-label">Wunschtarife</span>
             <fd-multi-input
               fdCompact
@@ -65,7 +66,7 @@
               [dropdownValues]="contracts"
               [(ngModel)]="selectedContracts"
             ></fd-multi-input>
-          </div>
+          </div> -->
 
           <!-- icd10Codes -->
           <div class="filter-item" fd-toolbar-item>
@@ -138,7 +139,8 @@
               <th fd-table-cell class="col-job">Beruf</th>
               <th fd-table-cell class="col-gender">Geschlecht</th>
               <th fd-table-cell class="col-date">Geburtstag</th>
-              <th fd-table-cell class="col-contract">Wunschtarife</th>
+              <!-- reactivate it in 24.september!!!! -->
+              <!-- <th fd-table-cell class="col-contract">Wunschtarife</th> -->
               <th fd-table-cell class="col-medication">Medikamente</th>
               <th fd-table-cell class="col-medical_procedures">
                 Medizinische Maßnahmen
@@ -193,7 +195,8 @@
                 <td fd-table-cell class="col-date">
                   <span fd-table-text>{{ row.metadata?.date_of_birth }}</span>
                 </td>
-                <td fd-table-cell class="col-contract">
+                <!-- reactivate it in 24.september!!!! -->
+                <!-- <td fd-table-cell class="col-contract">
                   <span
                     fd-table-text
                     class="flex-wrap multi-line-ellipsis"
@@ -215,7 +218,7 @@
                     }"
                     >{{ row.metadata?.contract_types.join(", ") }}</span
                   >
-                </td>
+                </td> -->
                 <td fd-table-cell class="col-medication">
                   <span
                     fd-table-text
