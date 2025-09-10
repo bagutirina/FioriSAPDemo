@@ -194,6 +194,8 @@ export class CompainSDKComponent {
                     ...item.data,
                     timestamp: this.getDateFromTimestamp(item.timestamp),
                     id: item.id,
+                    icds: item.data.icds || [],
+                    rejections: item.data.rejections || [],
                   }
                 : null
             )
