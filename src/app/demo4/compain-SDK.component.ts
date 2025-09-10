@@ -196,6 +196,10 @@ export class CompainSDKComponent {
                     id: item.id,
                     icds: item.data.icds || [],
                     rejections: item.data.rejections || [],
+                    medication: item.data.medication || [],
+                    medical_procedures: item.data.medical_procedures || [],
+                    medically_relevant_information:
+                      item.data.medically_relevant_information || [],
                   }
                 : null
             )
