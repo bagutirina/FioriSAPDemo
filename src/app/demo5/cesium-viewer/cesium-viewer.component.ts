@@ -44,25 +44,30 @@ export class CesiumViewerComponent implements OnInit, OnDestroy {
         this.viewer?.camera.flyTo(homeCameraView);
 
         // ✅ Adaugă un marker vizual pentru locația Home
-        this.viewer!.entities.add({
-          name: 'Home Location, Cluj-Napoca',
-          position: Cesium.Cartesian3.fromDegrees(23.567232, 46.762531, 500),
-          point: {
-            pixelSize: 15,
-            color: Cesium.Color.YELLOW.withAlpha(0.8),
-            outlineColor: Cesium.Color.YELLOW,
-            outlineWidth: 2,
-          },
-          label: {
-            text: 'My Home ♡',
-            font: '14px sans-serif',
-            style: Cesium.LabelStyle.FILL_AND_OUTLINE,
-            fillColor: Cesium.Color.YELLOW,
-            outlineColor: Cesium.Color.YELLOW,
-            outlineWidth: 1,
-            pixelOffset: new Cesium.Cartesian2(0, -20),
-          },
-        });
+        const existingHome = this.viewer!.entities.values.find(
+          (e) => e.name === 'Home Location, Cluj-Napoca'
+        );
+        if (!existingHome) {
+          this.viewer!.entities.add({
+            name: 'Home Location, Cluj-Napoca',
+            position: Cesium.Cartesian3.fromDegrees(23.567232, 46.762531, 500),
+            point: {
+              pixelSize: 15,
+              color: Cesium.Color.YELLOW.withAlpha(0.8),
+              outlineColor: Cesium.Color.YELLOW,
+              outlineWidth: 2,
+            },
+            label: {
+              text: 'My Home ♡',
+              font: '14px sans-serif',
+              style: Cesium.LabelStyle.FILL_AND_OUTLINE,
+              fillColor: Cesium.Color.YELLOW,
+              outlineColor: Cesium.Color.YELLOW,
+              outlineWidth: 1,
+              pixelOffset: new Cesium.Cartesian2(0, -20),
+            },
+          });
+        }
       }
     );
 
