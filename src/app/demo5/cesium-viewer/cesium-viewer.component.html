@@ -1,0 +1,42 @@
+<div
+  class="d-flex h-100 v-100 flex-column p-4 justify-content-center align-items-center position-relative"
+>
+  <h3>Hello, Cesium</h3>
+  <div id="cesiumContainer" style="height: 80%; width: 80%"></div>
+
+  <div class="sidebar">
+    <div class="button-wrapper">
+      <button
+        class="tool-cube"
+        draggable="true"
+        (dragstart)="startDrag($event, 'cube')"
+      ></button>
+    </div>
+
+    <div class="button-wrapper">
+      <button
+        class="tool-sphere"
+        draggable="true"
+        (dragstart)="startDrag($event, 'sphere')"
+      ></button>
+    </div>
+  </div>
+
+  <!-- Panou Info -->
+  <div class="info-box mt-2 p-2 border rounded w-80 p-3 mt-3">
+    <div class="pb-2"><strong class="title">Click Info:</strong></div>
+
+    <!-- Dacă există entity selectat -->
+    <div *ngIf="selectedEntity">
+      <p><strong>Name:</strong> {{ selectedEntity.name }}</p>
+      <p><strong>Latitude:</strong> {{ clickLat | number : "1.6-6" }}</p>
+      <p><strong>Longitude:</strong> {{ clickLon | number : "1.6-6" }}</p>
+    </div>
+
+    <!-- Dacă s-a dat click pe hartă, dar nu pe entity -->
+    <div *ngIf="!selectedEntity">
+      <p><strong>Latitude:</strong> {{ clickLat | number : "1.6-6" }}</p>
+      <p><strong>Longitude:</strong> {{ clickLon | number : "1.6-6" }}</p>
+    </div>
+  </div>
+</div>

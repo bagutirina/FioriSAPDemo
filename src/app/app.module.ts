@@ -23,6 +23,7 @@ import { CompainSDKComponent } from './demo4/compain-SDK.component';
 import { HttpClientModule } from '@angular/common/http';
 import { RadioModule } from '@fundamental-ngx/core/radio';
 import { NgxTippyModule } from 'ngx-tippy-wrapper';
+import { CesiumViewerComponent } from './demo5/cesium-viewer/cesium-viewer.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { NgxTippyModule } from 'ngx-tippy-wrapper';
     FilterPipe,
     SortByPipe,
     CompainSDKComponent,
+    CesiumViewerComponent,
   ],
   imports: [
     BrowserModule,

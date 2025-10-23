@@ -25,6 +25,7 @@
     "@fundamental-ngx/platform": "^0.43.47",
     "@sap-theming/theming-base-content": "^11.22.0",
     "bootstrap": "^5.3.3",
+    "cesium": "^1.134.1",
     "chart.js": "^4.4.6",
     "fundamental-styles": "^0.28.3",
     "install": "^0.13.0",
