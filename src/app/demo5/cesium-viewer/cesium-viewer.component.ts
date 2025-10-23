@@ -32,7 +32,7 @@ export class CesiumViewerComponent implements OnInit, OnDestroy {
     );
 
     // HOME button
-    const myHome = Cesium.Cartesian3.fromDegrees(23.5669, 46.7622, 1000);
+    const myHome = Cesium.Cartesian3.fromDegrees(23.567232, 46.762531, 1000);
     const homeCameraView = {
       destination: myHome,
       orientation: { heading: 0, pitch: Cesium.Math.toRadians(-90), roll: 0 },
@@ -42,6 +42,27 @@ export class CesiumViewerComponent implements OnInit, OnDestroy {
       (commandInfo) => {
         commandInfo.cancel = true;
         this.viewer?.camera.flyTo(homeCameraView);
+
+        // ✅ Adaugă un marker vizual pentru locația Home
+        this.viewer!.entities.add({
+          name: 'Home Location, Cluj-Napoca',
+          position: Cesium.Cartesian3.fromDegrees(23.567232, 46.762531, 500),
+          point: {
+            pixelSize: 15,
+            color: Cesium.Color.YELLOW.withAlpha(0.8),
+            outlineColor: Cesium.Color.YELLOW,
+            outlineWidth: 2,
+          },
+          label: {
+            text: 'My Home ♡',
+            font: '14px sans-serif',
+            style: Cesium.LabelStyle.FILL_AND_OUTLINE,
+            fillColor: Cesium.Color.YELLOW,
+            outlineColor: Cesium.Color.YELLOW,
+            outlineWidth: 1,
+            pixelOffset: new Cesium.Cartesian2(0, -20),
+          },
+        });
       }
     );
 
@@ -108,7 +129,17 @@ export class CesiumViewerComponent implements OnInit, OnDestroy {
       }
 
       const cartesian = this.viewer!.scene.pickPosition(movement.endPosition);
-      if (cartesian) this.dragEntity.position = cartesian as any;
+      if (cartesian) {
+        // Obținem coordonate geografice
+        const carto = Cesium.Cartographic.fromCartesian(cartesian);
+        // Menținem markerul puțin deasupra terenului (500 m)
+        const newPos = Cesium.Cartesian3.fromDegrees(
+          Cesium.Math.toDegrees(carto.longitude),
+          Cesium.Math.toDegrees(carto.latitude),
+          500 // înălțimea fixă
+        );
+        this.dragEntity.position = newPos as any;
+      }
     }, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
 
     // Mouse up
