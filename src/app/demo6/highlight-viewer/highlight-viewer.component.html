@@ -1,0 +1,87 @@
+<fd-splitter defaultPaneId="one">
+  <fd-splitter-pane-container>
+    <fd-splitter-split-pane id="left" size="40%">
+      <div class="w-100 d-flex p-4 pt-5">
+        <div appDropImage (filesDropped)="setFile($event)">
+          <!-- upload & drag& drop area -->
+          <button
+            class="position-relative align-self-center upload-button"
+            mat-icon-button
+            (click)="fileInput.click()"
+          >
+            <fd-icon glyph="upload-to-cloud"></fd-icon>
+          </button>
+
+          <div
+            color="primary"
+            class="mat-body-2 primary-main mt-3 align-self-center"
+          >
+            Upload a file
+          </div>
+          <div class="subtext align-self-center">
+            Allowed file types: *.pdf, *.txt, *.docx
+          </div>
+          <input
+            hidden
+            type="file"
+            onclick="this.value=null"
+            #fileInput
+            [accept]="ACCEPTED_FILE_FORMATS"
+            (change)="onFileChange($event)"
+          />
+          <div class="error" *ngIf="errorMessage">{{ errorMessage }}</div>
+        </div>
+      </div>
+    </fd-splitter-split-pane>
+    <nav></nav>
+
+    <fd-splitter-split-pane id="right" size="60%">
+      <div class="w-100 h-100 position-relative">
+        <div [ngSwitch]="fileViewer" class="w-100 h-100">
+          <ngx-extended-pdf-viewer
+            *ngSwitchCase="'pdf-viewer'"
+            [src]="fileBase64"
+            useBrowserLocale="true"
+            [textLayer]="true"
+            height="100%"
+            id="myPdfViewer"
+            class="w-100 h-100"
+          >
+          </ngx-extended-pdf-viewer>
+
+          <!-- <pdf-viewer
+            *ngSwitchCase="'pdf-viewer'"
+            [src]="fileBase64"
+            [rotation]="0"
+            [original-size]="true"
+            [show-all]="true"
+            [fit-to-page]="false"
+            [zoom]="1"
+            [zoom-scale]="'page-width'"
+            [stick-to-page]="false"
+            [render-text]="true"
+            [render-text-mode]="2"
+            [autoresize]="false"
+            [show-borders]="false"
+            class="w-100 h-100 pdf-viewer"
+            (text-layer-rendered)="pdfViewerLoaded($event)"
+          ></pdf-viewer> -->
+          <div
+            *ngSwitchCase="'doc-viewer'"
+            class="w-100 h-100 doc-viewer"
+            id="preview-container"
+          ></div>
+          <div
+            *ngSwitchCase="'txt-viewer'"
+            class="w-100 h-100 txt-viewer p-4"
+            [innerHTML]="fileText"
+          ></div>
+          <div
+            class="d-flex w-100 h-100 p-4 align-items-center"
+            *ngSwitchDefault
+          ></div>
+        </div>
+      </div>
+    </fd-splitter-split-pane>
+  </fd-splitter-pane-container>
+</fd-splitter>

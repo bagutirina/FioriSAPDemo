@@ -8,6 +8,7 @@ import {
   ButtonModule,
   DialogModule,
   FundamentalNgxCoreModule,
+  IconModule,
   ProgressIndicatorModule,
 } from '@fundamental-ngx/core';
 import { FormsModule } from '@angular/forms'; // Importă FormsModule
@@ -24,6 +25,9 @@ import { HttpClientModule } from '@angular/common/http';
 import { RadioModule } from '@fundamental-ngx/core/radio';
 import { NgxTippyModule } from 'ngx-tippy-wrapper';
 import { CesiumViewerComponent } from './demo5/cesium-viewer/cesium-viewer.component';
+import { HighlightViewerComponent } from './demo6/highlight-viewer/highlight-viewer.component';
+import { DropImageDirective } from './directives/drop-image.directive';
+import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 
 @NgModule({
   declarations: [
@@ -36,6 +40,8 @@ import { CesiumViewerComponent } from './demo5/cesium-viewer/cesium-viewer.compo
     SortByPipe,
     CompainSDKComponent,
     CesiumViewerComponent,
+    HighlightViewerComponent,
+    DropImageDirective,
   ],
   imports: [
     BrowserModule,
@@ -51,6 +57,8 @@ import { CesiumViewerComponent } from './demo5/cesium-viewer/cesium-viewer.compo
     HttpClientModule,
     RadioModule,
     NgxTippyModule,
+    IconModule,
+    NgxExtendedPdfViewerModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
