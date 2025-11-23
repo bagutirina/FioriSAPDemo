@@ -55,11 +55,11 @@
               "node_modules/fundamental-styles/dist/icon.css",
               "node_modules/fundamental-styles/dist/fundamental-styles.css"
             ],
-            "scripts": [],
+            "scripts": ["node_modules/mammoth/mammoth.browser.min.js"],
             "stylePreprocessorOptions": {
               "includePaths": ["src"]
             },
-            "allowedCommonJsDependencies": ["fast-deep-equal"]
+            "allowedCommonJsDependencies": ["mammoth", "fast-deep-equal"]
           },
           "configurations": {
             "production": {
@@ -129,7 +129,7 @@
             "inlineStyleLanguage": "scss",
             "assets": ["src/favicon.ico", "src/assets"],
             "styles": ["src/styles.scss"],
-            "scripts": []
+            "scripts": ["node_modules/mammoth/mammoth.browser.min.js"]
           }
         }
       }

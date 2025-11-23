@@ -1,5 +1,4 @@
 import { Component, ViewChild } from '@angular/core';
-import { renderAsync } from 'docx-preview';
 import { NgxExtendedPdfViewerComponent } from 'ngx-extended-pdf-viewer';
 import { FileService } from 'src/app/services/file.service';
 declare const PDFViewerApplication: any;
@@ -38,7 +37,6 @@ export class HighlightViewerComponent {
 
   async setFile(file: File) {
     if (file) {
-      const typeSplit = file.type.split('/');
       this.errorMessage = '';
 
       if (file.size > this.FILE_MAX_SIZE) {
@@ -66,15 +64,10 @@ export class HighlightViewerComponent {
             break;
           case 'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
             this.fileViewer = 'doc-viewer';
-            const arrayBuffer = await file.arrayBuffer();
-            const container = document.getElementById('preview-container');
-            try {
-              await renderAsync(arrayBuffer, container, undefined, {
-                className: 'docx',
-                inWrapper: true,
-              });
-              this.originalDocxHtml = container.innerHTML;
-            } catch (err) {}
+            this.fileURL = window.URL.createObjectURL(this.file);
+
+            this.originalDocxHtml = null;
+
             break;
           case 'text/plain':
           case 'text/html':
@@ -123,17 +116,19 @@ export class HighlightViewerComponent {
   }
 
   highlightDocx(term: string) {
-    const container = document.getElementById('preview-container');
+    const container = document.querySelector('.doc-viewer');
     if (!container) return;
 
-    // Escape pentru regex
     const safeTerm = term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     const regex = new RegExp(safeTerm, 'gi');
 
-    // Înlocuire cu highlight
+    if (!this.originalDocxHtml) {
+      this.originalDocxHtml = container.innerHTML;
+    }
+
     container.innerHTML = this.originalDocxHtml.replace(
       regex,
-      (match) => `<mark class="highlight">${match}</mark>`
+      (m) => `<mark class="highlight">${m}</mark>`
     );
   }
 

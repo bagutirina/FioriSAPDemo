@@ -73,11 +73,15 @@
             (pdfLoaded)="onPdfLoaded()"
           >
           </ngx-extended-pdf-viewer>
-          <div
+
+          <ngx-doc-viewer
             *ngSwitchCase="'doc-viewer'"
+            [url]="fileURL"
+            viewer="mammoth"
             class="w-100 h-100 doc-viewer"
-            id="preview-container"
-          ></div>
+          >
+          </ngx-doc-viewer>
+
           <div
             *ngSwitchCase="'txt-viewer'"
             class="w-100 h-100 txt-viewer p-4"

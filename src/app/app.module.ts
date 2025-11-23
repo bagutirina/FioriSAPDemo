@@ -28,6 +28,7 @@ import { CesiumViewerComponent } from './demo5/cesium-viewer/cesium-viewer.compo
 import { HighlightViewerComponent } from './demo6/highlight-viewer/highlight-viewer.component';
 import { DropImageDirective } from './directives/drop-image.directive';
 import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
+import { NgxDocViewerModule } from 'ngx-doc-viewer';
 
 @NgModule({
   declarations: [
@@ -59,6 +60,7 @@ import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
     NgxTippyModule,
     IconModule,
     NgxExtendedPdfViewerModule,
+    NgxDocViewerModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
