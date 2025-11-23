@@ -16,10 +16,20 @@
   color: red;
 }
 
-.pdf-viewer ::ng-deep .text-highlight {
-  background-color: yellow !important;
+.pdf-viewer ::ng-deep {
+  .textLayer {
+    ::selection {
+      background: #369bbd5d !important;
+      cursor: grab !important;
+    }
+    ::-moz-selection {
+      background: #369bbd5d !important;
+      cursor: grab !important;
+    }
+  }
 }
 
+.pdf-viewer ::ng-deep .text-highlight,
 .doc-viewer ::ng-deep .text-highlight,
 .txt-viewer ::ng-deep .text-highlight {
   background-color: rgba(yellow, 0.2) !important;
@@ -48,4 +58,20 @@
       margin-bottom: 0px;
     }
   }
+}
+
+fd-splitter-split-pane,
+fd-splitter-pane-container {
+  height: 100% !important;
+  overflow: visible !important;
+}
+
+.fd-splitter__pane-content {
+  height: 100% !important;
+  overflow: visible !important;
+}
+
+ngx-extended-pdf-viewer {
+  display: block;
+  height: 100% !important;
 }

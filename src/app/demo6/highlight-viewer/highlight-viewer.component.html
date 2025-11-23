@@ -43,29 +43,11 @@
             [src]="fileBase64"
             useBrowserLocale="true"
             [textLayer]="true"
-            height="100%"
-            id="myPdfViewer"
-            class="w-100 h-100"
+            [handTool]="false"
+            height="100vh"
+            class="w-100 pdf-viewer"
           >
           </ngx-extended-pdf-viewer>
-
-          <!-- <pdf-viewer
-            *ngSwitchCase="'pdf-viewer'"
-            [src]="fileBase64"
-            [rotation]="0"
-            [original-size]="true"
-            [show-all]="true"
-            [fit-to-page]="false"
-            [zoom]="1"
-            [zoom-scale]="'page-width'"
-            [stick-to-page]="false"
-            [render-text]="true"
-            [render-text-mode]="2"
-            [autoresize]="false"
-            [show-borders]="false"
-            class="w-100 h-100 pdf-viewer"
-            (text-layer-rendered)="pdfViewerLoaded($event)"
-          ></pdf-viewer> -->
           <div
             *ngSwitchCase="'doc-viewer'"
             class="w-100 h-100 doc-viewer"
