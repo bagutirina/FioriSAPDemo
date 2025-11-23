@@ -1,6 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { renderAsync } from 'docx-preview';
+import { NgxExtendedPdfViewerComponent } from 'ngx-extended-pdf-viewer';
 import { FileService } from 'src/app/services/file.service';
+declare const PDFViewerApplication: any;
 
 @Component({
   selector: 'app-highlight-viewer',
@@ -19,7 +21,13 @@ export class HighlightViewerComponent {
   textRenderedElements;
   timeIntervalViewerLoaded;
   text;
+  viewerReady = false;
+  originalDocxHtml: string = '';
+  originalTxtContent: string = '';
+  highlightTerm = '';
 
+  @ViewChild(NgxExtendedPdfViewerComponent)
+  private viewer!: NgxExtendedPdfViewerComponent;
   constructor(public fileService: FileService) {}
 
   onFileChange(event: Event) {
@@ -49,6 +57,13 @@ export class HighlightViewerComponent {
         this.file = file;
 
         switch (file.type) {
+          case 'application/pdf':
+            this.fileViewer = 'pdf-viewer';
+            this.viewerReady = false;
+            // file => base64 => pdf-viewer
+            this.fileBase64 = await this.fileService.getBase64(this.file);
+            const x = this.fileBase64;
+            break;
           case 'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
             this.fileViewer = 'doc-viewer';
             const arrayBuffer = await file.arrayBuffer();
@@ -58,59 +73,77 @@ export class HighlightViewerComponent {
                 className: 'docx',
                 inWrapper: true,
               });
+              this.originalDocxHtml = container.innerHTML;
             } catch (err) {}
-            break;
-          case 'application/pdf':
-            this.fileViewer = 'pdf-viewer';
-            // file => base64 => pdf-viewer
-            this.fileBase64 = await this.fileService.getBase64(this.file);
-            const x = this.fileBase64;
             break;
           case 'text/plain':
           case 'text/html':
             this.fileViewer = 'txt-viewer';
             const text = await this.fileService.getTextFile(this.file);
             this.fileText = text.replace(new RegExp('\r?\n', 'g'), '<br />');
+            this.originalTxtContent = this.fileText;
             break;
         }
       }
     }
   }
 
-  // --- loading viewers
-  // pdf-viewer
-  pdfViewerLoaded($event) {
-    setTimeout(() => {
-      this.textRenderedElements = [
-        ...(this.textRenderedElements || []),
-        ...$event.source.textDivs,
-      ];
-    }, 0);
+  onPdfLoaded() {
+    this.viewerReady = true;
   }
 
-  // doc-viewer, txt-viewer
-  viewerLoaded() {
-    if (['doc-viewer', 'txt-viewer'].includes(this.fileViewer)) {
-      let viewerElement;
-      this.timeIntervalViewerLoaded = setInterval(() => {
-        let elems;
-        if (this.fileViewer === 'doc-viewer') {
-          viewerElement = document?.querySelector('.doc-viewer > div');
-          elems = viewerElement?.querySelectorAll(
-            ':scope > p, :scope > h1, :scope > h2, :scope > h3, :scope > ul > li'
-          );
-        } else if (this.fileViewer === 'txt-viewer') {
-          viewerElement = document?.querySelector('.txt-viewer');
-          elems = [viewerElement];
-        }
-
-        if (viewerElement) {
-          clearInterval(this.timeIntervalViewerLoaded);
-          setTimeout(() => {
-            this.textRenderedElements = elems;
-          }, 0);
-        }
-      }, 1000);
+  highlight(term: string) {
+    switch (this.fileViewer) {
+      case 'pdf-viewer':
+        this.highlightPdf(term);
+        break;
+      case 'doc-viewer':
+        this.highlightDocx(term);
+        break;
+      case 'txt-viewer':
+        this.highlightTxt(term);
+        break;
     }
+  }
+
+  highlightPdf(term: string) {
+    // handled by ngx-extended-pdf-viewer
+    if (!this.viewerReady || !term || !PDFViewerApplication) {
+      console.warn('Viewer not ready or empty term');
+      return;
+    }
+
+    PDFViewerApplication.eventBus.dispatch('find', {
+      type: 'find',
+      query: term,
+      caseSensitive: false,
+      highlightAll: true,
+      phraseSearch: true,
+    });
+  }
+
+  highlightDocx(term: string) {
+    const container = document.getElementById('preview-container');
+    if (!container) return;
+
+    // Escape pentru regex
+    const safeTerm = term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const regex = new RegExp(safeTerm, 'gi');
+
+    // Înlocuire cu highlight
+    container.innerHTML = this.originalDocxHtml.replace(
+      regex,
+      (match) => `<mark class="highlight">${match}</mark>`
+    );
+  }
+
+  highlightTxt(term: string) {
+    const safeTerm = term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const regex = new RegExp(safeTerm, 'gi');
+
+    this.fileText = this.originalTxtContent.replace(
+      regex,
+      (match) => `<mark class="highlight">${match}</mark>`
+    );
   }
 }

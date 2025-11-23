@@ -1,7 +1,7 @@
 <fd-splitter defaultPaneId="one">
   <fd-splitter-pane-container>
     <fd-splitter-split-pane id="left" size="40%">
-      <div class="w-100 d-flex p-4 pt-5">
+      <div class="w-100 d-flex p-4 pt-5 flex-column">
         <div appDropImage (filesDropped)="setFile($event)">
           <!-- upload & drag& drop area -->
           <button
@@ -19,7 +19,7 @@
             Upload a file
           </div>
           <div class="subtext align-self-center">
-            Allowed file types: *.pdf, *.txt, *.docx
+            Allowed file types: *.pdf, *.docx, *.txt,
           </div>
           <input
             hidden
@@ -31,6 +31,30 @@
           />
           <div class="error" *ngIf="errorMessage">{{ errorMessage }}</div>
         </div>
+        <form class="mt-5 w-100 d-flex align-items-center gap-1">
+          <div fd-form-set>
+            <div fd-form-item>
+              <label fd-form-label for="highlight-input">Keyword:</label>
+              <input
+                fd-form-control
+                type="text"
+                id="highlight-input"
+                placeholder="Enter text to highlight"
+                name="highlight"
+                [(ngModel)]="highlightTerm"
+              />
+            </div>
+          </div>
+
+          <button
+            class="highlightBtn"
+            fd-button
+            fdType="positive"
+            glyph="search"
+            title="Highlight text"
+            (click)="highlight(highlightTerm)"
+          ></button>
+        </form>
       </div>
     </fd-splitter-split-pane>
     <nav></nav>
@@ -46,6 +70,7 @@
             [handTool]="false"
             height="100vh"
             class="w-100 pdf-viewer"
+            (pdfLoaded)="onPdfLoaded()"
           >
           </ngx-extended-pdf-viewer>
           <div

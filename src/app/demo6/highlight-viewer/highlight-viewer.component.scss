@@ -26,10 +26,16 @@
       background: #369bbd5d !important;
       cursor: grab !important;
     }
+
+    .highlight {
+      margin: -2px;
+      padding: 2px;
+      background-color: rgba(yellow, 0.2) !important;
+      border-radius: 5px;
+    }
   }
 }
 
-.pdf-viewer ::ng-deep .text-highlight,
 .doc-viewer ::ng-deep .text-highlight,
 .txt-viewer ::ng-deep .text-highlight {
   background-color: rgba(yellow, 0.2) !important;
@@ -74,4 +80,8 @@ fd-splitter-pane-container {
 ngx-extended-pdf-viewer {
   display: block;
   height: 100% !important;
+}
+
+.highlightBtn {
+  margin-top: 18px;
 }
