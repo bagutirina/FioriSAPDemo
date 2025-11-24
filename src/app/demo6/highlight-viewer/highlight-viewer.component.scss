@@ -30,15 +30,20 @@
     .highlight {
       margin: -2px;
       padding: 2px;
-      background-color: rgba(yellow, 0.2) !important;
+      background-color: rgba(yellow, 0.2);
       border-radius: 5px;
     }
   }
 }
 
-.doc-viewer ::ng-deep .text-highlight,
-.txt-viewer ::ng-deep .text-highlight {
-  background-color: rgba(yellow, 0.2) !important;
+.txt-viewer {
+  white-space: pre-wrap;
+  font-family: monospace;
+}
+
+.doc-viewer ::ng-deep .highlight,
+.txt-viewer ::ng-deep .highlight {
+  background-color: rgba(yellow, 0.2);
 }
 
 #preview-container {
@@ -84,4 +89,22 @@ ngx-extended-pdf-viewer {
 
 .highlightBtn {
   margin-top: 18px;
+}
+
+::ng-deep {
+  .highlight-0 {
+    background: #fffd54 !important; /* galben */
+  }
+
+  .highlight-1 {
+    background: #b1ffb1 !important; /* verde */
+  }
+
+  .highlight-2 {
+    background: #b3e5ff !important; /* albastru deschis */
+  }
+
+  .highlight-3 {
+    background: #ffb3d9 !important; /* roz */
+  }
 }

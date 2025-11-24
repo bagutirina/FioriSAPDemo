@@ -32,17 +32,19 @@
           <div class="error" *ngIf="errorMessage">{{ errorMessage }}</div>
         </div>
         <form class="mt-5 w-100 d-flex align-items-center gap-1">
-          <div fd-form-set>
+          <div fd-form-set class="flex-grow-1 flex-shrink-1">
             <div fd-form-item>
-              <label fd-form-label for="highlight-input">Keyword:</label>
-              <input
+              <label fd-form-label for="highlight-input"
+                >Highlight a text:</label
+              >
+              <textarea
                 fd-form-control
-                type="text"
                 id="highlight-input"
+                rows="4"
                 placeholder="Enter text to highlight"
                 name="highlight"
                 [(ngModel)]="highlightTerm"
-              />
+              ></textarea>
             </div>
           </div>
 
@@ -52,9 +54,22 @@
             fdType="positive"
             glyph="search"
             title="Highlight text"
-            (click)="highlight(highlightTerm)"
+            (click)="highlight([highlightTerm])"
           ></button>
         </form>
+
+        <div>
+          <label fd-form-label for="highlight-input">Highlight keywords:</label>
+          <span>{{ termsToHighlight | json }}</span>
+          <button
+            class="highlightBtn"
+            fd-button
+            fdType="positive"
+            glyph="search"
+            title="Highlight text"
+            (click)="highlight(termsToHighlight)"
+          ></button>
+        </div>
       </div>
     </fd-splitter-split-pane>
     <nav></nav>
@@ -78,7 +93,7 @@
             *ngSwitchCase="'doc-viewer'"
             [url]="fileURL"
             viewer="mammoth"
-            class="w-100 h-100 doc-viewer"
+            class="w-100 h-100 doc-viewer p-4"
           >
           </ngx-doc-viewer>
 
