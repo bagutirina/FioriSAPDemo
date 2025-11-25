@@ -26,24 +26,36 @@
       background: #369bbd5d !important;
       cursor: grab !important;
     }
-
-    .highlight {
-      margin: -2px;
-      padding: 2px;
-      background-color: rgba(yellow, 0.2);
-      border-radius: 5px;
-    }
   }
 }
-
 .txt-viewer {
   white-space: pre-wrap;
   font-family: monospace;
 }
 
-.doc-viewer ::ng-deep .highlight,
-.txt-viewer ::ng-deep .highlight {
-  background-color: rgba(yellow, 0.2);
+.pdf-viewer ::ng-deep .highlight.highlight-0,
+.pdf-viewer ::ng-deep .highlight-0 .highlight,
+.doc-viewer ::ng-deep .highlight-0,
+.txt-viewer ::ng-deep .highlight-0 {
+  background: rgba(yellow, 0.2) !important;
+}
+.pdf-viewer ::ng-deep .highlight.highlight-1,
+.pdf-viewer ::ng-deep .highlight-1 .highlight,
+.doc-viewer ::ng-deep .highlight-1,
+.txt-viewer ::ng-deep .highlight-1 {
+  background: rgba(rgb(131, 212, 131), 0.2) !important;
+}
+.pdf-viewer ::ng-deep .highlight.highlight-2,
+.pdf-viewer ::ng-deep .highlight-2 .highlight,
+.doc-viewer ::ng-deep .highlight-2,
+.txt-viewer ::ng-deep .highlight-2 {
+  background: rgba(rgb(0, 47, 255), 0.2) !important;
+}
+.pdf-viewer ::ng-deep .highlight.highlight-3,
+.pdf-viewer ::ng-deep .highlight-3 .highlight,
+.doc-viewer ::ng-deep .highlight-3,
+.txt-viewer ::ng-deep .highlight-3 {
+  background: rgba(rgb(204, 0, 255), 0.2) !important;
 }
 
 #preview-container {
@@ -91,20 +103,6 @@ ngx-extended-pdf-viewer {
   margin-top: 18px;
 }
 
-::ng-deep {
-  .highlight-0 {
-    background: #fffd54 !important; /* galben */
-  }
-
-  .highlight-1 {
-    background: #b1ffb1 !important; /* verde */
-  }
-
-  .highlight-2 {
-    background: #b3e5ff !important; /* albastru deschis */
-  }
-
-  .highlight-3 {
-    background: #ffb3d9 !important; /* roz */
-  }
+.cursor-pointer {
+  cursor: pointer;
 }

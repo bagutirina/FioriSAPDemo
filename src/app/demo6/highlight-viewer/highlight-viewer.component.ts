@@ -33,10 +33,11 @@ export class HighlightViewerComponent {
   originalDocxHtml: string = '';
   originalTxtContent: string = '';
   highlightTerm = '';
-  termsToHighlight = ['Stand-Up Desks', 'postură corectă', 'Active Zone'];
+  termsToHighlight = ['Stand-Up Desks', 'Tendință', 'majoritatea'];
+  savedHighlights = [];
 
   @ViewChild(NgxExtendedPdfViewerComponent)
-  private viewer!: NgxExtendedPdfViewerComponent;
+  private pdfViewer!: NgxExtendedPdfViewerComponent;
   constructor(public fileService: FileService) {}
 
   onFileChange(event: Event) {
@@ -109,21 +110,125 @@ export class HighlightViewerComponent {
     }
   }
 
-  highlightMultiplePdf(terms: string[]) {
-    if (!this.viewerReady || !PDFViewerApplication) {
-      console.warn('PDF not ready');
-      return;
+  async highlightMultiplePdf(terms: string[]) {
+    if (!this.viewerReady || !PDFViewerApplication) return;
+
+    this.clearCustomOverlays();
+    this.savedHighlights = [];
+
+    for (let i = 0; i < terms.length; i++) {
+      const term = terms[i];
+      const colorIndex = i % 4;
+
+      await this.extractPdfHighlights(term, colorIndex);
     }
 
-    terms.forEach((term) => {
-      PDFViewerApplication.eventBus.dispatch('find', {
-        type: 'find',
-        query: term,
-        highlightAll: true,
-        caseSensitive: false,
-        phraseSearch: true,
+    this.redrawPdfOverlays();
+  }
+
+  /** Extrage highlight-urile PDF.js pentru un termen */
+  async extractPdfHighlights(term: string, colorIndex: number) {
+    PDFViewerApplication.eventBus.dispatch('find', {
+      type: 'find',
+      query: term,
+      highlightAll: true,
+      caseSensitive: false,
+      phraseSearch: true,
+    });
+
+    await this.sleep(80);
+    const pages = document.querySelectorAll('.page');
+
+    pages.forEach((pageDiv: HTMLElement) => {
+      const page = Number(pageDiv.dataset['pageNumber']);
+      const textLayer = pageDiv.querySelector('.textLayer');
+      if (!textLayer) return;
+
+      const presentationSpans = Array.from(
+        textLayer.querySelectorAll('span[role="presentation"]')
+      ) as HTMLElement[];
+
+      presentationSpans.forEach((span, index) => {
+        const fullHighlight = span.classList.contains('highlight');
+        const innerHighlight = span.querySelector('.highlight');
+
+        if (!fullHighlight && !innerHighlight) return;
+
+        if (fullHighlight) {
+          this.savedHighlights.push({
+            page,
+            index,
+            colorIndex,
+            mode: 'full',
+            innerHtml: span.innerHTML,
+          });
+        } else {
+          this.savedHighlights.push({
+            page,
+            index,
+            colorIndex,
+            mode: 'partial',
+            innerHtml: span.innerHTML,
+          });
+        }
       });
     });
+  }
+
+  redrawPdfOverlays() {
+    this.savedHighlights.forEach((h) => {
+      const pageDiv = document.querySelector(
+        `.page[data-page-number="${h.page}"]`
+      );
+      if (!pageDiv) return;
+
+      const textLayer = pageDiv.querySelector('.textLayer');
+      if (!textLayer) return;
+
+      const presentationSpans = Array.from(
+        textLayer.querySelectorAll('span[role="presentation"]')
+      ) as HTMLElement[];
+
+      const target = presentationSpans[h.index];
+      if (!target) return;
+
+      if (h.mode === 'full') {
+        target.classList.add('highlight', `highlight-${h.colorIndex}`);
+      } else {
+        target.innerHTML = h.innerHtml;
+        target.classList.add(`highlight-${h.colorIndex}`);
+      }
+    });
+  }
+
+  /** Șterge highlight-urile custom */
+  clearCustomOverlays() {
+    document
+      .querySelectorAll(
+        '.highlight-0, .highlight-1, .highlight-2, .highlight-3, .highlight'
+      )
+      .forEach((el) => {
+        if (!el.classList.contains('highlight')) {
+          const innerHighlight = el.querySelector('.highlight');
+          if (innerHighlight) {
+            el.innerHTML = el.innerHTML.replace(
+              innerHighlight.outerHTML,
+              innerHighlight.textContent || ''
+            );
+          }
+        }
+        el.classList.remove(
+          'highlight',
+          'highlight-0',
+          'highlight-1',
+          'highlight-2',
+          'highlight-3'
+        );
+      });
+  }
+
+  sleep(ms: number) {
+    return new Promise((r) => setTimeout(r, ms));
   }
 
   highlightMultipleDocx(terms: string[]) {
