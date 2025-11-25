@@ -33,6 +33,10 @@
   font-family: monospace;
 }
 
+::ng-deep .highlight {
+  background: rgba(yellow, 0.2) !important;
+}
+
 .pdf-viewer ::ng-deep .highlight.highlight-0,
 .pdf-viewer ::ng-deep .highlight-0 .highlight,
 .doc-viewer ::ng-deep .highlight-0,
@@ -54,7 +58,7 @@
 .pdf-viewer ::ng-deep .highlight.highlight-3,
 .pdf-viewer ::ng-deep .highlight-3 .highlight,
 .doc-viewer ::ng-deep .highlight-3,
-.txt-viewer ::ng-deep .highlight-3 {
+.txt-viewer ::ng-deep .highlight.highlight-3 {
   background: rgba(rgb(204, 0, 255), 0.2) !important;
 }
 

@@ -43,7 +43,7 @@
                 rows="4"
                 placeholder="Enter text to highlight"
                 name="highlight"
-                [(ngModel)]="highlightTerm"
+                [(ngModel)]="highlightTerms"
               ></textarea>
             </div>
           </div>
@@ -54,34 +54,9 @@
             fdType="positive"
             glyph="search"
             title="Highlight text"
-            (click)="highlight([highlightTerm])"
+            (click)="highlight()"
           ></button>
         </form>
-
-        <div class="mt-5">
-          <label fd-form-label for="highlight-input" class="mb-2"
-            >Highlight keywords:</label
-          >
-          <ul>
-            <li
-              *ngFor="let term of termsToHighlight; let i = index"
-              class="cursor-pointer"
-            >
-              <span (click)="highlight([term])">{{ term }}</span>
-            </li>
-          </ul>
-
-          <button
-            class="highlightBtn"
-            fd-button
-            fdType="positive"
-            glyph="search"
-            title="Highlight all"
-            (click)="highlight(termsToHighlight)"
-          >
-            Highlight all
-          </button>
-        </div>
       </div>
     </fd-splitter-split-pane>
     <nav></nav>

@@ -32,9 +32,10 @@ export class HighlightViewerComponent {
   viewerReady = false;
   originalDocxHtml: string = '';
   originalTxtContent: string = '';
-  highlightTerm = '';
-  termsToHighlight = ['Stand-Up Desks', 'Tendință', 'majoritatea'];
+  highlightTerms = 'Stand-Up Desks; postură corectă ; Active Zone';
+
   savedHighlights = [];
+  noColors = 1;
 
   @ViewChild(NgxExtendedPdfViewerComponent)
   private pdfViewer!: NgxExtendedPdfViewerComponent;
@@ -96,7 +97,8 @@ export class HighlightViewerComponent {
     }
   }
 
-  highlight(terms: string[]) {
+  highlight() {
+    const terms = this.highlightTerms.split(';').map((t) => t.trim());
     switch (this.fileViewer) {
       case 'pdf-viewer':
         this.highlightMultiplePdf(terms);
@@ -118,7 +120,7 @@ export class HighlightViewerComponent {
 
     for (let i = 0; i < terms.length; i++) {
       const term = terms[i];
-      const colorIndex = i % 4;
+      const colorIndex = i % this.noColors;
 
       await this.extractPdfHighlights(term, colorIndex);
     }
@@ -154,23 +156,13 @@ export class HighlightViewerComponent {
 
         if (!fullHighlight && !innerHighlight) return;
 
-        if (fullHighlight) {
-          this.savedHighlights.push({
-            page,
-            index,
-            colorIndex,
-            mode: 'full',
-            innerHtml: span.innerHTML,
-          });
-        } else {
-          this.savedHighlights.push({
-            page,
-            index,
-            colorIndex,
-            mode: 'partial',
-            innerHtml: span.innerHTML,
-          });
-        }
+        this.savedHighlights.push({
+          page,
+          index,
+          colorIndex,
+          mode: fullHighlight ? 'full' : 'partial',
+          innerHtml: span.innerHTML,
+        });
       });
     });
   }
@@ -268,7 +260,7 @@ export class HighlightViewerComponent {
           const after = originalText.slice(indexFound + matchedTerm.length);
 
           const mark = document.createElement('mark');
-          const colorIndex = matchedTermIndex % 4; // → highlight-0..3
+          const colorIndex = matchedTermIndex % this.noColors;
           mark.className = `highlight-${colorIndex}`;
           mark.textContent = match;
 
@@ -307,7 +299,7 @@ export class HighlightViewerComponent {
     let content = this.originalTxtContent;
 
     terms.forEach((term, i) => {
-      const colorIndex = i % 4; // ← AICI se face ciclarea culorilor
+      const colorIndex = i % this.noColors;
 
       const safe = term
         .replace(/\r\n/g, '\n')
