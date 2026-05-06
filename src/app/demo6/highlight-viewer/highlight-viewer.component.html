@@ -34,29 +34,59 @@
         <form class="mt-5 w-100 d-flex align-items-center gap-1">
           <div fd-form-set class="flex-grow-1 flex-shrink-1">
             <div fd-form-item>
-              <label fd-form-label for="highlight-input"
-                >Highlight multiple terms, separated by commas:</label
-              >
+              <label>Highlight multiple terms, separated by commas:</label>
               <textarea
                 fd-form-control
                 id="highlight-input"
                 rows="4"
                 placeholder="Enter text to highlight"
-                name="highlight"
                 [(ngModel)]="highlightTerms"
+                name="highlight"
               ></textarea>
             </div>
           </div>
-
-          <button
-            class="highlightBtn"
-            fd-button
-            fdType="positive"
-            glyph="search"
-            title="Highlight text"
-            (click)="highlight()"
-          ></button>
+          <div>
+            <button
+              class="highlightBtn"
+              fd-button
+              fdType="positive"
+              glyph="search"
+              title="Highlight text"
+              (click)="highlight()"
+            ></button>
+            <button
+              class="highlightBtn"
+              fd-button
+              fdType="positive"
+              glyph="decline"
+              title="Highlight text"
+              (click)="resetAllHighlights()"
+            ></button>
+          </div>
         </form>
+        <div class="mt-4 d-flex flex-column gap-2" *ngIf="this.fileViewer">
+          <label>Highlight backend response:</label>
+          <pre>{{
+            (this.fileViewer === "pdf-viewer"
+              ? pdfBackendResponse
+              : this.fileViewer === "txt-viewer"
+              ? txtBackendResponse
+              : docxBackendResponse
+            ) | prettyJson
+          }}</pre>
+          <div class="d-flex">
+            <button
+              fd-button
+              fdType="positive"
+              (click)="applyBackendHighlights()"
+            >
+              Highlight AI
+            </button>
+            <button fd-button fdType="negative" (click)="clearAllHighlights()">
+              Clear all
+            </button>
+          </div>
+        </div>
       </div>
     </fd-splitter-split-pane>
     <nav></nav>

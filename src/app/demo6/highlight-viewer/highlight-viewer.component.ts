@@ -12,6 +12,24 @@ import { NgxExtendedPdfViewerComponent } from 'ngx-extended-pdf-viewer';
 import { FileService } from 'src/app/services/file.service';
 declare const PDFViewerApplication: any;
 
+interface PdfHighlight {
+  term: string;
+  page: number;
+  bboxes: [number, number, number, number][]; // left, top, width, height
+}
+
+interface TextHighlight {
+  term: string;
+  startIndex: number;
+  endIndex: number;
+}
+
+interface BackendResponse {
+  type: 'pdf' | 'txt';
+  pdfBase64?: string;
+  highlights: PdfHighlight[] | TextHighlight[];
+}
+
 @Component({
   selector: 'app-highlight-viewer',
   templateUrl: './highlight-viewer.component.html',
@@ -34,8 +52,90 @@ export class HighlightViewerComponent {
   originalTxtContent: string = '';
   highlightTerms = 'Stand-Up Desks; postură corectă ; Active Zone';
 
+  customPdfHighlights: any[] = [];
+
+  pdfBackendResponse: BackendResponse = {
+    type: 'pdf',
+    highlights: [
+      {
+        term: 'Stand-Up Desks',
+        page: 1,
+        bboxes: [[70, 610, 165, 20]],
+      },
+      {
+        term: 'postură corectă',
+        page: 1,
+        bboxes: [[95, 540, 150, 18]],
+      },
+      {
+        term: 'Active Zone',
+        page: 1,
+        bboxes: [
+          [95, 500, 55, 18],
+          [95, 480, 55, 18],
+        ],
+      },
+      {
+        term: 'Violet/Plum Room',
+        page: 3,
+        bboxes: [[320, 610, 140, 20]],
+      },
+    ],
+  };
+
+  txtBackendResponse: BackendResponse = {
+    type: 'txt',
+    highlights: [
+      {
+        term: 'Stand-Up Desks',
+        startIndex: 3,
+        endIndex: 17,
+      },
+      {
+        term: 'postură corectă',
+        startIndex: 184,
+        endIndex: 199,
+      },
+      {
+        term: 'Active Zone',
+        startIndex: 355,
+        endIndex: 366,
+      },
+    ],
+  };
+
+  docxBackendResponse: BackendResponse = {
+    type: 'pdf',
+    pdfBase64: 'docx converted to base64 pdf string here',
+    highlights: [
+      {
+        term: 'Stand-Up Desks',
+        page: 1,
+        bboxes: [[70, 610, 165, 20]],
+      },
+      {
+        term: 'postură corectă',
+        page: 1,
+        bboxes: [[95, 540, 150, 18]],
+      },
+      {
+        term: 'Active Zone',
+        page: 1,
+        bboxes: [
+          [95, 500, 55, 18],
+          [95, 480, 55, 18],
+        ],
+      },
+      {
+        term: 'Violet/Plum Room',
+        page: 3,
+        bboxes: [[320, 610, 140, 20]],
+      },
+    ],
+  };
+
   savedHighlights = [];
-  noColors = 1;
+  colorNo = 1;
 
   @ViewChild(NgxExtendedPdfViewerComponent)
   private pdfViewer!: NgxExtendedPdfViewerComponent;
@@ -74,16 +174,13 @@ export class HighlightViewerComponent {
           case 'application/pdf':
             this.fileViewer = 'pdf-viewer';
             this.viewerReady = false;
-            // file => base64 => pdf-viewer
             this.fileBase64 = await this.fileService.getBase64(this.file);
             const x = this.fileBase64;
             break;
           case 'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
             this.fileViewer = 'doc-viewer';
             this.fileURL = window.URL.createObjectURL(this.file);
-
             this.originalDocxHtml = null;
-
             break;
           case 'text/plain':
           case 'text/html':
@@ -97,6 +194,7 @@ export class HighlightViewerComponent {
     }
   }
 
+  // 1. Highlight multiple terms
   highlight() {
     const terms = this.highlightTerms.split(';').map((t) => t.trim());
     switch (this.fileViewer) {
@@ -115,12 +213,12 @@ export class HighlightViewerComponent {
   async highlightMultiplePdf(terms: string[]) {
     if (!this.viewerReady || !PDFViewerApplication) return;
 
-    this.clearCustomOverlays();
+    this.resetPdfHighlight();
     this.savedHighlights = [];
 
     for (let i = 0; i < terms.length; i++) {
       const term = terms[i];
-      const colorIndex = i % this.noColors;
+      const colorIndex = i % this.colorNo;
 
       await this.extractPdfHighlights(term, colorIndex);
     }
@@ -128,7 +226,6 @@ export class HighlightViewerComponent {
     this.redrawPdfOverlays();
   }
 
-  /** Extrage highlight-urile PDF.js pentru un termen */
   async extractPdfHighlights(term: string, colorIndex: number) {
     PDFViewerApplication.eventBus.dispatch('find', {
       type: 'find',
@@ -193,8 +290,7 @@ export class HighlightViewerComponent {
     });
   }
 
-  /** Șterge highlight-urile custom */
-  clearCustomOverlays() {
+  resetPdfHighlight() {
     document
       .querySelectorAll(
         '.highlight-0, .highlight-1, .highlight-2, .highlight-3, .highlight'
@@ -260,8 +356,8 @@ export class HighlightViewerComponent {
           const after = originalText.slice(indexFound + matchedTerm.length);
 
           const mark = document.createElement('mark');
-          const colorIndex = matchedTermIndex % this.noColors;
-          mark.className = `highlight-${colorIndex}`;
+          const colorIndex = matchedTermIndex % this.colorNo;
+          mark.classList.add('highlight', `highlight-${colorIndex}`);
           mark.textContent = match;
 
           parent.insertBefore(document.createTextNode(before), node);
@@ -296,10 +392,11 @@ export class HighlightViewerComponent {
   }
 
   highlightMultipleTxt(terms: string[]) {
-    let content = this.originalTxtContent;
+    this.resetTxtHighlight();
+    let content = this.fileText;
 
     terms.forEach((term, i) => {
-      const colorIndex = i % this.noColors;
+      const colorIndex = i % this.colorNo;
 
       const safe = term
         .replace(/\r\n/g, '\n')
@@ -311,10 +408,130 @@ export class HighlightViewerComponent {
 
       content = content.replace(
         regex,
-        () => `<mark class="highlight-${colorIndex}">${term}</mark>`
+        () => `<mark class="highlight highlight-${colorIndex}">${term}</mark>`
       );
     });
 
     this.fileText = content;
+  }
+
+  resetTxtHighlight() {
+    this.fileText = this.originalTxtContent;
+  }
+
+  resetAllHighlights() {
+    this.resetPdfHighlight();
+    this.resetDocxHighlight();
+    this.resetTxtHighlight();
+  }
+
+  // 2. Apply backend highlights
+
+  async applyBackendHighlights() {
+    const response = this.pdfBackendResponse;
+
+    this.clearAllHighlights();
+
+    if (response.type === 'pdf') {
+      if (response.pdfBase64) {
+        this.viewerReady = false;
+        this.fileViewer = 'pdf-viewer';
+        this.fileBase64 = response.pdfBase64;
+        await this.waitForPdfToLoad();
+      }
+      this.applyPdfHighlights(response.highlights as PdfHighlight[]);
+    } else if (response.type === 'txt') {
+      this.applyTxtHighlights(response.highlights as TextHighlight[]);
+    }
+  }
+
+  waitForPdfToLoad(): Promise<void> {
+    return new Promise((resolve) => {
+      const check = () => {
+        if (this.viewerReady && PDFViewerApplication?.pdfViewer) {
+          resolve();
+        } else setTimeout(check, 30);
+      };
+      check();
+    });
+  }
+
+  applyPdfHighlights(items: PdfHighlight[]) {
+    items.forEach((item, i) => {
+      const colorIndex = i % this.colorNo;
+      item.bboxes.forEach((bbox) => {
+        this.drawBoundingBox(item.page, bbox, colorIndex);
+      });
+    });
+  }
+
+  async drawBoundingBox(
+    page: number,
+    bbox: [number, number, number, number],
+    colorIndex: number
+  ) {
+    const pageView = PDFViewerApplication.pdfViewer.getPageView(page - 1);
+
+    if (!pageView) return;
+
+    const pdfPage = pageView.pdfPage;
+    const scale = PDFViewerApplication.pdfViewer.currentScale;
+    const viewport = pdfPage.getViewport({ scale });
+
+    const [left, top, width, height] = bbox;
+
+    const rect = viewport.convertToViewportRectangle([
+      left,
+      top,
+      left + width,
+      top + height,
+    ]);
+
+    const cssLeft = Math.min(rect[0], rect[2]);
+    const cssTop = Math.min(rect[1], rect[3]);
+    const cssWidth = Math.abs(rect[0] - rect[2]);
+    const cssHeight = Math.abs(rect[1] - rect[3]);
+
+    // textLayer
+    const textLayer = pageView.div.querySelector('.textLayer');
+    if (!textLayer) return;
+
+    const div = document.createElement('div');
+    div.classList.add('pdf-highlight', `highlight-${colorIndex}`);
+
+    div.style.position = 'absolute';
+    div.style.left = `${cssLeft}px`;
+    div.style.top = `${cssTop}px`;
+    div.style.width = `${cssWidth}px`;
+    div.style.height = `${cssHeight}px`;
+    div.style.pointerEvents = 'none';
+
+    textLayer.appendChild(div);
+  }
+
+  applyTxtHighlights(items: TextHighlight[]) {
+    let text = this.originalTxtContent;
+
+    items.forEach((h, i) => {
+      const colorIndex = i % 4;
+
+      const before = text.slice(0, h.startIndex);
+      const match = text.slice(h.startIndex, h.endIndex);
+      const after = text.slice(h.endIndex);
+
+      text = `${before}<mark class="highlight highlight-${colorIndex}">${match}</mark>${after}`;
+    });
+
+    this.fileText = text;
+  }
+
+  clearAllHighlights() {
+    // PDF
+    document.querySelectorAll('.pdf-highlight').forEach((el) => el.remove());
+
+    // TXT
+    if (this.originalTxtContent) {
+      this.fileText = this.originalTxtContent;
+    }
   }
 }

@@ -1,0 +1,71 @@
+<div class="ui-correction">
+  <div class="ui-correction__header">
+    <h1>UI Korrektur</h1>
+  </div>
+  <button class="fd-button" (click)="toggleView()">
+    {{ showOnlyHighlighted ? "Komplett anzeigen" : "Reduziert anzeigen" }}
+  </button>
+
+  <div class="ui-correction__general" *ngIf="displayCorrectionData">
+    <div
+      class="ui-correction__general-field"
+      *ngFor="let field of displayCorrectionData.generalFields"
+    >
+      <span class="field-label">{{ field.label }}</span>
+      <span class="field-value">{{ field.value }}</span>
+    </div>
+  </div>
+
+  <div class="ui-correction__scroll" *ngIf="displayCorrectionData">
+    <section
+      class="correction-page"
+      *ngFor="let page of displayCorrectionData.pages"
+    >
+      <div class="correction-page__left">
+        <div class="field-table">
+          <div class="field-table__row" *ngFor="let field of page.fields">
+            <div class="field-table__label">{{ field.label }}</div>
+            <div
+              class="field-table__value"
+              [class.is-highlighted]="field.highlighted"
+            >
+              {{ field.value }}
+            </div>
+          </div>
+        </div>
+
+        <div class="data-table-wrapper" *ngFor="let table of page.tables">
+          <table class="fd-table correction-table">
+            <thead class="fd-table__header">
+              <tr class="fd-table__row">
+                <th class="fd-table__cell" *ngFor="let column of table.columns">
+                  {{ column }}
+                </th>
+              </tr>
+            </thead>
+
+            <tbody class="fd-table__body">
+              <tr class="fd-table__row" *ngFor="let row of table.rows">
+                <td
+                  class="fd-table__cell"
+                  *ngFor="let cell of row"
+                  [class.is-highlighted]="cell.highlighted"
+                >
+                  {{ cell.value }}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="correction-page__right">
+        <img
+          class="correction-page__image"
+          [src]="page.image"
+          alt="Document page"
+        />
+      </div>
+    </section>
+  </div>
+</div>

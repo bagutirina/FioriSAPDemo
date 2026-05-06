@@ -29,6 +29,8 @@ import { HighlightViewerComponent } from './demo6/highlight-viewer/highlight-vie
 import { DropImageDirective } from './directives/drop-image.directive';
 import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 import { NgxDocViewerModule } from 'ngx-doc-viewer';
+import { PrettyJsonPipe } from './directives/function.pipe';
+import { UICorrectionComponent } from './demo7/ui-correction.component';
 
 @NgModule({
   declarations: [
@@ -43,6 +45,8 @@ import { NgxDocViewerModule } from 'ngx-doc-viewer';
     CesiumViewerComponent,
     HighlightViewerComponent,
     DropImageDirective,
+    PrettyJsonPipe,
+    UICorrectionComponent,
   ],
   imports: [
     BrowserModule,
