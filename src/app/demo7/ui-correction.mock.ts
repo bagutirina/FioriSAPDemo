@@ -16,6 +16,19 @@ export const uiCorrectionMockData = {
           ],
           highlights: [[true, false, false, false, true]],
         },
+        {
+          rows: [
+            ['Typ', 'Beschreibung', 'Betrag'],
+            ['Zwischensumme', 'Leistung', '60,00€'],
+            ['MwSt', 'Steuerfrei nach §4', '0,00€'],
+            ['Gesamtbetrag', 'Rechnungsbetrag', '60,00€'],
+          ],
+          highlights: [
+            [false, false, false],
+            [false, false, false],
+            [true, false, true],
+          ],
+        },
       ],
     },
     {

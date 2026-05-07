@@ -2,9 +2,26 @@
   <div class="ui-correction__header">
     <h1>UI Korrektur</h1>
   </div>
-  <button class="fd-button" (click)="toggleView()">
-    {{ showOnlyHighlighted ? "Komplett anzeigen" : "Reduziert anzeigen" }}
-  </button>
+
+  <div class="d-flex w-100 justify-content-end swich-wrapper">
+    <div class="view-mode-switch">
+      <button
+        class="fd-button"
+        [class.is-active]="!showOnlyHighlighted"
+        (click)="showOnlyHighlighted = false"
+      >
+        Komplett
+      </button>
+
+      <button
+        class="fd-button"
+        [class.is-active]="showOnlyHighlighted"
+        (click)="showOnlyHighlighted = true"
+      >
+        Auffälligkeiten
+      </button>
+    </div>
+  </div>
 
   <div class="ui-correction__general" *ngIf="displayCorrectionData">
     <div
