@@ -36,6 +36,8 @@ interface CorrectionData {
 export class UICorrectionComponent implements OnInit {
   correctionData!: CorrectionData;
   showOnlyHighlighted = false;
+  editingCell: CorrectionTableCell | null = null;
+  editingValue = '';
 
   get displayCorrectionData(): CorrectionData | undefined {
     if (!this.correctionData || !this.showOnlyHighlighted) {
@@ -67,6 +69,43 @@ export class UICorrectionComponent implements OnInit {
 
   toggleView(): void {
     this.showOnlyHighlighted = !this.showOnlyHighlighted;
+  }
+
+  startEdit(cell: CorrectionTableCell): void {
+    if (this.showOnlyHighlighted || this.editingCell === cell) return;
+    this.editingCell = cell;
+    this.editingValue = cell.value;
+    setTimeout(() => {
+      const input = document.querySelector<HTMLInputElement>('.cell-edit-input');
+      input?.focus();
+      input?.select();
+    });
+  }
+
+  commitEdit(): void {
+    if (this.editingCell) {
+      this.editingCell.value = this.editingValue;
+      this.editingCell = null;
+    }
+  }
+
+  cancelEdit(): void {
+    this.editingCell = null;
+  }
+
+  addRow(pageIndex: number, tableIndex: number): void {
+    const table = this.correctionData.pages[pageIndex].tables[tableIndex];
+    const newRow: CorrectionTableCell[] = table.columns.map(() => ({
+      value: '',
+      highlighted: false,
+    }));
+    table.rows.push(newRow);
+  }
+
+  deleteRow(pageIndex: number, tableIndex: number, rowIndex: number): void {
+    if (this.editingCell) this.cancelEdit();
+    const table = this.correctionData.pages[pageIndex].tables[tableIndex];
+    table.rows.splice(rowIndex, 1);
   }
 
   ngOnInit(): void {

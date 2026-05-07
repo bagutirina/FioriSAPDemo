@@ -36,7 +36,7 @@
   <div class="ui-correction__scroll" *ngIf="displayCorrectionData">
     <section
       class="correction-page"
-      *ngFor="let page of displayCorrectionData.pages"
+      *ngFor="let page of displayCorrectionData.pages; let pageIndex = index"
     >
       <div class="correction-page__left">
         <div class="field-table">
@@ -51,28 +51,58 @@
           </div>
         </div>
 
-        <div class="data-table-wrapper" *ngFor="let table of page.tables">
+        <div class="data-table-wrapper" *ngFor="let table of page.tables; let tableIndex = index">
           <table class="fd-table correction-table">
             <thead class="fd-table__header">
               <tr class="fd-table__row">
                 <th class="fd-table__cell" *ngFor="let column of table.columns">
                   {{ column }}
                 </th>
+                <th class="fd-table__cell fd-table__cell--actions" *ngIf="!showOnlyHighlighted"></th>
               </tr>
             </thead>
 
             <tbody class="fd-table__body">
-              <tr class="fd-table__row" *ngFor="let row of table.rows">
+              <tr class="fd-table__row" *ngFor="let row of table.rows; let rowIndex = index">
                 <td
                   class="fd-table__cell"
                   *ngFor="let cell of row"
                   [class.is-highlighted]="cell.highlighted"
+                  [class.is-editing]="editingCell === cell"
+                  (click)="startEdit(cell)"
                 >
-                  {{ cell.value }}
+                  <span [style.visibility]="editingCell === cell ? 'hidden' : 'visible'">{{ cell.value }}</span>
+                  <input
+                    *ngIf="editingCell === cell"
+                    class="cell-edit-input"
+                    [(ngModel)]="editingValue"
+                    [ngModelOptions]="{standalone: true}"
+                    (blur)="commitEdit()"
+                    (keydown.enter)="commitEdit()"
+                    (keydown.escape)="cancelEdit()"
+                  />
+                </td>
+                <td class="fd-table__cell fd-table__cell--actions" *ngIf="!showOnlyHighlighted">
+                  <button
+                    class="fd-button fd-button--transparent fd-button--compact row-delete-btn"
+                    (click)="deleteRow(pageIndex, tableIndex, rowIndex)"
+                    title="Zeile löschen"
+                  >
+                    <i class="sap-icon--delete"></i>
+                  </button>
                 </td>
               </tr>
             </tbody>
           </table>
+
+          <button
+            class="fd-button fd-button--transparent add-row-btn"
+            *ngIf="!showOnlyHighlighted"
+            (click)="addRow(pageIndex, tableIndex)"
+          >
+            <i class="sap-icon--add"></i>
+            Zeile hinzufügen
+          </button>
         </div>
       </div>
 
