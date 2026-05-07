@@ -13,8 +13,12 @@ export const uiCorrectionMockData = {
           rows: [
             ['Position', 'Start', 'Ende', 'Anzahl', 'Preis'],
             ['Besorgung VO', '13.06.2025', '13.06.2025', '2', '60,00€'],
+            ['Besorgung VO', '13.06.2025', '13.06.2025', '2', '60,00€'],
           ],
-          highlights: [[true, false, false, false, true]],
+          highlights: [
+            [true, false, false, false, true],
+            [false, false, false, false, false],
+          ],
         },
         {
           rows: [

@@ -12,8 +12,12 @@ interface CorrectionTableCell {
   highlighted: boolean;
 }
 
+interface CorrectionColumn {
+  value: string;
+}
+
 interface CorrectionTable {
-  columns: string[];
+  columns: CorrectionColumn[];
   rows: CorrectionTableCell[][];
 }
 
@@ -35,46 +39,84 @@ interface CorrectionData {
 })
 export class UICorrectionComponent implements OnInit {
   correctionData!: CorrectionData;
-  showOnlyHighlighted = false;
-  editingCell: CorrectionTableCell | null = null;
+  private _showOnlyHighlighted = false;
+  get showOnlyHighlighted(): boolean { return this._showOnlyHighlighted; }
+  set showOnlyHighlighted(value: boolean) {
+    if (this._showOnlyHighlighted === value) return;
+    this._showOnlyHighlighted = value;
+    this.invalidateCache();
+  }
+  editingItem: { value: string } | null = null;
   editingValue = '';
 
-  get displayCorrectionData(): CorrectionData | undefined {
-    if (!this.correctionData || !this.showOnlyHighlighted) {
-      return this.correctionData;
-    }
+  private _displayCache: { highlighted: boolean; data: CorrectionData } | null = null;
+  private rowCache = new WeakMap<CorrectionTable, CorrectionTableCell[][]>();
+  private colCache = new WeakMap<CorrectionTable, number[]>();
 
+  get displayCorrectionData(): CorrectionData | undefined {
+    if (!this.correctionData) return undefined;
+    if (this._displayCache?.highlighted === this.showOnlyHighlighted) {
+      return this._displayCache.data;
+    }
+    const data = this.showOnlyHighlighted ? this.buildFilteredData() : this.correctionData;
+    this._displayCache = { highlighted: this.showOnlyHighlighted, data };
+    return data;
+  }
+
+  getDisplayRows(table: CorrectionTable): CorrectionTableCell[][] {
+    if (this.rowCache.has(table)) return this.rowCache.get(table)!;
+    const rows = !this.showOnlyHighlighted
+      ? table.rows
+      : table.rows.filter((row) => row.some((cell) => cell.highlighted));
+    this.rowCache.set(table, rows);
+    return rows;
+  }
+
+  getVisibleColumnIndices(table: CorrectionTable): number[] {
+    if (this.colCache.has(table)) return this.colCache.get(table)!;
+    let indices: number[];
+    if (!this.showOnlyHighlighted) {
+      indices = table.columns.map((_, i) => i);
+    } else {
+      const visibleRows = this.getDisplayRows(table);
+      indices = table.columns
+        .map((_, i) => i)
+        .filter((i) => visibleRows.some((row) => row[i]?.highlighted));
+    }
+    this.colCache.set(table, indices);
+    return indices;
+  }
+
+  trackByIndex(index: number, _item: any): number {
+    return index;
+  }
+
+  private invalidateCache(): void {
+    this._displayCache = null;
+    this.rowCache = new WeakMap();
+    this.colCache = new WeakMap();
+  }
+
+  private buildFilteredData(): CorrectionData {
     return {
       generalFields: this.correctionData.generalFields,
       pages: this.correctionData.pages
         .map((page) => ({
           ...page,
-
-          // păstrăm mereu câmpurile informative ale paginii
-          fields: page.fields,
-
-          // filtrăm doar rows din tabele
-          tables: page.tables
-            .map((table) => ({
-              ...table,
-              rows: table.rows.filter((row) =>
-                row.some((cell) => cell.highlighted),
-              ),
-            }))
-            .filter((table) => table.rows.length > 0),
+          tables: page.tables.filter((table) =>
+            table.rows.some((row) => row.some((cell) => cell.highlighted)),
+          ),
         }))
         .filter((page) => page.tables.length > 0),
     };
   }
 
-  toggleView(): void {
-    this.showOnlyHighlighted = !this.showOnlyHighlighted;
-  }
 
-  startEdit(cell: CorrectionTableCell): void {
-    if (this.showOnlyHighlighted || this.editingCell === cell) return;
-    this.editingCell = cell;
-    this.editingValue = cell.value;
+
+  startEdit(item: { value: string }): void {
+    if (this.editingItem === item) return;
+    this.editingItem = item;
+    this.editingValue = item.value;
     setTimeout(() => {
       const input = document.querySelector<HTMLInputElement>('.cell-edit-input');
       input?.focus();
@@ -83,29 +125,34 @@ export class UICorrectionComponent implements OnInit {
   }
 
   commitEdit(): void {
-    if (this.editingCell) {
-      this.editingCell.value = this.editingValue;
-      this.editingCell = null;
+    if (this.editingItem) {
+      this.editingItem.value = this.editingValue;
+      this.editingItem = null;
     }
   }
 
   cancelEdit(): void {
-    this.editingCell = null;
+    this.editingItem = null;
   }
 
-  addRow(pageIndex: number, tableIndex: number): void {
-    const table = this.correctionData.pages[pageIndex].tables[tableIndex];
-    const newRow: CorrectionTableCell[] = table.columns.map(() => ({
-      value: '',
-      highlighted: false,
-    }));
-    table.rows.push(newRow);
+  addRow(table: CorrectionTable): void {
+    table.rows.push(table.columns.map(() => ({ value: '', highlighted: false })));
+    this.invalidateCache();
   }
 
-  deleteRow(pageIndex: number, tableIndex: number, rowIndex: number): void {
-    if (this.editingCell) this.cancelEdit();
-    const table = this.correctionData.pages[pageIndex].tables[tableIndex];
-    table.rows.splice(rowIndex, 1);
+  deleteRow(table: CorrectionTable, row: CorrectionTableCell[]): void {
+    if (this.editingItem) this.cancelEdit();
+    const index = table.rows.indexOf(row);
+    if (index !== -1) table.rows.splice(index, 1);
+    this.invalidateCache();
+  }
+
+  confirm(): void {}
+
+  cancel(): void {
+    this.editingItem = null;
+    this.correctionData = this.mapMockData(uiCorrectionMockData);
+    this.invalidateCache();
   }
 
   ngOnInit(): void {
@@ -146,7 +193,9 @@ export class UICorrectionComponent implements OnInit {
   }
 
   private mapTable(table: any): CorrectionTable {
-    const columns = table.rows[0];
+    const columns: CorrectionColumn[] = (table.rows[0] as string[]).map(
+      (v) => ({ value: v }),
+    );
     const dataRows = table.rows.slice(1);
 
     const rows: CorrectionTableCell[][] = dataRows.map(
@@ -157,9 +206,6 @@ export class UICorrectionComponent implements OnInit {
         })),
     );
 
-    return {
-      columns,
-      rows,
-    };
+    return { columns, rows };
   }
 }

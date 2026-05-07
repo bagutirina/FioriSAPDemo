@@ -1,5 +1,5 @@
 .ui-correction {
-  height: calc(100vh - 32px);
+  height: 100vh;
   display: flex;
   flex-direction: column;
   padding: 1rem;
@@ -7,8 +7,22 @@
   overflow: hidden;
 }
 
+.header-wrapp {
+  border-bottom: 1px solid #d9d9d9;
+}
+
 .ui-correction__header {
   flex: 0 0 auto;
+}
+
+.ui-correction__footer {
+  flex: 0 0 auto;
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  padding-top: 0.75rem;
+  margin-top: 0.25rem;
+  border-top: 1px solid #d9d9d9;
 }
 
 .ui-correction__header h1 {
@@ -22,9 +36,6 @@
   display: flex;
   gap: 1rem;
   padding: 0.75rem;
-  margin-bottom: 1rem;
-  border-bottom: 1px solid #d9d9d9;
-  /* background: #dbdbdb; */
   padding-left: 2px;
 }
 
@@ -58,6 +69,8 @@
 .correction-page__left {
   flex: 0 0 50%;
   min-width: 0;
+  padding-left: 20px;
+  padding-right: 20px;
 }
 
 .correction-page__right {
@@ -107,7 +120,7 @@
 
 .data-table-wrapper {
   margin-bottom: 30px;
-  overflow-x: auto;
+  overflow: visible;
 }
 
 .correction-table {
@@ -119,13 +132,20 @@
 }
 
 .fd-table__cell--actions {
-  width: 40px;
-  min-width: 40px;
+  width: 0;
+  min-width: 0;
   padding: 0 !important;
-  text-align: center;
+  border: none !important;
+  background: transparent !important;
+  overflow: visible;
+  position: relative;
 }
 
 .row-delete-btn {
+  position: absolute;
+  left: 0px;
+  top: 50%;
+  transform: translateY(-50%);
   opacity: 0;
   transition: opacity 0.15s;
   color: #bb0000;
@@ -147,6 +167,37 @@
 
 .fd-table__cell:not(.fd-table__cell--actions) {
   cursor: pointer;
+}
+
+.field-value {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  border-radius: 3px;
+  padding: 1px 3px;
+
+  &:hover {
+    background: #f0f0f0;
+  }
+
+  &.is-editing {
+    background: #f0f7ff;
+    min-width: 60px;
+  }
+}
+
+.field-table__value {
+  cursor: pointer;
+
+  &:hover {
+    background: #f5f5f5;
+  }
+
+  &.is-editing {
+    position: relative;
+    background: #f0f7ff;
+    padding: 0;
+  }
 }
 
 .cell-edit-input {
@@ -183,7 +234,7 @@
   &:hover {
     background: transparent !important;
     color: #0040a0 !important;
-    text-decoration: underline;
+    text-decoration: none;
   }
 }
 
@@ -214,19 +265,19 @@
     color: #6d6d6d;
   }
 }
-.view-mode-switch .fd-button,
-.view-mode-switch .fd-button:focus,
-.view-mode-switch .fd-button:active,
-.view-mode-switch .fd-button:focus-visible {
+.fd-button,
+.fd-button:focus,
+.fd-button:active,
+.fd-button:focus-visible {
   border: none;
   outline: none;
   box-shadow: none;
 }
 
-.view-mode-switch .fd-button::before,
-.view-mode-switch .fd-button::after,
-.view-mode-switch .fd-button:focus::before,
-.view-mode-switch .fd-button:focus::after {
+.fd-button::before,
+.fd-button::after,
+.fd-button:focus::before,
+.fd-button:focus::after {
   display: none;
 }
 

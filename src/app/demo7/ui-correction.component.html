@@ -1,9 +1,39 @@
 <div class="ui-correction">
-  <div class="ui-correction__header">
-    <h1>UI Korrektur</h1>
-  </div>
-
-  <div class="d-flex w-100 justify-content-end swich-wrapper">
+  <div
+    class="d-flex flex-row justify-content-between w-100 px-4 align-items-start header-wrapp"
+  >
+    <div class="d-flex flex-column">
+      <div class="ui-correction__header">
+        <h1>Manuelle Validierung</h1>
+      </div>
+      <div class="ui-correction__general" *ngIf="displayCorrectionData">
+        <div
+          class="ui-correction__general-field"
+          *ngFor="let field of displayCorrectionData.generalFields"
+        >
+          <span class="field-label">{{ field.label }}</span>
+          <span
+            class="field-value"
+            [class.is-editing]="editingItem === field"
+            (click)="startEdit(field)"
+          >
+            <span
+              [style.visibility]="editingItem === field ? 'hidden' : 'visible'"
+              >{{ field.value }}</span
+            >
+            <input
+              *ngIf="editingItem === field"
+              class="cell-edit-input"
+              [(ngModel)]="editingValue"
+              [ngModelOptions]="{ standalone: true }"
+              (blur)="commitEdit()"
+              (keydown.enter)="commitEdit()"
+              (keydown.escape)="cancelEdit()"
+            />
+          </span>
+        </div>
+      </div>
+    </div>
     <div class="view-mode-switch">
       <button
         class="fd-button"
@@ -23,20 +53,10 @@
     </div>
   </div>
 
-  <div class="ui-correction__general" *ngIf="displayCorrectionData">
-    <div
-      class="ui-correction__general-field"
-      *ngFor="let field of displayCorrectionData.generalFields"
-    >
-      <span class="field-label">{{ field.label }}</span>
-      <span class="field-value">{{ field.value }}</span>
-    </div>
-  </div>
-
-  <div class="ui-correction__scroll" *ngIf="displayCorrectionData">
+  <div class="ui-correction__scroll mt-4" *ngIf="displayCorrectionData">
     <section
       class="correction-page"
-      *ngFor="let page of displayCorrectionData.pages; let pageIndex = index"
+      *ngFor="let page of displayCorrectionData.pages"
     >
       <div class="correction-page__left">
         <div class="field-table">
@@ -45,47 +65,104 @@
             <div
               class="field-table__value"
               [class.is-highlighted]="field.highlighted"
+              [class.is-editing]="editingItem === field"
+              (click)="startEdit(field)"
             >
-              {{ field.value }}
+              <span
+                [style.visibility]="
+                  editingItem === field ? 'hidden' : 'visible'
+                "
+                >{{ field.value }}</span
+              >
+              <input
+                *ngIf="editingItem === field"
+                class="cell-edit-input"
+                [(ngModel)]="editingValue"
+                [ngModelOptions]="{ standalone: true }"
+                (blur)="commitEdit()"
+                (keydown.enter)="commitEdit()"
+                (keydown.escape)="cancelEdit()"
+              />
             </div>
           </div>
         </div>
 
-        <div class="data-table-wrapper" *ngFor="let table of page.tables; let tableIndex = index">
+        <div class="data-table-wrapper" *ngFor="let table of page.tables">
           <table class="fd-table correction-table">
             <thead class="fd-table__header">
               <tr class="fd-table__row">
-                <th class="fd-table__cell" *ngFor="let column of table.columns">
-                  {{ column }}
-                </th>
-                <th class="fd-table__cell fd-table__cell--actions" *ngIf="!showOnlyHighlighted"></th>
+                <ng-container
+                  *ngFor="
+                    let colIndex of getVisibleColumnIndices(table);
+                    trackBy: trackByIndex
+                  "
+                >
+                  <th
+                    class="fd-table__cell"
+                    [class.is-editing]="editingItem === table.columns[colIndex]"
+                    (click)="startEdit(table.columns[colIndex])"
+                  >
+                    <span
+                      [style.visibility]="
+                        editingItem === table.columns[colIndex]
+                          ? 'hidden'
+                          : 'visible'
+                      "
+                      >{{ table.columns[colIndex].value }}</span
+                    >
+                    <input
+                      *ngIf="editingItem === table.columns[colIndex]"
+                      class="cell-edit-input"
+                      [(ngModel)]="editingValue"
+                      [ngModelOptions]="{ standalone: true }"
+                      (blur)="commitEdit()"
+                      (keydown.enter)="commitEdit()"
+                      (keydown.escape)="cancelEdit()"
+                    />
+                  </th>
+                </ng-container>
+                <th class="fd-table__cell fd-table__cell--actions"></th>
               </tr>
             </thead>
 
             <tbody class="fd-table__body">
-              <tr class="fd-table__row" *ngFor="let row of table.rows; let rowIndex = index">
-                <td
-                  class="fd-table__cell"
-                  *ngFor="let cell of row"
-                  [class.is-highlighted]="cell.highlighted"
-                  [class.is-editing]="editingCell === cell"
-                  (click)="startEdit(cell)"
+              <tr
+                class="fd-table__row"
+                *ngFor="let row of getDisplayRows(table); trackBy: trackByIndex"
+              >
+                <ng-container
+                  *ngFor="
+                    let colIndex of getVisibleColumnIndices(table);
+                    trackBy: trackByIndex
+                  "
                 >
-                  <span [style.visibility]="editingCell === cell ? 'hidden' : 'visible'">{{ cell.value }}</span>
-                  <input
-                    *ngIf="editingCell === cell"
-                    class="cell-edit-input"
-                    [(ngModel)]="editingValue"
-                    [ngModelOptions]="{standalone: true}"
-                    (blur)="commitEdit()"
-                    (keydown.enter)="commitEdit()"
-                    (keydown.escape)="cancelEdit()"
-                  />
-                </td>
-                <td class="fd-table__cell fd-table__cell--actions" *ngIf="!showOnlyHighlighted">
+                  <td
+                    class="fd-table__cell"
+                    [class.is-highlighted]="row[colIndex].highlighted"
+                    [class.is-editing]="editingItem === row[colIndex]"
+                    (click)="startEdit(row[colIndex])"
+                  >
+                    <span
+                      [style.visibility]="
+                        editingItem === row[colIndex] ? 'hidden' : 'visible'
+                      "
+                      >{{ row[colIndex].value }}</span
+                    >
+                    <input
+                      *ngIf="editingItem === row[colIndex]"
+                      class="cell-edit-input"
+                      [(ngModel)]="editingValue"
+                      [ngModelOptions]="{ standalone: true }"
+                      (blur)="commitEdit()"
+                      (keydown.enter)="commitEdit()"
+                      (keydown.escape)="cancelEdit()"
+                    />
+                  </td>
+                </ng-container>
+                <td class="fd-table__cell fd-table__cell--actions">
                   <button
                     class="fd-button fd-button--transparent fd-button--compact row-delete-btn"
-                    (click)="deleteRow(pageIndex, tableIndex, rowIndex)"
+                    (click)="deleteRow(table, row)"
                     title="Zeile löschen"
                   >
                     <i class="sap-icon--delete"></i>
@@ -98,7 +175,7 @@
           <button
             class="fd-button fd-button--transparent add-row-btn"
             *ngIf="!showOnlyHighlighted"
-            (click)="addRow(pageIndex, tableIndex)"
+            (click)="addRow(table)"
           >
             <i class="sap-icon--add"></i>
             Zeile hinzufügen
@@ -114,5 +191,14 @@
         />
       </div>
     </section>
+  </div>
+
+  <div class="ui-correction__footer">
+    <button class="fd-button fd-button--transparent" (click)="cancel()">
+      Abbrechen
+    </button>
+    <button class="fd-button fd-button--emphasized" (click)="confirm()">
+      Bestätigen
+    </button>
   </div>
 </div>
