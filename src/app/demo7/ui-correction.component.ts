@@ -1,13 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { uiCorrectionMockData } from './ui-correction.mock';
 import { UICorrectionStateService } from './ui-correction-state.service';
+import { UICorrectionHelperService } from './ui-correction-helper.service';
 import {
-  CorrectionField,
   CorrectionTableCell,
-  CorrectionColumn,
   CorrectionTable,
-  CorrectionPage,
   CorrectionData,
 } from './ui-correction.model';
 
@@ -24,6 +21,7 @@ export class UICorrectionComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private state: UICorrectionStateService,
+    private helper: UICorrectionHelperService,
   ) {}
   private _showOnlyHighlighted = false;
   get showOnlyHighlighted(): boolean {
@@ -58,7 +56,7 @@ export class UICorrectionComponent implements OnInit {
     if (this.rowCache.has(table)) return this.rowCache.get(table)!;
     const rows = !this.showOnlyHighlighted
       ? table.rows
-      : table.rows.filter((row) => row.some((cell) => cell.highlighted));
+      : table.rows.filter((row) => row.some((c) => c.originalHighlighted && c.value === c.originalValue));
     this.rowCache.set(table, rows);
     return rows;
   }
@@ -72,7 +70,10 @@ export class UICorrectionComponent implements OnInit {
       const visibleRows = this.getDisplayRows(table);
       indices = table.columns
         .map((_, i) => i)
-        .filter((i) => visibleRows.some((row) => row[i]?.highlighted));
+        .filter((i) => visibleRows.some((row) => {
+          const c = row[i];
+          return c?.originalHighlighted && c.value === c.originalValue;
+        }));
     }
     this.colCache.set(table, indices);
     return indices;
@@ -88,19 +89,39 @@ export class UICorrectionComponent implements OnInit {
     this.colCache = new WeakMap();
   }
 
+  get noAnomaliesMessage(): string | null {
+    if (!this.showOnlyHighlighted) return null;
+    if (this.helper.hasAnomalies(this.correctionData)) return null;
+    return this.helper.hadOriginalAnomalies(this.exampleIndex)
+      ? 'Keine Auffälligkeiten mehr vorhanden – alle wurden korrigiert.'
+      : 'Keine Auffälligkeiten vorhanden.';
+  }
+
   private buildFilteredData(): CorrectionData {
+    const isAnomaly = (item: { originalHighlighted: boolean; value: string; originalValue: string }) =>
+      item.originalHighlighted && item.value === item.originalValue;
     return {
-      generalFields: this.correctionData.generalFields,
+      generalFields: this.correctionData.generalFields.filter(isAnomaly),
       pages: this.correctionData.pages
         .map((page) => ({
           ...page,
-          fields: page.fields.filter((f) => f.highlighted),
+          fields: page.fields.filter(isAnomaly),
           tables: page.tables.filter((table) =>
-            table.rows.some((row) => row.some((cell) => cell.highlighted)),
+            table.rows.some((row) => row.some(isAnomaly)),
           ),
         }))
         .filter((page) => page.fields.length > 0 || page.tables.length > 0),
     };
+  }
+
+  isHighlighted(item: { originalHighlighted: boolean; value: string; originalValue: string }): boolean {
+    const current = this.editingItem === item ? this.editingValue : item.value;
+    return item.originalHighlighted && current === item.originalValue;
+  }
+
+  isEdited(item: { value: string; originalValue: string }): boolean {
+    const current = this.editingItem === item ? this.editingValue : item.value;
+    return current !== item.originalValue;
   }
 
   startEdit(item: { value: string }): void {
@@ -117,7 +138,10 @@ export class UICorrectionComponent implements OnInit {
 
   commitEdit(): void {
     if (this.editingItem) {
-      this.editingItem.value = this.editingValue;
+      const item = this.editingItem as { value: string };
+      const valueChanged = item.value !== this.editingValue;
+      item.value = this.editingValue;
+      if (valueChanged) this.invalidateCache();
       this.editingItem = null;
     }
   }
@@ -128,7 +152,7 @@ export class UICorrectionComponent implements OnInit {
 
   addRow(table: CorrectionTable): void {
     table.rows.push(
-      table.columns.map(() => ({ value: '', highlighted: false })),
+      table.columns.map(() => ({ value: '', highlighted: false, originalValue: '', originalHighlighted: false })),
     );
     this.invalidateCache();
   }
@@ -338,72 +362,16 @@ export class UICorrectionComponent implements OnInit {
 
   cancel(): void {
     this.editingItem = null;
-    const saved = this.state.load(this.exampleIndex);
-    this.correctionData = saved
-      ? structuredClone(saved)
-      : this.mapMockData(uiCorrectionMockData[this.exampleIndex]);
+    this.correctionData = this.helper.getCurrentVersion(this.exampleIndex);
     this.invalidateCache();
     this.router.navigate(['/UICorrection']);
   }
 
   ngOnInit(): void {
     this.exampleIndex = Number(this.route.snapshot.paramMap.get('index') ?? 0);
-    const saved = this.state.load(this.exampleIndex);
-    this.correctionData = saved
-      ? structuredClone(saved)
-      : this.mapMockData(uiCorrectionMockData[this.exampleIndex] ?? uiCorrectionMockData[0]);
+    this.correctionData = this.helper.getCurrentVersion(this.exampleIndex);
     if (this.route.snapshot.queryParamMap.get('highlighted') === 'true') {
       this._showOnlyHighlighted = true;
     }
-  }
-
-  private mapMockData(rawData: any): CorrectionData {
-    return {
-      generalFields: this.mapGeneralFields(rawData.general),
-      pages: rawData.pages.map((page: any) => this.mapPage(page)),
-    };
-  }
-
-  private mapGeneralFields(general: Record<string, any>): CorrectionField[] {
-    return Object.entries(general).map(([label, field]) => ({
-      label,
-      value: field.value,
-      highlighted: field.highlight ?? false,
-    }));
-  }
-
-  private mapPage(page: any): CorrectionPage {
-    const reservedKeys = ['image', 'tables'];
-
-    const fields: CorrectionField[] = Object.entries(page)
-      .filter(([key]) => !reservedKeys.includes(key))
-      .map(([label, field]: [string, any]) => ({
-        label,
-        value: field.value,
-        highlighted: field.highlight,
-      }));
-
-    return {
-      image: `assets/ui-correction/${page.image}`,
-      fields,
-      tables: page.tables.map((table: any) => this.mapTable(table)),
-    };
-  }
-
-  private mapTable(table: any): CorrectionTable {
-    const columns: CorrectionColumn[] = (table.rows[0] as string[]).map(
-      (v) => ({ value: v }),
-    );
-    const dataRows = table.rows.slice(1);
-
-    const rows: CorrectionTableCell[][] = dataRows.map(
-      (row: string[], rowIndex: number) =>
-        row.map((value: string, cellIndex: number) => ({
-          value,
-          highlighted: table.highlights?.[rowIndex]?.[cellIndex] ?? false,
-        })),
-    );
-
-    return { columns, rows };
   }
 }

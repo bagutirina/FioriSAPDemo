@@ -4,15 +4,25 @@
   >
     <div class="d-flex flex-column">
       <div class="ui-correction__header">
+        <button
+          class="fd-button fd-button--transparent back-btn"
+          (click)="cancel()"
+          title="Zurück"
+        >
+          <i class="sap-icon--arrow-left"></i>
+        </button>
         <h1>Manuelle Validierung</h1>
       </div>
       <div
         class="ui-correction__general d-flex flex-column"
-        *ngIf="displayCorrectionData"
+        *ngIf="displayCorrectionData?.generalFields?.length"
       >
         <div
           class="ui-correction__general-field"
-          *ngFor="let field of displayCorrectionData.generalFields; let fieldIdx = index"
+          *ngFor="
+            let field of displayCorrectionData.generalFields;
+            let fieldIdx = index
+          "
         >
           <span class="field-label">{{ field.label }}</span>
           <span
@@ -21,7 +31,9 @@
             [attr.data-nav-item]="fieldIdx === 0 ? '' : null"
             data-nav-table="general"
             data-arrow-group="general"
+            [class.is-highlighted]="isHighlighted(field)"
             [class.is-editing]="editingItem === field"
+            [class.is-edited]="isEdited(field)"
             (click)="startEdit(field)"
             (keydown)="onFieldKeydown($event, field, 'general')"
           >
@@ -44,7 +56,7 @@
     </div>
     <div class="view-mode-switch">
       <button
-        class="fd-button"
+        class="fd-button koplett-button"
         [class.is-active]="!showOnlyHighlighted"
         (click)="showOnlyHighlighted = false"
       >
@@ -62,6 +74,9 @@
   </div>
 
   <div class="ui-correction__scroll mt-4" *ngIf="displayCorrectionData">
+    <div class="no-anomalies-message" *ngIf="noAnomaliesMessage">
+      {{ noAnomaliesMessage }}
+    </div>
     <section
       class="correction-page"
       *ngFor="let page of displayCorrectionData.pages; let pageIdx = index"
@@ -79,7 +94,8 @@
               [attr.data-nav-item]="fieldIdx === 0 ? '' : null"
               [attr.data-nav-table]="'ft-' + pageIdx"
               [attr.data-arrow-group]="'ft-' + pageIdx"
-              [class.is-highlighted]="field.highlighted"
+              [class.is-highlighted]="isHighlighted(field)"
+              [class.is-edited]="isEdited(field)"
               [class.is-editing]="editingItem === field"
               (click)="startEdit(field)"
               (keydown)="onFieldKeydown($event, field, 'ft-' + pageIdx)"
@@ -150,7 +166,8 @@
                     "
                     [attr.data-nav-table]="pageIdx + '-' + tableIdx"
                     tabindex="0"
-                    [class.is-highlighted]="row[colIndex].highlighted"
+                    [class.is-highlighted]="isHighlighted(row[colIndex])"
+                    [class.is-edited]="isEdited(row[colIndex])"
                     [class.is-editing]="editingItem === row[colIndex]"
                     (click)="startEdit(row[colIndex])"
                     (keydown)="

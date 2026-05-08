@@ -1,27 +1,37 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { uiCorrectionMockData } from './ui-correction.mock';
+import { UICorrectionHelperService } from './ui-correction-helper.service';
 
 @Component({
   selector: 'app-ui-correction-list',
   templateUrl: './ui-correction-list.component.html',
   styleUrls: ['./ui-correction-list.component.scss'],
 })
-export class UICorrectionListComponent {
-  examples = uiCorrectionMockData.map((item, i) => ({
-    index: i,
-    belegart: item.general.Belegart.value,
-    pageCount: item.pages.length,
-    hasHighlights: item.pages.some((p: any) =>
-      p.tables?.some((t: any) =>
-        t.highlights?.some((row: boolean[]) => row.some(Boolean))
-      ) || Object.entries(p)
-        .filter(([k]) => k !== 'image' && k !== 'tables')
-        .some(([, f]: [string, any]) => f.highlight)
-    ),
-  }));
+export class UICorrectionListComponent implements OnInit {
+  examples: Array<{
+    index: number;
+    belegart: string;
+    pageCount: number;
+    hasHighlights: boolean;
+    hasEdits: boolean;
+  }> = [];
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private helper: UICorrectionHelperService) {}
+
+  ngOnInit(): void {
+    this.examples = uiCorrectionMockData.map((_, i) => {
+      const current = this.helper.getCurrentVersion(i);
+      return {
+        index: i,
+        belegart: current.generalFields.find((f) => f.label === 'Belegart')?.value
+          ?? uiCorrectionMockData[i].general.Belegart.value,
+        pageCount: current.pages.length,
+        hasHighlights: this.helper.hasAnomalies(current),
+        hasEdits: this.helper.hasEdits(i),
+      };
+    });
+  }
 
   select(index: number): void {
     this.router.navigate(['/UICorrection', index]);

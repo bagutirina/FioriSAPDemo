@@ -2,11 +2,17 @@ export interface CorrectionField {
   label: string;
   value: string;
   highlighted: boolean;
+  originalValue: string;
+  originalHighlighted: boolean;
+  edited?: boolean;
 }
 
 export interface CorrectionTableCell {
   value: string;
   highlighted: boolean;
+  originalValue: string;
+  originalHighlighted: boolean;
+  edited?: boolean;
 }
 
 export interface CorrectionColumn {

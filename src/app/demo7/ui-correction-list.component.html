@@ -15,7 +15,8 @@
         <div class="correction-list__item-title">{{ example.belegart }}</div>
         <div class="correction-list__item-meta">
           {{ example.pageCount }} Seite{{ example.pageCount !== 1 ? 'n' : '' }}
-          <span *ngIf="example.hasHighlights" class="correction-list__item-badge" (click)="selectHighlighted(example.index, $event)">Auffälligkeiten</span>
+          <span *ngIf="example.hasHighlights" class="correction-list__item-badge correction-list__item-badge--highlighted" (click)="selectHighlighted(example.index, $event)">Auffälligkeiten</span>
+          <span *ngIf="example.hasEdits" class="correction-list__item-badge correction-list__item-badge--edited">Bearbeitet</span>
         </div>
       </div>
       <i class="sap-icon--navigation-right-arrow correction-list__item-arrow"></i>
