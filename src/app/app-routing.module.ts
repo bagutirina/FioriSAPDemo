@@ -8,6 +8,7 @@ import { CompainSDKComponent } from './demo4/compain-SDK.component';
 import { CesiumViewerComponent } from './demo5/cesium-viewer/cesium-viewer.component';
 import { HighlightViewerComponent } from './demo6/highlight-viewer/highlight-viewer.component';
 import { UICorrectionComponent } from './demo7/ui-correction.component';
+import { UICorrectionListComponent } from './demo7/ui-correction-list.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'dashboard' },
@@ -21,7 +22,8 @@ const routes: Routes = [
       { path: 'insurance', component: CompainSDKComponent },
       { path: 'cesium', component: CesiumViewerComponent },
       { path: 'highlightViewer', component: HighlightViewerComponent },
-      { path: 'UICorrection', component: UICorrectionComponent },
+      { path: 'UICorrection', component: UICorrectionListComponent },
+      { path: 'UICorrection/:index', component: UICorrectionComponent },
     ],
   },
 

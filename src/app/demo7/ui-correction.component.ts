@@ -1,36 +1,15 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { uiCorrectionMockData } from './ui-correction.mock';
-
-interface CorrectionField {
-  label: string;
-  value: string;
-  highlighted: boolean;
-}
-
-interface CorrectionTableCell {
-  value: string;
-  highlighted: boolean;
-}
-
-interface CorrectionColumn {
-  value: string;
-}
-
-interface CorrectionTable {
-  columns: CorrectionColumn[];
-  rows: CorrectionTableCell[][];
-}
-
-interface CorrectionPage {
-  image: string;
-  fields: CorrectionField[];
-  tables: CorrectionTable[];
-}
-
-interface CorrectionData {
-  generalFields: CorrectionField[];
-  pages: CorrectionPage[];
-}
+import { UICorrectionStateService } from './ui-correction-state.service';
+import {
+  CorrectionField,
+  CorrectionTableCell,
+  CorrectionColumn,
+  CorrectionTable,
+  CorrectionPage,
+  CorrectionData,
+} from './ui-correction.model';
 
 @Component({
   selector: 'app-ui-correction',
@@ -39,6 +18,13 @@ interface CorrectionData {
 })
 export class UICorrectionComponent implements OnInit {
   correctionData!: CorrectionData;
+  private exampleIndex = 0;
+
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private state: UICorrectionStateService,
+  ) {}
   private _showOnlyHighlighted = false;
   get showOnlyHighlighted(): boolean {
     return this._showOnlyHighlighted;
@@ -344,16 +330,31 @@ export class UICorrectionComponent implements OnInit {
     (event.shiftKey ? items[idx - 1] : items[idx + 1])?.focus();
   }
 
-  confirm(): void {}
+  confirm(): void {
+    if (this.editingItem) this.commitEdit();
+    this.state.save(this.exampleIndex, this.correctionData);
+    this.router.navigate(['/UICorrection']);
+  }
 
   cancel(): void {
     this.editingItem = null;
-    this.correctionData = this.mapMockData(uiCorrectionMockData);
+    const saved = this.state.load(this.exampleIndex);
+    this.correctionData = saved
+      ? structuredClone(saved)
+      : this.mapMockData(uiCorrectionMockData[this.exampleIndex]);
     this.invalidateCache();
+    this.router.navigate(['/UICorrection']);
   }
 
   ngOnInit(): void {
-    this.correctionData = this.mapMockData(uiCorrectionMockData);
+    this.exampleIndex = Number(this.route.snapshot.paramMap.get('index') ?? 0);
+    const saved = this.state.load(this.exampleIndex);
+    this.correctionData = saved
+      ? structuredClone(saved)
+      : this.mapMockData(uiCorrectionMockData[this.exampleIndex] ?? uiCorrectionMockData[0]);
+    if (this.route.snapshot.queryParamMap.get('highlighted') === 'true') {
+      this._showOnlyHighlighted = true;
+    }
   }
 
   private mapMockData(rawData: any): CorrectionData {
@@ -363,11 +364,11 @@ export class UICorrectionComponent implements OnInit {
     };
   }
 
-  private mapGeneralFields(general: Record<string, string>): CorrectionField[] {
-    return Object.entries(general).map(([label, value]) => ({
+  private mapGeneralFields(general: Record<string, any>): CorrectionField[] {
+    return Object.entries(general).map(([label, field]) => ({
       label,
-      value,
-      highlighted: false,
+      value: field.value,
+      highlighted: field.highlight ?? false,
     }));
   }
 

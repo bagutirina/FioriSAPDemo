@@ -31,6 +31,7 @@ import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 import { NgxDocViewerModule } from 'ngx-doc-viewer';
 import { PrettyJsonPipe } from './directives/function.pipe';
 import { UICorrectionComponent } from './demo7/ui-correction.component';
+import { UICorrectionListComponent } from './demo7/ui-correction-list.component';
 
 @NgModule({
   declarations: [
@@ -47,6 +48,7 @@ import { UICorrectionComponent } from './demo7/ui-correction.component';
     DropImageDirective,
     PrettyJsonPipe,
     UICorrectionComponent,
+    UICorrectionListComponent,
   ],
   imports: [
     BrowserModule,
