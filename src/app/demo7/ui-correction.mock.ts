@@ -1,6 +1,7 @@
 export const uiCorrectionMockData = {
   general: {
     Belegart: 'Entlastungsbetrag',
+    Belegart2: 'Entlastungsbetrag2',
   },
   pages: [
     {

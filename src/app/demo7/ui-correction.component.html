@@ -6,16 +6,24 @@
       <div class="ui-correction__header">
         <h1>Manuelle Validierung</h1>
       </div>
-      <div class="ui-correction__general" *ngIf="displayCorrectionData">
+      <div
+        class="ui-correction__general d-flex flex-column"
+        *ngIf="displayCorrectionData"
+      >
         <div
           class="ui-correction__general-field"
-          *ngFor="let field of displayCorrectionData.generalFields"
+          *ngFor="let field of displayCorrectionData.generalFields; let fieldIdx = index"
         >
           <span class="field-label">{{ field.label }}</span>
           <span
             class="field-value"
+            tabindex="0"
+            [attr.data-nav-item]="fieldIdx === 0 ? '' : null"
+            data-nav-table="general"
+            data-arrow-group="general"
             [class.is-editing]="editingItem === field"
             (click)="startEdit(field)"
+            (keydown)="onFieldKeydown($event, field, 'general')"
           >
             <span
               [style.visibility]="editingItem === field ? 'hidden' : 'visible'"
@@ -56,17 +64,25 @@
   <div class="ui-correction__scroll mt-4" *ngIf="displayCorrectionData">
     <section
       class="correction-page"
-      *ngFor="let page of displayCorrectionData.pages"
+      *ngFor="let page of displayCorrectionData.pages; let pageIdx = index"
     >
       <div class="correction-page__left">
-        <div class="field-table">
-          <div class="field-table__row" *ngFor="let field of page.fields">
+        <div class="field-table" *ngIf="page.fields.length > 0">
+          <div
+            class="field-table__row"
+            *ngFor="let field of page.fields; let fieldIdx = index"
+          >
             <div class="field-table__label">{{ field.label }}</div>
             <div
               class="field-table__value"
+              tabindex="0"
+              [attr.data-nav-item]="fieldIdx === 0 ? '' : null"
+              [attr.data-nav-table]="'ft-' + pageIdx"
+              [attr.data-arrow-group]="'ft-' + pageIdx"
               [class.is-highlighted]="field.highlighted"
               [class.is-editing]="editingItem === field"
               (click)="startEdit(field)"
+              (keydown)="onFieldKeydown($event, field, 'ft-' + pageIdx)"
             >
               <span
                 [style.visibility]="
@@ -87,7 +103,10 @@
           </div>
         </div>
 
-        <div class="data-table-wrapper" *ngFor="let table of page.tables">
+        <div
+          class="data-table-wrapper"
+          *ngFor="let table of page.tables; let tableIdx = index"
+        >
           <table class="fd-table correction-table">
             <thead class="fd-table__header">
               <tr class="fd-table__row">
@@ -97,28 +116,8 @@
                     trackBy: trackByIndex
                   "
                 >
-                  <th
-                    class="fd-table__cell"
-                    [class.is-editing]="editingItem === table.columns[colIndex]"
-                    (click)="startEdit(table.columns[colIndex])"
-                  >
-                    <span
-                      [style.visibility]="
-                        editingItem === table.columns[colIndex]
-                          ? 'hidden'
-                          : 'visible'
-                      "
-                      >{{ table.columns[colIndex].value }}</span
-                    >
-                    <input
-                      *ngIf="editingItem === table.columns[colIndex]"
-                      class="cell-edit-input"
-                      [(ngModel)]="editingValue"
-                      [ngModelOptions]="{ standalone: true }"
-                      (blur)="commitEdit()"
-                      (keydown.enter)="commitEdit()"
-                      (keydown.escape)="cancelEdit()"
-                    />
+                  <th class="fd-table__cell">
+                    {{ table.columns[colIndex].value }}
                   </th>
                 </ng-container>
                 <th class="fd-table__cell fd-table__cell--actions"></th>
@@ -128,19 +127,41 @@
             <tbody class="fd-table__body">
               <tr
                 class="fd-table__row"
-                *ngFor="let row of getDisplayRows(table); trackBy: trackByIndex"
+                *ngFor="
+                  let row of getDisplayRows(table);
+                  trackBy: trackByIndex;
+                  let rowIdx = index
+                "
               >
                 <ng-container
                   *ngFor="
                     let colIndex of getVisibleColumnIndices(table);
-                    trackBy: trackByIndex
+                    trackBy: trackByIndex;
+                    let visColIdx = index
                   "
                 >
                   <td
                     class="fd-table__cell"
+                    [attr.data-cell-pos]="
+                      pageIdx + '-' + tableIdx + '-' + rowIdx + '-' + visColIdx
+                    "
+                    [attr.data-nav-item]="
+                      rowIdx === 0 && visColIdx === 0 ? '' : null
+                    "
+                    [attr.data-nav-table]="pageIdx + '-' + tableIdx"
+                    tabindex="0"
                     [class.is-highlighted]="row[colIndex].highlighted"
                     [class.is-editing]="editingItem === row[colIndex]"
                     (click)="startEdit(row[colIndex])"
+                    (keydown)="
+                      onCellKeydown(
+                        $event,
+                        pageIdx,
+                        tableIdx,
+                        rowIdx,
+                        visColIdx
+                      )
+                    "
                   >
                     <span
                       [style.visibility]="
@@ -154,8 +175,15 @@
                       [(ngModel)]="editingValue"
                       [ngModelOptions]="{ standalone: true }"
                       (blur)="commitEdit()"
-                      (keydown.enter)="commitEdit()"
-                      (keydown.escape)="cancelEdit()"
+                      (keydown)="
+                        onInputKeydown(
+                          $event,
+                          pageIdx,
+                          tableIdx,
+                          rowIdx,
+                          visColIdx
+                        )
+                      "
                     />
                   </td>
                 </ng-container>
