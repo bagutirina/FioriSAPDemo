@@ -1,9 +1,14 @@
+export interface SourceRef {
+  bbox: { x: number; y: number; width: number; height: number };
+}
+
 export interface CorrectionField {
   label: string;
   value: string;
   highlighted: boolean;
   originalValue: string;
   originalHighlighted: boolean;
+  sourceRefs?: SourceRef[];
   edited?: boolean;
 }
 
@@ -12,6 +17,7 @@ export interface CorrectionTableCell {
   highlighted: boolean;
   originalValue: string;
   originalHighlighted: boolean;
+  sourceRefs?: SourceRef[];
   edited?: boolean;
 }
 

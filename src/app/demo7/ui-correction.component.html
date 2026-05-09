@@ -34,6 +34,7 @@
             [class.is-highlighted]="isHighlighted(field)"
             [class.is-editing]="editingItem === field"
             [class.is-edited]="isEdited(field)"
+            (focus)="setActive(field)"
             (click)="startEdit(field)"
             (keydown)="onFieldKeydown($event, field, 'general')"
           >
@@ -62,7 +63,6 @@
       >
         Komplett
       </button>
-
       <button
         class="fd-button"
         [class.is-active]="showOnlyHighlighted"
@@ -73,15 +73,12 @@
     </div>
   </div>
 
-  <div class="ui-correction__scroll mt-4" *ngIf="displayCorrectionData">
+  <div class="ui-correction__content" *ngIf="displayCorrectionData">
     <div class="no-anomalies-message" *ngIf="noAnomaliesMessage">
       {{ noAnomaliesMessage }}
     </div>
-    <section
-      class="correction-page"
-      *ngFor="let page of displayCorrectionData.pages; let pageIdx = index"
-    >
-      <div class="correction-page__left">
+    <div class="content-left thin-scroll" *ngIf="!noAnomaliesMessage">
+      <ng-container *ngIf="currentPage as page">
         <div class="field-table" *ngIf="page.fields.length > 0">
           <div
             class="field-table__row"
@@ -92,13 +89,14 @@
               class="field-table__value"
               tabindex="0"
               [attr.data-nav-item]="fieldIdx === 0 ? '' : null"
-              [attr.data-nav-table]="'ft-' + pageIdx"
-              [attr.data-arrow-group]="'ft-' + pageIdx"
+              [attr.data-nav-table]="'ft-' + currentPageIdx"
+              [attr.data-arrow-group]="'ft-' + currentPageIdx"
               [class.is-highlighted]="isHighlighted(field)"
               [class.is-edited]="isEdited(field)"
               [class.is-editing]="editingItem === field"
+              (focus)="setActive(field)"
               (click)="startEdit(field)"
-              (keydown)="onFieldKeydown($event, field, 'ft-' + pageIdx)"
+              (keydown)="onFieldKeydown($event, field, 'ft-' + currentPageIdx)"
             >
               <span
                 [style.visibility]="
@@ -139,7 +137,6 @@
                 <th class="fd-table__cell fd-table__cell--actions"></th>
               </tr>
             </thead>
-
             <tbody class="fd-table__body">
               <tr
                 class="fd-table__row"
@@ -159,21 +156,28 @@
                   <td
                     class="fd-table__cell"
                     [attr.data-cell-pos]="
-                      pageIdx + '-' + tableIdx + '-' + rowIdx + '-' + visColIdx
+                      currentPageIdx +
+                      '-' +
+                      tableIdx +
+                      '-' +
+                      rowIdx +
+                      '-' +
+                      visColIdx
                     "
                     [attr.data-nav-item]="
                       rowIdx === 0 && visColIdx === 0 ? '' : null
                     "
-                    [attr.data-nav-table]="pageIdx + '-' + tableIdx"
+                    [attr.data-nav-table]="currentPageIdx + '-' + tableIdx"
                     tabindex="0"
                     [class.is-highlighted]="isHighlighted(row[colIndex])"
                     [class.is-edited]="isEdited(row[colIndex])"
                     [class.is-editing]="editingItem === row[colIndex]"
+                    (focus)="setActive(row[colIndex])"
                     (click)="startEdit(row[colIndex])"
                     (keydown)="
                       onCellKeydown(
                         $event,
-                        pageIdx,
+                        currentPageIdx,
                         tableIdx,
                         rowIdx,
                         visColIdx
@@ -195,7 +199,7 @@
                       (keydown)="
                         onInputKeydown(
                           $event,
-                          pageIdx,
+                          currentPageIdx,
                           tableIdx,
                           rowIdx,
                           visColIdx
@@ -226,24 +230,69 @@
             Zeile hinzufügen
           </button>
         </div>
-      </div>
+      </ng-container>
+    </div>
 
-      <div class="correction-page__right">
+    <div class="content-right thin-scroll" *ngIf="!noAnomaliesMessage">
+      <div
+        class="image-wrapper"
+        *ngIf="currentPage"
+        (click)="logBboxCoord($event)"
+      >
         <img
           class="correction-page__image"
-          [src]="page.image"
+          [src]="currentPage.image"
           alt="Document page"
         />
+        <ng-container *ngIf="activeSourceRefs?.length">
+          <div
+            *ngFor="let ref of activeSourceRefs"
+            class="bbox-highlight"
+            [style.left.%]="ref.bbox.x * 100"
+            [style.top.%]="ref.bbox.y * 100"
+            [style.width.%]="ref.bbox.width * 100"
+            [style.height.%]="ref.bbox.height * 100"
+          ></div>
+        </ng-container>
       </div>
-    </section>
+    </div>
   </div>
 
   <div class="ui-correction__footer">
-    <button class="fd-button fd-button--transparent" (click)="cancel()">
-      Abbrechen
-    </button>
-    <button class="fd-button fd-button--emphasized" (click)="confirm()">
-      Bestätigen
-    </button>
+    <div class="pagination-controls" *ngIf="totalPages > 0">
+      <button
+        class="fd-button fd-button--transparent fd-button--compact py-3 page-arrow"
+        (click)="prevPage()"
+        [disabled]="currentPageIdx === 0"
+      >
+        <i class="sap-icon--navigation-left-arrow"></i>
+      </button>
+      <div class="page-dots">
+        <div
+          *ngFor="let dot of pageDots; let i = index"
+          class="page-dot"
+          [class.page-dot--anomaly]="dot.hasAnomaly"
+          [class.page-dot--current]="dot.isCurrent"
+          [class.page-dot--navigable]="dot.navigable"
+          [title]="'Seite ' + (i + 1)"
+          (click)="navigateToDot(i)"
+        ></div>
+      </div>
+      <button
+        class="fd-button fd-button--transparent fd-button--compact py-3 page-arrow"
+        (click)="nextPage()"
+        [disabled]="currentPageIdx === totalPages - 1"
+      >
+        <i class="sap-icon--navigation-right-arrow"></i>
+      </button>
+    </div>
+    <div class="footer-actions">
+      <button class="fd-button fd-button--transparent" (click)="cancel()">
+        Abbrechen
+      </button>
+      <button class="fd-button fd-button--emphasized" (click)="confirm()">
+        Bestätigen
+      </button>
+    </div>
   </div>
 </div>

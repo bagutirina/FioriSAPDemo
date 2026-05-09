@@ -64,6 +64,7 @@ export class UICorrectionHelperService {
       highlighted: field.highlight ?? false,
       originalValue: field.value,
       originalHighlighted: field.highlight ?? false,
+      ...(field.sourceRefs ? { sourceRefs: field.sourceRefs } : {}),
     }));
   }
 
@@ -77,6 +78,7 @@ export class UICorrectionHelperService {
         highlighted: field.highlight,
         originalValue: field.value,
         originalHighlighted: field.highlight ?? false,
+        ...(field.sourceRefs ? { sourceRefs: field.sourceRefs } : {}),
       }));
     return {
       image: `assets/ui-correction/${page.image}`,
@@ -90,12 +92,17 @@ export class UICorrectionHelperService {
     const dataRows = table.rows.slice(1);
     const rows: CorrectionTableCell[][] = dataRows.map(
       (row: string[], rowIndex: number) =>
-        row.map((value: string, cellIndex: number) => ({
-          value,
-          highlighted: table.highlights?.[rowIndex]?.[cellIndex] ?? false,
-          originalValue: value,
-          originalHighlighted: table.highlights?.[rowIndex]?.[cellIndex] ?? false,
-        })),
+        row.map((value: string, cellIndex: number) => {
+          const hl = table.highlights?.[rowIndex]?.[cellIndex] ?? false;
+          const refs = table.sourceRefs?.[rowIndex]?.[cellIndex];
+          return {
+            value,
+            highlighted: hl,
+            originalValue: value,
+            originalHighlighted: hl,
+            ...(refs?.length ? { sourceRefs: refs } : {}),
+          };
+        }),
     );
     return { columns, rows };
   }

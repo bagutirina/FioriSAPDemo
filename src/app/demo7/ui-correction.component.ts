@@ -6,6 +6,8 @@ import {
   CorrectionTableCell,
   CorrectionTable,
   CorrectionData,
+  CorrectionPage,
+  SourceRef,
 } from './ui-correction.model';
 
 @Component({
@@ -29,11 +31,81 @@ export class UICorrectionComponent implements OnInit {
   }
   set showOnlyHighlighted(value: boolean) {
     if (this._showOnlyHighlighted === value) return;
+    const currentImage = this.currentPage?.image;
     this._showOnlyHighlighted = value;
     this.invalidateCache();
+    const newIdx = currentImage
+      ? (this.displayCorrectionData?.pages.findIndex((p) => p.image === currentImage) ?? -1)
+      : -1;
+    this.currentPageIdx = newIdx >= 0 ? newIdx : 0;
+  }
+
+  get currentPage() {
+    return this.displayCorrectionData?.pages[this.currentPageIdx];
+  }
+
+  get totalPages(): number {
+    return this.displayCorrectionData?.pages.length ?? 0;
+  }
+
+  get realPageNumber(): number {
+    const img = this.currentPage?.image;
+    if (!img) return this.currentPageIdx + 1;
+    return this.correctionData.pages.findIndex((p) => p.image === img) + 1;
+  }
+
+  get totalRealPages(): number {
+    return this.correctionData?.pages.length ?? 0;
+  }
+
+  get pageDots(): Array<{ hasAnomaly: boolean; isCurrent: boolean; navigable: boolean }> {
+    const currentImg = this.currentPage?.image;
+    return (this.correctionData?.pages ?? []).map((page) => ({
+      hasAnomaly: this.pageHasAnomalies(page),
+      isCurrent: page.image === currentImg,
+      navigable: !this.showOnlyHighlighted || this.pageHasAnomalies(page),
+    }));
+  }
+
+  navigateToDot(realPageIdx: number): void {
+    const realPage = this.correctionData?.pages[realPageIdx];
+    if (!realPage) return;
+    if (this.showOnlyHighlighted && !this.pageHasAnomalies(realPage)) return;
+    const filteredIdx = this.displayCorrectionData?.pages.findIndex((p) => p.image === realPage.image) ?? -1;
+    if (filteredIdx === -1) return;
+    this.cancelEdit();
+    this.activeSourceRefs = null;
+    this.currentPageIdx = filteredIdx;
+  }
+
+  private pageHasAnomalies(page: CorrectionPage): boolean {
+    const isAnomaly = (item: { originalHighlighted: boolean; value: string; originalValue: string }) =>
+      item.originalHighlighted && item.value === item.originalValue;
+    return (
+      page.fields.some(isAnomaly) ||
+      page.tables.some((t) => t.rows.some((row) => row.some(isAnomaly)))
+    );
+  }
+
+  prevPage(): void {
+    if (this.currentPageIdx > 0) {
+      this.currentPageIdx--;
+      this.activeSourceRefs = null;
+      this.cancelEdit();
+    }
+  }
+
+  nextPage(): void {
+    if (this.currentPageIdx < this.totalPages - 1) {
+      this.currentPageIdx++;
+      this.activeSourceRefs = null;
+      this.cancelEdit();
+    }
   }
   editingItem: { value: string } | null = null;
   editingValue = '';
+  activeSourceRefs: SourceRef[] | null = null;
+  currentPageIdx = 0;
 
   private _displayCache: { highlighted: boolean; data: CorrectionData } | null =
     null;
@@ -114,6 +186,32 @@ export class UICorrectionComponent implements OnInit {
     };
   }
 
+  logBboxCoord(event: MouseEvent): void {
+    const rect = (event.currentTarget as HTMLElement).getBoundingClientRect();
+    const x = +((event.clientX - rect.left) / rect.width).toFixed(4);
+    const y = +((event.clientY - rect.top) / rect.height).toFixed(4);
+    console.log(`bbox → x: ${x}, y: ${y}  |  { bbox: { x: ${x}, y: ${y}, width: 0.05, height: 0.02 } }`);
+  }
+
+  setActive(item: { sourceRefs?: SourceRef[] }): void {
+    this.activeSourceRefs = item.sourceRefs?.length ? item.sourceRefs : null;
+    if (this.activeSourceRefs?.length) {
+      setTimeout(() => this.scrollToBbox());
+    }
+  }
+
+  private scrollToBbox(): void {
+    const container = document.querySelector<HTMLElement>('.content-right');
+    const bboxEl = container?.querySelector<HTMLElement>('.bbox-highlight');
+    if (!container || !bboxEl) return;
+    const containerRect = container.getBoundingClientRect();
+    const bboxRect = bboxEl.getBoundingClientRect();
+    const bboxTopInScroll = bboxRect.top - containerRect.top + container.scrollTop;
+    const bboxBottomInScroll = bboxRect.bottom - containerRect.top + container.scrollTop;
+    const targetScroll = (bboxTopInScroll + bboxBottomInScroll) / 2 - container.clientHeight / 2;
+    container.scrollTo({ top: targetScroll, behavior: 'smooth' });
+  }
+
   isHighlighted(item: { originalHighlighted: boolean; value: string; originalValue: string }): boolean {
     const current = this.editingItem === item ? this.editingValue : item.value;
     return item.originalHighlighted && current === item.originalValue;
@@ -141,8 +239,19 @@ export class UICorrectionComponent implements OnInit {
       const item = this.editingItem as { value: string };
       const valueChanged = item.value !== this.editingValue;
       item.value = this.editingValue;
-      if (valueChanged) this.invalidateCache();
+      if (valueChanged) {
+        this.invalidateCache();
+        this.clampPageIdx();
+      }
       this.editingItem = null;
+    }
+  }
+
+  private clampPageIdx(): void {
+    if (!this.showOnlyHighlighted) return;
+    const total = this.totalPages;
+    if (total > 0 && this.currentPageIdx >= total) {
+      this.currentPageIdx = total - 1;
     }
   }
 
@@ -162,6 +271,7 @@ export class UICorrectionComponent implements OnInit {
     const index = table.rows.indexOf(row);
     if (index !== -1) table.rows.splice(index, 1);
     this.invalidateCache();
+    this.clampPageIdx();
   }
 
   onCellKeydown(
