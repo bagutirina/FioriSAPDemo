@@ -609,78 +609,210 @@ export const uiCorrectionMockData = [
             sourceRefs: [
               [
                 // TELEMATIKS
-                [{ bbox: { x: 0.105, y: 0.377, width: 0.435, height: 0.022 } }],
-                [{ bbox: { x: 0.67, y: 0.377, width: 0.105, height: 0.022 } }],
-                [{ bbox: { x: 0.035, y: 0.397, width: 0.105, height: 0.02 } }],
-                [{ bbox: { x: 0.035, y: 0.397, width: 0.105, height: 0.02 } }],
-                [{ bbox: { x: 0.615, y: 0.397, width: 0.02, height: 0.02 } }],
-                [{ bbox: { x: 0.9, y: 0.397, width: 0.055, height: 0.02 } }],
+                [
+                  {
+                    bbox: { x: 0.1053, y: 0.3692, width: 0.546, height: 0.022 },
+                  },
+                ],
+                [
+                  {
+                    bbox: { x: 0.6685, y: 0.3665, width: 0.13, height: 0.022 },
+                  },
+                ],
+                [
+                  {
+                    bbox: { x: 0.0347, y: 0.3907, width: 0.125, height: 0.02 },
+                  },
+                ],
+                [
+                  {
+                    bbox: { x: 0.0347, y: 0.3907, width: 0.125, height: 0.02 },
+                  },
+                ],
+                [{ bbox: { x: 0.6125, y: 0.3871, width: 0.02, height: 0.02 } }],
+                [
+                  {
+                    bbox: { x: 0.8936, y: 0.3817, width: 0.055, height: 0.02 },
+                  },
+                ],
               ],
               [
                 // Z-ZENTRUM
-                [{ bbox: { x: 0.105, y: 0.44, width: 0.305, height: 0.022 } }],
-                [{ bbox: { x: 0.615, y: 0.44, width: 0.105, height: 0.022 } }],
-                [{ bbox: { x: 0.035, y: 0.46, width: 0.105, height: 0.02 } }],
-                [{ bbox: { x: 0.035, y: 0.46, width: 0.105, height: 0.02 } }],
-                [{ bbox: { x: 0.615, y: 0.46, width: 0.02, height: 0.02 } }],
-                [{ bbox: { x: 0.89, y: 0.46, width: 0.065, height: 0.02 } }],
+                [
+                  {
+                    bbox: { x: 0.1053, y: 0.4328, width: 0.36, height: 0.022 },
+                  },
+                ],
+                [
+                  {
+                    bbox: { x: 0.6125, y: 0.4292, width: 0.13, height: 0.022 },
+                  },
+                ],
+                [
+                  {
+                    bbox: { x: 0.0358, y: 0.4525, width: 0.125, height: 0.02 },
+                  },
+                ],
+                [
+                  {
+                    bbox: { x: 0.0358, y: 0.4525, width: 0.125, height: 0.02 },
+                  },
+                ],
+                [{ bbox: { x: 0.6125, y: 0.4489, width: 0.02, height: 0.02 } }],
+                [
+                  {
+                    bbox: { x: 0.8824, y: 0.4454, width: 0.065, height: 0.02 },
+                  },
+                ],
               ],
               [
                 // ZFEHL, wrapped on two lines
                 [
-                  { bbox: { x: 0.105, y: 0.5, width: 0.785, height: 0.022 } },
-                  { bbox: { x: 0.105, y: 0.52, width: 0.195, height: 0.022 } },
+                  {
+                    bbox: { x: 0.1041, y: 0.4973, width: 0.85, height: 0.022 },
+                  },
+                  {
+                    bbox: { x: 0.103, y: 0.5153, width: 0.28, height: 0.022 },
+                  },
                 ],
-                [{ bbox: { x: 0.39, y: 0.52, width: 0.105, height: 0.022 } }],
-                [{ bbox: { x: 0.035, y: 0.54, width: 0.105, height: 0.02 } }],
-                [{ bbox: { x: 0.035, y: 0.54, width: 0.105, height: 0.02 } }],
-                [{ bbox: { x: 0.615, y: 0.54, width: 0.02, height: 0.02 } }],
-                [{ bbox: { x: 0.895, y: 0.54, width: 0.06, height: 0.02 } }],
+                [
+                  {
+                    bbox: { x: 0.3841, y: 0.5117, width: 0.13, height: 0.022 },
+                  },
+                ],
+                [
+                  {
+                    bbox: { x: 0.0358, y: 0.5305, width: 0.125, height: 0.02 },
+                  },
+                ],
+                [
+                  {
+                    bbox: { x: 0.0358, y: 0.5305, width: 0.125, height: 0.02 },
+                  },
+                ],
+                [{ bbox: { x: 0.6137, y: 0.526, width: 0.02, height: 0.02 } }],
+                [{ bbox: { x: 0.8925, y: 0.526, width: 0.06, height: 0.02 } }],
               ],
               [
                 // ZGEBZ, wrapped on two lines
                 [
-                  { bbox: { x: 0.105, y: 0.58, width: 0.78, height: 0.022 } },
-                  { bbox: { x: 0.105, y: 0.6, width: 0.125, height: 0.022 } },
+                  {
+                    bbox: { x: 0.1053, y: 0.5726, width: 0.86, height: 0.022 },
+                  },
+                  {
+                    bbox: { x: 0.1053, y: 0.5923, width: 0.09, height: 0.022 },
+                  },
                 ],
-                [{ bbox: { x: 0.18, y: 0.6, width: 0.105, height: 0.022 } }],
-                [{ bbox: { x: 0.035, y: 0.62, width: 0.105, height: 0.02 } }],
-                [{ bbox: { x: 0.035, y: 0.62, width: 0.105, height: 0.02 } }],
-                [{ bbox: { x: 0.615, y: 0.62, width: 0.02, height: 0.02 } }],
-                [{ bbox: { x: 0.895, y: 0.62, width: 0.06, height: 0.02 } }],
+                [
+                  {
+                    bbox: { x: 0.2072, y: 0.5932, width: 0.13, height: 0.022 },
+                  },
+                ],
+                [
+                  {
+                    bbox: { x: 0.0381, y: 0.6111, width: 0.125, height: 0.02 },
+                  },
+                ],
+                [
+                  {
+                    bbox: { x: 0.0381, y: 0.6111, width: 0.125, height: 0.02 },
+                  },
+                ],
+                [{ bbox: { x: 0.6125, y: 0.6031, width: 0.02, height: 0.02 } }],
+                [{ bbox: { x: 0.8947, y: 0.6022, width: 0.06, height: 0.02 } }],
               ],
               [
                 // ZNOZ
-                [{ bbox: { x: 0.105, y: 0.66, width: 0.5, height: 0.022 } }],
-                [{ bbox: { x: 0.755, y: 0.66, width: 0.105, height: 0.022 } }],
-                [{ bbox: { x: 0.035, y: 0.68, width: 0.105, height: 0.02 } }],
-                [{ bbox: { x: 0.035, y: 0.68, width: 0.105, height: 0.02 } }],
-                [{ bbox: { x: 0.615, y: 0.68, width: 0.02, height: 0.02 } }],
-                [{ bbox: { x: 0.89, y: 0.68, width: 0.065, height: 0.02 } }],
+                [
+                  {
+                    bbox: { x: 0.1053, y: 0.655, width: 0.639, height: 0.022 },
+                  },
+                ],
+                [
+                  {
+                    bbox: { x: 0.7548, y: 0.6497, width: 0.13, height: 0.022 },
+                  },
+                ],
+                [
+                  {
+                    bbox: { x: 0.0392, y: 0.6739, width: 0.125, height: 0.02 },
+                  },
+                ],
+                [
+                  {
+                    bbox: { x: 0.617, y: 0.6703, width: 0.125, height: 0.02 },
+                  },
+                ],
+                [{ bbox: { x: 0.6159, y: 0.6694, width: 0.02, height: 0.02 } }],
+                [
+                  {
+                    bbox: { x: 0.8847, y: 0.6658, width: 0.065, height: 0.02 },
+                  },
+                ],
               ],
               [
                 // ZUDAUSBZ, wrapped
                 [
-                  { bbox: { x: 0.105, y: 0.725, width: 0.78, height: 0.022 } },
-                  { bbox: { x: 0.105, y: 0.745, width: 0.22, height: 0.022 } },
+                  {
+                    bbox: { x: 0.1064, y: 0.7169, width: 0.82, height: 0.022 },
+                  },
+                  {
+                    bbox: { x: 0.1041, y: 0.7339, width: 0.18, height: 0.022 },
+                  },
                 ],
-                [{ bbox: { x: 0.225, y: 0.745, width: 0.105, height: 0.022 } }],
-                [{ bbox: { x: 0.035, y: 0.765, width: 0.105, height: 0.02 } }],
-                [{ bbox: { x: 0.035, y: 0.765, width: 0.105, height: 0.02 } }],
-                [{ bbox: { x: 0.615, y: 0.765, width: 0.02, height: 0.02 } }],
-                [{ bbox: { x: 0.885, y: 0.765, width: 0.075, height: 0.02 } }],
+                [
+                  {
+                    bbox: { x: 0.2833, y: 0.7357, width: 0.13, height: 0.022 },
+                  },
+                ],
+                [
+                  {
+                    bbox: { x: 0.0403, y: 0.7518, width: 0.125, height: 0.02 },
+                  },
+                ],
+                [
+                  {
+                    bbox: { x: 0.6159, y: 0.7473, width: 0.125, height: 0.02 },
+                  },
+                ],
+                [{ bbox: { x: 0.6159, y: 0.7473, width: 0.02, height: 0.02 } }],
+                [
+                  {
+                    bbox: { x: 0.8768, y: 0.7456, width: 0.075, height: 0.02 },
+                  },
+                ],
               ],
               [
                 // DRG26R04B, wrapped
                 [
-                  { bbox: { x: 0.105, y: 0.805, width: 0.805, height: 0.022 } },
-                  { bbox: { x: 0.105, y: 0.825, width: 0.48, height: 0.022 } },
+                  {
+                    bbox: { x: 0.1064, y: 0.7921, width: 0.866, height: 0.022 },
+                  },
+                  {
+                    bbox: { x: 0.1053, y: 0.8137, width: 0.666, height: 0.022 },
+                  },
                 ],
-                [{ bbox: { x: 0.785, y: 0.805, width: 0.105, height: 0.022 } }],
-                [{ bbox: { x: 0.035, y: 0.845, width: 0.105, height: 0.02 } }],
-                [{ bbox: { x: 0.14, y: 0.845, width: 0.105, height: 0.02 } }],
-                [{ bbox: { x: 0.615, y: 0.845, width: 0.02, height: 0.02 } }],
-                [{ bbox: { x: 0.875, y: 0.845, width: 0.085, height: 0.02 } }],
+                [
+                  {
+                    bbox: { x: 0.7805, y: 0.8074, width: 0.13, height: 0.022 },
+                  },
+                ],
+                [
+                  {
+                    bbox: { x: 0.0392, y: 0.8307, width: 0.125, height: 0.02 },
+                  },
+                ],
+                [
+                  {
+                    bbox: { x: 0.1859, y: 0.8307, width: 0.125, height: 0.02 },
+                  },
+                ],
+                [{ bbox: { x: 0.6181, y: 0.8271, width: 0.02, height: 0.02 } }],
+                [
+                  {
+                    bbox: { x: 0.8533, y: 0.8235, width: 0.11, height: 0.02 },
+                  },
+                ],
               ],
             ],
           },
@@ -696,8 +828,8 @@ export const uiCorrectionMockData = [
           sourceRefs: [
             {
               bbox: {
-                x: 0.805,
-                y: 0.32,
+                x: 0.8231,
+                y: 0.3116,
                 width: 0.125,
                 height: 0.022,
               },
@@ -711,8 +843,8 @@ export const uiCorrectionMockData = [
           sourceRefs: [
             {
               bbox: {
-                x: 0.83,
-                y: 0.868,
+                x: 0.8522,
+                y: 0.8588,
                 width: 0.11,
                 height: 0.022,
               },
@@ -732,8 +864,8 @@ export const uiCorrectionMockData = [
           sourceRefs: [
             {
               bbox: {
-                x: 0.64,
-                y: 0.902,
+                x: 0.6372,
+                y: 0.8798,
                 width: 0.065,
                 height: 0.022,
               },
@@ -747,8 +879,8 @@ export const uiCorrectionMockData = [
           sourceRefs: [
             {
               bbox: {
-                x: 0.22,
-                y: 0.902,
+                x: 0.2161,
+                y: 0.9109,
                 width: 0.04,
                 height: 0.022,
               },
@@ -790,8 +922,8 @@ export const uiCorrectionMockData = [
                 [
                   {
                     bbox: {
-                      x: 0.48,
-                      y: 0.35,
+                      x: 0.4815,
+                      y: 0.3606,
                       width: 0.07,
                       height: 0.022,
                     },
@@ -802,8 +934,8 @@ export const uiCorrectionMockData = [
                 [
                   {
                     bbox: {
-                      x: 0.245,
-                      y: 0.35,
+                      x: 0.2464,
+                      y: 0.3654,
                       width: 0.165,
                       height: 0.022,
                     },
@@ -812,33 +944,73 @@ export const uiCorrectionMockData = [
               ],
 
               [
-                [{ bbox: { x: 0.48, y: 0.375, width: 0.05, height: 0.022 } }],
-                [{ bbox: { x: 0.245, y: 0.375, width: 0.165, height: 0.022 } }],
+                [{ bbox: { x: 0.4804, y: 0.38, width: 0.05, height: 0.022 } }],
+                [
+                  {
+                    bbox: { x: 0.2441, y: 0.3839, width: 0.165, height: 0.022 },
+                  },
+                ],
               ],
 
               [
-                [{ bbox: { x: 0.48, y: 0.4, width: 0.065, height: 0.022 } }],
-                [{ bbox: { x: 0.245, y: 0.4, width: 0.165, height: 0.022 } }],
+                [
+                  {
+                    bbox: { x: 0.4815, y: 0.3956, width: 0.065, height: 0.022 },
+                  },
+                ],
+                [
+                  {
+                    bbox: { x: 0.2441, y: 0.4025, width: 0.165, height: 0.022 },
+                  },
+                ],
               ],
 
               [
-                [{ bbox: { x: 0.48, y: 0.425, width: 0.075, height: 0.022 } }],
-                [{ bbox: { x: 0.245, y: 0.425, width: 0.165, height: 0.022 } }],
+                [
+                  {
+                    bbox: { x: 0.4804, y: 0.4151, width: 0.075, height: 0.022 },
+                  },
+                ],
+                [{ bbox: { x: 0.2441, y: 0.42, width: 0.165, height: 0.022 } }],
               ],
 
               [
-                [{ bbox: { x: 0.48, y: 0.45, width: 0.065, height: 0.022 } }],
-                [{ bbox: { x: 0.245, y: 0.45, width: 0.165, height: 0.022 } }],
+                [
+                  {
+                    bbox: { x: 0.4838, y: 0.4336, width: 0.065, height: 0.022 },
+                  },
+                ],
+                [
+                  {
+                    bbox: { x: 0.2452, y: 0.4375, width: 0.165, height: 0.022 },
+                  },
+                ],
               ],
 
               [
-                [{ bbox: { x: 0.48, y: 0.475, width: 0.075, height: 0.022 } }],
-                [{ bbox: { x: 0.245, y: 0.475, width: 0.165, height: 0.022 } }],
+                [
+                  {
+                    bbox: { x: 0.4826, y: 0.4492, width: 0.075, height: 0.022 },
+                  },
+                ],
+                [
+                  {
+                    bbox: { x: 0.2486, y: 0.4541, width: 0.165, height: 0.022 },
+                  },
+                ],
               ],
 
               [
-                [{ bbox: { x: 0.48, y: 0.5, width: 0.085, height: 0.022 } }],
-                [{ bbox: { x: 0.245, y: 0.5, width: 0.165, height: 0.022 } }],
+                [
+                  {
+                    bbox: { x: 0.4838, y: 0.4677, width: 0.085, height: 0.022 },
+                  },
+                ],
+                [
+                  {
+                    bbox: { x: 0.2486, y: 0.4726, width: 0.165, height: 0.022 },
+                  },
+                ],
               ],
             ],
           },
@@ -868,19 +1040,101 @@ export const uiCorrectionMockData = [
             ],
 
             sourceRefs: [
-              [[], [], []],
-              [[], [], []],
-              [[], [], []],
-              [[], [], []],
-              [[], [], []],
+              [
+                [
+                  {
+                    bbox: { x: 0.4871, y: 0.5389, width: 0.065, height: 0.018 },
+                  },
+                ],
+                [
+                  {
+                    bbox: { x: 0.25, y: 0.5457, width: 0.1, height: 0.018 },
+                  },
+                ],
+                [
+                  {
+                    bbox: { x: 0.5521, y: 0.5369, width: 0.02, height: 0.018 },
+                  },
+                ],
+              ],
+              [
+                [
+                  {
+                    bbox: { x: 0.4871, y: 0.5564, width: 0.07, height: 0.018 },
+                  },
+                ],
+                [
+                  {
+                    bbox: { x: 0.25, y: 0.5642, width: 0.1, height: 0.018 },
+                  },
+                ],
+                [],
+              ],
+              [
+                [
+                  {
+                    bbox: { x: 0.4882, y: 0.574, width: 0.07, height: 0.018 },
+                  },
+                ],
+                [
+                  {
+                    bbox: { x: 0.25, y: 0.5808, width: 0.1, height: 0.018 },
+                  },
+                ],
+                [],
+              ],
+              [
+                [
+                  {
+                    bbox: { x: 0.4871, y: 0.5915, width: 0.075, height: 0.018 },
+                  },
+                ],
+                [
+                  {
+                    bbox: { x: 0.25, y: 0.5973, width: 0.1, height: 0.018 },
+                  },
+                ],
+                [
+                  {
+                    bbox: { x: 0.561, y: 0.5886, width: 0.025, height: 0.018 },
+                  },
+                ],
+              ],
+              [
+                [
+                  {
+                    bbox: { x: 0.4894, y: 0.611, width: 0.068, height: 0.018 },
+                  },
+                ],
+                [
+                  {
+                    bbox: { x: 0.2542, y: 0.6159, width: 0.1, height: 0.018 },
+                  },
+                ],
+                [
+                  {
+                    bbox: { x: 0.5577, y: 0.6061, width: 0.026, height: 0.018 },
+                  },
+                ],
+              ],
 
               // 3-137.00 / RE
               [
                 [
                   {
                     bbox: {
-                      x: 0.49,
-                      y: 0.64,
+                      x: 0.4905,
+                      y: 0.6276,
+                      width: 0.07,
+                      height: 0.018,
+                    },
+                  },
+                ],
+                [
+                  {
+                    bbox: {
+                      x: 0.25,
+                      y: 0.6324,
                       width: 0.1,
                       height: 0.022,
                     },
@@ -890,19 +1144,8 @@ export const uiCorrectionMockData = [
                 [
                   {
                     bbox: {
-                      x: 0.245,
-                      y: 0.64,
-                      width: 0.12,
-                      height: 0.022,
-                    },
-                  },
-                ],
-
-                [
-                  {
-                    bbox: {
-                      x: 0.61,
-                      y: 0.64,
+                      x: 0.5633,
+                      y: 0.6246,
                       width: 0.035,
                       height: 0.022,
                     },
@@ -910,16 +1153,32 @@ export const uiCorrectionMockData = [
                 ],
               ],
 
-              [[], [], []],
+              [
+                [
+                  {
+                    bbox: { x: 0.4894, y: 0.6461, width: 0.07, height: 0.018 },
+                  },
+                ],
+                [
+                  {
+                    bbox: { x: 0.25, y: 0.6509, width: 0.1, height: 0.018 },
+                  },
+                ],
+                [
+                  {
+                    bbox: { x: 0.5577, y: 0.6431, width: 0.027, height: 0.018 },
+                  },
+                ],
+              ],
 
               // handwritten row at bottom
               [
                 [
                   {
                     bbox: {
-                      x: 0.49,
-                      y: 0.695,
-                      width: 0.15,
+                      x: 0.4905,
+                      y: 0.6665,
+                      width: 0.2,
                       height: 0.032,
                     },
                   },
@@ -928,24 +1187,15 @@ export const uiCorrectionMockData = [
                 [
                   {
                     bbox: {
-                      x: 0.245,
-                      y: 0.695,
-                      width: 0.155,
+                      x: 0.2508,
+                      y: 0.6734,
+                      width: 0.18,
                       height: 0.032,
                     },
                   },
                 ],
 
-                [
-                  {
-                    bbox: {
-                      x: 0.105,
-                      y: 0.695,
-                      width: 0.055,
-                      height: 0.032,
-                    },
-                  },
-                ],
+                [],
               ],
             ],
           },
