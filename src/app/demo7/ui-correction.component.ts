@@ -35,7 +35,9 @@ export class UICorrectionComponent implements OnInit {
     this._showOnlyHighlighted = value;
     this.invalidateCache();
     const newIdx = currentImage
-      ? (this.displayCorrectionData?.pages.findIndex((p) => p.image === currentImage) ?? -1)
+      ? (this.displayCorrectionData?.pages.findIndex(
+          (p) => p.image === currentImage,
+        ) ?? -1)
       : -1;
     this.currentPageIdx = newIdx >= 0 ? newIdx : 0;
   }
@@ -58,7 +60,11 @@ export class UICorrectionComponent implements OnInit {
     return this.correctionData?.pages.length ?? 0;
   }
 
-  get pageDots(): Array<{ hasAnomaly: boolean; isCurrent: boolean; navigable: boolean }> {
+  get pageDots(): Array<{
+    hasAnomaly: boolean;
+    isCurrent: boolean;
+    navigable: boolean;
+  }> {
     const currentImg = this.currentPage?.image;
     return (this.correctionData?.pages ?? []).map((page) => ({
       hasAnomaly: this.pageHasAnomalies(page),
@@ -71,7 +77,10 @@ export class UICorrectionComponent implements OnInit {
     const realPage = this.correctionData?.pages[realPageIdx];
     if (!realPage) return;
     if (this.showOnlyHighlighted && !this.pageHasAnomalies(realPage)) return;
-    const filteredIdx = this.displayCorrectionData?.pages.findIndex((p) => p.image === realPage.image) ?? -1;
+    const filteredIdx =
+      this.displayCorrectionData?.pages.findIndex(
+        (p) => p.image === realPage.image,
+      ) ?? -1;
     if (filteredIdx === -1) return;
     this.cancelEdit();
     this.activeSourceRefs = null;
@@ -79,8 +88,11 @@ export class UICorrectionComponent implements OnInit {
   }
 
   private pageHasAnomalies(page: CorrectionPage): boolean {
-    const isAnomaly = (item: { originalHighlighted: boolean; value: string; originalValue: string }) =>
-      item.originalHighlighted && item.value === item.originalValue;
+    const isAnomaly = (item: {
+      originalHighlighted: boolean;
+      value: string;
+      originalValue: string;
+    }) => item.originalHighlighted && item.value === item.originalValue;
     return (
       page.fields.some(isAnomaly) ||
       page.tables.some((t) => t.rows.some((row) => row.some(isAnomaly)))
@@ -128,7 +140,9 @@ export class UICorrectionComponent implements OnInit {
     if (this.rowCache.has(table)) return this.rowCache.get(table)!;
     const rows = !this.showOnlyHighlighted
       ? table.rows
-      : table.rows.filter((row) => row.some((c) => c.originalHighlighted && c.value === c.originalValue));
+      : table.rows.filter((row) =>
+          row.some((c) => c.originalHighlighted && c.value === c.originalValue),
+        );
     this.rowCache.set(table, rows);
     return rows;
   }
@@ -142,10 +156,12 @@ export class UICorrectionComponent implements OnInit {
       const visibleRows = this.getDisplayRows(table);
       indices = table.columns
         .map((_, i) => i)
-        .filter((i) => visibleRows.some((row) => {
-          const c = row[i];
-          return c?.originalHighlighted && c.value === c.originalValue;
-        }));
+        .filter((i) =>
+          visibleRows.some((row) => {
+            const c = row[i];
+            return c?.originalHighlighted && c.value === c.originalValue;
+          }),
+        );
     }
     this.colCache.set(table, indices);
     return indices;
@@ -170,8 +186,11 @@ export class UICorrectionComponent implements OnInit {
   }
 
   private buildFilteredData(): CorrectionData {
-    const isAnomaly = (item: { originalHighlighted: boolean; value: string; originalValue: string }) =>
-      item.originalHighlighted && item.value === item.originalValue;
+    const isAnomaly = (item: {
+      originalHighlighted: boolean;
+      value: string;
+      originalValue: string;
+    }) => item.originalHighlighted && item.value === item.originalValue;
     return {
       generalFields: this.correctionData.generalFields.filter(isAnomaly),
       pages: this.correctionData.pages
@@ -187,10 +206,10 @@ export class UICorrectionComponent implements OnInit {
   }
 
   logBboxCoord(event: MouseEvent): void {
-    const rect = (event.currentTarget as HTMLElement).getBoundingClientRect();
-    const x = +((event.clientX - rect.left) / rect.width).toFixed(4);
-    const y = +((event.clientY - rect.top) / rect.height).toFixed(4);
-    console.log(`bbox → x: ${x}, y: ${y}  |  { bbox: { x: ${x}, y: ${y}, width: 0.05, height: 0.02 } }`);
+    // const rect = (event.currentTarget as HTMLElement).getBoundingClientRect();
+    // const x = +((event.clientX - rect.left) / rect.width).toFixed(4);
+    // const y = +((event.clientY - rect.top) / rect.height).toFixed(4);
+    // console.log(`bbox → x: ${x}, y: ${y}  |  { bbox: { x: ${x}, y: ${y}, width: 0.05, height: 0.02 } }`);
   }
 
   setActive(item: { sourceRefs?: SourceRef[] }): void {
@@ -206,13 +225,20 @@ export class UICorrectionComponent implements OnInit {
     if (!container || !bboxEl) return;
     const containerRect = container.getBoundingClientRect();
     const bboxRect = bboxEl.getBoundingClientRect();
-    const bboxTopInScroll = bboxRect.top - containerRect.top + container.scrollTop;
-    const bboxBottomInScroll = bboxRect.bottom - containerRect.top + container.scrollTop;
-    const targetScroll = (bboxTopInScroll + bboxBottomInScroll) / 2 - container.clientHeight / 2;
+    const bboxTopInScroll =
+      bboxRect.top - containerRect.top + container.scrollTop;
+    const bboxBottomInScroll =
+      bboxRect.bottom - containerRect.top + container.scrollTop;
+    const targetScroll =
+      (bboxTopInScroll + bboxBottomInScroll) / 2 - container.clientHeight / 2;
     container.scrollTo({ top: targetScroll, behavior: 'smooth' });
   }
 
-  isHighlighted(item: { originalHighlighted: boolean; value: string; originalValue: string }): boolean {
+  isHighlighted(item: {
+    originalHighlighted: boolean;
+    value: string;
+    originalValue: string;
+  }): boolean {
     const current = this.editingItem === item ? this.editingValue : item.value;
     return item.originalHighlighted && current === item.originalValue;
   }
@@ -261,7 +287,12 @@ export class UICorrectionComponent implements OnInit {
 
   addRow(table: CorrectionTable): void {
     table.rows.push(
-      table.columns.map(() => ({ value: '', highlighted: false, originalValue: '', originalHighlighted: false })),
+      table.columns.map(() => ({
+        value: '',
+        highlighted: false,
+        originalValue: '',
+        originalHighlighted: false,
+      })),
     );
     this.invalidateCache();
   }

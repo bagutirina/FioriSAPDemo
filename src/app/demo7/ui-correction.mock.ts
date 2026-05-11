@@ -9,7 +9,7 @@ export const uiCorrectionMockData = [
         'IK-Nr.': {
           value: '330912343',
           highlight: false,
-          sourceRefs: [
+          sourceRefs_: [
             {
               bbox: { x: 0.195, y: 0.316, width: 0.115, height: 0.02 },
             },
@@ -18,7 +18,7 @@ export const uiCorrectionMockData = [
         Datum: {
           value: '16.09.2025',
           highlight: false,
-          sourceRefs: [
+          sourceRefs_: [
             {
               bbox: { x: 0.895, y: 0.415, width: 0.09, height: 0.02 },
             },
@@ -27,7 +27,7 @@ export const uiCorrectionMockData = [
         Rechnungsnr: {
           value: '131061',
           highlight: true,
-          sourceRefs: [
+          sourceRefs_: [
             {
               bbox: { x: 0.335, y: 0.355, width: 0.1, height: 0.04 },
             },
@@ -44,7 +44,7 @@ export const uiCorrectionMockData = [
               [true, false, false, false],
               [false, false, false, true],
             ],
-            sourceRefs: [
+            sourceRefs_: [
               [
                 [
                   {
@@ -98,7 +98,7 @@ export const uiCorrectionMockData = [
         'IK-Nr.': {
           value: '500818075',
           highlight: false,
-          sourceRefs: [
+          sourceRefs_: [
             {
               bbox: { x: 0.858, y: 0.235, width: 0.1, height: 0.018 },
             },
@@ -108,7 +108,7 @@ export const uiCorrectionMockData = [
         Datum: {
           value: '17.07.2025',
           highlight: false,
-          sourceRefs: [
+          sourceRefs_: [
             {
               bbox: { x: 0.861, y: 0.327, width: 0.1, height: 0.02 },
             },
@@ -118,7 +118,7 @@ export const uiCorrectionMockData = [
         Rechnungsnr: {
           value: '2519175',
           highlight: false,
-          sourceRefs: [
+          sourceRefs_: [
             {
               bbox: { x: 0.8798, y: 0.3805, width: 0.08, height: 0.017 },
             },
@@ -134,7 +134,7 @@ export const uiCorrectionMockData = [
 
             highlights: [[true, false, false, false, true]],
 
-            sourceRefs: [
+            sourceRefs_: [
               [
                 // Position
                 [
@@ -181,7 +181,7 @@ export const uiCorrectionMockData = [
         Datum: {
           value: '23.09.2025',
           highlight: false,
-          sourceRefs: [
+          sourceRefs_: [
             {
               bbox: { x: 0.5898, y: 0.2836, width: 0.15, height: 0.022 },
             },
@@ -191,7 +191,7 @@ export const uiCorrectionMockData = [
         Rechnungsnr: {
           value: '25/913',
           highlight: true,
-          sourceRefs: [
+          sourceRefs_: [
             {
               bbox: { x: 0.5762, y: 0.2543, width: 0.095, height: 0.022 },
             },
@@ -211,7 +211,7 @@ export const uiCorrectionMockData = [
               [true, false, false, false, false],
             ],
 
-            sourceRefs: [
+            sourceRefs_: [
               [
                 // Position
                 [
@@ -285,7 +285,7 @@ export const uiCorrectionMockData = [
         Datum: {
           value: '16.03.2026',
           highlight: false,
-          sourceRefs: [
+          sourceRefs_: [
             {
               bbox: { x: 0.834, y: 0.35, width: 0.15, height: 0.022 },
             },
@@ -295,7 +295,7 @@ export const uiCorrectionMockData = [
         Aufnahme: {
           value: '26.02.2026',
           highlight: false,
-          sourceRefs: [
+          sourceRefs_: [
             {
               bbox: { x: 0.6, y: 0.38, width: 0.13, height: 0.015 },
             },
@@ -305,7 +305,7 @@ export const uiCorrectionMockData = [
         Entlassung: {
           value: '28.02.2026',
           highlight: false,
-          sourceRefs: [
+          sourceRefs_: [
             {
               bbox: { x: 0.6, y: 0.395, width: 0.13, height: 0.015 },
             },
@@ -315,7 +315,7 @@ export const uiCorrectionMockData = [
         Fallnr: {
           value: '',
           highlight: true,
-          sourceRefs: [
+          sourceRefs_: [
             {
               bbox: { x: 0.1354, y: 0.3449, width: 0.105, height: 0.02 },
             },
@@ -374,7 +374,7 @@ export const uiCorrectionMockData = [
               [true, false, false, false, false, false],
             ],
 
-            sourceRefs: [
+            sourceRefs_: [
               // ROW 1
               [
                 [
@@ -403,7 +403,7 @@ export const uiCorrectionMockData = [
 
                 [
                   {
-                    bbox: { x: 0.6669, y: 0.6325, width: 0.018, height: 0.02 },
+                    bbox: { x: 0.6669, y: 0.63, width: 0.018, height: 0.02 },
                   },
                 ],
 
@@ -606,7 +606,7 @@ export const uiCorrectionMockData = [
               [false, true, false, false, false, false],
               [true, false, false, false, false, false],
             ],
-            sourceRefs: [
+            sourceRefs_: [
               [
                 // TELEMATIKS
                 [
@@ -825,7 +825,7 @@ export const uiCorrectionMockData = [
         Uebertrag: {
           value: '5.706,33',
           highlight: false,
-          sourceRefs: [
+          sourceRefs_: [
             {
               bbox: {
                 x: 0.8231,
@@ -840,7 +840,7 @@ export const uiCorrectionMockData = [
         Endbetrag: {
           value: '5.706,33',
           highlight: true,
-          sourceRefs: [
+          sourceRefs_: [
             {
               bbox: {
                 x: 0.8522,
@@ -861,7 +861,7 @@ export const uiCorrectionMockData = [
         Entlassungsdiagnose: {
           value: 'C77.2',
           highlight: true,
-          sourceRefs: [
+          sourceRefs_: [
             {
               bbox: {
                 x: 0.6372,
@@ -876,7 +876,7 @@ export const uiCorrectionMockData = [
         Entlassungsgrund: {
           value: '019',
           highlight: false,
-          sourceRefs: [
+          sourceRefs_: [
             {
               bbox: {
                 x: 0.2161,
@@ -916,7 +916,7 @@ export const uiCorrectionMockData = [
               [false, false],
             ],
 
-            sourceRefs: [
+            sourceRefs_: [
               [
                 // C77.2
                 [
@@ -1039,7 +1039,7 @@ export const uiCorrectionMockData = [
               [true, true, true],
             ],
 
-            sourceRefs: [
+            sourceRefs_: [
               [
                 [
                   {
